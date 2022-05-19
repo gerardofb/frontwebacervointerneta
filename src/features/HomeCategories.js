@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useSpring,animated } from 'react-spring'
-import dist from 'react-springy-parallax';
 const url = (name, wrap = false) => `${wrap ? 'url(' : ''}images/Stills/${name}.png${wrap ? ')' : ''}`;
 const imagenes = ['Categoria_uno','Categoria_dos','Categoria_tres','Categoria_cuatro','Categoria_cinco','Categoria_seis','Categoria_siete'];
 const headerscategories = ['Pueblos indígenas y originarios cultura','Pueblos indígenas y originarios cultura y producción',
@@ -15,15 +14,6 @@ const headercolors = [
     '#68341c',
     '#528c00'
 ]
-
-function random_color() {
-    var letters = '0123456789ABCDEF'.split('');
-    var color = '#';
-    for (var i = 0; i < 6; i++ ) {
-        color += letters[Math.round(Math.random() * 15)];
-    }
-    return color;
-}
 
 const HomeCategories = (props)=>{
     const [flip,setFlip] = useState(false);
@@ -71,7 +61,7 @@ const HomeCategories = (props)=>{
           onRest: () => setflipsvg(!flipsvg),
         });
     return (<div>
-        <div style={{marginTop:'150px'}}>
+        <div style={{marginTop:'5px'}}>
         <h1 style={{color:'white'}}>Categorías</h1>
         <animated.svg height="30" width="1280">
       <line x1="50" y1="30" x2="1280" y2="30" strokeDashoffset={x.to(x => (1 - x) * 156)} style={{stroke:'rgb(128,128,128)', strokeWidth:'2'}} />
@@ -79,14 +69,14 @@ const HomeCategories = (props)=>{
     </div>
         <div
         onClick={(e=>{forward(550); forwardText(1060)})}
-        style={{width:'90%', overflow:'hidden', marginLeft:'auto', marginRight:'auto', marginTop:'50px'}}><animated.div style={{
+        style={{width:'90%', overflow:'hidden', marginLeft:'auto', marginRight:'auto', marginTop:'15px'}}><animated.div style={{
         width:'500%',
         height:'100%',
         position:'relative',
         ...styles}}>
         {imagenes.map(function(el,index){
             return (
-                <div key={index} style={{float:'left',margin:'25px', padding:'25px', display:'block', backgroundColor:'darkgreen'}}>
+                <div key={index} style={{float:'left',margin:'25px', padding:'25px', display:'block', backgroundColor:'#abffd2'}}>
                     <img src={url(el)} style={{width:'450px', height:'337px'}}></img>
                 </div>
             )
