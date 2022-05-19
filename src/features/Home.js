@@ -1,6 +1,7 @@
 import React from 'react'
 import Parallax from 'react-springy-parallax'
 import { BigPlayButton, ControlBar, LoadingSpinner, Player, PlayToggle } from 'video-react'
+import { HomeCategories } from './HomeCategories'
 
 const url = (name, wrap = false) => `${wrap ? 'url(' : ''}images/${name}.svg${wrap ? ')' : ''}`
 
@@ -46,7 +47,9 @@ export class Home extends React.Component{
             <LoadingSpinner></LoadingSpinner>
       </Player>
                 </Parallax.Layer>
-
+                  <Parallax.Layer offset={1} speed={0} style={{display:'flex'}}>
+                      <HomeCategories></HomeCategories>
+                  </Parallax.Layer>
             </Parallax>
         )
     }
