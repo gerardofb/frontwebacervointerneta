@@ -45,7 +45,7 @@ const sortByVideoCount = (videoKeys, sort) => {
   }
 }
 const url = (name, wrap = false) => `${wrap ? 'url(' : ''}images/${name}.svg${wrap ? ')' : ''}`
-
+const urlpng = (name, wrap = false) => `${wrap ? 'url(' : ''}images/Art/inverted/${name}.png${wrap ? ')' : ''}`
 const urljpg = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/${name}.jpg${wrap ? ')' : ''}`
 
 class IndexPage extends Component {
@@ -102,10 +102,16 @@ class IndexPage extends Component {
                     style={{ backgroundImage: url('stars', true), backgroundSize: 'cover' }}
                 ></Parallax.Layer>
                  <Parallax.Layer offset={0.1} speed={1} style={{backgroundColor:'#c2dcdd',backgroundImage: url('stars', true), backgroundSize: 'cover'}} />
-                 <Parallax.Layer offset={0.5} speed={3} style={{backgroundColor:'#a1c9cb', backgroundImage: url('stars', true), backgroundSize: 'cover'}} />
-                 <Parallax.Layer offset={0.8} speed={3} style={{backgroundColor:'#5fa3a7', backgroundImage: url('stars', true), backgroundSize: 'cover'}} />
+                 <Parallax.Layer offset={0.5} speed={3} style={{backgroundColor:'#a1c9cb', backgroundImage: url('stars', true), backgroundSize: 'cover'}}>
+                   </Parallax.Layer>
+                 <Parallax.Layer offset={0.8} speed={3} style={{backgroundColor:'#5fa3a7', backgroundImage: url('stars', true), backgroundSize: 'cover'}}>
+                 <img alt='fondo' src={urlpng('white_art_tatoo_gecko')} style={{ display: 'block', width: '20%', marginLeft: '55%', opacity: '60%' }} />
+                   </Parallax.Layer>
                  <Parallax.Layer offset={0.9} speed={2} style={{backgroundColor:'#5fa3a7', backgroundImage: url('stars', true), backgroundSize: 'cover'}} />
-                 <Parallax.Layer offset={0.9} speed={1} style={{backgroundColor:'#274546', backgroundImage: url('stars', true), backgroundSize: 'cover'}} />
+                 <Parallax.Layer offset={0.9} speed={1} style={{backgroundColor:'#274546', backgroundImage: url('stars', true), backgroundSize: 'cover'}}>
+                 <img alt='fondo' src={urlpng('white_art_tatoo_dragon_sticker')} style={{ display: 'block', width: '40%', marginLeft: '2%', opacity: '60%' }} />
+                 <img alt='fondo' src={urlpng('white_art_tatoo_feather')} style={{ display: 'block', width: '50%', marginLeft: '65%', opacity: '60%' }} />
+                   </Parallax.Layer>
         <Parallax.Layer offset={0.2} speed={0}>   
         <Contents>
           <Controls>
