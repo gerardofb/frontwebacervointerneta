@@ -8,7 +8,7 @@ import {
   faTh,
   faDollarSign,
   faSortAmountDown,
-  faSortAmountUp
+  faSortAmountUp,
 } from "@fortawesome/free-solid-svg-icons"
 import {
   CardGrid,
@@ -20,6 +20,8 @@ import Card from "./Card"
 import { Contents } from "../BaseComponents"
 import videos from "../videosCategorized"
 import { HomeFooter } from "../../HomeFooter"
+import NavBar from "../../NavBar"
+import SearchBar from "../../SearchBar"
 
 const defaultState = {
   filter: "",
@@ -87,18 +89,24 @@ class IndexPage extends Component {
       ref={ref=> this.parallax = ref}
       pages={2}
       scrolling={true}>
-      <div style={{backgroundColor:"#274546", paddingBottom:'7%'}}>
-       
+      <div style={{backgroundColor:"black", paddingBottom:'7%'}}>
+      <Parallax.Layer offset={0} speed={0}>
+                <div style={{ backgroundColor:'black',display:'block'}}>
+                <NavBar></NavBar>
+                <SearchBar style={{width:'60%'}}></SearchBar>
+                </div>
+                </Parallax.Layer>
               <Parallax.Layer
                     
-                    offset={0} speed={1} factor={4}
+                    offset={0.1} speed={1} factor={4}
                     style={{ backgroundImage: url('stars', true), backgroundSize: 'cover' }}
                 ></Parallax.Layer>
                  <Parallax.Layer offset={0.1} speed={1} style={{backgroundColor:'#c2dcdd',backgroundImage: url('stars', true), backgroundSize: 'cover'}} />
-                 <Parallax.Layer offset={0.6} speed={2} style={{backgroundColor:'#a1c9cb', backgroundImage: url('stars', true), backgroundSize: 'cover'}} />
+                 <Parallax.Layer offset={0.5} speed={3} style={{backgroundColor:'#a1c9cb', backgroundImage: url('stars', true), backgroundSize: 'cover'}} />
+                 <Parallax.Layer offset={0.8} speed={3} style={{backgroundColor:'#5fa3a7', backgroundImage: url('stars', true), backgroundSize: 'cover'}} />
                  <Parallax.Layer offset={0.9} speed={2} style={{backgroundColor:'#5fa3a7', backgroundImage: url('stars', true), backgroundSize: 'cover'}} />
-                 <Parallax.Layer offset={1} speed={1} style={{backgroundColor:'#274546', backgroundImage: url('stars', true), backgroundSize: 'cover'}} />
-        <Parallax.Layer offset={0.1} speed={0}>   
+                 <Parallax.Layer offset={0.9} speed={1} style={{backgroundColor:'#274546', backgroundImage: url('stars', true), backgroundSize: 'cover'}} />
+        <Parallax.Layer offset={0.2} speed={0}>   
         <Contents>
           <Controls>
             <div>

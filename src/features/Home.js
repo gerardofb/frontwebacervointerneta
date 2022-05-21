@@ -4,12 +4,16 @@ import { BigPlayButton, ControlBar, LoadingSpinner, Player, PlayToggle } from 'v
 import { HomeCategories } from './HomeCategories';
 import { HomeTags } from './HomeTags';
 import { HomeFooter } from './HomeFooter';
+import SearchBar from './SearchBar';
+import NavBar from './NavBar';
 
 const url = (name, wrap = false) => `${wrap ? 'url(' : ''}images/${name}.svg${wrap ? ')' : ''}`
 
 export class Home extends React.Component{
     render(){
         return(
+            <div>
+                
             <Parallax className="bodyHome"
             ref={ref=> this.parallax = ref}
             pages={4}
@@ -21,7 +25,9 @@ export class Home extends React.Component{
                 <Parallax.Layer
                     offset={0} speed={0} factor={4}
                     style={{ backgroundImage: url('stars', true), backgroundSize: 'cover' }}
-                />
+                >
+                
+                </Parallax.Layer>
 
                 <Parallax.Layer offset={1.3} speed={0.8} style={{pointerEvents:'none'}}>
                     <img alt='fondo' src={url('cloud')} style={{display:'block', width:'20%', marginLeft:'55%', opacity:'40%'}} />
@@ -36,8 +42,13 @@ export class Home extends React.Component{
                     <img alt='fondo' src={url('cloud')} style={{display:'block', width:'20%', marginLeft:'55%', opacity:'40%'}} />
                     <img alt='fondo' src={url('cloud')} style={{display:'block', width:'20%', marginLeft:'25%', opacity:'40%'}} />
                 </Parallax.Layer>
-
-                <Parallax.Layer offset={0} speed={0} style={{display:'flex', marginBottom:'50px'}}>
+                <Parallax.Layer offset={0} speed={0} style={{display:'block', backgroundColor:'black'}}>
+                <div style={{ backgroundColor:'black'}}>
+                <NavBar></NavBar>
+                <SearchBar style={{width:'60%'}}></SearchBar>
+                </div>
+                </Parallax.Layer>
+                <Parallax.Layer offset={0.1} speed={0} style={{display:'flex', marginBottom:'50px'}}>
                 <Player autoPlay
                 ref={player => {
                     this.player = player;
@@ -59,6 +70,7 @@ export class Home extends React.Component{
                       <HomeFooter></HomeFooter>
                   </Parallax.Layer>
             </Parallax>
+            </div>
         )
     }
 }
