@@ -109,8 +109,7 @@ class IndexPage extends Component {
                    </Parallax.Layer>
                  <Parallax.Layer offset={0.9} speed={2} style={{backgroundColor:'#5fa3a7', backgroundImage: url('stars', true), backgroundSize: 'cover'}} />
                  <Parallax.Layer offset={0.9} speed={1} style={{backgroundColor:'#274546', backgroundImage: url('stars', true), backgroundSize: 'cover'}}>
-                 <img alt='fondo' src={urlpng('white_art_tatoo_dragon_sticker')} style={{ display: 'block', width: '40%', marginLeft: '2%', opacity: '60%' }} />
-                 <img alt='fondo' src={urlpng('white_art_tatoo_feather')} style={{ display: 'block', width: '50%', marginLeft: '65%', opacity: '60%' }} />
+                 <img alt='fondo' src={urlpng('white_art_tatoo_feather')} style={{ display: 'block', width: '50%', marginLeft: '65%', marginTop:'50%', opacity: '60%' }} />
                    </Parallax.Layer>
         <Parallax.Layer offset={0.2} speed={0}>   
         <Contents>
