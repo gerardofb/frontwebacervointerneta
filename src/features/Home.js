@@ -47,12 +47,12 @@ export class Home extends React.Component {
                         <img alt='fondo' src={urlpng('white_art_tatoo_rose')} style={{ display: 'block', width: '40%', marginLeft: '65%', opacity: '40%' }} />
                     </Parallax.Layer>
                     <Parallax.Layer offset={0} speed={0} style={{ display: 'block', backgroundColor: 'black' }}>
-                        <div style={{ backgroundColor: 'black' }}>
+                        <div style={{ backgroundColor: 'black', height:'100px' }}>
                             <NavBar></NavBar>
                             <SearchBar style={{ width: '60%' }}></SearchBar>
                         </div>
                     </Parallax.Layer>
-                    <Parallax.Layer offset={0.1} speed={0} style={{ display: 'flex', marginBottom: '50px' }}>
+                    <Parallax.Layer offset={0.2} speed={0} style={{ display: 'flex', marginBottom: '50px' }}>
                         <Player autoPlay
                             ref={player => {
                                 this.player = player;
@@ -64,7 +64,7 @@ export class Home extends React.Component {
                             <LoadingSpinner></LoadingSpinner>
                         </Player>
                     </Parallax.Layer>
-                    <Parallax.Layer offset={1.2} speed={0} style={{ display: 'flex' }}>
+                    <Parallax.Layer offset={1.4} speed={0} style={{ display: 'flex' }}>
                         <HomeCategories></HomeCategories>
                     </Parallax.Layer>
                     <Parallax.Layer offset={2.3} speed={0} style={{ display: 'flex' }}>

@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import {withRouter} from 'react-router-dom'
+import { withRouter, Route } from 'react-router-dom'
 import qs from "qs"
 import Parallax from 'react-springy-parallax'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -22,6 +22,7 @@ import videos from "../videosCategorized"
 import { HomeFooter } from "../../HomeFooter"
 import NavBar from "../../NavBar"
 import SearchBar from "../../SearchBar"
+import VideoSetPage from '../VideoSetPage'
 
 const defaultState = {
   filter: "",
@@ -62,7 +63,7 @@ class IndexPage extends Component {
 
   navigate = set => {
     this.props.history.push({
-      pathname: `/${set.replace(/\s/g, "-")}`,
+      pathname: `/Categorias/${set.replace(/\s/g, "-")}/dummy`,
       search: this.props.location.search
     })
   }
@@ -85,94 +86,95 @@ class IndexPage extends Component {
     )
     return (
       <Parallax
-      style={{backgroundColor:"#274546"}}
-      ref={ref=> this.parallax = ref}
-      pages={2}
-      scrolling={true}>
-      <div style={{backgroundColor:"black", paddingBottom:'7%'}}>
-      <Parallax.Layer offset={0} speed={0}>
-                <div style={{ backgroundColor:'black',display:'block'}}>
-                <NavBar></NavBar>
-                <SearchBar style={{width:'60%'}}></SearchBar>
+        style={{ backgroundColor: "#274546" }}
+        ref={ref => this.parallax = ref}
+        pages={2}
+        scrolling={true}>
+        <div style={{ backgroundColor: "black", paddingBottom: '7%' }}>
+          <Parallax.Layer offset={0} speed={0}>
+            <div style={{ backgroundColor: 'black', display: 'block', height:'100px' }}>
+              <NavBar></NavBar>
+              <SearchBar style={{ width: '60%' }}></SearchBar>
+            </div>
+          </Parallax.Layer>
+          <Parallax.Layer
+
+            offset={0.1} speed={1} factor={4}
+            style={{ backgroundImage: url('stars', true), backgroundSize: 'cover' }}
+          ></Parallax.Layer>
+          <Parallax.Layer offset={0.15} speed={1} style={{ backgroundColor: '#c2dcdd', backgroundImage: url('stars', true), backgroundSize: 'cover' }} />
+          <Parallax.Layer offset={0.5} speed={3} style={{ backgroundColor: '#a1c9cb', backgroundImage: url('stars', true), backgroundSize: 'cover' }}>
+          </Parallax.Layer>
+          <Parallax.Layer offset={0.8} speed={3} style={{ backgroundColor: '#5fa3a7', backgroundImage: url('stars', true), backgroundSize: 'cover' }}>
+            <img alt='fondo' src={urlpng('white_art_tatoo_gecko')} style={{ display: 'block', width: '20%', marginLeft: '55%', opacity: '60%' }} />
+          </Parallax.Layer>
+          <Parallax.Layer offset={0.9} speed={2} style={{ backgroundColor: '#5fa3a7', backgroundImage: url('stars', true), backgroundSize: 'cover' }} />
+          <Parallax.Layer offset={0.9} speed={1} style={{ backgroundColor: '#274546', backgroundImage: url('stars', true), backgroundSize: 'cover' }}>
+            <img alt='fondo' src={urlpng('white_art_tatoo_feather')} style={{ display: 'block', width: '50%', marginLeft: '65%', marginTop: '50%', opacity: '60%' }} />
+          </Parallax.Layer>
+          <Parallax.Layer offset={0.15} speed={0}>
+            <Contents>
+              <Controls>
+                <div>
+                  <Toggle
+                    active={queryParamState.sort === "ascending"}
+                    onClick={() => this.updateQueryParam({ sort: "ascending" })}
+                  >
+                    <FontAwesomeIcon icon={faDollarSign} />
+                    <FontAwesomeIcon icon={faSortAmountUp} />
+                  </Toggle>
+                  <Toggle
+                    active={queryParamState.sort === "descending"}
+                    onClick={() => this.updateQueryParam({ sort: "descending" })}
+                  >
+                    <FontAwesomeIcon icon={faDollarSign} />
+                    <FontAwesomeIcon icon={faSortAmountDown} />
+                  </Toggle>
                 </div>
-                </Parallax.Layer>
-              <Parallax.Layer
-                    
-                    offset={0.1} speed={1} factor={4}
-                    style={{ backgroundImage: url('stars', true), backgroundSize: 'cover' }}
-                ></Parallax.Layer>
-                 <Parallax.Layer offset={0.1} speed={1} style={{backgroundColor:'#c2dcdd',backgroundImage: url('stars', true), backgroundSize: 'cover'}} />
-                 <Parallax.Layer offset={0.5} speed={3} style={{backgroundColor:'#a1c9cb', backgroundImage: url('stars', true), backgroundSize: 'cover'}}>
-                   </Parallax.Layer>
-                 <Parallax.Layer offset={0.8} speed={3} style={{backgroundColor:'#5fa3a7', backgroundImage: url('stars', true), backgroundSize: 'cover'}}>
-                 <img alt='fondo' src={urlpng('white_art_tatoo_gecko')} style={{ display: 'block', width: '20%', marginLeft: '55%', opacity: '60%' }} />
-                   </Parallax.Layer>
-                 <Parallax.Layer offset={0.9} speed={2} style={{backgroundColor:'#5fa3a7', backgroundImage: url('stars', true), backgroundSize: 'cover'}} />
-                 <Parallax.Layer offset={0.9} speed={1} style={{backgroundColor:'#274546', backgroundImage: url('stars', true), backgroundSize: 'cover'}}>
-                 <img alt='fondo' src={urlpng('white_art_tatoo_feather')} style={{ display: 'block', width: '50%', marginLeft: '65%', marginTop:'50%', opacity: '60%' }} />
-                   </Parallax.Layer>
-        <Parallax.Layer offset={0.2} speed={0}>   
-        <Contents>
-          <Controls>
-            <div>
-              <Toggle
-                active={queryParamState.sort === "ascending"}
-                onClick={() => this.updateQueryParam({ sort: "ascending" })}
-              >
-                <FontAwesomeIcon icon={faDollarSign} />
-                <FontAwesomeIcon icon={faSortAmountUp} />
-              </Toggle>
-              <Toggle
-                active={queryParamState.sort === "descending"}
-                onClick={() => this.updateQueryParam({ sort: "descending" })}
-              >
-                <FontAwesomeIcon icon={faDollarSign} />
-                <FontAwesomeIcon icon={faSortAmountDown} />
-              </Toggle>
-            </div>
-            <div>
-              <Toggle
-                active={queryParamState.display === "list"}
-                onClick={() => this.updateQueryParam({ display: "list" })}
-              >
-                <FontAwesomeIcon icon={faList} />
-              </Toggle>
-              <Toggle
-                active={queryParamState.display === "grid"}
-                onClick={() => this.updateQueryParam({ display: "grid" })}
-              >
-                <FontAwesomeIcon icon={faTh} />
-              </Toggle>
-            </div>
-          </Controls>
-          {visibleVideoSets.length === 0 ? (
-            <NoResults>No Results Found</NoResults>
-          ) : (
-            <CardGrid
-              display={queryParamState.display}
-              ref={el => (this.cardGrid = el)}
-            >
-              {visibleVideoSets.map(set => {
-                if (set === focusedSet) return <li key={set} />
-                return (
-                  <Card
-                    key={set}
-                    setKey={set}
-                    videos={videos[set]}
-                    videoCount={videos[set].length}
-                    navigate={this.navigate}
-                  />
-                )
-              })}
-            </CardGrid>
-          )}
-        </Contents>
-        </Parallax.Layer>
+                <div>
+                  <Toggle
+                    active={queryParamState.display === "list"}
+                    onClick={() => this.updateQueryParam({ display: "list" })}
+                  >
+                    <FontAwesomeIcon icon={faList} />
+                  </Toggle>
+                  <Toggle
+                    active={queryParamState.display === "grid"}
+                    onClick={() => this.updateQueryParam({ display: "grid" })}
+                  >
+                    <FontAwesomeIcon icon={faTh} />
+                  </Toggle>
+                </div>
+              </Controls>
+              {visibleVideoSets.length === 0 ? (
+                <NoResults>No Results Found</NoResults>
+              ) : (
+                <CardGrid
+                  display={queryParamState.display}
+                  ref={el => (this.cardGrid = el)}
+                >
+                  {visibleVideoSets.map(set => {
+                    if (set === focusedSet) return <li key={set} />
+                    return (
+                      <Card
+                        key={set}
+                        setKey={set}
+                        videos={videos[set]}
+                        videoCount={videos[set].length}
+                        navigate={this.navigate}
+                      />
+                    )
+                  })}
+                </CardGrid>
+              )}
+            </Contents>
+          </Parallax.Layer>
         </div>
-        <Parallax.Layer offset={1.2} speed={0} style={{display:'flex'}}>
-                      <HomeFooter></HomeFooter>
-                  </Parallax.Layer>
-        </Parallax>
+        <Parallax.Layer offset={1.2} speed={0} style={{ display: 'flex' }}>
+          <HomeFooter></HomeFooter>
+        </Parallax.Layer>
+        
+      </Parallax>
     )
   }
 }

@@ -125,5 +125,4 @@ const GeneracionTransparente = [
       highlightedVideos.includes(obj) ? { ...obj, highlighted: true } : obj
     )
   })
-
   export default videos
