@@ -34,7 +34,7 @@ export class Home extends React.Component {
                     <Parallax.Layer offset={1.3} speed={0.8} style={{ pointerEvents: 'none' }}>
                         <img alt='fondo' src={urlpng('white_art_tatoo1')} style={{ display: 'block', width: '30%', marginLeft: '15%', opacity: '40%' }} />
                         <img alt='fondo' src={urlpng('white_art_tatoo_2')} style={{ display: 'block', width: '20%', marginLeft: '55%', opacity: '40%' }} />
-                        <img alt='fondo' src={urlpng('white_art_tatoo_cross')} style={{ display: 'block', width: '10%', marginLeft: '25%', opacity: '40%' }} />
+                        <img alt='fondo' src={urlpng('white_art_tatoo_cross')} style={{ display: 'block', width: '30%', marginLeft: '5%', opacity: '40%' }} />
                     </Parallax.Layer>
                     <Parallax.Layer offset={1.95} speed={0.5} style={{ pointerEvents: 'none' }}>
                         <img alt='fondo' src={urlpng('white_art_tatoo_feather')} style={{ display: 'block', width: '20%', marginLeft: '55%', opacity: '40%' }} />
