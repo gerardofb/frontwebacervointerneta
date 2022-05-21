@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { useSpring,animated } from 'react-spring'
+import { Link } from 'react-router-dom';
+
 const url = (name, wrap = false) => `${wrap ? 'url(' : ''}images/Stills/${name}.png${wrap ? ')' : ''}`;
 const imagenes = ['Categoria_uno','Categoria_dos','Categoria_tres','Categoria_cuatro','Categoria_cinco','Categoria_seis','Categoria_siete'];
 const headerscategories = ['Pueblos indígenas y originarios cultura','Pueblos indígenas y originarios cultura y producción',
@@ -63,6 +65,7 @@ const HomeCategories = (props)=>{
     return (<div>
         <div style={{marginTop:'5px'}}>
         <h1 style={{color:'white'}}>Categorías</h1>
+        <div style={{backgroundColor:'transparent', color:'white', minHeight:'30px'}}><Link to='Categorias' style={{textDecoration:'none', color:'white'}}>Explorar...</Link></div>
         <animated.svg height="30" width="1280">
       <line x1="50" y1="30" x2="1280" y2="30" strokeDashoffset={x.to(x => (1 - x) * 156)} style={{stroke:'rgb(128,128,128)', strokeWidth:'2'}} />
     </animated.svg>
@@ -101,6 +104,8 @@ const HomeCategories = (props)=>{
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut felis lorem, dapibus sed sapien eget, placerat fermentum nisl. Fusce at erat justo. Duis facilisis aliquam sodales. Integer tristique arcu et enim congue dictum. Duis volutpat quam lorem, sit amet lobortis sapien posuere nec. Duis non vulputate mi, ut dignissim nibh. Sed scelerisque efficitur nunc, nec sagittis mauris ultrices non. Nam molestie facilisis tempus. Pellentesque ac aliquet magna. Vestibulum sed dapibus orci. Sed suscipit ipsum at sapien volutpat egestas.
 
 Nam quis fringilla nisl. Nunc accumsan in dolor id pellentesque. Cras interdum felis vel venenatis maximus. Phasellus quis ante eget felis lobortis faucibus. Ut urna neque, suscipit vitae tempus a, lobortis ut urna. Suspendisse id nulla quis lectus euismod commodo sed blandit diam. Quisque vitae posuere sem. Donec ante turpis, tempus at nisi ac, hendrerit finibus nibh.</p>
+
+
                             </div>
                     )
                 })
