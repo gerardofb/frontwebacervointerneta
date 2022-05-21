@@ -3,8 +3,17 @@ import { Link } from "react-router-dom"
 import styled from "styled-components"
 import { Flipped } from "react-flip-toolkit"
 import anime from "animejs"
-import VideoBaseStyles from "../VideoBaseStyles"
-
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+const StyledTools = styled.div`
+display:flex;
+background:white;
+alignItems:right;
+justifyItems:center;
+font-size:small;
+width:100%;
+margin:0;
+`
 const StyledParagraph = styled.p`
 display:none`
 const StyledLink = styled(Link)`
@@ -24,6 +33,9 @@ const StyledLink = styled(Link)`
     width:100%;
     text-decoration:none;
     background: ${props => (props.isFocused ? "white" : "transparent")};
+  }
+  ${StyledTools}{
+    display:${props => (props.isFocused ? "inline-block" : "none")};
   }
 `
 
@@ -49,7 +61,11 @@ const AnimatedVideoTitle = styled.h3`
 `
 const url = (name, wrap = false) => `${wrap ? 'url(' : ''}${name}${wrap ? ')' : ''}`;
 const urlplay = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/Stills/Categories/${name}.png${wrap ? ')' : ''}`;
-
+const urlsvg = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/${name}.svg${wrap ? ')' : ''}`;
+const generateRandom = (n)=>{
+let random = Math.random() * n;
+return Math.floor(random);
+}
 
 class VideoBlock extends PureComponent {
     state = { sampleVideo: true }
@@ -95,7 +111,13 @@ class VideoBlock extends PureComponent {
                     </Flipped>
                     <StyledParagraph>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut felis lorem, dapibus sed sapien eget, placerat fermentum nisl. Fusce at erat justo. Duis facilisis aliquam sodales. Integer tristique arcu et enim congue dictum. Duis volutpat quam lorem, sit amet lobortis sapien posuere nec. Duis non vulputate mi, ut dignissim nibh. Sed scelerisque efficitur nunc, nec sagittis mauris ultrices non. Nam molestie facilisis tempus. Pellentesque ac aliquet magna. Vestibulum sed dapibus orci. Sed suscipit ipsum at sapien volutpat egestas.
+                    &nbsp;<FontAwesomeIcon style={{fontSize:'large'}} icon={faArrowRight} />
                     </StyledParagraph>
+                    <StyledTools>
+                        <span style={{color:'black'}}>{generateRandom(2000)} likes <img src={urlsvg("thumbs-up-solid")} style={{width:'6%', color:'white'}} /></span>
+                        <span style={{color:'black'}}>{generateRandom(2000)} favoritos <img src={urlsvg("heart-solid")} style={{width:'6%', color:'white'}} /></span>
+                        <span style={{color:'black'}}>{generateRandom(2000)} comentarios <img src={urlsvg("comments-solid")} style={{width:'6%', color:'white'}} /></span>
+                    </StyledTools>
                 </StyledLink>
             </VideoGridItem>
         )

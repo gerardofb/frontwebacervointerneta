@@ -1,5 +1,5 @@
 import React, { useRef } from "react"
-import { Link, useParams } from "react-router-dom"
+import { Link } from "react-router-dom"
 import styled from "styled-components"
 import { Flipped } from "react-flip-toolkit"
 
@@ -31,6 +31,9 @@ const Background = styled.div`
   position: relative;
   min-height: 165vh;
   background-color: white;
+  background-image:url('/images/Art/art_tatoo_dragon.png');
+  background-position:bottom right;
+  background-repeat:no-repeat;
   z-index: 1;
 `
 
