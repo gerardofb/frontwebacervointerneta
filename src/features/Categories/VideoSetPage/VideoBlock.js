@@ -111,7 +111,7 @@ class VideoBlock extends PureComponent {
                     </Flipped>
                     <StyledParagraph>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut felis lorem, dapibus sed sapien eget, placerat fermentum nisl. Fusce at erat justo. Duis facilisis aliquam sodales. Integer tristique arcu et enim congue dictum. Duis volutpat quam lorem, sit amet lobortis sapien posuere nec. Duis non vulputate mi, ut dignissim nibh. Sed scelerisque efficitur nunc, nec sagittis mauris ultrices non. Nam molestie facilisis tempus. Pellentesque ac aliquet magna. Vestibulum sed dapibus orci. Sed suscipit ipsum at sapien volutpat egestas.
-                    &nbsp;<FontAwesomeIcon style={{fontSize:'large'}} icon={faArrowRight} />
+                    &nbsp;<Link to={"/Reproduccion/"+name}><FontAwesomeIcon style={{fontSize:'large'}} icon={faArrowRight} /></Link>
                     </StyledParagraph>
                     <StyledTools>
                         <span style={{color:'black'}}>{generateRandom(2000)} likes <img src={urlsvg("thumbs-up-solid")} style={{width:'6%', color:'white'}} /></span>

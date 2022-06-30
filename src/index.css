@@ -14,4 +14,18 @@ code {
 
       
 .bodyHome { background-color: #253237; }
+.player-individual{
+  height: 1200px;
+  max-height: 1200px;
+  overflow-y: scroll;
+  text-align: left;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+}
+.player-individual::-webkit-scrollbar{
+  display:none;
+}
+
+
 

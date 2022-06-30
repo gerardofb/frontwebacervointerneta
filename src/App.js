@@ -10,6 +10,7 @@ import styled from "styled-components";
 import VideoSetPage from './features/Categories/VideoSetPage';
 import NavBar from './features/NavBar'
 import SearchBar from "./features/SearchBar"
+import { AutoComments } from './features/Players/Reproduccion';
 const FlexContents = styled(Contents)`
   display: flex;
   justify-content: space-between;
@@ -61,6 +62,9 @@ function App() {
             }}
           />}
           <Route path="/Categorias/:set/:focusedVideo" children={VideoSetPage}>
+          </Route>
+          <Route path="/Reproduccion/:video" exact>
+            <AutoComments></AutoComments>
           </Route>
         </Switch>
       </div>
