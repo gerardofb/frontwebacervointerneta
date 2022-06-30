@@ -14,6 +14,13 @@ code {
 
       
 .bodyHome { background-color: #253237; }
+/*
+Estilos de la reproducción individual de videos
+*/
+.player-container{
+  margin:0 2em;
+}
+
 .player-individual{
   height: 1200px;
   max-height: 1200px;
@@ -21,10 +28,19 @@ code {
   text-align: left;
   -ms-overflow-style: none;
   scrollbar-width: none;
-
 }
 .player-individual::-webkit-scrollbar{
   display:none;
+}
+.content-player{
+  display:flex
+}
+.scroll-list{
+  max-width:60%;
+  margin-left: 2em;
+}
+.categories-player{
+  width:40%
 }
 
 
