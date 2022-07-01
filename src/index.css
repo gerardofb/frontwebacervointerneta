@@ -42,7 +42,7 @@ Estilos de la reproducción individual de videos
 .category-player{
   width:40%;
   margin:2em;
-  max-height:700px
+  max-height:640px
 }
 /*
 Estilos de las categorías en el reproductor individual de video

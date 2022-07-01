@@ -9,10 +9,12 @@ import {
     animated,
     useSpringRef,
 } from '@react-spring/web';
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import SearchBar from '../SearchBar';
 import NavBar from '../NavBar';
+
+
 const Vinculo = styled(Link)`
 display:block;
 width:100%;
@@ -36,7 +38,7 @@ let catdata = [
         description: '#a8edea → #fed6e3',
         css: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
         image: 'url("/images/Classification/Cat_1.png")',
-        url:"Screenshot_1",
+        url: "Screenshot_1",
         height: 200,
     },
     {
@@ -44,7 +46,7 @@ let catdata = [
         description: '#f5f7fa → #c3cfe2',
         css: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
         image: 'url("/images/Classification/Cat_2.png")',
-        url:"Screenshot_3",
+        url: "Screenshot_3",
         height: 400,
     },
     {
@@ -52,7 +54,7 @@ let catdata = [
         description: '#e0c3fc → #8ec5fc',
         css: 'linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%)',
         image: 'url("/images/Classification/Cat_3.png")',
-        url:"Screenshot_8",
+        url: "Screenshot_8",
         height: 400,
     },
     {
@@ -60,7 +62,7 @@ let catdata = [
         description: '#f093fb → #f5576c',
         css: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
         image: 'url("/images/Classification/Cat_4.png")',
-        url:"Screenshot_28",
+        url: "Screenshot_28",
         height: 400,
     },
     {
@@ -68,7 +70,7 @@ let catdata = [
         description: '#fdfbfb → #ebedee',
         css: 'linear-gradient(135deg, #E3FDF5 0%, #FFE6FA 100%)',
         image: 'url("/images/Classification/Cat_5.png")',
-        url:"Screenshot_29",
+        url: "Screenshot_29",
         height: 400,
     },
     {
@@ -76,7 +78,7 @@ let catdata = [
         description: '#5ee7df → #b490ca',
         css: 'linear-gradient(135deg, #5ee7df 0%, #b490ca 100%)',
         image: 'url("/images/Classification/Cat_6.png")',
-        url:"Screenshot_30",
+        url: "Screenshot_30",
         height: 400,
     },
     {
@@ -84,7 +86,7 @@ let catdata = [
         description: '#d299c2 → #fef9d7',
         css: 'linear-gradient(135deg, #d299c2 0%, #fef9d7 100%)',
         image: 'url("/images/Classification/Cat_7.png")',
-        url:"Screenshot_31",
+        url: "Screenshot_31",
         height: 200,
     },
     {
@@ -92,7 +94,7 @@ let catdata = [
         description: '#ebc0fd → #d9ded8',
         css: 'linear-gradient(135deg, #ebc0fd 0%, #d9ded8 100%)',
         image: 'url("/images/Classification/Cat_8.png")',
-        url:"Screenshot_42",
+        url: "Screenshot_42",
         height: 400,
     },
     {
@@ -100,7 +102,7 @@ let catdata = [
         description: '#f6d365 → #fda085',
         css: 'linear-gradient(135deg, #f6d365 0%, #fda085 100%)',
         image: 'url("/images/Classification/Cat_9.png")',
-        url:"Screenshot_48",
+        url: "Screenshot_48",
         height: 200,
     },
     {
@@ -108,7 +110,7 @@ let catdata = [
         description: '#96fbc4 → #f9f586',
         css: 'linear-gradient(135deg, #96fbc4 0%, #f9f586 100%)',
         image: 'url("/images/Classification/Cat_10.png")',
-        url:"Screenshot_49",
+        url: "Screenshot_49",
         height: 400,
     },
     {
@@ -116,7 +118,7 @@ let catdata = [
         description: ' #FFFEFF → #D7FFFE',
         css: 'linear-gradient(135deg, #FFFEFF 0%, #D7FFFE 100%)',
         image: 'url("/images/Classification/Cat_11.png")',
-        url:"Screenshot_67",
+        url: "Screenshot_67",
         height: 200,
     },
     {
@@ -124,7 +126,7 @@ let catdata = [
         description: ' #fff1eb → #ace0f9',
         css: 'linear-gradient(135deg, #fff1eb 0%, #ace0f9 100%)',
         image: 'url("/images/Classification/Cat_12.png")',
-        url:"Screenshot_68",
+        url: "Screenshot_68",
         height: 400,
     },
     {
@@ -132,7 +134,7 @@ let catdata = [
         description: ' #c1dfc4 → #deecdd',
         css: 'linear-gradient(135deg, #c1dfc4 0%, #deecdd 100%)',
         image: 'url("/images/Classification/Cat_13.png")',
-        url:"Screenshot_69",
+        url: "Screenshot_69",
         height: 400,
     },
     {
@@ -140,7 +142,7 @@ let catdata = [
         description: ' #ddd6f3 → #faaca8',
         css: 'linear-gradient(135deg, #ddd6f3 0%, #faaca8 100%, #faaca8 100%)',
         image: 'url("/images/Classification/Cat_14.png")',
-        url:"Screenshot_70",
+        url: "Screenshot_70",
         height: 200,
     },
     {
@@ -148,7 +150,7 @@ let catdata = [
         description: ' #ddd6f3 → #faaca8',
         css: 'linear-gradient(135deg, #ddd6f3 0%, #faaca8 100%, #faaca8 100%)',
         image: 'url("/images/Classification/Cat_15.png")',
-        url:"Screenshot_71",
+        url: "Screenshot_71",
         height: 200,
     },
     {
@@ -156,7 +158,7 @@ let catdata = [
         description: ' #ddd6f3 → #faaca8',
         css: 'linear-gradient(135deg, #ddd6f3 0%, #faaca8 100%, #faaca8 100%)',
         image: 'url("/images/Classification/Cat_16.png")',
-        url:"Screenshot_71",
+        url: "Screenshot_71",
         height: 200,
     },
     {
@@ -164,7 +166,7 @@ let catdata = [
         description: ' #ddd6f3 → #faaca8',
         css: 'linear-gradient(135deg, #ddd6f3 0%, #faaca8 100%, #faaca8 100%)',
         image: 'url("/images/Classification/Cat_17.png")',
-        url:"Screenshot_71",
+        url: "Screenshot_71",
         height: 200,
     },
     {
@@ -172,15 +174,45 @@ let catdata = [
         description: ' #ddd6f3 → #faaca8',
         css: 'linear-gradient(135deg, #ddd6f3 0%, #faaca8 100%, #faaca8 100%)',
         image: 'url("/images/Classification/Cat_18.png")',
-        url:"Screenshot_71",
+        url: "Screenshot_71",
         height: 200,
     },
 ]
 
+function shuffleArray(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+    return array;
+}
+/*
+const arreglo = [];
+function changeComments(video){
+    let check = false;
+    for(let i = 0; i < arreglo.length; i++){
+        if(arreglo[i].url == video){
+            check = true;
+        }
+    }
+    if(!check){
+        items = shuffleArray(items);
+    }
+    return items;
+}*/
+
 export const AutoComments = () => {
-    const urlplay = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/Stills/Categories/${name}.png${wrap ? ')' : ''}`;
+
     const { video } = useParams();
     const titulo = video;
+    const location = useLocation();
+
+    useEffect(() => {
+        console.log("Location changed");
+        items = shuffleArray(items);
+    }, [location]);
     const [elems, setItems] = useState(items);
     const bottomRef = useRef()
     const scrollToBottom = () => {
@@ -189,8 +221,9 @@ export const AutoComments = () => {
             block: "start"
         })
     }
+
     const [open, set] = useState(false)
-    const categoriestitle = open? "" : "Ver otros videos en esta categoría:";
+    const categoriestitle = open ? "" : "Ver otros videos en esta categoría:";
     const springApi = useSpringRef()
     const { size, ...rest } = useSpring({
         ref: springApi,
@@ -210,11 +243,11 @@ export const AutoComments = () => {
         leave: { opacity: 0, scale: 0 },
     })
     const imgApi = useSpringRef()
-    const {...opacidad} = useSpring({
-        ref:imgApi,
-        config:config.stiff,
-        from:{opacity:'100%'},
-        to:{
+    const { ...opacidad } = useSpring({
+        ref: imgApi,
+        config: config.stiff,
+        from: { opacity: '100%' },
+        to: {
             opacity: open ? '0%' : '100%'
         }
     })
@@ -259,9 +292,9 @@ export const AutoComments = () => {
             </div>
             <div className='content-player'>
                 <div className='category-player'>
-                    {!open?
-                <h3 style={{color:"lightgray", position:'relative', borderBottom:'1px solid black'}}>{categoriestitle}</h3>
-                :null}
+                    {!open ?
+                        <h3 style={{ color: "lightgray", position: 'relative', borderBottom: '1px solid black' }}>{categoriestitle}</h3>
+                        : null}
                     <div className="category-wrapper">
                         <animated.div
                             style={{ ...rest, width: size, height: size }}
@@ -271,11 +304,11 @@ export const AutoComments = () => {
                                 <animated.div
                                     className="category-item"
                                     style={{ ...style, background: item.css, backgroundImage: item.image, backgroundPosition: 'center center', backgroundSize: '200px' }}
-                                ><Vinculo to={'/Reproduccion/'+item.url}/></animated.div>
+                                ><Vinculo to={'/Reproduccion/' + item.url} /></animated.div>
                             ))}
                             <p>
-                                <span style={{ color: 'red', display: 'inline-block', margin: 'auto' }}>{open ? "" : <animated.img src="/images/Stills/Categories/PLAY_OVER.png" 
-                                style={{...opacidad, width:'5em', position:'absolute', top:'30%', left:'25%'}} />}</span>
+                                <span style={{ color: 'red', display: 'inline-block', margin: 'auto' }}>{open ? "" : <animated.img src="/images/Stills/Categories/PLAY_OVER.png"
+                                    style={{ ...opacidad, width: '5em', position: 'absolute', top: '30%', left: '25%' }} />}</span>
                             </p>
                         </animated.div>
                     </div>
