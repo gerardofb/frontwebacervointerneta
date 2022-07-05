@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState, useCallback } from 'react'
 import { BigPlayButton, ControlBar, LoadingSpinner, Player, PlayToggle } from 'video-react'
 import { useParams } from 'react-router-dom'
 import {
@@ -13,15 +13,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faAngleDown,
     faAngleUp,
-    faComment, 
+    faComment,
     faFaceSmile,
     faArrowRight,
-    faMicrophoneLines
-  } from "@fortawesome/free-solid-svg-icons"
+    faMicrophoneLines,
+    faClone,
+    faReply,
+    faBan
+} from "@fortawesome/free-solid-svg-icons"
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import SearchBar from '../SearchBar';
 import NavBar from '../NavBar';
+import ContextMenu from '../ContextMenu';
 
 const Tab = styled.button`
   font-size: 20px;
@@ -237,6 +241,11 @@ const mensajes = [
     { autor: "Gabriela Romo", fecha: "07/06/2022 5:37PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec faucibus dolor quam. Aliquam sit amet sodales erat, auctor fermentum nisl. Integer imperdiet ullamcorper maximus. Pellentesque sed convallis justo. Pellentesque tincidunt massa ut ligula condimentum pharetra at nec sem. Donec vehicula ultrices volutpat. Pellentesque fringilla arcu nisi. Vivamus vel diam ex. Donec molestie rhoncus augue, et consectetur nisl imperdiet at. In rutrum consequat sapien, quis rutrum mi rutrum eget. Maecenas feugiat diam ac felis maximus interdum. Quisque sodales dolor at diam euismod, eget mattis lacus porttitor. Morbi id tellus consequat, interdum neque quis, volutpat quam. Integer bibendum leo dignissim, varius turpis eu, placerat nunc. Integer nec rutrum ligula. Vivamus a cursus nisl. Fusce consectetur ipsum magna, non scelerisque augue posuere at." },
     { autor: "Gerardo Flores", fecha: "08/06/2022 5:47PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tempus dolor dui, at feugiat tortor efficitur sit amet. Quisque id commodo arcu. Vestibulum et nisi id urna iaculis faucibus vitae sit amet quam. Ut in lacinia tortor. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nunc porttitor odio nec massa eleifend mattis. Sed rhoncus cursus lectus a elementum. Aenean consectetur aliquam tellus, ac commodo dolor semper id. Ut congue mollis dui, at fringilla justo tempus nec. Proin et nunc id lorem pulvinar mollis. Duis eu eros at arcu luctus dapibus. Proin nec ante quis nulla accumsan varius. Aliquam quis neque at odio malesuada ultricies pharetra eget lacus. Mauris a porta neque. Pellentesque quis justo ultricies, venenatis ante in, tincidunt arcu." }
 ]
+
+
+
+
+
 export const AutoComments = () => {
 
     const { video } = useParams();
@@ -245,6 +254,13 @@ export const AutoComments = () => {
     const tabuladores = ["Comentarios", "Autobiográficos/Podcasts", "Eventos"];
     const [alturaPlayer, setAlturaPlayer] = useState(true);
     const [alturaPlayerMax, setAlturaPlayerMax] = useState(false);
+    const CustomMenu = () => (
+        <div className="menu-personalizado">
+            <div><FontAwesomeIcon icon={faClone}></FontAwesomeIcon>&nbsp;Copiar</div>
+            <div><FontAwesomeIcon icon={faReply}></FontAwesomeIcon>&nbsp;Responder</div>
+            <div><FontAwesomeIcon icon={faBan}></FontAwesomeIcon>&nbsp;Quitar</div>
+        </div>
+    );
     useEffect(() => {
         console.log("Location changed");
         items = shuffleArray(items);
@@ -314,13 +330,13 @@ export const AutoComments = () => {
         return { display: "none" };
     }
     const [msjesChat, setMsjesChat] = useState({ chat: mensajes, show: false });
-    const [texting, setTexting] = useState({mensaje:'', write:false});
-    const writeTextMessage = (message)=>{
-        if(message.length > 0){
-            setTexting({mensaje:message, write:true});
+    const [texting, setTexting] = useState({ mensaje: '', write: false });
+    const writeTextMessage = (message) => {
+        if (message.length > 0) {
+            setTexting({ mensaje: message, write: true });
         }
-        else{
-            setTexting({mensaje:message, write:false})
+        else {
+            setTexting({ mensaje: message, write: false })
         }
     }
     const setHeightChat = (param) => {
@@ -344,18 +360,27 @@ export const AutoComments = () => {
             setAlturaPlayer(true);
         }
     }
-
+    const referencia = useRef();
+    const [menuContextual, setMenuContextual] = useState({foucused:false,show:false});
+    const handleContextMenu = (enfocado,bandera) => {
+        setMenuContextual({focused:enfocado, show:bandera});
+    }
     return (
 
         <div className='player-individual' onScroll={handleScroll}>
-            <div style={{ backgroundColor: 'black', height: '100px' }}>
+            {
+                menuContextual.show ?
+                    <ContextMenu menu={CustomMenu()} referencia={referencia} style={{ position: 'absolute', zIndex: '9999' }}></ContextMenu>
+                    : null
+            }
+            <div style={{ backgroundColor: 'black', height: '100px' }} onContextMenu={(e) => handleContextMenu(false,false)}>
                 <NavBar></NavBar>
                 <SearchBar style={{ width: '60%' }}></SearchBar>
             </div>
-            <h2>
+            <h2 onContextMenu={(e) => handleContextMenu(false,false)}>
                 Reproduciendo: {titulo}
             </h2>
-            <div className='player-container'>
+            <div className='player-container' onContextMenu={(e) => handleContextMenu(false,false)}>
                 <Player
                     ref={player => {
                         player = player;
@@ -368,12 +393,12 @@ export const AutoComments = () => {
 
 
             <div className='content-player'>
-                <div className="break">
+                <div className="break" onContextMenu={(e) => handleContextMenu(false,false)}>
                     {!open ?
                         <h3 style={{ color: "lightgray", position: 'relative', borderBottom: '1px solid black' }}>{categoriestitle}</h3>
                         : null}
                 </div>
-                <div className='tabuladores-repro'>
+                <div className='tabuladores-repro' onContextMenu={(e) => handleContextMenu(false,false)}>
                     <ButtonGroup>
                         {
                             tabuladores.map(type => (
@@ -388,7 +413,7 @@ export const AutoComments = () => {
                         }
                     </ButtonGroup>
                 </div>
-                <div className='category-player'>
+                <div className='category-player' onContextMenu={(e) => handleContextMenu(false,false)}>
 
                     <div className="category-wrapper">
                         <animated.div
@@ -408,7 +433,7 @@ export const AutoComments = () => {
                         </animated.div>
                     </div>
                 </div>
-                <div className="scroll-list" ref={bottomRef} style={estableceTab(tabuladores[0])}>
+                <div className="scroll-list" onContextMenu={(e) => handleContextMenu(false,false)} ref={bottomRef} style={estableceTab(tabuladores[0])}>
                     {elems &&
                         elems.map((item, index) => (
                             <div key={index}>
@@ -418,24 +443,24 @@ export const AutoComments = () => {
                         ))}
                     <div className="list-bottom"></div>
                 </div>
-                <div className='scroll-list' style={estableceTab(tabuladores[1])}>Podcasts</div>
-                <div className='scroll-list' style={estableceTab(tabuladores[2])}>Eventos</div>
+                <div className='scroll-list' onContextMenu={(e) => handleContextMenu(false,false)} style={estableceTab(tabuladores[1])}>Podcasts</div>
+                <div className='scroll-list' onContextMenu={(e) => handleContextMenu(false,false)} style={estableceTab(tabuladores[2])}>Eventos</div>
                 <div className={alturaPlayer && alturaPlayerMax ? "chat" : alturaPlayer && !alturaPlayerMax ? "chat-min" : "chat-hidden"}>
-                    <div className='top-chat' onClick={(e) => { setHeightChat(true) }}>
+                    <div className='top-chat' onClick={(e) => { setHeightChat(true); handleContextMenu(false,false); }} onContextMenu={(e) => handleContextMenu(false,false)}>
                         <p><FontAwesomeIcon icon={faComment}></FontAwesomeIcon>&nbsp; Chat de Interneta
                         </p>
                         {alturaPlayer && alturaPlayerMax ?
-                        <span>
-                            <FontAwesomeIcon icon={faAngleUp}></FontAwesomeIcon></span>
+                            <span>
+                                <FontAwesomeIcon icon={faAngleUp}></FontAwesomeIcon></span>
                             : alturaPlayer ? <span><FontAwesomeIcon icon={faAngleDown}></FontAwesomeIcon></span>
-                            : null
+                                : null
                         }
                     </div>
                     <div className='content-chat'>
                         {alturaPlayer && alturaPlayerMax ? msjesChat.chat.map(function (msj, index) {
-                            console.log('renderizando mensajes chat ', msj)
                             return (
-                                <div className='origen-mensaje-chat' key={(index + "-" + msj.autor)}>
+                                <div className='origen-mensaje-chat' ref={referencia} key={(index + "-" + msj.autor)}
+                                    onContextMenu={(e) => handleContextMenu(true,true)} onMouseEnter={(e) => handleContextMenu(true,true)}>
                                     <span style={{ gridColumn: "1" }}>{msj.autor} &nbsp; {msj.fecha}</span>
                                     <span style={{ gridColumn: "2" }} title="Reaccionar"><FontAwesomeIcon icon={faFaceSmile}></FontAwesomeIcon></span>
                                     <div className='mensaje-chat-other'>
@@ -445,12 +470,12 @@ export const AutoComments = () => {
                             )
                         }) : null}
                     </div>
-                    <div className='chat-input'>
-                        <input type="text" onKeyUp={(e)=>{writeTextMessage(e.target.value)}} onBlur={(e)=>{writeTextMessage(e.target.value)}}></input>
+                    <div className='chat-input' onContextMenu={(e) => handleContextMenu(false,false)}>
+                        <input type="text" onKeyUp={(e) => { writeTextMessage(e.target.value) }} onBlur={(e) => { writeTextMessage(e.target.value) }}></input>
                         <div className='chat-input-actions'>
-                            <button>{ texting.write ?
-                            <FontAwesomeIcon icon={faArrowRight}></FontAwesomeIcon> : 
-                            <FontAwesomeIcon icon={faMicrophoneLines}></FontAwesomeIcon>
+                            <button>{texting.write ?
+                                <FontAwesomeIcon icon={faArrowRight}></FontAwesomeIcon> :
+                                <FontAwesomeIcon icon={faMicrophoneLines}></FontAwesomeIcon>
                             }</button>
                         </div>
                     </div>

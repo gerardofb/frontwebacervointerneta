@@ -101,6 +101,7 @@ Estilos del chat en el reproductor individual de video
   background-color: white;
   width:100%;
   display:grid;
+  margin-top:1em;
   grid-template-columns: auto 100px;
 }
 .chat-input input{
@@ -163,6 +164,22 @@ Estilos del chat en el reproductor individual de video
   grid-column: 1;
   width: 100%;
   font-size:small
+}
+.menu-personalizado{
+  width: 100%;
+  background:white;
+  display:grid;
+  grid-template-rows: auto auto auto;
+}
+.menu-personalizado div{
+  text-indent: 0;
+  width: 100%;
+  border-bottom: 1px gray solid;
+  cursor:pointer;
+  padding:.3em;
+}
+.menu-personalizado div:nth-child(3){
+  border-bottom: none;
 }
 /*
 Estilos de las categorías en el reproductor individual de video
