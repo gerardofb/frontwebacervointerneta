@@ -9,6 +9,15 @@ import {
     animated,
     useSpringRef,
 } from '@react-spring/web';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+    faAngleDown,
+    faAngleUp,
+    faComment, 
+    faFaceSmile,
+    faArrowRight,
+    faMicrophoneLines
+  } from "@fortawesome/free-solid-svg-icons"
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import SearchBar from '../SearchBar';
@@ -207,7 +216,7 @@ function shuffleArray(array) {
 }
 function isInViewport(element) {
     const rect = element.getBoundingClientRect();
-    console.log('datos de video clip ',rect.top,rect.left, rect.bottom, rect.right)
+    console.log('datos de video clip ', rect.top, rect.left, rect.bottom, rect.right)
     return rect.bottom > 0;
     // return (
     //     rect.top >= 0 &&
@@ -216,7 +225,18 @@ function isInViewport(element) {
     //     rect.right <= (window.innerWidth || document.documentElement.clientWidth)
     // );
 }
-
+const mensajes = [
+    { autor: "Gerardo Flores", fecha: "02/06/2022 2:27PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam fermentum." },
+    { autor: "Gabriela Romo", fecha: "02/06/2022 2:37PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
+    { autor: "Ibeth Santamaría", fecha: "03/06/2022 2:47PM", mensaje: "Lorem ipsum dolor sit amet, consectetur." },
+    { autor: "Gerardo Flores", fecha: "03/06/2022 3:27PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce quis neque risus." },
+    { autor: "Camila Alcantar", fecha: "04/06/2022 2:37PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas suscipit tempor dui, eget maximus felis sodales sit amet." },
+    { autor: "Pedro Solis", fecha: "04/06/2022 3:47PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque quis pretium orci, vel." },
+    { autor: "Marcelo Fernandez", fecha: "06/06/2022 5:27PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sagittis maximus elit, in vulputate turpis lacinia quis. Curabitur ut lectus elit. Mauris porttitor sed purus." },
+    { autor: "Marcelo Fernandez", fecha: "07/06/2022 5:28PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vestibulum scelerisque porttitor. Morbi suscipit risus elit, a finibus metus porta et. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per." },
+    { autor: "Gabriela Romo", fecha: "07/06/2022 5:37PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec faucibus dolor quam. Aliquam sit amet sodales erat, auctor fermentum nisl. Integer imperdiet ullamcorper maximus. Pellentesque sed convallis justo. Pellentesque tincidunt massa ut ligula condimentum pharetra at nec sem. Donec vehicula ultrices volutpat. Pellentesque fringilla arcu nisi. Vivamus vel diam ex. Donec molestie rhoncus augue, et consectetur nisl imperdiet at. In rutrum consequat sapien, quis rutrum mi rutrum eget. Maecenas feugiat diam ac felis maximus interdum. Quisque sodales dolor at diam euismod, eget mattis lacus porttitor. Morbi id tellus consequat, interdum neque quis, volutpat quam. Integer bibendum leo dignissim, varius turpis eu, placerat nunc. Integer nec rutrum ligula. Vivamus a cursus nisl. Fusce consectetur ipsum magna, non scelerisque augue posuere at." },
+    { autor: "Gerardo Flores", fecha: "08/06/2022 5:47PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tempus dolor dui, at feugiat tortor efficitur sit amet. Quisque id commodo arcu. Vestibulum et nisi id urna iaculis faucibus vitae sit amet quam. Ut in lacinia tortor. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nunc porttitor odio nec massa eleifend mattis. Sed rhoncus cursus lectus a elementum. Aenean consectetur aliquam tellus, ac commodo dolor semper id. Ut congue mollis dui, at fringilla justo tempus nec. Proin et nunc id lorem pulvinar mollis. Duis eu eros at arcu luctus dapibus. Proin nec ante quis nulla accumsan varius. Aliquam quis neque at odio malesuada ultricies pharetra eget lacus. Mauris a porta neque. Pellentesque quis justo ultricies, venenatis ante in, tincidunt arcu." }
+]
 export const AutoComments = () => {
 
     const { video } = useParams();
@@ -224,7 +244,7 @@ export const AutoComments = () => {
     const location = useLocation();
     const tabuladores = ["Comentarios", "Autobiográficos/Podcasts", "Eventos"];
     const [alturaPlayer, setAlturaPlayer] = useState(true);
-    const [alturaPlayerMax,setAlturaPlayerMax] = useState(false);
+    const [alturaPlayerMax, setAlturaPlayerMax] = useState(false);
     useEffect(() => {
         console.log("Location changed");
         items = shuffleArray(items);
@@ -293,29 +313,38 @@ export const AutoComments = () => {
         }
         return { display: "none" };
     }
-
-    const setHeightChat = (param)=>{
-        const elementoVideo = document.querySelector('.player-container');
-        const enfocado = isInViewport(elementoVideo);
-        if(enfocado){
-            console.log('video en viewport');
+    const [msjesChat, setMsjesChat] = useState({ chat: mensajes, show: false });
+    const [texting, setTexting] = useState({mensaje:'', write:false});
+    const writeTextMessage = (message)=>{
+        if(message.length > 0){
+            setTexting({mensaje:message, write:true});
         }
         else{
-            console.log('video fuera de viewport');
+            setTexting({mensaje:message, write:false})
         }
-        if(param && !enfocado){
-        setAlturaPlayerMax(!alturaPlayerMax);
-        setAlturaPlayer(true);
+    }
+    const setHeightChat = (param) => {
+        const elementoVideo = document.querySelector('.player-container');
+        const enfocado = isInViewport(elementoVideo);
+
+        if (param && !enfocado) {
+            setAlturaPlayerMax(!alturaPlayerMax);
+            setAlturaPlayer(true);
+
         }
-        else if(param && enfocado){
+        else if (param && enfocado) {
             setAlturaPlayerMax(false);
             setAlturaPlayer(true);
         }
-        else if(enfocado){
+        else if (enfocado) {
             setAlturaPlayerMax(false);
-            //setAlturaPlayer(false);
-        }      
+            setAlturaPlayer(false);
+        }
+        else if (!enfocado) {
+            setAlturaPlayer(true);
+        }
     }
+
     return (
 
         <div className='player-individual' onScroll={handleScroll}>
@@ -391,7 +420,41 @@ export const AutoComments = () => {
                 </div>
                 <div className='scroll-list' style={estableceTab(tabuladores[1])}>Podcasts</div>
                 <div className='scroll-list' style={estableceTab(tabuladores[2])}>Eventos</div>
-                <div className={alturaPlayer &&  alturaPlayerMax ?"chat" : alturaPlayer && !alturaPlayerMax ? "chat-min" : "chat-hidden"} onClick={(e)=>{setHeightChat(true)}}></div>
+                <div className={alturaPlayer && alturaPlayerMax ? "chat" : alturaPlayer && !alturaPlayerMax ? "chat-min" : "chat-hidden"}>
+                    <div className='top-chat' onClick={(e) => { setHeightChat(true) }}>
+                        <p><FontAwesomeIcon icon={faComment}></FontAwesomeIcon>&nbsp; Chat de Interneta
+                        </p>
+                        {alturaPlayer && alturaPlayerMax ?
+                        <span>
+                            <FontAwesomeIcon icon={faAngleUp}></FontAwesomeIcon></span>
+                            : alturaPlayer ? <span><FontAwesomeIcon icon={faAngleDown}></FontAwesomeIcon></span>
+                            : null
+                        }
+                    </div>
+                    <div className='content-chat'>
+                        {alturaPlayer && alturaPlayerMax ? msjesChat.chat.map(function (msj, index) {
+                            console.log('renderizando mensajes chat ', msj)
+                            return (
+                                <div className='origen-mensaje-chat' key={(index + "-" + msj.autor)}>
+                                    <span style={{ gridColumn: "1" }}>{msj.autor} &nbsp; {msj.fecha}</span>
+                                    <span style={{ gridColumn: "2" }} title="Reaccionar"><FontAwesomeIcon icon={faFaceSmile}></FontAwesomeIcon></span>
+                                    <div className='mensaje-chat-other'>
+                                        {msj.mensaje}
+                                    </div>
+                                </div>
+                            )
+                        }) : null}
+                    </div>
+                    <div className='chat-input'>
+                        <input type="text" onKeyUp={(e)=>{writeTextMessage(e.target.value)}} onBlur={(e)=>{writeTextMessage(e.target.value)}}></input>
+                        <div className='chat-input-actions'>
+                            <button>{ texting.write ?
+                            <FontAwesomeIcon icon={faArrowRight}></FontAwesomeIcon> : 
+                            <FontAwesomeIcon icon={faMicrophoneLines}></FontAwesomeIcon>
+                            }</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 

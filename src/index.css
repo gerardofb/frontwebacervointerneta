@@ -63,10 +63,11 @@ Estilos del chat en el reproductor individual de video
   position: fixed;
   bottom:0;
   left:2em;
-  min-height: 700px;
+  min-height: 640px;
   width:40%;
   grid-column:1;
-  background-color: darkorchid;
+  padding-bottom: 1em;
+  background-color: transparent;
 }
 .chat-hidden{
   position: fixed;
@@ -75,7 +76,11 @@ Estilos del chat en el reproductor individual de video
   height: 0;
   width:40%;
   grid-column:1;
-  background-color: darkorchid;
+  padding-bottom: 1em;
+  background-color: transparent;
+}
+.chat-hidden .top-chat, .chat-hidden .chat-input{
+  display:none;
 }
 .chat-min{
   position: fixed;
@@ -84,7 +89,80 @@ Estilos del chat en el reproductor individual de video
   height: 30px;
   width:40%;
   grid-column:1;
-  background-color: darkorchid;
+  padding-bottom: 1em;
+  background-color: transparent;
+}
+.content-chat{
+  overflow-y: scroll;
+  max-height: 500px;
+  background-color: white;
+}
+.chat-input{
+  background-color: white;
+  width:100%;
+  display:grid;
+  grid-template-columns: auto 100px;
+}
+.chat-input input{
+  width:100%;
+  height:97%;
+  padding:0 1em;
+  border-radius: 6px;
+  grid-column: 1;
+}
+.chat-input .chat-input-actions{
+  grid-column: 2;
+  font-size: large;
+  width:100%;
+  text-align: right;
+}
+.chat-input .chat-input-actions button{
+  color:white;
+  background-color: cornflowerblue;
+  border: none;
+  width:3rem;
+  height:3rem;
+  font-size: x-large;
+}
+.origen-mensaje-chat{
+  color:dimgray;
+  font-size: small;
+  display: grid;
+  grid-template-columns: 2;
+}
+.origen-mensaje-chat span:nth-child(1){
+  width:100%
+}
+.origen-mensaje-chat span:nth-child(2){
+  width:95%;
+  text-align:left;
+  margin-right: 2em;
+}
+.mensaje-chat-other{
+  background-color: rgb(157, 235, 157);
+  border-radius: 0rem 2rem 2rem 0rem;
+  margin:0 2em 2em 0;
+  padding: .5em 1.5em .5em .5em;
+  grid-column-start: 1;
+  grid-column-end: 2;
+}
+.top-chat{
+  height:80px;
+  background:white;
+  display: grid;
+  grid-template-columns: 2;
+}
+.top-chat span{
+  margin-right:.5em;
+  width: 100%;
+  text-align: right;
+  grid-column: 2;
+}
+.top-chat p{
+  text-align:left;
+  grid-column: 1;
+  width: 100%;
+  font-size:small
 }
 /*
 Estilos de las categorías en el reproductor individual de video
