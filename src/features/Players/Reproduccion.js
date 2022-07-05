@@ -26,6 +26,7 @@ import styled from "styled-components";
 import SearchBar from '../SearchBar';
 import NavBar from '../NavBar';
 import ContextMenu from '../ContextMenu';
+import { text } from '@fortawesome/fontawesome-svg-core';
 
 const Tab = styled.button`
   font-size: 20px;
@@ -230,16 +231,16 @@ function isInViewport(element) {
     // );
 }
 const mensajes = [
-    { autor: "Gerardo Flores", fecha: "02/06/2022 2:27PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam fermentum." },
-    { autor: "Gabriela Romo", fecha: "02/06/2022 2:37PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
-    { autor: "Ibeth Santamaría", fecha: "03/06/2022 2:47PM", mensaje: "Lorem ipsum dolor sit amet, consectetur." },
-    { autor: "Gerardo Flores", fecha: "03/06/2022 3:27PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce quis neque risus." },
-    { autor: "Camila Alcantar", fecha: "04/06/2022 2:37PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas suscipit tempor dui, eget maximus felis sodales sit amet." },
-    { autor: "Pedro Solis", fecha: "04/06/2022 3:47PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque quis pretium orci, vel." },
-    { autor: "Marcelo Fernandez", fecha: "06/06/2022 5:27PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sagittis maximus elit, in vulputate turpis lacinia quis. Curabitur ut lectus elit. Mauris porttitor sed purus." },
-    { autor: "Marcelo Fernandez", fecha: "07/06/2022 5:28PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vestibulum scelerisque porttitor. Morbi suscipit risus elit, a finibus metus porta et. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per." },
-    { autor: "Gabriela Romo", fecha: "07/06/2022 5:37PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec faucibus dolor quam. Aliquam sit amet sodales erat, auctor fermentum nisl. Integer imperdiet ullamcorper maximus. Pellentesque sed convallis justo. Pellentesque tincidunt massa ut ligula condimentum pharetra at nec sem. Donec vehicula ultrices volutpat. Pellentesque fringilla arcu nisi. Vivamus vel diam ex. Donec molestie rhoncus augue, et consectetur nisl imperdiet at. In rutrum consequat sapien, quis rutrum mi rutrum eget. Maecenas feugiat diam ac felis maximus interdum. Quisque sodales dolor at diam euismod, eget mattis lacus porttitor. Morbi id tellus consequat, interdum neque quis, volutpat quam. Integer bibendum leo dignissim, varius turpis eu, placerat nunc. Integer nec rutrum ligula. Vivamus a cursus nisl. Fusce consectetur ipsum magna, non scelerisque augue posuere at." },
-    { autor: "Gerardo Flores", fecha: "08/06/2022 5:47PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tempus dolor dui, at feugiat tortor efficitur sit amet. Quisque id commodo arcu. Vestibulum et nisi id urna iaculis faucibus vitae sit amet quam. Ut in lacinia tortor. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nunc porttitor odio nec massa eleifend mattis. Sed rhoncus cursus lectus a elementum. Aenean consectetur aliquam tellus, ac commodo dolor semper id. Ut congue mollis dui, at fringilla justo tempus nec. Proin et nunc id lorem pulvinar mollis. Duis eu eros at arcu luctus dapibus. Proin nec ante quis nulla accumsan varius. Aliquam quis neque at odio malesuada ultricies pharetra eget lacus. Mauris a porta neque. Pellentesque quis justo ultricies, venenatis ante in, tincidunt arcu." }
+    { autor: "Gerardo Flores", fecha: "02/06/2022 2:27PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam fermentum.", propio:false },
+    { autor: "Gabriela Romo", fecha: "02/06/2022 2:37PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", propio:false },
+    { autor: "Ibeth Santamaría", fecha: "03/06/2022 2:47PM", mensaje: "Lorem ipsum dolor sit amet, consectetur.", propio:false },
+    { autor: "Gerardo Flores", fecha: "03/06/2022 3:27PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce quis neque risus.", propio:false },
+    { autor: "Camila Alcantar", fecha: "04/06/2022 2:37PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas suscipit tempor dui, eget maximus felis sodales sit amet.", propio:false },
+    { autor: "Pedro Solis", fecha: "04/06/2022 3:47PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque quis pretium orci, vel.", propio:false },
+    { autor: "Marcelo Fernandez", fecha: "06/06/2022 5:27PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sagittis maximus elit, in vulputate turpis lacinia quis. Curabitur ut lectus elit. Mauris porttitor sed purus.", propio:false },
+    { autor: "Marcelo Fernandez", fecha: "07/06/2022 5:28PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vestibulum scelerisque porttitor. Morbi suscipit risus elit, a finibus metus porta et. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per.", propio:false },
+    { autor: "Gabriela Romo", fecha: "07/06/2022 5:37PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec faucibus dolor quam. Aliquam sit amet sodales erat, auctor fermentum nisl. Integer imperdiet ullamcorper maximus. Pellentesque sed convallis justo. Pellentesque tincidunt massa ut ligula condimentum pharetra at nec sem. Donec vehicula ultrices volutpat. Pellentesque fringilla arcu nisi. Vivamus vel diam ex. Donec molestie rhoncus augue, et consectetur nisl imperdiet at. In rutrum consequat sapien, quis rutrum mi rutrum eget. Maecenas feugiat diam ac felis maximus interdum. Quisque sodales dolor at diam euismod, eget mattis lacus porttitor. Morbi id tellus consequat, interdum neque quis, volutpat quam. Integer bibendum leo dignissim, varius turpis eu, placerat nunc. Integer nec rutrum ligula. Vivamus a cursus nisl. Fusce consectetur ipsum magna, non scelerisque augue posuere at.", propio:false },
+    { autor: "Gerardo Flores", fecha: "08/06/2022 5:47PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tempus dolor dui, at feugiat tortor efficitur sit amet. Quisque id commodo arcu. Vestibulum et nisi id urna iaculis faucibus vitae sit amet quam. Ut in lacinia tortor. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nunc porttitor odio nec massa eleifend mattis. Sed rhoncus cursus lectus a elementum. Aenean consectetur aliquam tellus, ac commodo dolor semper id. Ut congue mollis dui, at fringilla justo tempus nec. Proin et nunc id lorem pulvinar mollis. Duis eu eros at arcu luctus dapibus. Proin nec ante quis nulla accumsan varius. Aliquam quis neque at odio malesuada ultricies pharetra eget lacus. Mauris a porta neque. Pellentesque quis justo ultricies, venenatis ante in, tincidunt arcu.", propio:false }
 ]
 
 
@@ -261,9 +262,16 @@ export const AutoComments = () => {
             <div><FontAwesomeIcon icon={faBan}></FontAwesomeIcon>&nbsp;Quitar</div>
         </div>
     );
+    const [msjesChat, setMsjesChat] = useState({ chat: mensajes, show: false });
+
     useEffect(() => {
         console.log("Location changed");
         items = shuffleArray(items);
+        
+        setMsjesChat({
+            chat:msjesChat.chat.filter(a=> a.propio == false),
+            show:false
+        })
     }, [location]);
     const [elems, setItems] = useState(items);
     const bottomRef = useRef()
@@ -329,7 +337,6 @@ export const AutoComments = () => {
         }
         return { display: "none" };
     }
-    const [msjesChat, setMsjesChat] = useState({ chat: mensajes, show: false });
     const [texting, setTexting] = useState({ mensaje: '', write: false });
     const writeTextMessage = (message) => {
         if (message.length > 0) {
@@ -365,8 +372,22 @@ export const AutoComments = () => {
     const handleContextMenu = (enfocado,bandera) => {
         setMenuContextual({focused:enfocado, show:bandera});
     }
+    const addMessage = ()=>{
+        console.log('el texto a agregar es '+texting.mensaje)
+        if(texting.mensaje.length > 0){
+            let fecha = new Date().toLocaleDateString();
+            let tiempo = new Date().getHours()+":"+new Date().getMinutes();
+            setMsjesChat({
+                chat:[...msjesChat.chat, {autor:'Anonimo '+fecha+" "+tiempo, mensaje:texting.mensaje, propio:true}]
+            });
+            chatRef.current.scrollIntoView({behavior:'smooth',block:'end'});
+        }
+    }
+    const chatRef = useRef();
+    const cssBottomChat = (Math.round(texting.mensaje.length/100)*20)+'px';
+    console.log('la altura del bottom es ',cssBottomChat);
     return (
-
+        //style={!alturaPlayerMax?{backgroundImage: `url('/images/art/art_tatoo_chevalet.png')`}:{backgroundImage:'none'}}
         <div className='player-individual' onScroll={handleScroll}>
             {
                 menuContextual.show ?
@@ -456,24 +477,27 @@ export const AutoComments = () => {
                                 : null
                         }
                     </div>
-                    <div className='content-chat'>
+                    <div className='content-chat' onScroll={(e) => handleContextMenu(false,false)}>
                         {alturaPlayer && alturaPlayerMax ? msjesChat.chat.map(function (msj, index) {
                             return (
                                 <div className='origen-mensaje-chat' ref={referencia} key={(index + "-" + msj.autor)}
                                     onContextMenu={(e) => handleContextMenu(true,true)} onMouseEnter={(e) => handleContextMenu(true,true)}>
                                     <span style={{ gridColumn: "1" }}>{msj.autor} &nbsp; {msj.fecha}</span>
+                                    {!msj.propio?
                                     <span style={{ gridColumn: "2" }} title="Reaccionar"><FontAwesomeIcon icon={faFaceSmile}></FontAwesomeIcon></span>
-                                    <div className='mensaje-chat-other'>
+                                    :null
+                                    }<div className={msj.propio?'mensaje-chat-propio':'mensaje-chat-other'}>
                                         {msj.mensaje}
                                     </div>
                                 </div>
                             )
                         }) : null}
+                        <div ref={chatRef} style={{height:{cssBottomChat}, minHeight:'100px'}}></div>
                     </div>
                     <div className='chat-input' onContextMenu={(e) => handleContextMenu(false,false)}>
-                        <input type="text" onKeyUp={(e) => { writeTextMessage(e.target.value) }} onBlur={(e) => { writeTextMessage(e.target.value) }}></input>
+                        <textarea rows="2" onKeyUp={(e) => { writeTextMessage(e.target.value) }} onBlur={(e) => { writeTextMessage(e.target.value) }}></textarea>
                         <div className='chat-input-actions'>
-                            <button>{texting.write ?
+                            <button onClick={addMessage}>{texting.write ?
                                 <FontAwesomeIcon icon={faArrowRight}></FontAwesomeIcon> :
                                 <FontAwesomeIcon icon={faMicrophoneLines}></FontAwesomeIcon>
                             }</button>
