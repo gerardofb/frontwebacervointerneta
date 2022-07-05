@@ -33,16 +33,58 @@ Estilos de la reproducción individual de videos
   display:none;
 }
 .content-player{
-  display:flex
+  display:grid;
+  grid-template-columns: repeat(2, 1fr);
 }
 .scroll-list{
-  max-width:60%;
+  grid-column: 2;
   margin-left: 2em;
 }
 .category-player{
+  grid-column: 1;
+  margin:0 2em;
+  min-height:640px;
+  max-height:80px;
+}
+.tabuladores-repro{
+  grid-column: 2;
+  margin: 0 2em;
+  max-height: 50px;
+}
+.break {
+  grid-column: 1;
+  margin:0 2em;
+  max-height:10px;
+}
+/*
+Estilos del chat en el reproductor individual de video
+*/
+.chat{
+  position: fixed;
+  bottom:0;
+  left:2em;
+  min-height: 700px;
   width:40%;
-  margin:2em;
-  max-height:640px
+  grid-column:1;
+  background-color: darkorchid;
+}
+.chat-hidden{
+  position: fixed;
+  bottom:0;
+  left:2em;
+  height: 0;
+  width:40%;
+  grid-column:1;
+  background-color: darkorchid;
+}
+.chat-min{
+  position: fixed;
+  bottom:0;
+  left:2em;
+  height: 30px;
+  width:40%;
+  grid-column:1;
+  background-color: darkorchid;
 }
 /*
 Estilos de las categorías en el reproductor individual de video

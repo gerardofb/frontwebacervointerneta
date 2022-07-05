@@ -14,7 +14,24 @@ import styled from "styled-components";
 import SearchBar from '../SearchBar';
 import NavBar from '../NavBar';
 
-
+const Tab = styled.button`
+  font-size: 20px;
+  padding: 10px 60px;
+  cursor: pointer;
+  opacity: 0.6;
+  background: white;
+  border: 0;
+  outline: 0;
+  ${({ active }) =>
+        active &&
+        `
+    border-bottom: 2px solid black;
+    opacity: 1;
+  `}
+`;
+const ButtonGroup = styled.div`
+  display: flex;
+`;
 const Vinculo = styled(Link)`
 display:block;
 width:100%;
@@ -188,27 +205,26 @@ function shuffleArray(array) {
     }
     return array;
 }
-/*
-const arreglo = [];
-function changeComments(video){
-    let check = false;
-    for(let i = 0; i < arreglo.length; i++){
-        if(arreglo[i].url == video){
-            check = true;
-        }
-    }
-    if(!check){
-        items = shuffleArray(items);
-    }
-    return items;
-}*/
+function isInViewport(element) {
+    const rect = element.getBoundingClientRect();
+    console.log('datos de video clip ',rect.top,rect.left, rect.bottom, rect.right)
+    return rect.bottom > 0;
+    // return (
+    //     rect.top >= 0 &&
+    //     rect.left >= 0 &&
+    //     rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+    //     rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    // );
+}
 
 export const AutoComments = () => {
 
     const { video } = useParams();
     const titulo = video;
     const location = useLocation();
-
+    const tabuladores = ["Comentarios", "Autobiográficos/Podcasts", "Eventos"];
+    const [alturaPlayer, setAlturaPlayer] = useState(true);
+    const [alturaPlayerMax,setAlturaPlayerMax] = useState(false);
     useEffect(() => {
         console.log("Location changed");
         items = shuffleArray(items);
@@ -260,17 +276,47 @@ export const AutoComments = () => {
         const { scrollTop, offsetHeight } = document.documentElement;
         const { innerHeight } = window;
         const bottomOfWindow = Math.round(scrollTop) + innerHeight === offsetHeight;
-        console.log(Math.round(scrollTop) + innerHeight, offsetHeight);
         if (bottomOfWindow && items.length < 500) {
             let item = items[Math.floor(Math.random() * items.length)];
             items = items.concat(item);
             setItems(items)
-            console.log('estableciendo ' + elems.length + " " + items.length);
         }
+        setHeightChat();
+
+    }
+    const [active, setActive] = useState(tabuladores[0]);
+    const estableceTab = (parameter) => {
+
+        if (parameter == active) {
+
+            return { display: "block" }
+        }
+        return { display: "none" };
     }
 
+    const setHeightChat = (param)=>{
+        const elementoVideo = document.querySelector('.player-container');
+        const enfocado = isInViewport(elementoVideo);
+        if(enfocado){
+            console.log('video en viewport');
+        }
+        else{
+            console.log('video fuera de viewport');
+        }
+        if(param && !enfocado){
+        setAlturaPlayerMax(!alturaPlayerMax);
+        setAlturaPlayer(true);
+        }
+        else if(param && enfocado){
+            setAlturaPlayerMax(false);
+            setAlturaPlayer(true);
+        }
+        else if(enfocado){
+            setAlturaPlayerMax(false);
+            //setAlturaPlayer(false);
+        }      
+    }
     return (
-
 
         <div className='player-individual' onScroll={handleScroll}>
             <div style={{ backgroundColor: 'black', height: '100px' }}>
@@ -290,11 +336,31 @@ export const AutoComments = () => {
                     <LoadingSpinner></LoadingSpinner>
                 </Player>
             </div>
+
+
             <div className='content-player'>
-                <div className='category-player'>
+                <div className="break">
                     {!open ?
                         <h3 style={{ color: "lightgray", position: 'relative', borderBottom: '1px solid black' }}>{categoriestitle}</h3>
                         : null}
+                </div>
+                <div className='tabuladores-repro'>
+                    <ButtonGroup>
+                        {
+                            tabuladores.map(type => (
+                                <Tab
+                                    key={type}
+                                    active={active === type}
+                                    onClick={() => { setActive(type); }}
+                                >
+                                    {type}
+                                </Tab>
+                            ))
+                        }
+                    </ButtonGroup>
+                </div>
+                <div className='category-player'>
+
                     <div className="category-wrapper">
                         <animated.div
                             style={{ ...rest, width: size, height: size }}
@@ -313,7 +379,7 @@ export const AutoComments = () => {
                         </animated.div>
                     </div>
                 </div>
-                <div className="scroll-list" ref={bottomRef} >
+                <div className="scroll-list" ref={bottomRef} style={estableceTab(tabuladores[0])}>
                     {elems &&
                         elems.map((item, index) => (
                             <div key={index}>
@@ -323,7 +389,11 @@ export const AutoComments = () => {
                         ))}
                     <div className="list-bottom"></div>
                 </div>
+                <div className='scroll-list' style={estableceTab(tabuladores[1])}>Podcasts</div>
+                <div className='scroll-list' style={estableceTab(tabuladores[2])}>Eventos</div>
+                <div className={alturaPlayer &&  alturaPlayerMax ?"chat" : alturaPlayer && !alturaPlayerMax ? "chat-min" : "chat-hidden"} onClick={(e)=>{setHeightChat(true)}}></div>
             </div>
         </div>
+
     )
 }
