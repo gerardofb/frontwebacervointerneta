@@ -257,7 +257,7 @@ Estilos de los eventos en la reproducción individual de video
 */
 .header-evento{
   display: grid;
-  grid-template-columns: 85px 80px 60px;
+  grid-template-columns: 85px 80px 60px 200px;
   width: 400px;
   font-size: x-large;
   text-align: center;

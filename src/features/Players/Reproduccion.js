@@ -554,6 +554,7 @@ export const AutoComments = () => {
                                         <h3>{Number(elem.fecha.getDate())}<span> del</span></h3>
                                         <h3>{Number(elem.fecha.getMonth() + 1)}<span> de</span></h3>
                                         <h3>{Year(elem.fecha.getFullYear())}</h3>
+                                        <h3>a las {elem.fecha.getHours()} horas</h3>
                                     </div>
                                     <div className={elem.selected ? 'content-evento' : 'content-evento-hidden'}>
                                         {elem.descripcion}
