@@ -82,7 +82,7 @@ Estilos del chat en el reproductor individual de video
   padding-bottom: 1em;
   background-color: transparent;
 }
-.chat-hidden .top-chat, .chat-hidden .chat-input{
+.chat-hidden .top-chat, .chat-hidden .chat-input, .chat-hidden .content-chat{
   display:none;
 }
 .chat-min{
@@ -252,6 +252,61 @@ Estilos de las categorías en el reproductor individual de video
   border-radius: 5px;
   will-change: transform, opacity;
 }
+/*
+Estilos de los eventos en la reproducción individual de video
+*/
+.header-evento{
+  display: grid;
+  grid-template-columns: 85px 80px 60px;
+  width: 400px;
+  font-size: x-large;
+  text-align: center;
+}
+.header-evento-hidden{
+  display: none;
+}
+.header-evento h3 div{
+  display:inline-block
+}
+.control-evento-reproduccion{
+  display: grid;
+  grid-template-columns: auto auto;
+}
+.control-evento-reproduccion div{
+  width:88%;
+}
+.control-evento-reproduccion div:nth-child(2){
+  text-align: right;
+}
+.eventos-titulo{
+  display: grid;
+  grid-template-rows: auto auto;
+  position:relative;
+}
+.eventos-titulo div{
+   margin:auto;
+   grid-row: 2;
+}
+.eventos-titulo img{
+  border:1px solid #ddd;
+  border-radius: 4px;
+  padding:10px;
+  height: 200px;
+}
+.eventos-titulo h2{
+  grid-row: 1;
+}
+.content-evento{
+  text-align: left;
+  font-size: larger;
+  color:dimgray;
+  display: block;
+}
+.content-evento-hidden{
+  display: none;
+}
+
+
 
 
 

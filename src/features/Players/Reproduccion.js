@@ -26,8 +26,7 @@ import styled from "styled-components";
 import SearchBar from '../SearchBar';
 import NavBar from '../NavBar';
 import ContextMenu from '../ContextMenu';
-import { text } from '@fortawesome/fontawesome-svg-core';
-
+import { HomeFooter } from '../HomeFooter';
 const Tab = styled.button`
   font-size: 20px;
   padding: 10px 60px;
@@ -231,17 +230,18 @@ function isInViewport(element) {
     // );
 }
 const mensajes = [
-    { autor: "Gerardo Flores", fecha: "02/06/2022 2:27PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam fermentum.", propio:false },
-    { autor: "Gabriela Romo", fecha: "02/06/2022 2:37PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", propio:false },
-    { autor: "Ibeth Santamaría", fecha: "03/06/2022 2:47PM", mensaje: "Lorem ipsum dolor sit amet, consectetur.", propio:false },
-    { autor: "Gerardo Flores", fecha: "03/06/2022 3:27PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce quis neque risus.", propio:false },
-    { autor: "Camila Alcantar", fecha: "04/06/2022 2:37PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas suscipit tempor dui, eget maximus felis sodales sit amet.", propio:false },
-    { autor: "Pedro Solis", fecha: "04/06/2022 3:47PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque quis pretium orci, vel.", propio:false },
-    { autor: "Marcelo Fernandez", fecha: "06/06/2022 5:27PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sagittis maximus elit, in vulputate turpis lacinia quis. Curabitur ut lectus elit. Mauris porttitor sed purus.", propio:false },
-    { autor: "Marcelo Fernandez", fecha: "07/06/2022 5:28PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vestibulum scelerisque porttitor. Morbi suscipit risus elit, a finibus metus porta et. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per.", propio:false },
-    { autor: "Gabriela Romo", fecha: "07/06/2022 5:37PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec faucibus dolor quam. Aliquam sit amet sodales erat, auctor fermentum nisl. Integer imperdiet ullamcorper maximus. Pellentesque sed convallis justo. Pellentesque tincidunt massa ut ligula condimentum pharetra at nec sem. Donec vehicula ultrices volutpat. Pellentesque fringilla arcu nisi. Vivamus vel diam ex. Donec molestie rhoncus augue, et consectetur nisl imperdiet at. In rutrum consequat sapien, quis rutrum mi rutrum eget. Maecenas feugiat diam ac felis maximus interdum. Quisque sodales dolor at diam euismod, eget mattis lacus porttitor. Morbi id tellus consequat, interdum neque quis, volutpat quam. Integer bibendum leo dignissim, varius turpis eu, placerat nunc. Integer nec rutrum ligula. Vivamus a cursus nisl. Fusce consectetur ipsum magna, non scelerisque augue posuere at.", propio:false },
-    { autor: "Gerardo Flores", fecha: "08/06/2022 5:47PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tempus dolor dui, at feugiat tortor efficitur sit amet. Quisque id commodo arcu. Vestibulum et nisi id urna iaculis faucibus vitae sit amet quam. Ut in lacinia tortor. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nunc porttitor odio nec massa eleifend mattis. Sed rhoncus cursus lectus a elementum. Aenean consectetur aliquam tellus, ac commodo dolor semper id. Ut congue mollis dui, at fringilla justo tempus nec. Proin et nunc id lorem pulvinar mollis. Duis eu eros at arcu luctus dapibus. Proin nec ante quis nulla accumsan varius. Aliquam quis neque at odio malesuada ultricies pharetra eget lacus. Mauris a porta neque. Pellentesque quis justo ultricies, venenatis ante in, tincidunt arcu.", propio:false }
+    { autor: "Gerardo Flores", fecha: "02/06/2022 2:27PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam fermentum.", propio: false },
+    { autor: "Gabriela Romo", fecha: "02/06/2022 2:37PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", propio: false },
+    { autor: "Ibeth Santamaría", fecha: "03/06/2022 2:47PM", mensaje: "Lorem ipsum dolor sit amet, consectetur.", propio: false },
+    { autor: "Gerardo Flores", fecha: "03/06/2022 3:27PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce quis neque risus.", propio: false },
+    { autor: "Camila Alcantar", fecha: "04/06/2022 2:37PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas suscipit tempor dui, eget maximus felis sodales sit amet.", propio: false },
+    { autor: "Pedro Solis", fecha: "04/06/2022 3:47PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque quis pretium orci, vel.", propio: false },
+    { autor: "Marcelo Fernandez", fecha: "06/06/2022 5:27PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sagittis maximus elit, in vulputate turpis lacinia quis. Curabitur ut lectus elit. Mauris porttitor sed purus.", propio: false },
+    { autor: "Marcelo Fernandez", fecha: "07/06/2022 5:28PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vestibulum scelerisque porttitor. Morbi suscipit risus elit, a finibus metus porta et. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per.", propio: false },
+    { autor: "Gabriela Romo", fecha: "07/06/2022 5:37PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec faucibus dolor quam. Aliquam sit amet sodales erat, auctor fermentum nisl. Integer imperdiet ullamcorper maximus. Pellentesque sed convallis justo. Pellentesque tincidunt massa ut ligula condimentum pharetra at nec sem. Donec vehicula ultrices volutpat. Pellentesque fringilla arcu nisi. Vivamus vel diam ex. Donec molestie rhoncus augue, et consectetur nisl imperdiet at. In rutrum consequat sapien, quis rutrum mi rutrum eget. Maecenas feugiat diam ac felis maximus interdum. Quisque sodales dolor at diam euismod, eget mattis lacus porttitor. Morbi id tellus consequat, interdum neque quis, volutpat quam. Integer bibendum leo dignissim, varius turpis eu, placerat nunc. Integer nec rutrum ligula. Vivamus a cursus nisl. Fusce consectetur ipsum magna, non scelerisque augue posuere at.", propio: false },
+    { autor: "Gerardo Flores", fecha: "08/06/2022 5:47PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tempus dolor dui, at feugiat tortor efficitur sit amet. Quisque id commodo arcu. Vestibulum et nisi id urna iaculis faucibus vitae sit amet quam. Ut in lacinia tortor. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nunc porttitor odio nec massa eleifend mattis. Sed rhoncus cursus lectus a elementum. Aenean consectetur aliquam tellus, ac commodo dolor semper id. Ut congue mollis dui, at fringilla justo tempus nec. Proin et nunc id lorem pulvinar mollis. Duis eu eros at arcu luctus dapibus. Proin nec ante quis nulla accumsan varius. Aliquam quis neque at odio malesuada ultricies pharetra eget lacus. Mauris a porta neque. Pellentesque quis justo ultricies, venenatis ante in, tincidunt arcu.", propio: false }
 ]
+
 
 
 
@@ -267,10 +267,10 @@ export const AutoComments = () => {
     useEffect(() => {
         console.log("Location changed");
         items = shuffleArray(items);
-        
+
         setMsjesChat({
-            chat:msjesChat.chat.filter(a=> a.propio == false),
-            show:false
+            chat: msjesChat.chat.filter(a => a.propio == false),
+            show: false
         })
     }, [location]);
     const [elems, setItems] = useState(items);
@@ -368,24 +368,98 @@ export const AutoComments = () => {
         }
     }
     const referencia = useRef();
-    const [menuContextual, setMenuContextual] = useState({foucused:false,show:false});
-    const handleContextMenu = (enfocado,bandera) => {
-        setMenuContextual({focused:enfocado, show:bandera});
+    const [menuContextual, setMenuContextual] = useState({ foucused: false, show: false });
+    const handleContextMenu = (enfocado, bandera) => {
+        setMenuContextual({ focused: enfocado, show: bandera });
     }
-    const addMessage = ()=>{
-        console.log('el texto a agregar es '+texting.mensaje)
-        if(texting.mensaje.length > 0){
+    const addMessage = () => {
+        console.log('el texto a agregar es ' + texting.mensaje)
+        if (texting.mensaje.length > 0) {
             let fecha = new Date().toLocaleDateString();
-            let tiempo = new Date().getHours()+":"+new Date().getMinutes();
+            let tiempo = new Date().getHours() + ":" + new Date().getMinutes();
             setMsjesChat({
-                chat:[...msjesChat.chat, {autor:'Anonimo '+fecha+" "+tiempo, mensaje:texting.mensaje, propio:true}]
+                chat: [...msjesChat.chat, { autor: 'Anonimo ' + fecha + " " + tiempo, mensaje: texting.mensaje, propio: true }]
             });
-            chatRef.current.scrollIntoView({behavior:'smooth',block:'end'});
+            chatRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
         }
     }
     const chatRef = useRef();
-    const cssBottomChat = (Math.round(texting.mensaje.length/100)*20)+'px';
-    console.log('la altura del bottom es ',cssBottomChat);
+    const cssBottomChat = (Math.round(texting.mensaje.length / 100) * 20) + 'px';
+    console.log('la altura del bottom es ', cssBottomChat);
+    /*
+    Eventos
+    */
+    const [resetevents, setResetEvents] = useState({ resetear: false, aplicar: false });
+    console.log('afectando calendario ', resetevents);
+    function Number(numero) {
+        const { number } = useSpring({
+            from: { number: 0 },
+            number: numero,
+            delay: 200,
+            reset: true,
+            reverse: !resetevents.resetear,
+            config: config.molasses,
+        })
+        return <animated.div>{number.to(n => n.toFixed(0))}</animated.div>
+    }
+    function Year(numero) {
+        const { number } = useSpring({
+            from: { number: 1972 },
+            number: numero,
+            delay: 200,
+            reset: true,
+            reverse: !resetevents.resetear,
+            config: config.molasses,
+        })
+        return <animated.div>{number.to(n => n.toFixed(0))}</animated.div>
+    }
+    const eventos = [
+        {
+            index: 0, selected: false, title: "Conferencia ejemplo uno", descripcion: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In at augue at elit mattis gravida. Suspendisse luctus gravida mauris ac eleifend. Aliquam pulvinar ante sed urna tristique semper. Nulla eu purus a massa pulvinar ultricies in id velit. Sed pretium hendrerit justo, at semper risus bibendum eu. Mauris cursus eget tellus a euismod. Donec rutrum iaculis odio et aliquam. Donec quis placerat purus. Vivamus tincidunt quam et sem condimentum viverra. Nunc ultricies mi ornare varius sagittis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nunc finibus libero vel velit gravida, consectetur lacinia tortor finibus. Sed vehicula faucibus elementum. Pellentesque auctor quam et bibendum facilisis. Vivamus tincidunt sapien in metus feugiat pharetra. Maecenas ex enim, gravida a egestas a, mattis id lacus. Fusce convallis dictum rutrum. Fusce et aliquet enim. Fusce lobortis ligula eget mauris posuere, eget tempus metus finibus. Fusce euismod nibh vel ex vehicula imperdiet. Nulla dapibus metus sed mauris laoreet, nec faucibus dolor mattis. Sed luctus nisl eu facilisis vestibulum. Integer a leo sit amet dolor varius volutpat.",
+            fecha: new Date(2022, 8, 14, 22, 0, 0), imagen: "/images/Eventos/arte_urbano.jpg"
+        },
+        {
+            index: 1, selected: false, title: "Conferencia ejemplo dos", descripcion: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In at augue at elit mattis gravida. Suspendisse luctus gravida mauris ac eleifend. Aliquam pulvinar ante sed urna tristique semper. Nulla eu purus a massa pulvinar ultricies in id velit. Sed pretium hendrerit justo, at semper risus bibendum eu. Mauris cursus eget tellus a euismod. Donec rutrum iaculis odio et aliquam. Donec quis placerat purus. Vivamus tincidunt quam et sem condimentum viverra. Nunc ultricies mi ornare varius sagittis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nunc finibus libero vel velit gravida, consectetur lacinia tortor finibus. Sed vehicula faucibus elementum. Pellentesque auctor quam et bibendum facilisis. Vivamus tincidunt sapien in metus feugiat pharetra. Maecenas ex enim, gravida a egestas a, mattis id lacus. Fusce convallis dictum rutrum. Fusce et aliquet enim. Fusce lobortis ligula eget mauris posuere, eget tempus metus finibus. Fusce euismod nibh vel ex vehicula imperdiet. Nulla dapibus metus sed mauris laoreet, nec faucibus dolor mattis. Sed luctus nisl eu facilisis vestibulum. Integer a leo sit amet dolor varius volutpat.",
+            fecha: new Date(2022, 8, 27, 20, 0, 0), imagen: "/images/Eventos/cultura_urbana.jpg"
+        },
+        {
+            index: 2, selected: false, title: "Conferencia ejemplo tres", descripcion: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In at augue at elit mattis gravida. Suspendisse luctus gravida mauris ac eleifend. Aliquam pulvinar ante sed urna tristique semper. Nulla eu purus a massa pulvinar ultricies in id velit. Sed pretium hendrerit justo, at semper risus bibendum eu. Mauris cursus eget tellus a euismod. Donec rutrum iaculis odio et aliquam. Donec quis placerat purus. Vivamus tincidunt quam et sem condimentum viverra. Nunc ultricies mi ornare varius sagittis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nunc finibus libero vel velit gravida, consectetur lacinia tortor finibus. Sed vehicula faucibus elementum. Pellentesque auctor quam et bibendum facilisis. Vivamus tincidunt sapien in metus feugiat pharetra. Maecenas ex enim, gravida a egestas a, mattis id lacus. Fusce convallis dictum rutrum. Fusce et aliquet enim. Fusce lobortis ligula eget mauris posuere, eget tempus metus finibus. Fusce euismod nibh vel ex vehicula imperdiet. Nulla dapibus metus sed mauris laoreet, nec faucibus dolor mattis. Sed luctus nisl eu facilisis vestibulum. Integer a leo sit amet dolor varius volutpat.",
+            fecha: new Date(2022, 8, 2, 23, 0, 0), imagen: "/images/Eventos/mov_contraculturales.jpg"
+        },
+        {
+            index: 3, selected: false, title: "Conferencia ejemplo cuatro", descripcion: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In at augue at elit mattis gravida. Suspendisse luctus gravida mauris ac eleifend. Aliquam pulvinar ante sed urna tristique semper. Nulla eu purus a massa pulvinar ultricies in id velit. Sed pretium hendrerit justo, at semper risus bibendum eu. Mauris cursus eget tellus a euismod. Donec rutrum iaculis odio et aliquam. Donec quis placerat purus. Vivamus tincidunt quam et sem condimentum viverra. Nunc ultricies mi ornare varius sagittis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nunc finibus libero vel velit gravida, consectetur lacinia tortor finibus. Sed vehicula faucibus elementum. Pellentesque auctor quam et bibendum facilisis. Vivamus tincidunt sapien in metus feugiat pharetra. Maecenas ex enim, gravida a egestas a, mattis id lacus. Fusce convallis dictum rutrum. Fusce et aliquet enim. Fusce lobortis ligula eget mauris posuere, eget tempus metus finibus. Fusce euismod nibh vel ex vehicula imperdiet. Nulla dapibus metus sed mauris laoreet, nec faucibus dolor mattis. Sed luctus nisl eu facilisis vestibulum. Integer a leo sit amet dolor varius volutpat.",
+            fecha: new Date(2022, 9, 13, 14, 0, 0), imagen: "/images/Eventos/mov_defensa_territorio.jpg"
+        },
+        {
+            index: 4, selected: false, title: "Conferencia ejemplo cinco", descripcion: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In at augue at elit mattis gravida. Suspendisse luctus gravida mauris ac eleifend. Aliquam pulvinar ante sed urna tristique semper. Nulla eu purus a massa pulvinar ultricies in id velit. Sed pretium hendrerit justo, at semper risus bibendum eu. Mauris cursus eget tellus a euismod. Donec rutrum iaculis odio et aliquam. Donec quis placerat purus. Vivamus tincidunt quam et sem condimentum viverra. Nunc ultricies mi ornare varius sagittis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nunc finibus libero vel velit gravida, consectetur lacinia tortor finibus. Sed vehicula faucibus elementum. Pellentesque auctor quam et bibendum facilisis. Vivamus tincidunt sapien in metus feugiat pharetra. Maecenas ex enim, gravida a egestas a, mattis id lacus. Fusce convallis dictum rutrum. Fusce et aliquet enim. Fusce lobortis ligula eget mauris posuere, eget tempus metus finibus. Fusce euismod nibh vel ex vehicula imperdiet. Nulla dapibus metus sed mauris laoreet, nec faucibus dolor mattis. Sed luctus nisl eu facilisis vestibulum. Integer a leo sit amet dolor varius volutpat.",
+            fecha: new Date(2022, 9, 12, 14, 0, 0), imagen: "/images/Eventos/pueblos_originarios.jpg"
+        },
+        {
+            index: 5, selected: false, title: "Conferencia ejemplo seis", descripcion: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In at augue at elit mattis gravida. Suspendisse luctus gravida mauris ac eleifend. Aliquam pulvinar ante sed urna tristique semper. Nulla eu purus a massa pulvinar ultricies in id velit. Sed pretium hendrerit justo, at semper risus bibendum eu. Mauris cursus eget tellus a euismod. Donec rutrum iaculis odio et aliquam. Donec quis placerat purus. Vivamus tincidunt quam et sem condimentum viverra. Nunc ultricies mi ornare varius sagittis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nunc finibus libero vel velit gravida, consectetur lacinia tortor finibus. Sed vehicula faucibus elementum. Pellentesque auctor quam et bibendum facilisis. Vivamus tincidunt sapien in metus feugiat pharetra. Maecenas ex enim, gravida a egestas a, mattis id lacus. Fusce convallis dictum rutrum. Fusce et aliquet enim. Fusce lobortis ligula eget mauris posuere, eget tempus metus finibus. Fusce euismod nibh vel ex vehicula imperdiet. Nulla dapibus metus sed mauris laoreet, nec faucibus dolor mattis. Sed luctus nisl eu facilisis vestibulum. Integer a leo sit amet dolor varius volutpat.",
+            fecha: new Date(2022, 9, 19, 18, 0, 0), imagen: "/images/Eventos/mov_sociales.jpg"
+        }
+    ]
+    const [myevents, setMyEvents] = useState(eventos);
+    const resetMyEvents = (evento, bandera) => {
+        if (!bandera) {
+            setMyEvents(myevents.map((elemento, indice) => {
+                if (elemento.index == evento.index) {
+                    elemento.selected = true;
+                }
+                else {
+                    elemento.selected = false;
+                }
+                return elemento;
+            }));
+            setResetEvents({ resetear: true, aplicar: true });
+        }
+        else {
+            setMyEvents(myevents.map((elemento, indice) => {
+                elemento.selected = false;
+                return elemento;
+            }));
+        }
+    }
     return (
         //style={!alturaPlayerMax?{backgroundImage: `url('/images/art/art_tatoo_chevalet.png')`}:{backgroundImage:'none'}}
         <div className='player-individual' onScroll={handleScroll}>
@@ -394,18 +468,15 @@ export const AutoComments = () => {
                     <ContextMenu menu={CustomMenu()} referencia={referencia} style={{ position: 'absolute', zIndex: '9999' }}></ContextMenu>
                     : null
             }
-            <div style={{ backgroundColor: 'black', height: '100px' }} onContextMenu={(e) => handleContextMenu(false,false)}>
+            <div style={{ backgroundColor: 'black', height: '100px' }} onContextMenu={(e) => handleContextMenu(false, false)}>
                 <NavBar></NavBar>
                 <SearchBar style={{ width: '60%' }}></SearchBar>
             </div>
-            <h2 onContextMenu={(e) => handleContextMenu(false,false)}>
+            <h2 onContextMenu={(e) => handleContextMenu(false, false)}>
                 Reproduciendo: {titulo}
             </h2>
-            <div className='player-container' onContextMenu={(e) => handleContextMenu(false,false)}>
-                <Player
-                    ref={player => {
-                        player = player;
-                    }}>
+            <div onClick={(e)=>resetMyEvents(null,true)} className='player-container' onContextMenu={(e) => handleContextMenu(false, false)}>
+                <Player>
                     <source src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4"></source>
                     <ControlBar></ControlBar>
                     <LoadingSpinner></LoadingSpinner>
@@ -414,12 +485,12 @@ export const AutoComments = () => {
 
 
             <div className='content-player'>
-                <div className="break" onContextMenu={(e) => handleContextMenu(false,false)}>
+                <div className="break" onContextMenu={(e) => handleContextMenu(false, false)}>
                     {!open ?
                         <h3 style={{ color: "lightgray", position: 'relative', borderBottom: '1px solid black' }}>{categoriestitle}</h3>
                         : null}
                 </div>
-                <div className='tabuladores-repro' onContextMenu={(e) => handleContextMenu(false,false)}>
+                <div className='tabuladores-repro' onContextMenu={(e) => handleContextMenu(false, false)}>
                     <ButtonGroup>
                         {
                             tabuladores.map(type => (
@@ -434,7 +505,7 @@ export const AutoComments = () => {
                         }
                     </ButtonGroup>
                 </div>
-                <div className='category-player' onContextMenu={(e) => handleContextMenu(false,false)}>
+                <div onClick={(e)=>resetMyEvents(null,true)} className='category-player' onContextMenu={(e) => handleContextMenu(false, false)}>
 
                     <div className="category-wrapper">
                         <animated.div
@@ -454,7 +525,7 @@ export const AutoComments = () => {
                         </animated.div>
                     </div>
                 </div>
-                <div className="scroll-list" onContextMenu={(e) => handleContextMenu(false,false)} ref={bottomRef} style={estableceTab(tabuladores[0])}>
+                <div className="scroll-list" onContextMenu={(e) => handleContextMenu(false, false)} ref={bottomRef} style={estableceTab(tabuladores[0])}>
                     {elems &&
                         elems.map((item, index) => (
                             <div key={index}>
@@ -464,10 +535,36 @@ export const AutoComments = () => {
                         ))}
                     <div className="list-bottom"></div>
                 </div>
-                <div className='scroll-list' onContextMenu={(e) => handleContextMenu(false,false)} style={estableceTab(tabuladores[1])}>Podcasts</div>
-                <div className='scroll-list' onContextMenu={(e) => handleContextMenu(false,false)} style={estableceTab(tabuladores[2])}>Eventos</div>
-                <div className={alturaPlayer && alturaPlayerMax ? "chat" : alturaPlayer && !alturaPlayerMax ? "chat-min" : "chat-hidden"}>
-                    <div className='top-chat' onClick={(e) => { setHeightChat(true); handleContextMenu(false,false); }} onContextMenu={(e) => handleContextMenu(false,false)}>
+                <div className='scroll-list' onContextMenu={(e) => handleContextMenu(false, false)} style={estableceTab(tabuladores[1])}>Podcasts</div>
+                <div className='scroll-list' onContextMenu={(e) => handleContextMenu(false, false)} style={estableceTab(tabuladores[2])}>
+                    {
+                        myevents.map((elem, index) => {
+                            return (
+                                <div className="evento-reproduccion" key={index}>
+                                    <div className="control-evento-reproduccion" onClick={(e) => resetMyEvents(elem)}>
+                                        <div className='eventos-titulo'><h2>{elem.title}</h2><div><img src={elem.imagen} height={200} align="right" /></div></div>
+                                        <div>
+                                            {elem.selected ?
+                                                <FontAwesomeIcon icon={faAngleDown}></FontAwesomeIcon>
+                                                : <FontAwesomeIcon icon={faAngleUp}></FontAwesomeIcon>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div className={elem.selected ? 'header-evento' : 'header-evento-hidden'}>
+                                        <h3>{Number(elem.fecha.getDate())}<span> del</span></h3>
+                                        <h3>{Number(elem.fecha.getMonth() + 1)}<span> de</span></h3>
+                                        <h3>{Year(elem.fecha.getFullYear())}</h3>
+                                    </div>
+                                    <div className={elem.selected ? 'content-evento' : 'content-evento-hidden'}>
+                                        {elem.descripcion}
+                                    </div>
+                                </div>
+                            )
+                        })
+                    }
+                </div>
+                <div onClick={(e)=>resetMyEvents(null,true)} className={alturaPlayer && alturaPlayerMax ? "chat" : alturaPlayer && !alturaPlayerMax ? "chat-min" : "chat-hidden"}>
+                    <div className='top-chat' onClick={(e) => { setHeightChat(true); handleContextMenu(false, false); }} onContextMenu={(e) => handleContextMenu(false, false)}>
                         <p><FontAwesomeIcon icon={faComment}></FontAwesomeIcon>&nbsp; Chat de Interneta
                         </p>
                         {alturaPlayer && alturaPlayerMax ?
@@ -477,24 +574,24 @@ export const AutoComments = () => {
                                 : null
                         }
                     </div>
-                    <div className='content-chat' onScroll={(e) => handleContextMenu(false,false)}>
+                    <div className='content-chat' onScroll={(e) => handleContextMenu(false, false)}>
                         {alturaPlayer && alturaPlayerMax ? msjesChat.chat.map(function (msj, index) {
                             return (
                                 <div className='origen-mensaje-chat' ref={referencia} key={(index + "-" + msj.autor)}
-                                    onContextMenu={(e) => handleContextMenu(true,true)} onMouseEnter={(e) => handleContextMenu(true,true)}>
+                                    onContextMenu={(e) => handleContextMenu(true, true)} onMouseEnter={(e) => handleContextMenu(true, true)}>
                                     <span style={{ gridColumn: "1" }}>{msj.autor} &nbsp; {msj.fecha}</span>
-                                    {!msj.propio?
-                                    <span style={{ gridColumn: "2" }} title="Reaccionar"><FontAwesomeIcon icon={faFaceSmile}></FontAwesomeIcon></span>
-                                    :null
-                                    }<div className={msj.propio?'mensaje-chat-propio':'mensaje-chat-other'}>
+                                    {!msj.propio ?
+                                        <span style={{ gridColumn: "2" }} title="Reaccionar"><FontAwesomeIcon icon={faFaceSmile}></FontAwesomeIcon></span>
+                                        : null
+                                    }<div className={msj.propio ? 'mensaje-chat-propio' : 'mensaje-chat-other'}>
                                         {msj.mensaje}
                                     </div>
                                 </div>
                             )
                         }) : null}
-                        <div ref={chatRef} style={{height:{cssBottomChat}, minHeight:'100px'}}></div>
+                        <div ref={chatRef} style={{ height: { cssBottomChat }, minHeight: '100px' }}></div>
                     </div>
-                    <div className='chat-input' onContextMenu={(e) => handleContextMenu(false,false)}>
+                    <div className='chat-input' onContextMenu={(e) => handleContextMenu(false, false)}>
                         <textarea rows="2" onKeyUp={(e) => { writeTextMessage(e.target.value) }} onBlur={(e) => { writeTextMessage(e.target.value) }}></textarea>
                         <div className='chat-input-actions'>
                             <button onClick={addMessage}>{texting.write ?
