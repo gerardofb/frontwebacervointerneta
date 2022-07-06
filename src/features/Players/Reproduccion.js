@@ -220,8 +220,23 @@ function shuffleArray(array) {
 }
 function isInViewport(element) {
     const rect = element.getBoundingClientRect();
+
     console.log('datos de video clip ', rect.top, rect.left, rect.bottom, rect.right)
+    
     return rect.bottom > 0;
+    // return (
+    //     rect.top >= 0 &&
+    //     rect.left >= 0 &&
+    //     rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+    //     rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    // );
+}
+function isInViewportFooter(element) {
+    const rect = element.getBoundingClientRect();
+    const { scrollTop, offsetHeight } = document.documentElement;
+    console.log('datos de video clip footer ', rect.top, rect.left, rect.bottom, rect.right)
+    console.log('limite datos de video clip footer ',Math.round(scrollTop -rect.top))
+    return Math.round(scrollTop -rect.top) > -350;
     // return (
     //     rect.top >= 0 &&
     //     rect.left >= 0 &&
@@ -320,7 +335,7 @@ export const AutoComments = () => {
         const { scrollTop, offsetHeight } = document.documentElement;
         const { innerHeight } = window;
         const bottomOfWindow = Math.round(scrollTop) + innerHeight === offsetHeight;
-        if (bottomOfWindow && items.length < 500) {
+        if (bottomOfWindow && items.length < 350) {
             let item = items[Math.floor(Math.random() * items.length)];
             items = items.concat(item);
             setItems(items)
@@ -348,8 +363,10 @@ export const AutoComments = () => {
     }
     const setHeightChat = (param) => {
         const elementoVideo = document.querySelector('.player-container');
-        const enfocado = isInViewport(elementoVideo);
-
+        const elementoFooter = document.querySelector('.footer-site');
+        const footerenfocado = isInViewportFooter(elementoFooter);
+        const enfocado = isInViewport(elementoVideo) || footerenfocado;
+        
         if (param && !enfocado) {
             setAlturaPlayerMax(!alturaPlayerMax);
             setAlturaPlayer(true);
@@ -475,7 +492,7 @@ export const AutoComments = () => {
             <h2 onContextMenu={(e) => handleContextMenu(false, false)}>
                 Reproduciendo: {titulo}
             </h2>
-            <div onClick={(e)=>resetMyEvents(null,true)} className='player-container' onContextMenu={(e) => handleContextMenu(false, false)}>
+            <div onClick={(e) => resetMyEvents(null, true)} className='player-container' onContextMenu={(e) => handleContextMenu(false, false)}>
                 <Player>
                     <source src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4"></source>
                     <ControlBar></ControlBar>
@@ -505,7 +522,7 @@ export const AutoComments = () => {
                         }
                     </ButtonGroup>
                 </div>
-                <div onClick={(e)=>resetMyEvents(null,true)} className='category-player' onContextMenu={(e) => handleContextMenu(false, false)}>
+                <div onClick={(e) => resetMyEvents(null, true)} className='category-player' onContextMenu={(e) => handleContextMenu(false, false)}>
 
                     <div className="category-wrapper">
                         <animated.div
@@ -564,7 +581,7 @@ export const AutoComments = () => {
                         })
                     }
                 </div>
-                <div onClick={(e)=>resetMyEvents(null,true)} className={alturaPlayer && alturaPlayerMax ? "chat" : alturaPlayer && !alturaPlayerMax ? "chat-min" : "chat-hidden"}>
+                <div onClick={(e) => resetMyEvents(null, true)} className={alturaPlayer && alturaPlayerMax ? "chat" : alturaPlayer && !alturaPlayerMax ? "chat-min" : "chat-hidden"}>
                     <div className='top-chat' onClick={(e) => { setHeightChat(true); handleContextMenu(false, false); }} onContextMenu={(e) => handleContextMenu(false, false)}>
                         <p><FontAwesomeIcon icon={faComment}></FontAwesomeIcon>&nbsp; Chat de Interneta
                         </p>
@@ -603,6 +620,7 @@ export const AutoComments = () => {
                     </div>
                 </div>
             </div>
+            <HomeFooter></HomeFooter>
         </div>
 
     )

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 const HomeFooter = (props)=>{
     return (
-        <div style={{WebkitBorderTopRightRadius:'20px', width:'99%', margin:'auto', borderTopLeftRadius:'20px', background:'black', opacity:'65%'}}>
+        <div className='footer-site' style={{WebkitBorderTopRightRadius:'20px', width:'99%', margin:'auto', borderTopLeftRadius:'20px', background:'black', opacity:'65%'}}>
             <div style={{textAlign:'left',float:'none', color:'white', marginLeft:'5%', fontSize:'large'}}>
                 <h2>
                     Acervo Audiovisual Interneta

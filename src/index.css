@@ -42,12 +42,6 @@ Estilos de la reproducción individual de videos
   grid-column: 2;
   margin-left: 2em;
 }
-.category-player{
-  grid-column: 1;
-  margin:0 2em;
-  min-height:640px;
-  max-height:80px;
-}
 .tabuladores-repro{
   grid-column: 2;
   margin: 0 2em;
@@ -221,6 +215,12 @@ Estilos del chat en el reproductor individual de video
 /*
 Estilos de las categorías en el reproductor individual de video
 */
+.category-player{
+  grid-column: 1;
+  margin:0 2em;
+  min-height:640px;
+  max-height:640px;
+}
 .category-wrapper {
   width: 100%;
   height: 100%;
@@ -305,7 +305,12 @@ Estilos de los eventos en la reproducción individual de video
 .content-evento-hidden{
   display: none;
 }
-
+/*
+Estilo de footer
+*/
+.footer-site{
+  max-height: 350px;
+}
 
 
 
