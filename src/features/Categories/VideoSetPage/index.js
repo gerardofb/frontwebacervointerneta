@@ -30,7 +30,6 @@ const InverseContainer = styled.div`
 const Background = styled.div`
   position: relative;
   min-height: 165vh;
-  background-color: white;
   background-image:url('/images/Art/art_tatoo_dragon.png');
   background-position:bottom right;
   background-repeat:no-repeat;
@@ -95,7 +94,7 @@ function VideoSetPage({
 }) {
     return (
         <div>
-            <div style={{ backgroundColor: 'black', zIndex:'1', height:'100px', display:'block' }}>
+            <div className="navbar-principal-black" style={{ zIndex:'1', height:'100px', display:'block' }}>
                 <NavBar style={{marginRight:'40%'}}></NavBar>
                 <SearchBar style={{ width: '60%' }}></SearchBar>
             </div>
@@ -105,11 +104,11 @@ function VideoSetPage({
                 onComplete={onComplete}
                 onStart={onStart}
             >
-                <Background>
+                <Background className="video-set-white">
                     <Flipped inverseFlipId={set}>
                         <InverseContainer>
                             <SetContents>
-                                <SetDescription>
+                                <SetDescription className="header-video-block-black">
                                     <div data-fade-in>
                                         <StyledLink
                                             to={{

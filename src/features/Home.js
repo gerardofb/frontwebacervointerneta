@@ -20,9 +20,9 @@ export class Home extends React.Component {
                     ref={ref => this.parallax = ref}
                     pages={4}
                     scrolling={true}>
-                    <Parallax.Layer offset={2} speed={1} style={{ backgroundColor: '#7291d8' }} />
-                    <Parallax.Layer offset={3} speed={1} style={{ backgroundColor: '#1f3871' }} />
-                    <Parallax.Layer offset={4} speed={1} style={{ backgroundColor: '#eaeff9' }} />
+                    <Parallax.Layer offset={2} speed={1} className='first-layer-home' />
+                    <Parallax.Layer offset={3} speed={1} className='second-layer-home' />
+                    <Parallax.Layer offset={4} speed={1} className='third-layer-home' />
 
                     <Parallax.Layer
                         offset={0} speed={0} factor={4}

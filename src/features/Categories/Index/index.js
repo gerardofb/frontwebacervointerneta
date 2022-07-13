@@ -92,7 +92,7 @@ class IndexPage extends Component {
         scrolling={true}>
         <div style={{ backgroundColor: "black", paddingBottom: '7%' }}>
           <Parallax.Layer offset={0} speed={0}>
-            <div style={{ backgroundColor: 'black', display: 'block', height:'100px' }}>
+            <div style={{ backgroundColor: 'transparent', display: 'block', height:'100px' }}>
               <NavBar></NavBar>
               <SearchBar style={{ width: '60%' }}></SearchBar>
             </div>
@@ -102,14 +102,14 @@ class IndexPage extends Component {
             offset={0.1} speed={1} factor={4}
             style={{ backgroundImage: url('stars', true), backgroundSize: 'cover' }}
           ></Parallax.Layer>
-          <Parallax.Layer offset={0.15} speed={1} style={{ backgroundColor: '#c2dcdd', backgroundImage: url('stars', true), backgroundSize: 'cover' }} />
-          <Parallax.Layer offset={0.5} speed={3} style={{ backgroundColor: '#a1c9cb', backgroundImage: url('stars', true), backgroundSize: 'cover' }}>
+          <Parallax.Layer offset={0.15} speed={1} style={{ backgroundImage: url('stars', true), backgroundSize: 'cover' }} className='first-layer-category' />
+          <Parallax.Layer offset={0.5} speed={3} style={{ backgroundImage: url('stars', true), backgroundSize: 'cover' }} className='second-layer-category'>
           </Parallax.Layer>
-          <Parallax.Layer offset={0.8} speed={3} style={{ backgroundColor: '#5fa3a7', backgroundImage: url('stars', true), backgroundSize: 'cover' }}>
+          <Parallax.Layer offset={0.8} speed={3} style={{ backgroundImage: url('stars', true), backgroundSize: 'cover' }} className='third-layer-category'>
             <img alt='fondo' src={urlpng('white_art_tatoo_gecko')} style={{ display: 'block', width: '20%', marginLeft: '55%', opacity: '60%' }} />
           </Parallax.Layer>
-          <Parallax.Layer offset={0.9} speed={2} style={{ backgroundColor: '#5fa3a7', backgroundImage: url('stars', true), backgroundSize: 'cover' }} />
-          <Parallax.Layer offset={0.9} speed={1} style={{ backgroundColor: '#274546', backgroundImage: url('stars', true), backgroundSize: 'cover' }}>
+          <Parallax.Layer offset={0.9} speed={2} style={{ backgroundImage: url('stars', true), backgroundSize: 'cover' }} className='fourth-layer-category' />
+          <Parallax.Layer offset={0.9} speed={1} style={{ backgroundImage: url('stars', true), backgroundSize: 'cover' }} className='fifth-layer-category'>
             <img alt='fondo' src={urlpng('white_art_tatoo_feather')} style={{ display: 'block', width: '50%', marginLeft: '65%', marginTop: '50%', opacity: '60%' }} />
           </Parallax.Layer>
           <Parallax.Layer offset={0.15} speed={0}>

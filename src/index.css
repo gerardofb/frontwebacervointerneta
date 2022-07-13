@@ -305,14 +305,97 @@ Estilos de los eventos en la reproducción individual de video
 .content-evento-hidden{
   display: none;
 }
+
+/*
+Estilos temáticos
+*/
+.navbar-principal{
+  width:'40%';
+  float:'left'
+}
+.navbar-principal-black{
+  background-color:black
+}
 /*
 Estilo de footer
 */
 .footer-site{
   max-height: 350px;
 }
-
-
-
-
-
+.footer-site-black{
+  background-color: black;
+}
+.footer-list-black{
+  background-color:red;
+}
+.category-images-green{
+  background-color:#abffd2
+}
+.first-category-darkgreen{
+  background-color: #205a17;
+}
+.second-category-brown{
+  background-color:#540000;
+}
+.third-category-blue{
+  background-color: #00005e
+}
+.fourth-category-purple{
+  background-color:#4d3668;
+}
+.fifth-category-lightbrown{
+background-color: #68341c;
+}
+.sixth-category-lightgreen{
+  background-color: #528c00;
+}
+.first-layer-home{
+background-color: #7291d8;
+}
+.second-layer-home{
+background-color: #1f3871;
+}
+.third-layer-home{
+ background-color: #eaeff9;
+}
+.first-layer-category{
+background-color: #c2dcdd;
+}
+.second-layer-category{
+background-color: #a1c9cb;
+}
+.third-layer-category{
+background-color: #5fa3a7;
+}
+.fourth-layer-category{
+background-color: #5fa3a7;
+}
+.fifth-layer-category{
+background-color: #274546;
+}
+.video-set-white{
+  background-color: white;
+}
+.category-explore-green{
+  background-color:#213a3b;
+}
+.category-explore-desc-white{
+  color: white;
+}
+.video-block-tool-white{
+  background:white;
+}
+.video-block-paragraph-white{
+  background-color:white;
+  color:black;
+}
+.video-block-paragraph-white a{
+  color:black;
+}
+.video-block-linkfwd-black{
+  color: black;
+  background-color: white;
+}
+.header-video-block-black{
+  color: black;
+}

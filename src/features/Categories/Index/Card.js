@@ -34,7 +34,6 @@ const IndexListItem = styled.li`
 const Card = styled.li`
   height: 100%;
   transition: box-shadow 0.5s;
-  background-color: #213a3b;
   overflow: hidden;
   position: relative;
   will-change: transform;
@@ -63,7 +62,6 @@ const Description = styled.div`
   text-align: center;
   min-height:115px;
   text-decoration: none !important;
-  color: white;
   > *:last-child {
     margin-bottom: 0 !important;
   }
@@ -186,7 +184,7 @@ class IconSetCard extends PureComponent {
           onExit={this.onExit}
           shouldInvert={this.shouldFlip}
         >
-          <Card onClick={this.navigate}>
+          <Card className="category-explore-green" onClick={this.navigate}>
             <Flipped inverseFlipId={setKey}>
               <CardContent>
                 <IndexGrid>
@@ -202,7 +200,7 @@ class IconSetCard extends PureComponent {
                       )
                     })}
                 </IndexGrid>
-                <Description ref={el => (this.description = el)}>
+                <Description ref={el => (this.description = el)} className="category-explore-desc-white">
                   <Flipped
                     flipId={`${setKey}-title`}
                     translate

@@ -7,7 +7,6 @@ import { faArrowRight } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 const StyledTools = styled.div`
 display:flex;
-background:white;
 alignItems:right;
 justifyItems:center;
 font-size:small;
@@ -17,22 +16,20 @@ margin:0;
 const StyledParagraph = styled.p`
 display:none`
 const StyledLink = styled(Link)`
-  color: black;
   width:${props => (props.isFocused ? "100%" : "100%")};
   display: block;
   margin:2rem;
   text-decoration:none;
   height: ${props => (props.isFocused ? "100%" : "100%")};
-  background: ${props => (props.isFocused ? "white" : "transparent")};
+  background-color: ${props => (props.isFocused ? "white" : "transparent")};
   ${StyledParagraph}{
     display: ${props => (props.isFocused ? "flex" : "none")};
     text-align:left;
     font-size:small;
     padding:10px;
-    color:black;
     width:100%;
     text-decoration:none;
-    background: ${props => (props.isFocused ? "white" : "transparent")};
+    background-color: ${props => (props.isFocused ? "white" : "transparent")};
   }
   ${StyledTools}{
     display:${props => (props.isFocused ? "inline-block" : "none")};
@@ -99,7 +96,7 @@ class VideoBlock extends PureComponent {
                         </AnimatedVideoTitle>
                     </Flipped>
                 )}
-                <StyledLink
+                <StyledLink className="video-block-linkfwd-black"
                     to={`/Categorias/${set}/${ name}`}
                     isFocused={isFocused}
                 >
@@ -109,11 +106,11 @@ class VideoBlock extends PureComponent {
                             <img src={urlplay('PLAY_OVER')} style={{width:'50px', transform:'translateX(-250%)'}} />
                         </div>
                     </Flipped>
-                    <StyledParagraph>
+                    <StyledParagraph className="video-block-paragraph-white">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut felis lorem, dapibus sed sapien eget, placerat fermentum nisl. Fusce at erat justo. Duis facilisis aliquam sodales. Integer tristique arcu et enim congue dictum. Duis volutpat quam lorem, sit amet lobortis sapien posuere nec. Duis non vulputate mi, ut dignissim nibh. Sed scelerisque efficitur nunc, nec sagittis mauris ultrices non. Nam molestie facilisis tempus. Pellentesque ac aliquet magna. Vestibulum sed dapibus orci. Sed suscipit ipsum at sapien volutpat egestas.
                     &nbsp;<Link to={"/Reproduccion/"+name}><FontAwesomeIcon style={{fontSize:'large'}} icon={faArrowRight} /></Link>
                     </StyledParagraph>
-                    <StyledTools>
+                    <StyledTools className="video-block-tool-white">
                         <span style={{color:'black'}}>{generateRandom(2000)} likes <img src={urlsvg("thumbs-up-solid")} style={{width:'6%', color:'white'}} /></span>
                         <span style={{color:'black'}}>{generateRandom(2000)} favoritos <img src={urlsvg("heart-solid")} style={{width:'6%', color:'white'}} /></span>
                         <span style={{color:'black'}}>{generateRandom(2000)} comentarios <img src={urlsvg("comments-solid")} style={{width:'6%', color:'white'}} /></span>
