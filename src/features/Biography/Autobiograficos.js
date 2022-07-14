@@ -209,13 +209,13 @@ let autobiograficos = [
 ]
 
 const categorias = [
-    { description: "Movimientos Sociales", link:'/Categorias/Movimientos-Sociales/dummy', image:'/images/Art/BiograficosArt/movimientos-sociales.jpg' },
-    { description: "Movimientos Contraculturales", link:'/Categorias/Movimientos-Contraculturales/dummy',image:'/images/Art/BiograficosArt/movimientos-contraculturales.jpg' },
-    { description: "Movimientos en Defensa del Territorio", link:'/Movimientos-en-Defensa-del-Territorio/dummy',image:'/images/Art/BiograficosArt/defensa-territorio.jpg' },
-    { description: "Movimientos Urbanos y Populares", link:'/Categorias/Memoria-Movimientos-Urbanos-y-Populares/dummy',image:'/images/Art/BiograficosArt/movimientos-urbanos.jpg' },
-    { description: "Arte Urbano", link:'/Categorias/Arte-Urbano/dummy',image:'/images/Art/BiograficosArt/arte-urbano.jpg' },
-    { description: "Pueblos Originarios", link:'Categorias/Pueblos-Originarios-e-Indígenas/dummy',image:'/images/Art/BiograficosArt/pueblos-originarios.jpg' },
-    { description: "Generación Transparente", link:'/Categorias/Generación-Transparente/dummy',image:'/images/Art/BiograficosArt/generacion-transparente.jpg' }
+    { description: "Movimientos Sociales", link: '/Categorias/Movimientos-Sociales/dummy', image: '/images/Art/BiograficosArt/movimientos-sociales.jpg' },
+    { description: "Movimientos Contraculturales", link: '/Categorias/Movimientos-Contraculturales/dummy', image: '/images/Art/BiograficosArt/movimientos-contraculturales.jpg' },
+    { description: "Movimientos en Defensa del Territorio", link: '/Movimientos-en-Defensa-del-Territorio/dummy', image: '/images/Art/BiograficosArt/defensa-territorio.jpg' },
+    { description: "Movimientos Urbanos y Populares", link: '/Categorias/Memoria-Movimientos-Urbanos-y-Populares/dummy', image: '/images/Art/BiograficosArt/movimientos-urbanos.jpg' },
+    { description: "Arte Urbano", link: '/Categorias/Arte-Urbano/dummy', image: '/images/Art/BiograficosArt/arte-urbano.jpg' },
+    { description: "Pueblos Originarios", link: 'Categorias/Pueblos-Originarios-e-Indígenas/dummy', image: '/images/Art/BiograficosArt/pueblos-originarios.jpg' },
+    { description: "Generación Transparente", link: '/Categorias/Generación-Transparente/dummy', image: '/images/Art/BiograficosArt/generacion-transparente.jpg' }
 ]
 
 export const Autobiograficos = () => {
@@ -240,13 +240,16 @@ export const Autobiograficos = () => {
         }
 
     }
-    const setSearchTag = (valor)=>{
+    const setModeEdit = (parametro) => {
+        setEditing(parametro);
+    }
+    const setSearchTag = (valor) => {
         setValueSearchTag(valor);
     }
-    const filterTagsSearch=()=>{
-        if(valueSearchTag !== ''){
-            let arreglo = tags.filter(x=> x.content.includes(valueSearchTag));
-            console.log('encontrados los tagos ',arreglo);
+    const filterTagsSearch = () => {
+        if (valueSearchTag !== '') {
+            let arreglo = tags.filter(x => x.content.includes(valueSearchTag));
+            console.log('encontrados los tagos ', arreglo);
             setTags(arreglo);
         }
     }
@@ -259,17 +262,17 @@ export const Autobiograficos = () => {
         let item = biographies.filter(x => x.guid == actualRelato);
         let rest = biographies.filter(x => x.guid != actualRelato);
         let biografias = item.concat(rest);
-        biografias = biografias.map((relato, index)=>{
+        biografias = biografias.map((relato, index) => {
             relato.image = categorias[Math.floor(Math.random() * categorias.length)].image;
             return relato;
         })
         setBiographies(biografias);
-        let nuevostags = arreglotags.map((tag,indice)=>{
-            if(tag.popular){
+        let nuevostags = arreglotags.map((tag, indice) => {
+            if (tag.popular) {
                 tag.color = random_color();
             }
-            else{
-                tag.color= '';
+            else {
+                tag.color = '';
             }
             return tag;
         });
@@ -291,7 +294,7 @@ export const Autobiograficos = () => {
         let arreglo = autobiograficos.filter(x => x.tags.includes(parametro));
         setBiographies(arreglo);
     }
-    const resetAutobiograficos = ()=>{
+    const resetAutobiograficos = () => {
         let item = autobiograficos.filter(x => x.guid == actualRelato);
         let rest = autobiograficos.filter(x => x.guid != actualRelato);
         let biografias = item.concat(rest);
@@ -311,24 +314,49 @@ export const Autobiograficos = () => {
                         <>
                             <div className='autobiografico-main-menu-edit'>
                                 <div className='autobiografico-main-menu-header'>
-                                    {editing ?
-                                        <FontAwesomeIcon icon={faAngleDown}></FontAwesomeIcon>
-                                        : <FontAwesomeIcon icon={faAngleUp}></FontAwesomeIcon>
-                                    }</div>
+                                    <div className='autobiografico-main-menu'>
+                                        {!editing.editando ?
+                                            <div>
+                                                <div className='autobiografico-main-menu-entry active' onClick={(e) => setModeEdit({ podcast: esPodcast, editando: false })}>
+                                                    <span>Ver y escuchar</span>
+                                                    <button className='btn-autobiografico-menu-white'><span><FontAwesomeIcon icon={faAlignCenter}></FontAwesomeIcon></span>&nbsp;</button>
+                                                    <button className='btn-autobiografico-menu-white'><span><FontAwesomeIcon icon={faVolumeHigh}></FontAwesomeIcon></span>&nbsp;</button>
+                                                </div>
+                                                <div className='autobiografico-main-menu-entry inactive' onClick={(e) => setModeEdit({ podcast: esPodcast, editando: true })}>
+                                                    <span>Editar</span>
+                                                    <button className='btn-autobiografico-menu-white'><span><FontAwesomeIcon icon={faAlignCenter}></FontAwesomeIcon></span>&nbsp;</button>
+                                                    <button className='btn-autobiografico-menu-white'><span><FontAwesomeIcon icon={faVolumeHigh}></FontAwesomeIcon></span>&nbsp;</button>
+                                                </div>
+                                            </div> :
+                                            <div>
+                                                <div className='autobiografico-main-menu-entry inactive' onClick={(e) => setModeEdit({ podcast: esPodcast, editando: false })}>
+                                                    <span>Ver y escuchar</span>
+                                                    <button className='btn-autobiografico-menu-white'><span><FontAwesomeIcon icon={faAlignCenter}></FontAwesomeIcon></span>&nbsp;</button>
+                                                    <button className='btn-autobiografico-menu-white'><span><FontAwesomeIcon icon={faVolumeHigh}></FontAwesomeIcon></span>&nbsp;</button>
+                                                </div>
+                                                <div className='autobiografico-main-menu-entry active' onClick={(e) => setModeEdit({ podcast: esPodcast, editando: true })}>
+                                                    <span>Editar</span>
+                                                    <button className='btn-autobiografico-menu-white'><span><FontAwesomeIcon icon={faAlignCenter}></FontAwesomeIcon></span>&nbsp;</button>
+                                                    <button className='btn-autobiografico-menu-white'><span><FontAwesomeIcon icon={faVolumeHigh}></FontAwesomeIcon></span>&nbsp;</button>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
                             </div>
                             <div className='autobiografico-main-list-category' onMouseEnter={(e) => estableceTags(false)}>
                                 {
                                     categories && categories.map((cat, index) => {
                                         return <div key={index} className="autobiografico-list-cat-entry">
-                                            <Link className='white'  to={cat.link}>{cat.description}</Link>
-                                            <Link className='white'  to={cat.link}><img src={cat.image} align='right' /></Link>
+                                            <Link className='white' to={cat.link}>{cat.description}</Link>
+                                            <Link className='white' to={cat.link}><img src={cat.image} align='right' /></Link>
                                         </div>
                                     })
                                 }
                             </div>
                             <div className='autobiografico-main-list-tags'>
                                 <div className='autobiografico-main-list-tags-header'><h3>{tagViewed ? "Tags relacionados: " : "Todos los tags: "}</h3>
-                                <div className='form-input'><input type='text' onKeyUp={(e)=>setSearchTag(e.target.value)}></input><span><FontAwesomeIcon icon={faSearch} onClick={(e)=>filterTagsSearch()}></FontAwesomeIcon></span></div></div>
+                                    <div className='form-input'><input type='text' onKeyUp={(e) => setSearchTag(e.target.value)}></input><span><FontAwesomeIcon icon={faSearch} onClick={(e) => filterTagsSearch()}></FontAwesomeIcon></span></div></div>
                                 {
                                     tags && tags.map((tag, index) => {
                                         return tag.popular ?
@@ -346,14 +374,45 @@ export const Autobiograficos = () => {
                         </>
                         : <>
                             <div className='autobiografico-main-editing'>
-
+                                <div className='autobiografico-main-menu-edit'>
+                                    <div className='autobiografico-main-menu-header'>
+                                        <div className='autobiografico-main-menu'>
+                                            {!editing.editando ?
+                                                <div>
+                                                    <div className='autobiografico-main-menu-entry active' onClick={(e) => setModeEdit({ podcast: esPodcast, editando: false })}>
+                                                        <span>Ver y escuchar</span>
+                                                        <button className='btn-autobiografico-menu-white'><span><FontAwesomeIcon icon={faAlignCenter}></FontAwesomeIcon></span>&nbsp;</button>
+                                                        <button className='btn-autobiografico-menu-white'><span><FontAwesomeIcon icon={faVolumeHigh}></FontAwesomeIcon></span>&nbsp;</button>
+                                                    </div>
+                                                    <div className='autobiografico-main-menu-entry inactive' onClick={(e) => setModeEdit({ podcast: esPodcast, editando: true })}>
+                                                        <span>Editar</span>
+                                                        <button className='btn-autobiografico-menu-white'><span><FontAwesomeIcon icon={faAlignCenter}></FontAwesomeIcon></span>&nbsp;</button>
+                                                        <button className='btn-autobiografico-menu-white'><span><FontAwesomeIcon icon={faVolumeHigh}></FontAwesomeIcon></span>&nbsp;</button>
+                                                    </div>
+                                                </div> :
+                                                <div>
+                                                    <div className='autobiografico-main-menu-entry inactive' onClick={(e) => setModeEdit({ podcast: esPodcast, editando: false })}>
+                                                        <span>Ver y escuchar</span>
+                                                        <button className='btn-autobiografico-menu-white'><span><FontAwesomeIcon icon={faAlignCenter}></FontAwesomeIcon></span>&nbsp;</button>
+                                                        <button className='btn-autobiografico-menu-white'><span><FontAwesomeIcon icon={faVolumeHigh}></FontAwesomeIcon></span>&nbsp;</button>
+                                                    </div>
+                                                    <div className='autobiografico-main-menu-entry active' onClick={(e) => setModeEdit({ podcast: esPodcast, editando: true })}>
+                                                        <span>Editar</span>
+                                                        <button className='btn-autobiografico-menu-white'><span><FontAwesomeIcon icon={faAlignCenter}></FontAwesomeIcon></span>&nbsp;</button>
+                                                        <button className='btn-autobiografico-menu-white'><span><FontAwesomeIcon icon={faVolumeHigh}></FontAwesomeIcon></span>&nbsp;</button>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </>
                     }
                 </div>
                 <div className='autobiografico-main-list'>
                     <div className='autobiografico-main-menu-entries'>
-                        <button className='autobiografico-main-menu-entries-header' onClick={(e=>{resetAutobiograficos()})}>
+                        <button className='autobiografico-main-menu-entries-header' onClick={(e => { resetAutobiograficos() })}>
                             Ver todos
                         </button>
                     </div>
