@@ -585,7 +585,7 @@ Estilo de footer
   width: 25px;
   height: 25px;
   position: absolute;
-  top: 0;
+  top: 10px;
   right: 1.5em;
   transition: all .2s ease-in-out;
 }
@@ -672,7 +672,17 @@ Estilo de footer
 .autobiografico-entry-header div:nth-child(3) {
   grid-column: 3;
 }
-
+.autobiografico-list-cat-entry a:nth-child(1){
+  transition: all 1s ease-in-out;
+  display: block;
+}
+.autobiografico-list-cat-entry a:nth-child(1):hover{
+  transform:translate(30px);
+  opacity: 0.8;
+}
+.autobiografico-list-cat-entry a:nth-child(2):hover{
+  transform:scale(1.2);
+}
 .autobiografico-header-related img {
   border-radius: 50%;
   width: 65px;
