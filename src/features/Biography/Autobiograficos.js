@@ -321,7 +321,7 @@ export const Autobiograficos = () => {
                                     categories && categories.map((cat, index) => {
                                         return <div key={index} className="autobiografico-list-cat-entry">
                                             <Link className='white'  to={cat.link}>{cat.description}</Link>
-                                            <img src={cat.image} align='right' />
+                                            <Link className='white'  to={cat.link}><img src={cat.image} align='right' /></Link>
                                         </div>
                                     })
                                 }
