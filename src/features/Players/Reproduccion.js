@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react'
-import { BigPlayButton, ControlBar, LoadingSpinner, Player, PlayToggle } from 'video-react'
+import React, { useEffect, useRef, useState } from 'react'
+import { ControlBar, LoadingSpinner, Player } from 'video-react'
 import { useParams } from 'react-router-dom'
 import {
     useTransition,
@@ -19,7 +19,11 @@ import {
     faMicrophoneLines,
     faClone,
     faReply,
-    faBan
+    faBan,
+    faHeart,
+    faCalendarDays,
+    faVolumeHigh,
+    faBook
 } from "@fortawesome/free-solid-svg-icons"
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
@@ -222,7 +226,7 @@ function isInViewport(element) {
     const rect = element.getBoundingClientRect();
 
     console.log('datos de video clip ', rect.top, rect.left, rect.bottom, rect.right)
-    
+
     return rect.bottom > 0;
     // return (
     //     rect.top >= 0 &&
@@ -235,8 +239,8 @@ function isInViewportFooter(element) {
     const rect = element.getBoundingClientRect();
     const { scrollTop, offsetHeight } = document.documentElement;
     console.log('datos de video clip footer ', rect.top, rect.left, rect.bottom, rect.right)
-    console.log('limite datos de video clip footer ',Math.round(scrollTop -rect.top))
-    return Math.round(scrollTop -rect.top) > -350;
+    console.log('limite datos de video clip footer ', Math.round(scrollTop - rect.top))
+    return Math.round(scrollTop - rect.top) > -350;
     // return (
     //     rect.top >= 0 &&
     //     rect.left >= 0 &&
@@ -257,7 +261,29 @@ const mensajes = [
     { autor: "Gerardo Flores", fecha: "08/06/2022 5:47PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tempus dolor dui, at feugiat tortor efficitur sit amet. Quisque id commodo arcu. Vestibulum et nisi id urna iaculis faucibus vitae sit amet quam. Ut in lacinia tortor. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nunc porttitor odio nec massa eleifend mattis. Sed rhoncus cursus lectus a elementum. Aenean consectetur aliquam tellus, ac commodo dolor semper id. Ut congue mollis dui, at fringilla justo tempus nec. Proin et nunc id lorem pulvinar mollis. Duis eu eros at arcu luctus dapibus. Proin nec ante quis nulla accumsan varius. Aliquam quis neque at odio malesuada ultricies pharetra eget lacus. Mauris a porta neque. Pellentesque quis justo ultricies, venenatis ante in, tincidunt arcu.", propio: false }
 ]
 
+let autobiograficos = [
+    { autor: 'Gabriela Romo', fecha: new Date(2022, 6, 3).toLocaleDateString(), reciente: true, podcast: false, guid: '6006c5d85f7c417f8714496c418d58ec' },
+    { autor: 'Camila Alcantar', fecha: new Date(2022, 5, 2).toLocaleDateString(), reciente: true, podcast: true, guid: 'a7845b49f90f48e3b87578e359c821cc' },
+    { autor: 'Pedro Solis', fecha: new Date(2022, 4, 3).toLocaleDateString(), reciente: true, podcast: false, guid: 'a4d52f71f1ec429db2e8da542ec6f3d4' },
+    { autor: 'Marcelo Fernández', fecha: new Date(2022, 5, 13).toLocaleDateString(), reciente: true, podcast: false, guid: '8247c7b95aca4d2aadb5f1dfae6b4aeb' },
+    { autor: 'Gerardo Flores', fecha: new Date(2022, 6, 12).toLocaleDateString(), reciente: true, podcast: true, guid: 'c24d4188410548f881e2f3b5ae447569' },
+    { autor: 'Zosim Silva', fecha: new Date(2022, 3, 12).toLocaleDateString(), reciente: true, podcast: false, guid: 'add2fafc085d4121a4da88d351cb9e8e' },
+    { autor: 'Alexis Gutiérrez', fecha: new Date(2022, 5, 15).toLocaleDateString(), reciente: true, podcast: false, guid: 'ec5ce4499ca84760aa635745439859c6' },
+    { autor: 'Nayelli Lobato', fecha: new Date(2022, 5, 18).toLocaleDateString(), reciente: true, podcast: true, guid: '40c1c16bcd35435eb30826c890ab17fb' },
+    { autor: 'Francisco Parada', fecha: new Date(2022, 5, 22).toLocaleDateString(), reciente: true, podcast: false, guid: 'c97a8c0997d04c7d93ce31269d7441a4' },
+    { autor: 'David Yáñez', fecha: new Date(2022, 4, 29).toLocaleDateString(), reciente: true, podcast: false, guid: '9fc7db8b680642bc9c2edf55ef11ad00' },
 
+    { autor: 'Gabriela Romo', fecha: new Date(2021, 6, 13).toLocaleDateString(), reciente: false, podcast: false, guid: 'adcf2f17b6074d47ac3031d39c021e1b' },
+    { autor: 'Gerardo Flores', fecha: new Date(2021, 6, 12).toLocaleDateString(), reciente: false, podcast: true, guid: '7220e1dc01ec4aec8dedcf923a91dd8c' },
+    { autor: 'Pedro Solis', fecha: new Date(2020, 5, 3).toLocaleDateString(), reciente: false, podcast: false, guid: '5e67a5aee6694bfea6c3b26531d38811' },
+    { autor: 'Zosim Silva', fecha: new Date(2020, 6, 3).toLocaleDateString(), reciente: false, podcast: false, guid: '447335ac134445b08e9d200d06a63ca3' },
+    { autor: 'Eric del Valle', fecha: new Date(2021, 6, 3).toLocaleDateString(), reciente: false, podcast: true, guid: '9e0ff745446e4b528a7ba1fbf0857db9' },
+    { autor: 'Alexis Gutiérrez', fecha: new Date(2021, 3, 17).toLocaleDateString(), reciente: false, podcast: false, guid: 'a081d33ae8024922bab8118c60f35224' },
+    { autor: 'Ernesto Flores', fecha: new Date(2019, 2, 23).toLocaleDateString(), reciente: false, podcast: true, guid: '927fe6d4e3864f6285c5632be57b040e' },
+    { autor: 'Aaron González', fecha: new Date(2019, 6, 23).toLocaleDateString(), reciente: false, podcast: false, guid: '6ee5cfd17efd465db4ac09510ee5ceaf' },
+    { autor: 'Jesús Alejandro Lima', fecha: new Date(2021, 4, 12).toLocaleDateString(), reciente: false, podcast: true, guid: 'b523ef0eac284179a25e5e71127630df' },
+    { autor: 'Gabriela Romo', fecha: new Date(2018, 5, 13).toLocaleDateString(), reciente: false, podcast: false, guid: '98e45f888485452381c1524a52b807f3' },
+]
 
 
 
@@ -331,19 +357,37 @@ export const AutoComments = () => {
         0,
         open ? 0.1 : 0.6,
     ])
+    const [active, setActive] = useState(tabuladores[0]);
+    const [relatos, setRelatos] = useState(autobiograficos.filter(x=> x.reciente == false));
+    const handleClickOptionRelatos = (parametro)=>{
+        if(parametro == 'recientes'){
+            let elementos = autobiograficos.filter(x=> x.reciente == true);
+            setRelatos(elementos);
+        }
+        else{
+            let elementos = autobiograficos.filter(x=> x.reciente == false);
+            setRelatos(elementos);
+        }
+    }
     const handleScroll = (event) => {
         const { scrollTop, offsetHeight } = document.documentElement;
         const { innerHeight } = window;
         const bottomOfWindow = Math.round(scrollTop) + innerHeight === offsetHeight;
-        if (bottomOfWindow && items.length < 350) {
-            let item = items[Math.floor(Math.random() * items.length)];
-            items = items.concat(item);
-            setItems(items)
+        if (bottomOfWindow) {
+            if (active == tabuladores[0] && items.length < 350) {
+                let item = items[Math.floor(Math.random() * items.length)];
+                items = items.concat(item);
+                setItems(items)
+            }
+            else if (active == tabuladores[1] && autobiograficos.length < 100) {
+                let relato = autobiograficos[Math.floor(Math.random() * autobiograficos.length)];
+                autobiograficos = autobiograficos.concat(relato);
+                setRelatos(autobiograficos);
+            }
         }
         setHeightChat();
 
     }
-    const [active, setActive] = useState(tabuladores[0]);
     const estableceTab = (parameter) => {
 
         if (parameter == active) {
@@ -366,7 +410,7 @@ export const AutoComments = () => {
         const elementoFooter = document.querySelector('.footer-site');
         const footerenfocado = isInViewportFooter(elementoFooter);
         const enfocado = isInViewport(elementoVideo) || footerenfocado;
-        
+
         if (param && !enfocado) {
             setAlturaPlayerMax(!alturaPlayerMax);
             setAlturaPlayer(true);
@@ -552,7 +596,23 @@ export const AutoComments = () => {
                         ))}
                     <div className="list-bottom"></div>
                 </div>
-                <div className='scroll-list' onContextMenu={(e) => handleContextMenu(false, false)} style={estableceTab(tabuladores[1])}>Podcasts</div>
+                <div className='scroll-list' onContextMenu={(e) => handleContextMenu(false, false)} style={estableceTab(tabuladores[1])}>
+                    <div className='options-autobiograficos-reproduccion'>
+                        <button onClick={(e)=>handleClickOptionRelatos('popular')} className='autobiografico-reprod-white'>Populares<br /><FontAwesomeIcon icon={faHeart} style={{ paddingTop: '20px', display: 'inline-block' }} /></button>
+                        <button onClick={(e)=>handleClickOptionRelatos('recientes')} className='autobiografico-reprod-white'>Recientes<br /><FontAwesomeIcon icon={faCalendarDays} style={{ paddingTop: '20px', display: 'inline-block' }} /></button>
+                    </div>
+                    <div className='content-relatos-reprod'>
+                        {relatos && 
+                        relatos.map((relato, index) => {
+                            return (<div key={index}>
+                                <Link to={'/Autobiograficos/' + relato.guid + "?podcast=" + relato.podcast} className="link-relatos-reprod-white">
+                                    <p>{relato.fecha}</p>
+                                    <h4><span className='header-relato-reprod'>{relato.podcast ? <FontAwesomeIcon icon={faVolumeHigh} /> : <FontAwesomeIcon icon={faBook} />}</span>{relato.autor}</h4>
+                                </Link>
+                            </div>)
+                        })}
+                    </div>
+                </div>
                 <div className='scroll-list' onContextMenu={(e) => handleContextMenu(false, false)} style={estableceTab(tabuladores[2])}>
                     {
                         myevents.map((elem, index) => {
