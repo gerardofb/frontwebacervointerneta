@@ -225,8 +225,10 @@ export const Autobiograficos = () => {
     const esPodcast = new URLSearchParams(location.search).get('podcast');
     const [categories, setCategories] = useState(categorias);
     const [editing, setEditing] = useState({ podcast: esPodcast, editando: false });
+    const [collapsed, setCollapsed] = useState(false);
     const [tags, setTags] = useState(arreglotags);
     const [biographies, setBiographies] = useState(autobiograficos);
+    const [solopodcasts, setSolopodcats] = useState('');
     const referenciaScroll = useRef();
     const [tagViewed, setTagViewed] = useState(false);
     const [valueSearchTag, setValueSearchTag] = useState('');
@@ -239,6 +241,19 @@ export const Autobiograficos = () => {
             setTags(items);
         }
 
+    }
+    const btnTipoAutobiograficoClick = (parametro)=>{
+        setSolopodcats(parametro);
+        if(parametro === 'PODCASTS'){
+            let nuevospodcasts = autobiograficos.filter(x=> x.podcast === true);
+            console.log('estableciendo filtro relatos ',nuevospodcasts);
+            setBiographies(nuevospodcasts);
+        }
+        else if(parametro === 'RELATOS'){
+            let nuevosrelatos = autobiograficos.filter(x=> !x.podcast);
+            console.log('estableciendo filtro relatos ',nuevosrelatos);
+            setBiographies(nuevosrelatos);
+        }
     }
     const setModeEdit = (parametro) => {
         setEditing(parametro);
@@ -277,6 +292,7 @@ export const Autobiograficos = () => {
             return tag;
         });
         setTags(tags);
+        setSolopodcats('');
     }, [location]);
     const estableceTags = (parametro) => {
         if (parametro) {
@@ -300,7 +316,7 @@ export const Autobiograficos = () => {
         let biografias = item.concat(rest);
         setBiographies(biografias);
     }
-
+    const clasecolapsed = collapsed ? ['autobiografico-main-list-category-collapsed', 'autobiografico-main-list-tags-full'] : ['autobiografico-main-list-category', 'autobiografico-main-list-tags'];
     return (
         <div>
             <div style={{ backgroundColor: 'black', height: '100px' }}>
@@ -310,6 +326,12 @@ export const Autobiograficos = () => {
 
             <div className='autobiografico-main-green'>
                 <div className='autobiografico-main-category'>
+                    <div className='autobiografico-menu-collapsible'>
+                        <span onClick={(e)=>setCollapsed(!collapsed)} title="Colapsar categorías">{
+                            collapsed?<FontAwesomeIcon icon={faAngleDown} />
+                            : <FontAwesomeIcon icon={faAngleUp} />
+                        }</span>
+                    </div>
                     {!editing.editando ?
                         <>
                             <div className='autobiografico-main-menu-edit'>
@@ -319,8 +341,8 @@ export const Autobiograficos = () => {
                                             <div>
                                                 <div className='autobiografico-main-menu-entry active' onClick={(e) => setModeEdit({ podcast: esPodcast, editando: false })}>
                                                     <span>Ver y escuchar</span>
-                                                    <button className='btn-autobiografico-menu-white' title='Relatos autobiográficos'><span><FontAwesomeIcon icon={faAlignCenter}></FontAwesomeIcon></span>&nbsp;</button>
-                                                    <button className='btn-autobiografico-menu-white' title='Podcasts'><span><FontAwesomeIcon icon={faVolumeHigh}></FontAwesomeIcon></span>&nbsp;</button>
+                                                    <button className='btn-autobiografico-menu-white' onClick={(e)=>{btnTipoAutobiograficoClick('RELATOS')}} title='Relatos autobiográficos'><span><FontAwesomeIcon icon={faAlignCenter}></FontAwesomeIcon></span>&nbsp;</button>
+                                                    <button className='btn-autobiografico-menu-white' onClick={(e)=>{btnTipoAutobiograficoClick('PODCASTS')}} title='Podcasts'><span><FontAwesomeIcon icon={faVolumeHigh}></FontAwesomeIcon></span>&nbsp;</button>
                                                 </div>
                                                 <div className='autobiografico-main-menu-entry inactive' onClick={(e) => setModeEdit({ podcast: esPodcast, editando: true })}>
                                                     <span>Editar</span>
@@ -336,15 +358,15 @@ export const Autobiograficos = () => {
                                                 </div>
                                                 <div className='autobiografico-main-menu-entry active' onClick={(e) => setModeEdit({ podcast: esPodcast, editando: true })}>
                                                     <span>Editar</span>
-                                                    <button className='btn-autobiografico-menu-white' title='Relatos autobiográficos'><span><FontAwesomeIcon icon={faAlignCenter}></FontAwesomeIcon></span>&nbsp;</button>
-                                                    <button className='btn-autobiografico-menu-white' title='Podcasts'><span><FontAwesomeIcon icon={faVolumeHigh}></FontAwesomeIcon></span>&nbsp;</button>
+                                                    <button className='btn-autobiografico-menu-white' onClick={(e)=>{btnTipoAutobiograficoClick('RELATOS')}} title='Relatos autobiográficos'><span><FontAwesomeIcon icon={faAlignCenter}></FontAwesomeIcon></span>&nbsp;</button>
+                                                    <button className='btn-autobiografico-menu-white' onClick={(e)=>{btnTipoAutobiograficoClick('PODCASTS')}} title='Podcasts'><span><FontAwesomeIcon icon={faVolumeHigh}></FontAwesomeIcon></span>&nbsp;</button>
                                                 </div>
                                             </div>
                                         }
                                     </div>
                                 </div>
                             </div>
-                            <div className='autobiografico-main-list-category' onMouseEnter={(e) => estableceTags(false)}>
+                            <div className={clasecolapsed[0]} onMouseEnter={(e) => estableceTags(false)}>
                                 {
                                     categories && categories.map((cat, index) => {
                                         return <div key={index} className="autobiografico-list-cat-entry">
@@ -354,7 +376,7 @@ export const Autobiograficos = () => {
                                     })
                                 }
                             </div>
-                            <div className='autobiografico-main-list-tags'>
+                            <div className={clasecolapsed[1]}>
                                 <div className='autobiografico-main-list-tags-header'><h3>{tagViewed ? "Tags relacionados: " : "Todos los tags: "}</h3>
                                     <div className='form-input'><input type='text' onKeyUp={(e) => setSearchTag(e.target.value)}></input><span><FontAwesomeIcon icon={faSearch} onClick={(e) => filterTagsSearch()}></FontAwesomeIcon></span></div></div>
                                 {
@@ -381,8 +403,8 @@ export const Autobiograficos = () => {
                                                 <div>
                                                     <div className='autobiografico-main-menu-entry active' onClick={(e) => setModeEdit({ podcast: esPodcast, editando: false })}>
                                                         <span>Ver y escuchar</span>
-                                                        <button className='btn-autobiografico-menu-white' title='Relatos autobiográficos'><span><FontAwesomeIcon icon={faAlignCenter}></FontAwesomeIcon></span>&nbsp;</button>
-                                                        <button className='btn-autobiografico-menu-white' title='Podcasts'><span><FontAwesomeIcon icon={faVolumeHigh}></FontAwesomeIcon></span>&nbsp;</button>
+                                                        <button className='btn-autobiografico-menu-white' onClick={(e)=>{btnTipoAutobiograficoClick('RELATOS')}} title='Relatos autobiográficos'><span><FontAwesomeIcon icon={faAlignCenter}></FontAwesomeIcon></span>&nbsp;</button>
+                                                        <button className='btn-autobiografico-menu-white' onClick={(e)=>{btnTipoAutobiograficoClick('PODCASTS')}} title='Podcasts'><span><FontAwesomeIcon icon={faVolumeHigh}></FontAwesomeIcon></span>&nbsp;</button>
                                                     </div>
                                                     <div className='autobiografico-main-menu-entry inactive' onClick={(e) => setModeEdit({ podcast: esPodcast, editando: true })}>
                                                         <span>Editar</span>
@@ -398,8 +420,8 @@ export const Autobiograficos = () => {
                                                     </div>
                                                     <div className='autobiografico-main-menu-entry active' onClick={(e) => setModeEdit({ podcast: esPodcast, editando: true })}>
                                                         <span>Editar</span>
-                                                        <button className='btn-autobiografico-menu-white' title='Relatos autobiográficos'><span><FontAwesomeIcon icon={faAlignCenter}></FontAwesomeIcon></span>&nbsp;</button>
-                                                        <button className='btn-autobiografico-menu-white' title='Podcasts'><span><FontAwesomeIcon icon={faVolumeHigh}></FontAwesomeIcon></span>&nbsp;</button>
+                                                        <button className='btn-autobiografico-menu-white' onClick={(e)=>{btnTipoAutobiograficoClick('RELATOS')}} title='Relatos autobiográficos'><span><FontAwesomeIcon icon={faAlignCenter}></FontAwesomeIcon></span>&nbsp;</button>
+                                                        <button className='btn-autobiografico-menu-white' onClick={(e)=>{btnTipoAutobiograficoClick('PODCASTS')}} title='Podcasts'><span><FontAwesomeIcon icon={faVolumeHigh}></FontAwesomeIcon></span>&nbsp;</button>
                                                     </div>
                                                 </div>
                                             }
