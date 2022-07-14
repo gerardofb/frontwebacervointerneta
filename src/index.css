@@ -756,7 +756,9 @@ Estilo de footer
   display: grid;
   grid-template-columns: auto auto;
 }
-
+.autobiografico-main-menu-entry.inactive{
+ transition: all .5s ease-in-out;
+}
 .autobiografico-main-menu div .autobiografico-main-menu-entry:nth-child(1) {
   grid-column: 1;
   display: grid;
@@ -779,8 +781,15 @@ Estilo de footer
   color: white;
   box-shadow: 0px 3px white;
   float: left;
+  transition:all 1s ease-in-out;
 }
-
+.autobiografico-main-menu .autobiografico-main-menu-entry button:hover{
+  transform:scale(1.15);
+  box-shadow: none;
+}
+.autobiografico-main-editing{
+  min-height: 640px;
+}
 .autobiografico-main-menu .autobiografico-main-menu-entry span {
   margin-right: 3rem;
 }
@@ -793,6 +802,11 @@ Estilo de footer
 .autobiografico-main-menu-signal {
   margin-top: -50px;
   max-width: 45px;
+}
+
+.autobiografico-main-menu-entry.inactive:hover{
+  opacity: 0.7;
+  transform:translate(-20px)
 }
 
 .autobiografico-main-menu-entry.active {
