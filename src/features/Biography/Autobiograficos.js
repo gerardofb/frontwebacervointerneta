@@ -211,10 +211,10 @@ let autobiograficos = [
 const categorias = [
     { description: "Movimientos Sociales", link: '/Categorias/Movimientos-Sociales/dummy', image: '/images/Art/BiograficosArt/movimientos-sociales.jpg' },
     { description: "Movimientos Contraculturales", link: '/Categorias/Movimientos-Contraculturales/dummy', image: '/images/Art/BiograficosArt/movimientos-contraculturales.jpg' },
-    { description: "Movimientos en Defensa del Territorio", link: '/Movimientos-en-Defensa-del-Territorio/dummy', image: '/images/Art/BiograficosArt/defensa-territorio.jpg' },
+    { description: "Movimientos en Defensa del Territorio", link: '/Categorias/Movimientos-en-Defensa-del-Territorio/dummy', image: '/images/Art/BiograficosArt/defensa-territorio.jpg' },
     { description: "Movimientos Urbanos y Populares", link: '/Categorias/Memoria-Movimientos-Urbanos-y-Populares/dummy', image: '/images/Art/BiograficosArt/movimientos-urbanos.jpg' },
     { description: "Arte Urbano", link: '/Categorias/Arte-Urbano/dummy', image: '/images/Art/BiograficosArt/arte-urbano.jpg' },
-    { description: "Pueblos Originarios", link: 'Categorias/Pueblos-Originarios-e-Indígenas/dummy', image: '/images/Art/BiograficosArt/pueblos-originarios.jpg' },
+    { description: "Pueblos Originarios", link: '/Categorias/Pueblos-Originarios-e-Indígenas/dummy', image: '/images/Art/BiograficosArt/pueblos-originarios.jpg' },
     { description: "Generación Transparente", link: '/Categorias/Generación-Transparente/dummy', image: '/images/Art/BiograficosArt/generacion-transparente.jpg' }
 ]
 
@@ -371,7 +371,7 @@ export const Autobiograficos = () => {
                                     categories && categories.map((cat, index) => {
                                         return <div key={index} className="autobiografico-list-cat-entry">
                                             <Link className='white' to={cat.link}>{cat.description}</Link>
-                                            <Link className='white' to={cat.link}><img src={cat.image} align='right' /></Link>
+                                            <Link className='white cat-miniature' to={cat.link}><img src={cat.image} align='right' /></Link>
                                         </div>
                                     })
                                 }

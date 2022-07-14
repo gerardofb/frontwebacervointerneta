@@ -25,20 +25,20 @@ const HomeFooter = (props)=>{
                 </li>
 
             </ul>
-            <ul className='footer-list-red' style={{float:'left', margin:'3%', listStyle:'none', textAlign:'left'}}>
+            <ul className='footer-list-red' style={{float:'left', margin:'3%', listStyle:'none', textAlign:'left', color:'red'}}>
                 <li>
                 <h3 style={{borderBottom:'2px red solid'}}>
                     Eventos
                 </h3>
                 </li>
-                <li style={{fontSize:'small'}}>
+                <li style={{fontSize:'small', color:'red'}}>
                     Suscribirse
                 </li>
             </ul>
-            <ul className='footer-list-red' style={{float:'left', margin:'3%', listStyle:'none', textAlign:'left'}}>
+            <ul className='footer-list-red' style={{float:'left', margin:'3%', listStyle:'none', textAlign:'left', color:'red'}}>
                 <li>
                 <h3 style={{borderBottom:'2px red solid'}}>
-                    Listas de reproducción
+                    Categorías
                 </h3>
                 </li>
                 <li style={{fontSize:'small'}}>
@@ -51,7 +51,7 @@ const HomeFooter = (props)=>{
                     Autobiográficos
                 </li>
             </ul>
-            <ul className='footer-list-red' style={{float:'left', margin:'3%', listStyle:'none', textAlign:'left'}}>
+            <ul className='footer-list-red' style={{float:'left', margin:'3%', listStyle:'none', textAlign:'left', color:'red'}}>
                 <li>
                 <h3 style={{borderBottom:'2px red solid'}}>
                     Salas de chat
