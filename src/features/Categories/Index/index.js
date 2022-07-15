@@ -21,7 +21,6 @@ import { Contents } from "../BaseComponents"
 import videos from "../videosCategorized"
 import { HomeFooter } from "../../HomeFooter"
 import NavBar from "../../NavBar"
-import SearchBar from "../../SearchBar"
 import VideoSetPage from '../VideoSetPage'
 
 const defaultState = {
@@ -94,7 +93,6 @@ class IndexPage extends Component {
           <Parallax.Layer offset={0} speed={0}>
             <div style={{ backgroundColor: 'transparent', display: 'block', height:'100px' }}>
               <NavBar></NavBar>
-              <SearchBar style={{ width: '60%' }}></SearchBar>
             </div>
           </Parallax.Layer>
           <Parallax.Layer

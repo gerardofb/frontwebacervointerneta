@@ -15,7 +15,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons"
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
-import SearchBar from '../SearchBar';
 import NavBar from '../NavBar';
 import { HomeFooter } from '../HomeFooter';
 
@@ -321,7 +320,6 @@ export const Autobiograficos = () => {
         <div>
             <div style={{ backgroundColor: 'black', height: '100px' }}>
                 <NavBar></NavBar>
-                <SearchBar style={{ width: '60%' }}></SearchBar>
             </div>
 
             <div className='autobiografico-main-green'>

@@ -8,8 +8,6 @@ import { Route, Link, BrowserRouter, Switch } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import styled from "styled-components";
 import VideoSetPage from './features/Categories/VideoSetPage';
-import NavBar from './features/NavBar'
-import SearchBar from "./features/SearchBar"
 import { AutoComments } from './features/Players/Reproduccion';
 import { Autobiograficos } from './features/Biography/Autobiograficos';
 const FlexContents = styled(Contents)`

@@ -9,7 +9,6 @@ import anime from "animejs"
 import videos from '../videosCategorized'
 import { Contents } from "../BaseComponents"
 import VideoBlock from "./VideoBlock"
-import SearchBar from '../../SearchBar';
 import NavBar from '../../NavBar';
 import { HomeFooter } from "../../HomeFooter"
 
@@ -96,7 +95,6 @@ function VideoSetPage({
         <div>
             <div className="navbar-principal-black" style={{ zIndex:'1', height:'100px', display:'block' }}>
                 <NavBar style={{marginRight:'40%'}}></NavBar>
-                <SearchBar style={{ width: '60%' }}></SearchBar>
             </div>
             <Flipped
                 flipId={set}

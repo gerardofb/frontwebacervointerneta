@@ -4,7 +4,6 @@ import { BigPlayButton, ControlBar, LoadingSpinner, Player, PlayToggle } from 'v
 import { HomeCategories } from './HomeCategories';
 import { HomeTags } from './HomeTags';
 import { HomeFooter } from './HomeFooter';
-import SearchBar from './SearchBar';
 import NavBar from './NavBar';
 
 const url = (name, wrap = false) => `${wrap ? 'url(' : ''}images/${name}.svg${wrap ? ')' : ''}`
@@ -49,7 +48,6 @@ export class Home extends React.Component {
                     <Parallax.Layer offset={0} speed={0} style={{ display: 'block', backgroundColor: 'black' }}>
                         <div style={{ backgroundColor: 'black', height:'100px' }}>
                             <NavBar></NavBar>
-                            <SearchBar style={{ width: '60%' }}></SearchBar>
                         </div>
                     </Parallax.Layer>
                     <Parallax.Layer offset={0.2} speed={0} style={{ display: 'flex', marginBottom: '50px' }}>

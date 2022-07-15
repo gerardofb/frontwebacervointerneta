@@ -27,7 +27,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons"
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
-import SearchBar from '../SearchBar';
 import NavBar from '../NavBar';
 import ContextMenu from '../ContextMenu';
 import { HomeFooter } from '../HomeFooter';
@@ -531,7 +530,6 @@ export const AutoComments = () => {
             }
             <div style={{ backgroundColor: 'black', height: '100px' }} onContextMenu={(e) => handleContextMenu(false, false)}>
                 <NavBar></NavBar>
-                <SearchBar style={{ width: '60%' }}></SearchBar>
             </div>
             <h2 onContextMenu={(e) => handleContextMenu(false, false)}>
                 Reproduciendo: {titulo}
