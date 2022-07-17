@@ -32,8 +32,6 @@ const NavBar = (props) => {
     return (
         <>
         <div className={styles.NavbarPrincipal}><Link to='/'><img src={url('logo_blanco_interneta')} style={{ height: '100px', float: 'left' }} /><h2 style={{ float: 'left', color: 'white' }}>Acervo Audiovisual Interneta</h2></Link>
-        <div className={styles.ControlTematicoBtn}><button onMouseEnter={(e => setShowTemas(true))}
-            title='control temático del sitio'><FontAwesomeIcon icon={faGamepad} /></button></div><SearchBar></SearchBar></div>
         <div className='container-tematica'>
             <div className={!showTemas ? 'tematica-sitio tematica-hidden' : 'tematica-sitio tematica-show'}>
                 <div className='close-tematica'><FontAwesomeIcon icon={faXmark} onClick={(e) => setShowTemas(false)} /></div>
@@ -52,6 +50,9 @@ const NavBar = (props) => {
                 </div>
             </div>
         </div>
+        <div className={styles.ControlTematicoBtn}><button onMouseEnter={(e => setShowTemas(true))}
+            title='control temático del sitio'><FontAwesomeIcon icon={faGamepad} /></button></div><SearchBar></SearchBar></div>
+        
         </>
     )
 }
