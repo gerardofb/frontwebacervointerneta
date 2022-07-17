@@ -70,7 +70,7 @@ export class Home extends React.Component {
                     <Parallax.Layer offset={1.4} speed={0} style={{ display: 'flex' }}>
                         <HomeCategories></HomeCategories>
                     </Parallax.Layer>
-                    <Parallax.Layer offset={2.5} speed={0} style={{ display: 'flex' }}>
+                    <Parallax.Layer offset={2.5} speed={0} style={{ display: 'flex', marginBottom:'2em' }}>
                         <HomeTags></HomeTags>
                     </Parallax.Layer>
                     <Parallax.Layer offset={3.3} speed={0} style={{ display: 'flex' }}>

@@ -164,7 +164,7 @@ const HomeTags = (props) => {
                 <ul style={{ listStyle: 'none', float: 'left', margin: 'auto' }}>
                     {
 
-                        arreglotags.filter((e, i) => i < 25).map(function (el, index) {
+                        arreglotags.filter((e, i) => i < 20).map(function (el, index) {
                             return <li key={index}>
                                 <div style={{ width: '20px', height: '20px', borderRadius: '3px', backgroundColor: random_color(), float: 'left' }}>
                                 </div>
@@ -179,7 +179,7 @@ const HomeTags = (props) => {
                 <ul style={{ listStyle: 'none', float: 'left', margin: 'auto' }}>
                     {
 
-                        arreglotags.filter((e, i) => i > 25 && i < 50).map(function (el, index) {
+                        arreglotags.filter((e, i) => i > 20 && i < 41).map(function (el, index) {
                             return <li key={index}>
                                 <div style={{ width: '20px', height: '20px', borderRadius: '3px', backgroundColor: random_color(), float: 'left' }}>
                                 </div>
@@ -194,7 +194,7 @@ const HomeTags = (props) => {
                 <ul style={{ listStyle: 'none', float: 'left', margin: 'auto' }}>
                     {
 
-                        arreglotags.filter((e, i) => i > 50 && i < 75).map(function (el, index) {
+                        arreglotags.filter((e, i) => i > 41 && i < 62).map(function (el, index) {
                             return <li key={index}>
                                 <div style={{ width: '20px', height: '20px', borderRadius: '3px', backgroundColor: random_color(), float: 'left' }}>
                                 </div>
@@ -209,7 +209,7 @@ const HomeTags = (props) => {
                 <ul style={{ listStyle: 'none', float: 'left', margin: 'auto' }}>
                     {
 
-                        arreglotags.filter((e, i) => i > 75 && i < 100).map(function (el, index) {
+                        arreglotags.filter((e, i) => i > 62 && i < 81).map(function (el, index) {
                             return <li key={index}>
                                 <div style={{ width: '20px', height: '20px', borderRadius: '3px', backgroundColor: random_color(), float: 'left' }}>
                                 </div>

@@ -364,7 +364,7 @@ Estilos temáticos
   float: 'left';
   display: grid;
   position: relative;
-  grid-template-columns: .5fr .5fr .1fr .5fr;
+  grid-template-columns: .5fr .4fr .2fr .5fr;
   min-height: 115px;
   padding-bottom:.3em;
 }
@@ -604,9 +604,26 @@ Estilo de footer
   grid-column: 2;
   max-width: 280px;
 }
+@media screen and (max-width: 1260px){
+  .container-tematica{
+    display:none;
+  }
+  .header-control-temas-aesthetic{
+    display: none;
+  }
+  .header-control-temas-basic{
+    display: none;
+  }
+}
+@media screen and (max-width:900px) {
+  .navbar-principal h2{
+    display:none;
+  }
+
+}
 .tematica-sitio{
-  margin-left:60%;
   min-width:200px;
+  margin-left: 20%;
   min-height: 120px;
   background-color: white;
   color:black;
