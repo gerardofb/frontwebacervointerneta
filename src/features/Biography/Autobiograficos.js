@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import * as ReactDOM from 'react-dom'
 import { useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -17,6 +17,7 @@ import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import NavBar from '../NavBar';
 import { HomeFooter } from '../HomeFooter';
+import {ThemesContext} from '../../ThemeProvider'
 
 function random_color() {
     var letters = '0123456789ABCDEF'.split('');
@@ -231,6 +232,7 @@ export const Autobiograficos = () => {
     const referenciaScroll = useRef();
     const [tagViewed, setTagViewed] = useState(false);
     const [valueSearchTag, setValueSearchTag] = useState('');
+    const {styles} = useContext(ThemesContext);
     const handleScroll = (e) => {
         const bottom = Math.round(e.target.scrollHeight - e.target.scrollTop) === e.target.clientHeight;
         console.log('en scroll ', Math.round(e.target.scrollHeight - e.target.scrollTop), e.target.clientHeight);
@@ -322,7 +324,7 @@ export const Autobiograficos = () => {
                 <NavBar></NavBar>
             </div>
 
-            <div className='autobiografico-main-green'>
+            <div className={styles.AutoBiograficoMain}>
                 <div className='autobiografico-main-category'>
                     <div className='autobiografico-menu-collapsible'>
                         <span onClick={(e)=>setCollapsed(!collapsed)} title="Colapsar categorías">{

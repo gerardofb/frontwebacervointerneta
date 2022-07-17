@@ -6,6 +6,8 @@ import anime from "animejs"
 import { BaseGridList } from "../BaseComponents"
 import { CardGrid } from "./Components"
 import VideoBaseStyles from "../VideoBaseStyles"
+import { ThemesContext } from "../../../ThemeProvider"
+
 // using CSS inheritance here to allow the use of PureComponents
 // for better performance
 const IndexGrid = styled(BaseGridList)`
@@ -173,7 +175,9 @@ class IconSetCard extends PureComponent {
     }
   
     render() {
-      const { setKey, videos, iconCount } = this.props
+      const { setKey, videos, iconCount } = this.props;
+      const {styles} = this.context;
+
       return (
         <Flipped
           flipId={setKey}
@@ -184,7 +188,7 @@ class IconSetCard extends PureComponent {
           onExit={this.onExit}
           shouldInvert={this.shouldFlip}
         >
-          <Card className="category-explore-green" onClick={this.navigate}>
+          <Card className={styles.CategoryCard} onClick={this.navigate}>
             <Flipped inverseFlipId={setKey}>
               <CardContent>
                 <IndexGrid>
@@ -238,5 +242,5 @@ class IconSetCard extends PureComponent {
       )
     }
   }
-  
+  IconSetCard.contextType = ThemesContext;
   export default IconSetCard

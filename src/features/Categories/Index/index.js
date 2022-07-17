@@ -22,6 +22,7 @@ import videos from "../videosCategorized"
 import { HomeFooter } from "../../HomeFooter"
 import NavBar from "../../NavBar"
 import VideoSetPage from '../VideoSetPage'
+import { ThemesContext } from "../../../ThemeProvider"
 
 const defaultState = {
   filter: "",
@@ -68,6 +69,7 @@ class IndexPage extends Component {
   }
 
   render() {
+    const {styles} = this.context;
     const focusedSet = this.props.location.pathname.split(/\//g)[1]
 
     const queryParamState = {
@@ -85,7 +87,7 @@ class IndexPage extends Component {
     )
     return (
       <Parallax
-        style={{ backgroundColor: "#274546" }}
+        className={styles.MainBodyCategory}
         ref={ref => this.parallax = ref}
         pages={2}
         scrolling={true}>
@@ -100,14 +102,14 @@ class IndexPage extends Component {
             offset={0.1} speed={1} factor={4}
             style={{ backgroundImage: url('stars', true), backgroundSize: 'cover' }}
           ></Parallax.Layer>
-          <Parallax.Layer offset={0.15} speed={1} style={{ backgroundImage: url('stars', true), backgroundSize: 'cover' }} className='first-layer-category' />
-          <Parallax.Layer offset={0.5} speed={3} style={{ backgroundImage: url('stars', true), backgroundSize: 'cover' }} className='second-layer-category'>
+          <Parallax.Layer offset={0.15} speed={1} style={{ backgroundImage: url('stars', true), backgroundSize: 'cover' }} className={styles.FirstLayerCategory} />
+          <Parallax.Layer offset={0.5} speed={3} style={{ backgroundImage: url('stars', true), backgroundSize: 'cover' }} className={styles.SecondLayerCategory}>
           </Parallax.Layer>
-          <Parallax.Layer offset={0.8} speed={3} style={{ backgroundImage: url('stars', true), backgroundSize: 'cover' }} className='third-layer-category'>
+          <Parallax.Layer offset={0.8} speed={3} style={{ backgroundImage: url('stars', true), backgroundSize: 'cover' }} className={styles.ThirdLayerCategory}>
             <img alt='fondo' src={urlpng('white_art_tatoo_gecko')} style={{ display: 'block', width: '20%', marginLeft: '55%', opacity: '60%' }} />
           </Parallax.Layer>
-          <Parallax.Layer offset={0.9} speed={2} style={{ backgroundImage: url('stars', true), backgroundSize: 'cover' }} className='fourth-layer-category' />
-          <Parallax.Layer offset={0.9} speed={1} style={{ backgroundImage: url('stars', true), backgroundSize: 'cover' }} className='fifth-layer-category'>
+          <Parallax.Layer offset={0.9} speed={2} style={{ backgroundImage: url('stars', true), backgroundSize: 'cover' }} className={styles.FourthLayerCategory} />
+          <Parallax.Layer offset={0.9} speed={1} style={{ backgroundImage: url('stars', true), backgroundSize: 'cover' }} className={styles.FifthLayerCategory}>
             <img alt='fondo' src={urlpng('white_art_tatoo_feather')} style={{ display: 'block', width: '50%', marginLeft: '65%', marginTop: '50%', opacity: '60%' }} />
           </Parallax.Layer>
           <Parallax.Layer offset={0.15} speed={0}>
@@ -176,5 +178,5 @@ class IndexPage extends Component {
     )
   }
 }
-
+IndexPage.contextType = ThemesContext;
 export default withRouter(IndexPage)

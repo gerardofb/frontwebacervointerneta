@@ -1,4 +1,4 @@
-import React, { useRef } from "react"
+import React, { useContext } from "react"
 import { Link } from "react-router-dom"
 import styled from "styled-components"
 import { Flipped } from "react-flip-toolkit"
@@ -9,8 +9,9 @@ import anime from "animejs"
 import videos from '../videosCategorized'
 import { Contents } from "../BaseComponents"
 import VideoBlock from "./VideoBlock"
-import NavBar from '../../NavBar';
+import StaticNavBar from '../StaticNavbar';
 import { HomeFooter } from "../../HomeFooter"
+import { ThemesContext } from "../../../ThemeProvider"
 
 const VideoSetGrid = styled.ul`
   display: grid;
@@ -93,8 +94,8 @@ function VideoSetPage({
 }) {
     return (
         <div>
-            <div className="navbar-principal-black" style={{ zIndex:'1', height:'100px', display:'block' }}>
-                <NavBar style={{marginRight:'40%'}}></NavBar>
+            <div style={{ zIndex:'1', height:'100px', display:'block' }}>
+                <StaticNavBar style={{marginRight:'40%'}}></StaticNavBar>
             </div>
             <Flipped
                 flipId={set}

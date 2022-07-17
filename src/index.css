@@ -13,9 +13,7 @@ code {
 }
 
 
-.bodyHome {
-  background-color: #253237;
-}
+
 
 /*
 Estilos de la reproducción individual de videos
@@ -355,6 +353,12 @@ Estilos de los eventos en la reproducción individual de video
 /*
 Estilos temáticos
 */
+.bodyHome-basic {
+  background-color: #253237;
+}
+.bodyHome-aesthetic {
+  background-color: #66545e;
+}
 .navbar-principal {
   width: '40%';
   float: 'left';
@@ -362,9 +366,14 @@ Estilos temáticos
   position: relative;
   grid-template-columns: .9fr .1fr .5fr;
 }
-
+.navbar-principal-static {
+  background-color: black;
+}
 .navbar-principal-basic {
   background-color: #253237
+}
+.navbar-principal-aesthetic{
+  background-color: #66545e;
 }
 .navbar-principal h2{
   position: absolute;
@@ -385,11 +394,32 @@ Estilos temáticos
   top:5px;
   right: 5px;
 }
+.search-bar-main-static {
+  background: black;
+  max-width: 40%;
+  position: absolute;
+  top:5px;
+  right: 5px;
+}
 .search-bar-main p{
   text-align: right;
 }
 .search-bar-main-icon-basic{
   background-color: #253237;
+}
+.search-bar-main-icon-aesthetic{
+  background-color: #66545e;
+}
+
+.search-bar-main-icon-static{
+  background-color: black;
+}
+.search-bar-main-aesthetic {
+  background: #66545e;
+  max-width: 40%;
+  position: absolute;
+  top:5px;
+  right: 5px;
 }
 
 /*
@@ -435,44 +465,86 @@ Estilo de footer
   background-color: #528c00;
 }
 
-.first-layer-home {
+.first-layer-home-basic {
   background-color: #7291d8;
 }
 
-.second-layer-home {
+.second-layer-home-basic {
   background-color: #1f3871;
 }
 
-.third-layer-home {
+.third-layer-home-basic {
   background-color: #eaeff9;
 }
 
-.first-layer-category {
+.first-layer-home-aesthetic {
+  background-color: #eea990;
+}
+
+.second-layer-home-aesthetic {
+  background-color: #eea990;
+}
+
+.third-layer-home-aesthetic {
+  background-color: #aa6f73;
+}
+
+.main-body-categories-basic{
+  background-color: #274546;
+}
+.main-body-categories-aesthetic{
+  background-color: #66545e;
+}
+
+.first-layer-category-basic {
   background-color: #c2dcdd;
 }
 
-.second-layer-category {
+.second-layer-category-basic {
   background-color: #a1c9cb;
 }
 
-.third-layer-category {
+.third-layer-category-basic {
   background-color: #5fa3a7;
 }
 
-.fourth-layer-category {
+.fourth-layer-category-basic {
   background-color: #5fa3a7;
 }
 
-.fifth-layer-category {
+.fifth-layer-category-basic {
   background-color: #274546;
+}
+
+.first-layer-category-aesthetic {
+  background-color: #fcf3e2;
+}
+
+.second-layer-category-aesthetic {
+  background-color: #f6e0b5;
+}
+
+.third-layer-category-aesthetic {
+  background-color: #f5cbbc;
+}
+
+.fourth-layer-category-aesthetic {
+  background-color: #eea990;
+}
+
+.fifth-layer-category-aesthetic {
+  background-color: #66545e;
 }
 
 .video-set-white {
   background-color: white;
 }
 
-.category-explore-green {
+.category-cards-basic {
   background-color: #213a3b;
+}
+.category-cards-aesthetic {
+  background-color: #4b3f40;
 }
 
 .category-explore-desc-white {
@@ -517,6 +589,16 @@ Estilo de footer
   text-align: right;
   margin-top:.7rem;
 }
+.header-control-temas-aesthetic button {
+  border: none;
+  outline: none;
+  color:white;
+  background-color: #66545e;
+  width: 30px;
+  font-size: x-large;
+  text-align: right;
+  margin-top:.7rem;
+}
 .container-tematica{
   position: relative;
   grid-column: 2;
@@ -534,8 +616,8 @@ Estilo de footer
 .tematica-sitio.tematica-show{
   display: block;
   position: absolute;
-  left:55.5%;
-  bottom: -70px;
+  left:43.5%;
+  bottom: -20px;
   z-index: 99999;
   background-color: white;
   height: 120px;
@@ -578,7 +660,15 @@ Estilo de footer
 /*
 Pagina autobiograficos
 */
-.options-autobiograficos-reproduccion {
+.options-autobiograficos-reproduccion-basic {
+  display: grid;
+  grid-template-columns: auto auto;
+  overflow: hidden;
+  position: relative;
+  min-height: 70px;
+  width: 97%;
+}
+.options-autobiograficos-reproduccion-aesthetic {
   display: grid;
   grid-template-columns: auto auto;
   overflow: hidden;
@@ -587,8 +677,19 @@ Pagina autobiograficos
   width: 97%;
 }
 
-.options-autobiograficos-reproduccion button.autobiografico-reprod-white {
-  background-color: wheat;
+.options-autobiograficos-reproduccion-basic button.autobiografico-reprod-white {
+  background-color: #b5c5eb;
+  color: #2c3e50;
+  border: none;
+  width: 100%;
+  height: 60px;
+  position: absolute;
+  top: -30px;
+  transition: .7s ease;
+  text-align: center;
+}
+.options-autobiograficos-reproduccion-aesthetic button.autobiografico-reprod-white {
+  background-color: #dcc4c6;
   color: #2c3e50;
   border: none;
   width: 100%;
@@ -599,28 +700,50 @@ Pagina autobiograficos
   text-align: center;
 }
 
-.options-autobiograficos-reproduccion button:nth-child(1) {
+.options-autobiograficos-reproduccion-basic button:nth-child(1) {
+  grid-column: 1;
+  width: 49%;
+  box-shadow: 5px 0px 0px #333;
+  margin-right: 5px;
+}
+.options-autobiograficos-reproduccion-aesthetic button:nth-child(1) {
   grid-column: 1;
   width: 49%;
   box-shadow: 5px 0px 0px #333;
   margin-right: 5px;
 }
 
-.options-autobiograficos-reproduccion button:nth-child(2) {
+
+.options-autobiograficos-reproduccion-basic button:nth-child(2) {
   grid-column: 2;
   width: 98%;
   box-shadow: -5px 0px 0px #333;
 }
 
-.options-autobiograficos-reproduccion button:nth-child(1) :hover {
+.options-autobiograficos-reproduccion-aesthetic button:nth-child(2) {
+  grid-column: 2;
+  width: 98%;
+  box-shadow: -5px 0px 0px #333;
+}
+
+.options-autobiograficos-reproduccion-basic button:nth-child(1) :hover {
   width: 50%;
 }
 
-.options-autobiograficos-reproduccion button:nth-child(2):hover {
+.options-autobiograficos-reproduccion-aesthetic button:nth-child(1) :hover {
+  width: 50%;
+}
+
+.options-autobiograficos-reproduccion-basic button:nth-child(2):hover {
   width: 100%;
 }
 
-.options-autobiograficos-reproduccion button.autobiografico-reprod-white:hover {
+.options-autobiograficos-reproduccion-aesthetic button:nth-child(2):hover {
+  width: 100%;
+}
+
+
+.options-autobiograficos-reproduccion-basic button.autobiografico-reprod-white:hover {
   background-color: #ffffff;
   position: absolute;
   top: 0px;
@@ -628,6 +751,17 @@ Pagina autobiograficos
   box-shadow: 0px 5px 0px #333;
   cursor: pointer;
 }
+
+.options-autobiograficos-reproduccion-aesthetic button.autobiografico-reprod-white:hover {
+  background-color: #ffffff;
+  position: absolute;
+  top: 0px;
+  border-radius: 0px;
+  box-shadow: 0px 5px 0px #333;
+  cursor: pointer;
+}
+
+
 
 .link-relatos-reprod-white {
   text-decoration: none;
@@ -644,7 +778,7 @@ Pagina autobiograficos
   margin: 0 2rem 0 0;
 }
 
-.autobiografico-main-green {
+.autobiografico-main-basic {
   display: grid;
   grid-template-columns: 1fr 1fr;
   background-color: white;
@@ -652,12 +786,30 @@ Pagina autobiograficos
   margin-top: 1em;
 }
 
-.autobiografico-main-green button {
+.autobiografico-main-aesthetic {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background-color: white;
+  height: 100%;
+  margin-top: 1em;
+}
+
+.autobiografico-main-basic button {
   cursor: pointer;
 }
 
-.autobiografico-main-green .autobiografico-main-category {
+.autobiografico-main-basic .autobiografico-main-category {
   background-color: #2c664f;
+  color: white;
+  max-width: 100%;
+  grid-column: 1;
+  margin: 0 5px;
+  text-align: left;
+  max-height: 100vh;
+}
+
+.autobiografico-main-aesthetic .autobiografico-main-category {
+  background-color: #7b494c;
   color: white;
   max-width: 100%;
   grid-column: 1;
@@ -700,7 +852,7 @@ Pagina autobiograficos
   transform: scale(2.2);
 }
 
-.autobiografico-main-green .autobiografico-main-list {
+.autobiografico-main-basic .autobiografico-main-list {
   grid-column: 2;
   color: black;
   max-width: 100%;
@@ -713,7 +865,23 @@ Pagina autobiograficos
   scrollbar-width: none;
 }
 
-.autobiografico-main-green .autobiografico-main-list::-webkit-scrollbar {
+.autobiografico-main-aesthetic .autobiografico-main-list {
+  grid-column: 2;
+  color: black;
+  max-width: 100%;
+  background-color: #f7d7cb;
+  margin: 5px 0;
+  max-height: 100vh;
+  overflow-y: scroll;
+  text-align: left;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.autobiografico-main-basic .autobiografico-main-list::-webkit-scrollbar {
+  display: none;
+}
+.autobiografico-main-aesthetic .autobiografico-main-list::-webkit-scrollbar {
   display: none;
 }
 

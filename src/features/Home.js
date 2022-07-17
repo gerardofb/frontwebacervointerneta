@@ -1,27 +1,32 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import Parallax from 'react-springy-parallax'
 import { BigPlayButton, ControlBar, LoadingSpinner, Player, PlayToggle } from 'video-react'
 import { HomeCategories } from './HomeCategories';
 import { HomeTags } from './HomeTags';
 import { HomeFooter } from './HomeFooter';
 import NavBar from './NavBar';
+import { ThemesContext } from '../ThemeProvider'
+
 
 const url = (name, wrap = false) => `${wrap ? 'url(' : ''}images/${name}.svg${wrap ? ')' : ''}`
 const urlpng = (name, wrap = false) => `${wrap ? 'url(' : ''}images/Art/inverted/${name}.png${wrap ? ')' : ''}`
 
 
 export class Home extends React.Component {
+    
     render() {
+        const {styles} = this.context;
+        console.log('en home ', this.context)
         return (
             <div>
 
-                <Parallax className="bodyHome"
+                <Parallax className={styles.BodyHome}
                     ref={ref => this.parallax = ref}
                     pages={4}
                     scrolling={true}>
-                    <Parallax.Layer offset={2} speed={1} className='first-layer-home' />
-                    <Parallax.Layer offset={3} speed={1} className='second-layer-home' />
-                    <Parallax.Layer offset={4} speed={1} className='third-layer-home' />
+                    <Parallax.Layer offset={2} speed={1} className={styles.FirstLayerHome} />
+                    <Parallax.Layer offset={3} speed={1} className={styles.SecondLayerHome} />
+                    <Parallax.Layer offset={4} speed={1} className={styles.ThirdLayerHome} />
 
                     <Parallax.Layer
                         offset={0} speed={0} factor={4}
@@ -76,3 +81,4 @@ export class Home extends React.Component {
         )
     }
 }
+Home.contextType = ThemesContext;

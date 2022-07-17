@@ -10,6 +10,7 @@ import styled from "styled-components";
 import VideoSetPage from './features/Categories/VideoSetPage';
 import { AutoComments } from './features/Players/Reproduccion';
 import { Autobiograficos } from './features/Biography/Autobiograficos';
+import { ThemeProvider } from './ThemeProvider';
 const FlexContents = styled(Contents)`
   display: flex;
   justify-content: space-between;
@@ -43,11 +44,14 @@ function App() {
       <div className="App">
         <Switch>
           <Route path='/' exact>
+            <ThemeProvider>
             <Home />
+            </ThemeProvider>
           </Route>
           {<Route path="/Categorias" exact
             render={({ location, search }) => {
               return (
+                <ThemeProvider>
                 <Flipper
                   flipKey={`${location.pathname}-${location.search}`}
                   decisionData={{
@@ -57,16 +61,21 @@ function App() {
                 >
                   <IndexPage />
                 </Flipper>
+                </ThemeProvider>
               )
             }}
           />}
           <Route path="/Categorias/:set/:focusedVideo" children={VideoSetPage}>
           </Route>
           <Route path="/Reproduccion/:video" exact>
+            <ThemeProvider>
             <AutoComments></AutoComments>
+            </ThemeProvider>
           </Route>
           <Route path='/Autobiograficos/:relato' exact>
+            <ThemeProvider>
             <Autobiograficos></Autobiograficos>
+            </ThemeProvider>
           </Route>
         </Switch>
       </div>

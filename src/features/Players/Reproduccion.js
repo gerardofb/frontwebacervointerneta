@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState, useContext } from 'react'
 import { ControlBar, LoadingSpinner, Player } from 'video-react'
 import { useParams } from 'react-router-dom'
 import {
@@ -30,6 +30,8 @@ import styled from "styled-components";
 import NavBar from '../NavBar';
 import ContextMenu from '../ContextMenu';
 import { HomeFooter } from '../HomeFooter';
+import { ThemesContext } from '../../ThemeProvider';
+
 const Tab = styled.button`
   font-size: 20px;
   padding: 10px 60px;
@@ -295,6 +297,7 @@ export const AutoComments = () => {
     const tabuladores = ["Comentarios", "Autobiográficos/Podcasts", "Eventos"];
     const [alturaPlayer, setAlturaPlayer] = useState(true);
     const [alturaPlayerMax, setAlturaPlayerMax] = useState(false);
+    const {styles} = useContext(ThemesContext);
     const CustomMenu = () => (
         <div className="menu-personalizado">
             <div><FontAwesomeIcon icon={faClone}></FontAwesomeIcon>&nbsp;Copiar</div>
@@ -521,7 +524,6 @@ export const AutoComments = () => {
         }
     }
     return (
-        //style={!alturaPlayerMax?{backgroundImage: `url('/images/art/art_tatoo_chevalet.png')`}:{backgroundImage:'none'}}
         <div className='player-individual' onScroll={handleScroll}>
             {
                 menuContextual.show ?
@@ -595,7 +597,7 @@ export const AutoComments = () => {
                     <div className="list-bottom"></div>
                 </div>
                 <div className='scroll-list' onContextMenu={(e) => handleContextMenu(false, false)} style={estableceTab(tabuladores[1])}>
-                    <div className='options-autobiograficos-reproduccion'>
+                    <div className={styles.OpcionesAutobiograficosReprod}>
                         <button onClick={(e)=>handleClickOptionRelatos('popular')} className='autobiografico-reprod-white'>Populares<br /><FontAwesomeIcon icon={faHeart} style={{ paddingTop: '20px', display: 'inline-block' }} /></button>
                         <button onClick={(e)=>handleClickOptionRelatos('recientes')} className='autobiografico-reprod-white'>Recientes<br /><FontAwesomeIcon icon={faCalendarDays} style={{ paddingTop: '20px', display: 'inline-block' }} /></button>
                     </div>
