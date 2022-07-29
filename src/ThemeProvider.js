@@ -38,7 +38,45 @@ const estilos = {
         CategoryCard:'category-cards-aesthetic',
         OpcionesAutobiograficosReprod:'options-autobiograficos-reproduccion-aesthetic',
         AutoBiograficoMain:'autobiografico-main-aesthetic'
-    }
+    },
+    basicDark: {
+        BodyHome:'bodyHome-basic',
+        FirstLayerHome: 'first-layer-home-basic',
+        SecondLayerHome: 'second-layer-home-basic',
+        ThirdLayerHome: 'third-layer-home-basic',
+        NavbarPrincipal: 'navbar-principal-basic-dark  navbar-principal',
+        ControlTematicoBtn:'header-control-temas-basic-dark',
+        SearchBarMain: 'search-bar-main-basic-dark',
+        SearchBarBtn:'search-bar-main-icon-basic-dark',
+        FirstLayerCategory:'first-layer-category-basic',
+        SecondLayerCategory:'second-layer-category-basic',
+        ThirdLayerCategory:'third-layer-category-basic',
+        FourthLayerCategory:'fourth-layer-category-basic',
+        FifthLayerCategory:'fifth-layer-category-basic',
+        MainBodyCategory:'main-body-categories-basic',
+        CategoryCard:'category-cards-basic',
+        OpcionesAutobiograficosReprod:'options-autobiograficos-reproduccion-basic',
+        AutoBiograficoMain:'autobiografico-main-basic'
+    },
+    aestheticDark: {
+        BodyHome:'bodyHome-aesthetic',
+        FirstLayerHome: 'first-layer-home-aesthetic',
+        SecondLayerHome: 'second-layer-home-aesthetic',
+        ThirdLayerHome: 'third-layer-home-aesthetic',
+        NavbarPrincipal: 'navbar-principal-aesthetic-dark  navbar-principal',
+        ControlTematicoBtn:'header-control-temas-aesthetic-dark',
+        SearchBarMain: 'search-bar-main-aesthetic-dark',
+        SearchBarBtn:'search-bar-main-icon-aesthetic-dark',
+        FirstLayerCategory:'first-layer-category-aesthetic',
+        SecondLayerCategory:'second-layer-category-aesthetic',
+        ThirdLayerCategory:'third-layer-category-aesthetic',
+        FourthLayerCategory:'fourth-layer-category-aesthetic',
+        FifthLayerCategory:'fifth-layer-category-aesthetic',
+        MainBodyCategory:'main-body-categories-aesthetic',
+        CategoryCard:'category-cards-aesthetic',
+        OpcionesAutobiograficosReprod:'options-autobiograficos-reproduccion-aesthetic',
+        AutoBiograficoMain:'autobiografico-main-aesthetic'
+    },
 }
 export const ThemesContext = createContext({
     styles: 
