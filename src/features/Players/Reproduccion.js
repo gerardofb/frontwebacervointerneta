@@ -619,7 +619,9 @@ export const AutoComments = () => {
                             return (
                                 <div className="evento-reproduccion" key={index}>
                                     <div className="control-evento-reproduccion" onClick={(e) => resetMyEvents(elem)}>
+                                        <Link to="/Eventos">
                                         <div className='eventos-titulo'><h2>{elem.title}</h2><div><img src={elem.imagen} height={200} align="right" /></div></div>
+                                        </Link>
                                         <div>
                                             {elem.selected ?
                                                 <FontAwesomeIcon icon={faAngleDown}></FontAwesomeIcon>

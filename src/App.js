@@ -11,6 +11,7 @@ import VideoSetPage from './features/Categories/VideoSetPage';
 import { AutoComments } from './features/Players/Reproduccion';
 import { Autobiograficos } from './features/Biography/Autobiograficos';
 import { ThemeProvider } from './ThemeProvider';
+import Eventos from './features/Events/Eventos';
 const FlexContents = styled(Contents)`
   display: flex;
   justify-content: space-between;
@@ -76,6 +77,9 @@ function App() {
             <ThemeProvider>
             <Autobiograficos></Autobiograficos>
             </ThemeProvider>
+          </Route>
+          <Route path="/Eventos" exact>
+            <Eventos></Eventos>
           </Route>
         </Switch>
       </div>

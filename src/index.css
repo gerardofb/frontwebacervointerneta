@@ -356,9 +356,11 @@ Estilos temáticos
 .bodyHome-basic {
   background-color: #253237;
 }
+
 .bodyHome-aesthetic {
   background-color: #66545e;
 }
+
 .navbar-principal {
   width: '40%';
   float: 'left';
@@ -366,55 +368,65 @@ Estilos temáticos
   position: relative;
   grid-template-columns: .5fr .4fr .2fr .5fr;
   min-height: 115px;
-  padding-bottom:.3em;
+  padding-bottom: .3em;
 }
+
 .navbar-principal-static {
   background-color: black;
 }
+
 .navbar-principal-basic {
   background-color: #253237
 }
+
 .navbar-principal-basic-dark {
   background-color: #cde2e3;
 }
+
 .navbar-principal-aesthetic-dark {
   background-color: #f9e2da;
 }
-.navbar-principal-aesthetic{
+
+.navbar-principal-aesthetic {
   background-color: #66545e;
 }
-.navbar-principal.navbar-principal-basic h2{
+
+.navbar-principal.navbar-principal-basic h2 {
   position: absolute;
-  top:5px;
-  left:7rem;
+  top: 5px;
+  left: 7rem;
   height: 100%;
   min-height: 110px;
-  color:white;
+  color: white;
 }
-.navbar-principal.navbar-principal-aesthetic h2{
+
+.navbar-principal.navbar-principal-aesthetic h2 {
   position: absolute;
-  top:5px;
-  left:7rem;
+  top: 5px;
+  left: 7rem;
   height: 100%;
   min-height: 110px;
-  color:white;
+  color: white;
 }
-.navbar-principal.navbar-principal-basic-dark h2{
+
+.navbar-principal.navbar-principal-basic-dark h2 {
   position: absolute;
-  top:5px;
-  left:7rem;
+  top: 5px;
+  left: 7rem;
   height: 100%;
   min-height: 110px;
-  color:#1b2f30;
+  color: #1b2f30;
 }
-.navbar-principal.navbar-principal-aesthetic-dark h2{
+
+.navbar-principal.navbar-principal-aesthetic-dark h2 {
   position: absolute;
-  top:5px;
-  left:7rem;
+  top: 5px;
+  left: 7rem;
   height: 100%;
   min-height: 110px;
-  color:#331308;
+  color: #331308;
 }
+
 .navbar-principal a {
   grid-column: 1;
   max-width: 60%;
@@ -424,72 +436,85 @@ Estilos temáticos
   background: #253237;
   max-width: 40%;
   position: absolute;
-  top:5px;
+  top: 5px;
   right: 5px;
 }
-.search-bar-main-basic p{
-  color:white;
+
+.search-bar-main-basic p {
+  color: white;
 }
-.search-bar-main-basic-dark  {
+
+.search-bar-main-basic-dark {
   background: #cde2e3;
   max-width: 40%;
   position: absolute;
-  top:5px;
+  top: 5px;
   right: 5px;
 }
-.search-bar-main-basic-dark p{
-  color:#1b2f30;
+
+.search-bar-main-basic-dark p {
+  color: #1b2f30;
 }
+
 .search-bar-main-static {
   background: black;
   max-width: 40%;
   position: absolute;
-  top:5px;
+  top: 5px;
   right: 5px;
 }
-.search-bar-main p{
+
+.search-bar-main p {
   text-align: right;
 }
-.search-bar-main-icon-basic{
+
+.search-bar-main-icon-basic {
   background-color: #253237;
-  color:white;
-}
-.search-bar-main-icon-aesthetic{
-  background-color: #66545e;
-  color:white;
-}
-.search-bar-main-icon-basic-dark{
-  background-color: #cde2e3;
-  color:#1b2f30
-}
-.search-bar-main-icon-aesthetic-dark{
-  background-color: #f9e2da;
-  color:#331308;
+  color: white;
 }
 
-.search-bar-main-icon-static{
+.search-bar-main-icon-aesthetic {
+  background-color: #66545e;
+  color: white;
+}
+
+.search-bar-main-icon-basic-dark {
+  background-color: #cde2e3;
+  color: #1b2f30
+}
+
+.search-bar-main-icon-aesthetic-dark {
+  background-color: #f9e2da;
+  color: #331308;
+}
+
+.search-bar-main-icon-static {
   background-color: black;
 }
+
 .search-bar-main-aesthetic {
   background: #66545e;
   max-width: 40%;
   position: absolute;
-  top:5px;
+  top: 5px;
   right: 5px;
 }
+
 .search-bar-main-aesthetic p {
- color:white;
+  color: white;
 }
+
 .search-bar-main-aesthetic-dark {
   background: #f9e2da;
   max-width: 40%;
   position: absolute;
-  top:5px;
+  top: 5px;
   right: 5px;
 }
+
 .search-bar-main-aesthetic-dark p {
-  color:#331308;
- }
+  color: #331308;
+}
 
 /*
 Estilo de footer
@@ -558,10 +583,11 @@ Estilo de footer
   background-color: #aa6f73;
 }
 
-.main-body-categories-basic{
+.main-body-categories-basic {
   background-color: #274546;
 }
-.main-body-categories-aesthetic{
+
+.main-body-categories-aesthetic {
   background-color: #66545e;
 }
 
@@ -612,6 +638,7 @@ Estilo de footer
 .category-cards-basic {
   background-color: #213a3b;
 }
+
 .category-cards-aesthetic {
   background-color: #4b3f40;
 }
@@ -642,7 +669,8 @@ Estilo de footer
   color: black;
 }
 
-.header-control-temas-basic, .header-control-temas-aesthetic {
+.header-control-temas-basic,
+.header-control-temas-aesthetic {
   max-width: 5%;
   grid-column: 3;
 }
@@ -650,14 +678,16 @@ Estilo de footer
 .header-control-temas-basic button {
   border: none;
   outline: none;
-  color:white;
+  color: white;
   background-color: #253237;
   width: 30px;
   font-size: x-large;
   text-align: right;
-  margin-top:.7rem;
+  margin-top: .7rem;
 }
-.header-control-temas-basic-dark, .header-control-temas-aesthetic-dark {
+
+.header-control-temas-basic-dark,
+.header-control-temas-aesthetic-dark {
   max-width: 5%;
   grid-column: 3;
 }
@@ -665,111 +695,130 @@ Estilo de footer
 .header-control-temas-basic-dark button {
   border: none;
   outline: none;
-  color:#1b2f30;
+  color: #1b2f30;
   background-color: #cde2e3;
   width: 30px;
   font-size: x-large;
   text-align: right;
-  margin-top:.7rem;
+  margin-top: .7rem;
 }
+
 .header-control-temas-aesthetic button {
   border: none;
   outline: none;
-  color:white;
+  color: white;
   background-color: #66545e;
   width: 30px;
   font-size: x-large;
   text-align: right;
-  margin-top:.7rem;
+  margin-top: .7rem;
 }
+
 .header-control-temas-aesthetic-dark button {
   border: none;
   outline: none;
-  color:#331308;
+  color: #331308;
   background-color: #f9e2da;
   width: 30px;
   font-size: x-large;
   text-align: right;
-  margin-top:.7rem;
+  margin-top: .7rem;
 }
-.container-tematica{
+
+.container-tematica {
   grid-column: 2;
   max-width: 280px;
 }
-.control-temas-claros-oscuros{
-  cursor:pointer;
+
+.control-temas-claros-oscuros {
+  cursor: pointer;
   text-align: center;
 }
-@media screen and (max-width: 1260px){
-  .container-tematica{
-    display:none;
-  }
-  .header-control-temas-aesthetic{
+
+@media screen and (max-width: 1260px) {
+  .container-tematica {
     display: none;
   }
-  .header-control-temas-basic{
+
+  .header-control-temas-aesthetic {
+    display: none;
+  }
+
+  .header-control-temas-basic {
     display: none;
   }
 }
+
 @media screen and (max-width:900px) {
-  .navbar-principal h2{
-    display:none;
+  .navbar-principal h2 {
+    display: none;
   }
 
 }
-.tematica-sitio{
-  min-width:200px;
+
+.tematica-sitio {
+  min-width: 200px;
   margin-left: 20%;
   min-height: 118px;
   background-color: white;
-  color:black;
+  color: black;
   font-size: small;
   border: 1px solid black;
 }
-.tematica-sitio.tematica-hidden{
+
+.tematica-sitio.tematica-hidden {
   display: none;
 }
-.tematica-sitio.tematica-show{
+
+.tematica-sitio.tematica-show {
   display: block;
   z-index: 99999;
   background-color: white;
   height: 120px;
   width: 250px;
 }
-.close-tematica{
-  width:12px;
+
+.close-tematica {
+  width: 12px;
   height: 12px;
   text-align: right;
-  margin-left:232px;
+  margin-left: 232px;
 }
-.content-tematica-sitio{
+
+.content-tematica-sitio {
   display: grid;
   grid-template-columns: .2fr 1fr .2fr;
 }
-.control-paletas{
+
+.control-paletas {
   width: 12px;
   height: 12px;
 }
-.control-paletas.left{
+
+.control-paletas.left {
   text-align: left;
-  padding:2px;
-  margin-top:30px;
+  padding: 2px;
+  margin-top: 30px;
 }
-.control-paletas.right{
+
+.control-paletas.right {
   text-align: right;
-  padding:2px;
-  margin-top:30px;
+  padding: 2px;
+  margin-top: 30px;
 }
-.color-paleta{
+
+.color-paleta {
   width: 40px;
   height: 100%;
 }
-.contenedor-colores-paleta{
+
+.contenedor-colores-paleta {
   margin: 0 0 0 0;
   min-height: 75px;
   display: grid;
   grid-template-columns: .20fr .20fr .20fr .20fr .20fr;
 }
+
 /*
 Pagina autobiograficos
 */
@@ -781,6 +830,7 @@ Pagina autobiograficos
   min-height: 70px;
   width: 97%;
 }
+
 .options-autobiograficos-reproduccion-aesthetic {
   display: grid;
   grid-template-columns: auto auto;
@@ -801,6 +851,7 @@ Pagina autobiograficos
   transition: .7s ease;
   text-align: center;
 }
+
 .options-autobiograficos-reproduccion-aesthetic button.autobiografico-reprod-white {
   background-color: #dcc4c6;
   color: #2c3e50;
@@ -819,6 +870,7 @@ Pagina autobiograficos
   box-shadow: 5px 0px 0px #333;
   margin-right: 5px;
 }
+
 .options-autobiograficos-reproduccion-aesthetic button:nth-child(1) {
   grid-column: 1;
   width: 49%;
@@ -994,6 +1046,7 @@ Pagina autobiograficos
 .autobiografico-main-basic .autobiografico-main-list::-webkit-scrollbar {
   display: none;
 }
+
 .autobiografico-main-aesthetic .autobiografico-main-list::-webkit-scrollbar {
   display: none;
 }
@@ -1084,9 +1137,10 @@ Pagina autobiograficos
   right: .5em;
   transition: all .2s ease-in-out;
 }
+
 @media screen and (max-width:1260px) {
-  .autobiografico-header-related span{
-    display:none;
+  .autobiografico-header-related span {
+    display: none;
   }
 }
 
@@ -1214,14 +1268,15 @@ Pagina autobiograficos
   .autobiografico-main-menu div .autobiografico-main-menu-entry:nth-child(1) {
     padding: 0 0 0 1rem;
   }
-  
+
   .autobiografico-main-menu div .autobiografico-main-menu-entry:nth-child(2) {
     padding: 0 0 0 .2rem;
     margin: 0 0 0 1.25rem;
   }
 }
+
 @media screen and (max-width:1100px) {
-  .autobiografico-main-menu-entry span.content-header-main-menu-entry{
+  .autobiografico-main-menu-entry span.content-header-main-menu-entry {
     display: none;
   }
 }
@@ -1271,3 +1326,113 @@ Pagina autobiograficos
 .autobiografico-main-menu-entry.inactive {
   background-color: transparent;
 }
+
+/*
+Página de eventos
+*/
+
+.sun {
+  color: red;
+}
+
+.sat {
+  color: blue;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/*
+:root
+  font-size 16px
+  font-family 'Roboto'
+  font-weight 300
+  
+html
+  display block
+  height auto
+  color black
+  */
+.bg,
+.border {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.bg {
+  background: linear-gradient(bottom, red, #BBFCFC);
+  z-index: -1;
+}
+
+.border {
+  border: 15px solid white;
+  z-index: 10;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+.eventos-main-calendar{
+  display: grid;
+  grid-template-columns:70px 70px 70px 70px 70px 70px 70px;
+  width:400px;
+}
+.eventos-main-calendar .title-calendar{
+  padding: 0rem .5rem;
+  min-height: 70px;
+  width:70px;
+}
+.eventos-main-calendar .title-calendar .content-title-calendar{
+  display: flex;
+  align-items: baseline;
+  padding:  0 1rem;
+  text-align: right;
+  text-transform: uppercase;
+}
+.eventos-main-calendar-content {
+  display: grid;
+  grid-template-columns: 70px 70px 70px 70px 70px 70px 70px;
+  background: white;
+  width:400px;
+  
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  padding: 1.5rem 0;
+}
+
+header p.month {
+  text-align: center;
+  font-size: 1.5rem;
+  font-size: 1.5rem;
+}
+
+header i.icons {
+  padding: 0.4rem;
+
+}
+
+.eventos-main-calendar-content .day {
+  padding: 0rem .5rem;
+  min-height: 50px;
+  width:70px;
+}
+
+
+
+.eventos-main-calendar .week .date {
+  flex: 0 0 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0 2rem 0 0;
+  text-align: right;
+}
+
+
+
