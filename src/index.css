@@ -1339,6 +1339,9 @@ Página de eventos
   top: 0;
   left: 0;
 }
+.eventos-main-container{
+  background: #feecb8
+}
 .eventos-main-calendar{
   display: grid;
   grid-template-columns:3em 3em 3em 3em 3em 3em 3em;
@@ -1406,17 +1409,57 @@ Página de eventos
   margin:0 auto;
 }
 .mes-evento-main{
-  height: 100vh;
+  height: 200vh;
   position:relative;
   width:100%;
-  background-color: #274546;
   right: 0;
 }
 .mes-evento-main h1{
   position: absolute;
-  bottom:0;
+  top:0;
   right:.1em;
   font-size: 120px;
 }
+.mes-evento-main.ene{
+  background: linear-gradient(to right,white,#E5E6EB);
+}
+.mes-evento-main.feb{
+  background: linear-gradient(to right, white, #B3CDE0);
+}
+.mes-evento-main.mar{
+  background: linear-gradient(to right,white, #99CC33);
+}
+.mes-evento-main.abr{
+  background: linear-gradient(to right, white, #FFCC00);
+}
+.mes-evento-main.may{
+  background: linear-gradient(to right, white, #FF9966);
+}
+.mes-evento-main.jun{
+  background: linear-gradient(to right, white, #FF4D00);
+}
+.mes-evento-main.jul{
+  background: linear-gradient(to right, white, #B48811);
+}
+.mes-evento-main.ago{
+  background: linear-gradient(to right, white, #967259);
+}
+.mes-evento-main.sep{
+  background: linear-gradient(to right, white, #DC6900);
+}
+.mes-evento-main.oct{
+  background: linear-gradient(to right, white, #FF7B7B);
+}
+.mes-evento-main.nov{
+  background: linear-gradient(to right, white, #A32020);
+}
+
+.mes-evento-main.dic{
+  background: linear-gradient(to right, white,#5D5D5D);
+}
+
+
+
+
 
 
