@@ -1331,42 +1331,6 @@ Pagina autobiograficos
 Página de eventos
 */
 
-.sun {
-  color: red;
-}
-
-.sat {
-  color: blue;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-/*
-:root
-  font-size 16px
-  font-family 'Roboto'
-  font-weight 300
-  
-html
-  display block
-  height auto
-  color black
-  */
-.bg,
-.border {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.bg {
-  background: linear-gradient(bottom, red, #BBFCFC);
-  z-index: -1;
-}
 
 .border {
   border: 15px solid white;
@@ -1377,13 +1341,13 @@ html
 }
 .eventos-main-calendar{
   display: grid;
-  grid-template-columns:70px 70px 70px 70px 70px 70px 70px;
-  width:400px;
+  grid-template-columns:3em 3em 3em 3em 3em 3em 3em;
+  width:25%;
 }
 .eventos-main-calendar .title-calendar{
   padding: 0rem .5rem;
-  min-height: 70px;
-  width:70px;
+  min-height: 60px;
+  width:60px;
 }
 .eventos-main-calendar .title-calendar .content-title-calendar{
   display: flex;
@@ -1394,25 +1358,24 @@ html
 }
 .eventos-main-calendar-content {
   display: grid;
-  grid-template-columns: 70px 70px 70px 70px 70px 70px 70px;
-  background: white;
-  width:400px;
+  grid-template-columns:3em 3em 3em 3em 3em 3em 3em;
+  width:25%;
   
 }
-
-header {
+.calendario-eventos-principal{
+  background-color: white;
+  min-width:21em;
+  padding:2em 2em 2em 0em;
+  border-radius: 0em 0em 1.5em 0em;
+}
+.calendario-eventos-principal header {
   display: flex;
   justify-content: space-between;
   padding: 1.5rem 0;
 }
 
-header p.month {
-  text-align: center;
-  font-size: 1.5rem;
-  font-size: 1.5rem;
-}
 
-header i.icons {
+.calendario-eventos-principal header i.icons {
   padding: 0.4rem;
 
 }
@@ -1420,19 +1383,40 @@ header i.icons {
 .eventos-main-calendar-content .day {
   padding: 0rem .5rem;
   min-height: 50px;
-  width:70px;
+  width:3em;
 }
 
 
 
-.eventos-main-calendar .week .date {
-  flex: 0 0 80px;
+.eventos-main-calendar .date {
+  flex: 0 0 60px;
   display: flex;
   justify-content: space-between;
   align-items: baseline;
   padding: 0 2rem 0 0;
   text-align: right;
 }
-
+.calendario-eventos-principal {
+  width:25%;
+}
+.calendario-eventos-principal header p{
+  text-align: center;
+  font-size: 1.5rem;
+  font-size: 1.5rem;
+  margin:0 auto;
+}
+.mes-evento-main{
+  height: 100vh;
+  position:relative;
+  width:100%;
+  background-color: #274546;
+  right: 0;
+}
+.mes-evento-main h1{
+  position: absolute;
+  bottom:0;
+  right:.1em;
+  font-size: 120px;
+}
 
 

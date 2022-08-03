@@ -79,7 +79,9 @@ function App() {
             </ThemeProvider>
           </Route>
           <Route path="/Eventos" exact>
+            <ThemeProvider>
             <Eventos></Eventos>
+            </ThemeProvider>
           </Route>
         </Switch>
       </div>

@@ -16,7 +16,7 @@ const IndexGrid = styled(BaseGridList)`
   ${CardGrid + '[display="grid"]'} & {
     grid-template-columns: 2 repeat(2, 5rem);
     grid-gap: 2rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     img{
       height:10rem;
     }
@@ -43,22 +43,6 @@ const Card = styled.li`
     will-change: transform;
   }
 `
-
-const CardContent = styled.div`
-  display: flex;
-  justify-content: space-between;
-  height: 100%;
-  will-change: transform;
-  ${CardGrid + '[display="grid"]'} & {
-    flex-direction: column;
-    padding: 1.5rem;
-  }
-  ${CardGrid + '[display="list"]'} & {
-    flex-direction: row;
-    padding: 1rem;
-  }
-`
-
 const Description = styled.div`
   min-width: 280px;
   text-align: center;
@@ -68,6 +52,25 @@ const Description = styled.div`
     margin-bottom: 0 !important;
   }
 `
+const CardContent = styled.div`
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+  will-change: transform;
+  ${CardGrid + '[display="grid"]'} & {
+    flex-direction: column;
+    padding: 1.5rem;
+    .category-explore-desc-white{
+      padding-top:4.5em;
+    }
+  }
+  ${CardGrid + '[display="list"]'} & {
+    flex-direction: row;
+    padding: 1rem;
+  }
+`
+
+
 
 const ListFlex = styled.div`
   ${CardGrid + '[display="grid"]'} & {
