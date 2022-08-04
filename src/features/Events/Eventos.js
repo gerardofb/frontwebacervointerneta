@@ -193,7 +193,7 @@ const Eventos = () => {
                         {<>
                             <h1>
                                 {valor && valor.title + " (" + valor.fecha.getFullYear() + "/" +
-                                    valor.fecha.getMonth() + 1 + "/" + valor.fecha.getDate() + " a las " + valor.fecha.getHours() + "  horas)"
+                                    (valor.fecha.getMonth() + 1) + "/" + valor.fecha.getDate() + " a las " + valor.fecha.getHours() + "  horas)"
                                 }
                             </h1>
                             <img src={valor.imagen} />
@@ -238,6 +238,9 @@ const Eventos = () => {
                 {
                     meses && meses.length > 0 ? meses.map((mes, index) => {
                         let eventosmes = eventosMin.filter(x => x.fecha.getMonth() == index);
+                        eventosmes.map((el,ids)=>{
+                            console.log('evento del mes '+mes+" "+el.fecha.getMonth()+" indice "+el.index)
+                        })
                         return <ParallaxLayer onMouseEnter={(e) => setReset(true)} onMouseLeave={(e) => setReset(false)}
                             offset={index + 1} key={index} speed={1}>
                             <div className={"mes-evento-main " + cssMeses[index]}>
@@ -258,7 +261,7 @@ const Eventos = () => {
                                                         {event.imagen !== "" ? <animated.img style={{ ...styles }} src={event.imagen} alt={event.title} /> : null}
                                                         <br />
                                                         <p>{event.title}&nbsp;<strong>({event.fecha.getFullYear() + "/" +
-                                                            event.fecha.getMonth() + 1 + "/" + event.fecha.getDate() + " a las " + event.fecha.getHours() + "  horas"})</strong></p>
+                                                            (event.fecha.getMonth() + 1) + "/" + event.fecha.getDate() + " a las " + event.fecha.getHours() + "  horas"})</strong></p>
                                                     </div>
                                                 </Link>
 
