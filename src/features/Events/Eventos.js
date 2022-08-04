@@ -159,9 +159,11 @@ const eventosMin = [
         fecha: new Date(2022, 9, 19, 18, 0, 0), duracion: 90, imagen: "/images/Eventos/mov_sociales.jpg"
     }
 ]
+
 const Eventos = () => {
     const { evento } = useParams();
     const location = useLocation();
+    const [clasesCalendario, setClasesCalendario] = useState({ titulocalendario: 'Enero 2022' });
     const [reset, setReset] = useState(false);
     const [hoverMoreEvent, setHoverMoreEvent] = useState(false);
     const styles = useSpring({
@@ -178,8 +180,17 @@ const Eventos = () => {
         goToTop();
     }, [location]);
     const valor = eventosMin.find(x => x.index == evento);
+    const handleEnter = (indice) => {
 
+        let clases = [
+            { titulocalendario: 'Enero 2022' },
+            { titulocalendario: 'Febrero 2022' }
+        ]
+        let laclase = clases[indice] != undefined ? clases[indice] : { titulocalendario: 'Enero 2022' };
+        setClasesCalendario(laclase)
+    }
     const referencia = useRef();
+
     return (
         <div>
             <Parallax pages={13} className="eventos-main-container">
@@ -205,9 +216,9 @@ const Eventos = () => {
                     </div>
                 </ParallaxLayer>
                 <ParallaxLayer sticky={{ start: 1, end: 12 }} style={{ maxWidth: '30%', zIndex: 1 }}>
-                    <div className="calendario-eventos-principal">
+                    <div className="calendario-eventos-principal active">
                         <header>
-                            <p>Enero 2022</p>
+                            <p>{clasesCalendario.titulocalendario}</p>
                         </header>
                         <div className="eventos-main-calendar">
 
@@ -238,18 +249,18 @@ const Eventos = () => {
                 {
                     meses && meses.length > 0 ? meses.map((mes, index) => {
                         let eventosmes = eventosMin.filter(x => x.fecha.getMonth() == index);
-                        eventosmes.map((el,ids)=>{
-                            console.log('evento del mes '+mes+" "+el.fecha.getMonth()+" indice "+el.index)
+                        eventosmes.map((el, ids) => {
+                            console.log('evento del mes ' + mes + " " + el.fecha.getMonth() + " indice " + el.index)
                         })
-                        return <ParallaxLayer onMouseEnter={(e) => setReset(true)} onMouseLeave={(e) => setReset(false)}
+                        return <ParallaxLayer onMouseEnter={(e) => { setReset(true); handleEnter(index); }} onMouseLeave={(e) => setReset(false)}
                             offset={index + 1} key={index} speed={1}>
-                            <div className={"mes-evento-main " + cssMeses[index]}>
+                            <div className={"mes-evento-main " + cssMeses[index]} id={"mes_event_" + (index + 1)}>
 
                                 <h1 onMouseEnter=
                                     {(e) => setHoverMoreEvent(true)} onMouseLeave={(e) => setHoverMoreEvent(false)}>
-                                    {!hoverMoreEvent? null
-                                    : <span style={{fontSize:'50px', cursor:'pointer'}}>ver más...&nbsp;</span>}
-                                    <FontAwesomeIcon style={{fontSize:'50px'}} icon={!hoverMoreEvent ? faArrowRight : faCalendar} />{mes}</h1>
+                                    {!hoverMoreEvent ? null
+                                        : <span style={{ fontSize: '50px', cursor: 'pointer' }}>ver más...&nbsp;</span>}
+                                    <FontAwesomeIcon style={{ fontSize: '50px' }} icon={!hoverMoreEvent ? faArrowRight : faCalendar} />{mes}</h1>
 
                                 <div className="listado-min-eventos">
                                     {
