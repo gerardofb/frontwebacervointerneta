@@ -616,10 +616,11 @@ export const AutoComments = () => {
                 <div className='scroll-list' onContextMenu={(e) => handleContextMenu(false, false)} style={estableceTab(tabuladores[2])}>
                     {
                         myevents.map((elem, index) => {
+                            let llave = "/Eventos/"+elem.index
                             return (
                                 <div className="evento-reproduccion" key={index}>
                                     <div className="control-evento-reproduccion" onClick={(e) => resetMyEvents(elem)}>
-                                        <Link to="/Eventos">
+                                        <Link to={llave}>
                                         <div className='eventos-titulo'><h2>{elem.title}</h2><div><img src={elem.imagen} height={200} align="right" /></div></div>
                                         </Link>
                                         <div>

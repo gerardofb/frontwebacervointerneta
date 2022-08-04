@@ -61,7 +61,7 @@ const CardContent = styled.div`
     flex-direction: column;
     padding: 1.5rem;
     .category-explore-desc-white{
-      padding-top:4.5em;
+      padding-top:3.5em;
     }
   }
   ${CardGrid + '[display="list"]'} & {

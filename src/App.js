@@ -78,7 +78,7 @@ function App() {
             <Autobiograficos></Autobiograficos>
             </ThemeProvider>
           </Route>
-          <Route path="/Eventos" exact>
+          <Route path="/Eventos/:evento" exact>
             <ThemeProvider>
             <Eventos></Eventos>
             </ThemeProvider>

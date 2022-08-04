@@ -1457,6 +1457,71 @@ Página de eventos
 .mes-evento-main.dic{
   background: linear-gradient(to right, white,#5D5D5D);
 }
+.mes-evento-main .listado-min-eventos .miniatura-evento{
+  max-width: 180px;
+  display: block;
+  background-color: white;
+}
+.mes-evento-main .listado-min-eventos .miniatura-evento img{
+width:100%;
+max-width: 180px;
+}
+.mes-evento-main .listado-min-eventos .miniatura-evento p{
+  background-color: white;
+  display: block;
+  font-size:larger
+}
+.mes-evento-main .listado-min-eventos{
+  display: grid;
+  grid-template-columns: 180px 180px 180px 180px 180px;
+  grid-gap: 2.5rem;
+  min-width: 640px;
+  position:relative;
+  top:50%;
+  left:30%;
+}
+@media screen and (max-width:1190px) {
+  .mes-evento-main .listado-min-eventos{
+    display: grid;
+    grid-template-columns: 110px 110px 110px 110px;
+    min-width: 768px;
+    position:absolute;
+    top:50%;
+    left:40%
+  }
+  .mes-evento-main .listado-min-eventos .miniatura-evento img{
+    width:100%;
+    max-width:110px;
+    }
+    .mes-evento-main .listado-min-eventos .miniatura-evento{
+      max-width: 110px;
+      display: block;
+      background-color: white;
+    }
+    .mes-evento-main .listado-min-eventos .miniatura-evento p{
+      background-color: white;
+      display: block;
+      font-size:small
+    }
+}
+.main-content-this-event{
+   height: '85vh';
+   background: '#feecb8';
+   margin:auto;
+   text-align: center;
+}
+.main-content-this-event h1{
+  font-size: xx-large;
+}
+.main-content-this-event p{
+  font-size:medium;
+  text-align: left;
+  padding: 0 2.5em;
+}
+.main-content-this-event img{
+  min-width: 400px;
+}
+
 
 
 
