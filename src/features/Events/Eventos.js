@@ -234,7 +234,8 @@ const Eventos = () => {
         delay: 200,
         reset: reset,
         config:config.slow
-    })
+    });
+    console.log('reset es ',reset);
     const goToTop = () => {
         referencia.current ? referencia.current.scrollIntoView({ behavior: 'smooth' }) : referencia.current = createRef();
     }
@@ -254,6 +255,10 @@ const Eventos = () => {
         let numerodefecto = fillInDaysMonth(indice, anioinicial);
         setDaysInitial({numerodias:numerodefecto, titulo:estableceTituloCalendario(indice,anioinicial)});
         setDiaEvento(0);
+    }
+    const estableceDiaEvento = (dia)=>{
+        setReset(false);
+        setDiaEvento(dia);
     }
     const referencia = useRef();
 
@@ -332,7 +337,7 @@ const Eventos = () => {
                                             let idLink = '/Eventos/' + event.index;
                                             return (
                                                 <Link to={idLink} style={{ textDecoration: 'none', color: 'gray' }} key={idx}>
-                                                    <div className="miniatura-evento" onMouseEnter={(e)=>{setDiaEvento(parseInt(event.fecha.getDate()))}}>
+                                                    <div className="miniatura-evento" onMouseEnter={(e)=>{estableceDiaEvento(parseInt(event.fecha.getDate()))}}>
                                                         {event.imagen !== "" ? <animated.img style={{ ...styles }} src={event.imagen} alt={event.title} /> : null}
                                                         <br />
                                                         <p>{event.title}&nbsp;<strong>({event.fecha.getFullYear() + "/" +
