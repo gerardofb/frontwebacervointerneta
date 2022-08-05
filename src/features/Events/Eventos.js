@@ -227,6 +227,7 @@ const Eventos = () => {
     const [clasesCalendario, setClasesCalendario] = useState({ titulocalendario: 'Enero 2022' });
     const [reset, setReset] = useState(false);
     const [hoverMoreEvent, setHoverMoreEvent] = useState(false);
+    const [diaevento,setDiaEvento] = useState(0);
     const styles = useSpring({
         from: { width: '0', opacity: .3 },
         to: { width: '100%', opacity: 1 },
@@ -252,6 +253,7 @@ const Eventos = () => {
         setClasesCalendario(laclase);
         let numerodefecto = fillInDaysMonth(indice, anioinicial);
         setDaysInitial({numerodias:numerodefecto, titulo:estableceTituloCalendario(indice,anioinicial)});
+        setDiaEvento(0);
     }
     const referencia = useRef();
 
@@ -297,8 +299,8 @@ const Eventos = () => {
                         <div className="eventos-main-calendar-content">
                             {
                                 daysInitial.numerodias.map((dia, indice) => {
-
-                                    return (<div className="day" key={indice}>
+                                    let clasedia = diaevento === dia ? "day active" : "day";
+                                    return (<div className={clasedia} key={indice}>
                                         <div className="date">
                                             <span className="day">
                                                 {dia}
@@ -330,7 +332,7 @@ const Eventos = () => {
                                             let idLink = '/Eventos/' + event.index;
                                             return (
                                                 <Link to={idLink} style={{ textDecoration: 'none', color: 'gray' }} key={idx}>
-                                                    <div className="miniatura-evento">
+                                                    <div className="miniatura-evento" onMouseEnter={(e)=>{setDiaEvento(parseInt(event.fecha.getDate()))}}>
                                                         {event.imagen !== "" ? <animated.img style={{ ...styles }} src={event.imagen} alt={event.title} /> : null}
                                                         <br />
                                                         <p>{event.title}&nbsp;<strong>({event.fecha.getFullYear() + "/" +
