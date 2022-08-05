@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, createRef } from "react";
-import { Parallax, ParallaxLayer } from '@react-spring/parallax'
+import { Parallax, ParallaxLayer } from '@react-spring/parallax';
 import NavBar from '../NavBar';
-import { Spring, useSpring, animated } from "react-spring";
+import { Spring, useSpring, animated, config } from "react-spring";
 import { Link } from "react-router-dom";
 import { useLocation, useParams } from "react-router-dom";
 import { faCalendar, faArrowRight } from "@fortawesome/free-solid-svg-icons";
@@ -159,18 +159,80 @@ const eventosMin = [
         fecha: new Date(2022, 9, 19, 18, 0, 0), duracion: 90, imagen: "/images/Eventos/mov_sociales.jpg"
     }
 ]
-
+function getDaysInMonth(year, month) {
+    return new Date(year, month, 0).getDate();
+}
+function fillInDaysMonth(mesinicial, anioinicial) {
+    const aniodefecto = new Date(anioinicial, 0, 1).getFullYear();
+    const numerodias = getDaysInMonth(aniodefecto, 0);
+    const diainicial = new Date(aniodefecto, mesinicial, 1).getDay();
+    let salida = [];
+    let intermedio = [];
+    for (let i = 0; i < diainicial; i++) {
+        intermedio.push('');
+    }
+    for (let i = 1; i <= numerodias; i++) {
+        salida.push(i);
+    }
+    let result = intermedio.concat(salida);
+    return result;
+}
+function estableceTituloCalendario(mesinicial, anioinicial) {
+    let salida = anioinicial.toString();
+    switch (mesinicial) {
+        case 0:
+            salida = "Enero "+salida;
+            break;
+        case 1:
+            salida = "Febrero "+salida;
+            break;
+        case 2:
+            salida = "Marzo "+salida;
+            break;
+        case 3:
+            salida = "Abril "+salida;
+            break;
+        case 4:
+            salida = "Mayo "+salida;
+            break;
+        case 5:
+            salida = "Junio "+salida;
+            break;
+        case 6:
+            salida = "Julio "+salida;
+            break;
+        case 7:
+            salida = "Agosto "+salida;
+            break;
+        case 8:
+            salida = "Septiembre "+salida;
+            break;
+        case 9:
+            salida = "Octubre "+salida;
+            break;
+        case 10:
+            salida = "Noviembre "+salida;
+            break;
+        case 11:
+            salida = "Diciembre "+salida;
+            break;
+    }
+    return salida;
+}
 const Eventos = () => {
     const { evento } = useParams();
     const location = useLocation();
+    const anioinicial = new Date().getFullYear();
+    const [daysInitial, setDaysInitial] = useState({ numerodias: fillInDaysMonth(0, anioinicial), titulo:estableceTituloCalendario(0,anioinicial)});
     const [clasesCalendario, setClasesCalendario] = useState({ titulocalendario: 'Enero 2022' });
     const [reset, setReset] = useState(false);
     const [hoverMoreEvent, setHoverMoreEvent] = useState(false);
     const styles = useSpring({
-        from: { width: '0', opacity: 0 },
+        from: { width: '0', opacity: .3 },
         to: { width: '100%', opacity: 1 },
-        delay: 500,
-        reset: reset
+        delay: 200,
+        reset: reset,
+        config:config.slow
     })
     const goToTop = () => {
         referencia.current ? referencia.current.scrollIntoView({ behavior: 'smooth' }) : referencia.current = createRef();
@@ -187,7 +249,9 @@ const Eventos = () => {
             { titulocalendario: 'Febrero 2022' }
         ]
         let laclase = clases[indice] != undefined ? clases[indice] : { titulocalendario: 'Enero 2022' };
-        setClasesCalendario(laclase)
+        setClasesCalendario(laclase);
+        let numerodefecto = fillInDaysMonth(indice, anioinicial);
+        setDaysInitial({numerodias:numerodefecto, titulo:estableceTituloCalendario(indice,anioinicial)});
     }
     const referencia = useRef();
 
@@ -218,7 +282,7 @@ const Eventos = () => {
                 <ParallaxLayer sticky={{ start: 1, end: 12 }} style={{ maxWidth: '30%', zIndex: 1 }}>
                     <div className="calendario-eventos-principal active">
                         <header>
-                            <p>{clasesCalendario.titulocalendario}</p>
+                            <p>{daysInitial.titulo}</p>
                         </header>
                         <div className="eventos-main-calendar">
 
@@ -232,7 +296,7 @@ const Eventos = () => {
                         </div>
                         <div className="eventos-main-calendar-content">
                             {
-                                days.map((dia, indice) => {
+                                daysInitial.numerodias.map((dia, indice) => {
 
                                     return (<div className="day" key={indice}>
                                         <div className="date">
@@ -249,9 +313,7 @@ const Eventos = () => {
                 {
                     meses && meses.length > 0 ? meses.map((mes, index) => {
                         let eventosmes = eventosMin.filter(x => x.fecha.getMonth() == index);
-                        eventosmes.map((el, ids) => {
-                            console.log('evento del mes ' + mes + " " + el.fecha.getMonth() + " indice " + el.index)
-                        })
+                        
                         return <ParallaxLayer onMouseEnter={(e) => { setReset(true); handleEnter(index); }} onMouseLeave={(e) => setReset(false)}
                             offset={index + 1} key={index} speed={1}>
                             <div className={"mes-evento-main " + cssMeses[index]} id={"mes_event_" + (index + 1)}>
