@@ -18,6 +18,20 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.container-menu-main{
+  position: absolute;
+  top:0;
+  left:0;
+  z-index: 10000;
+  margin-right: .8em;
+  background-color: black;  
+}
+.inner-menu-list-hidden{
+  display: none;
+}
+.inner-menu-list{
+  display:list-item;
+}
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
@@ -397,15 +411,25 @@ Estilos temáticos
 .bodyHome-aesthetic {
   background-color: #66545e;
 }
-
+.menu-main-list, .menu-main-list ul{
+  list-style-type: none;
+}
+.menu-main-list{
+  width:120%;
+  margin-left:-5em;
+}
 .navbar-principal {
   width: '40%';
   float: 'left';
   display: grid;
   position: relative;
+  left:1.3em;
   grid-template-columns: .5fr .4fr .2fr .5fr;
   min-height: 115px;
   padding-bottom: .3em;
+}
+.with-menu{
+    height: 100vh;
 }
 .navbar-principal.navbar-principal-static{
   width: '40%';
@@ -508,6 +532,7 @@ Estilos temáticos
   position: absolute;
   top: 5px;
   right: 5px;
+  max-height: 110px;
 }
 
 .search-bar-main p {

@@ -254,6 +254,14 @@ function isInViewportFooter(element) {
     //     rect.right <= (window.innerWidth || document.documentElement.clientWidth)
     // );
 }
+
+function isInViewportMenu(element){
+    const rect = element.getBoundingClientRect();
+    const { scrollTop, offsetHeight } = document.documentElement;
+    console.log('datos de video encabezado', rect.top, rect.left, rect.bottom, rect.right)
+    console.log('limite datos de video encabezado ', Math.round(scrollTop - rect.top))
+    return Math.round(scrollTop - rect.top) > 0;
+}
 const mensajes = [
     { autor: "Gerardo Flores", fecha: "02/06/2022 2:27PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam fermentum.", propio: false },
     { autor: "Gabriela Romo", fecha: "02/06/2022 2:37PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", propio: false },
@@ -397,7 +405,7 @@ export const AutoComments = () => {
             }
         }
         setHeightChat();
-
+        
     }
     const estableceTab = (parameter) => {
 
@@ -550,7 +558,7 @@ export const AutoComments = () => {
             <div style={{ backgroundColor: 'black', height: '100px' }} onContextMenu={(e) => handleContextMenu(false, false)}>
                 <NavBar></NavBar>
             </div>
-            <h2 className='header-reproduccion-individual' style={{ padding: '1.5em 0' }} onContextMenu={(e) => handleContextMenu(false, false)}>
+            <h2 className='header-reproduccion-individual' style={{ padding: '1.5em 1.3em' }} onContextMenu={(e) => handleContextMenu(false, false)}>
                 Reproduciendo: {titulo}
             </h2>
             <div onClick={(e) => resetMyEvents(null, true)} className='player-container' onContextMenu={(e) => handleContextMenu(false, false)}>

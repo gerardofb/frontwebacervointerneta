@@ -13,6 +13,13 @@ import { Autobiograficos } from './features/Biography/Autobiograficos';
 import { ThemeProvider } from './ThemeProvider';
 import Eventos from './features/Events/Eventos';
 import { useEffect } from 'react';
+import {library} from '@fortawesome/fontawesome-svg-core';
+import { faBook, faHouse, faTape, faForward, faCommentDots, faVolumeHigh, faCalendarDays, faUserCheck, faUser,
+faEnvelope, faCircleExclamation, faHeart, faRadio, faTimeline, faPlay, faShuffle, faFilm, faVideo } from '@fortawesome/free-solid-svg-icons';
+import SideBar from './features/Menu/Sidebar'
+
+library.add(faBook, faHouse, faTape, faForward, faCommentDots, faVolumeHigh, faCalendarDays, faUserCheck, faEnvelope,
+  faCircleExclamation, faHeart, faRadio, faTimeline, faPlay, faShuffle, faFilm, faVideo);
 const FlexContents = styled(Contents)`
   display: flex;
   justify-content: space-between;
@@ -51,6 +58,9 @@ function App() {
   return (
     <BrowserRouter>
       <div className="App">
+        <div className='container-menu-main'>
+        <SideBar></SideBar>
+        </div>
         <Switch>
           <Route path='/' exact>
             <ThemeProvider>

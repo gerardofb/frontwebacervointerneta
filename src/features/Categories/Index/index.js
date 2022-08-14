@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import { withRouter, Route } from 'react-router-dom'
 import qs from "qs"
 import Parallax from 'react-springy-parallax'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faList,
   faTh,
