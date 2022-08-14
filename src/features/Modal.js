@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ReactDom from "react-dom";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faDisplay, faXmark } from "@fortawesome/free-solid-svg-icons";
 // styled
 import StyledModal from "./Modal.css";
 const modalRoot = document.getElementById("modal-root");
@@ -71,12 +71,14 @@ render() {
           </div>
         </div>
         
-      </StyledModal><div
+      </StyledModal>
+      {this.props.isOpen?
+      <div
           className={`background`}
           onMouseDown={this.handleClick}
           ref={this.background}
-          style={this.props.isOpen?{display:'block'}: {display:'none'}}
-        /></>,
+          style={{display:'block'}}
+        />:null}</>,
       modalRoot
     );
   }

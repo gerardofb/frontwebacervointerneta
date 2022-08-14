@@ -319,8 +319,12 @@ export const AutoComments = () => {
         setMsjesChat({
             chat: msjesChat.chat.filter(a => a.propio == false),
             show: false
-        })
+        });
+        let elementotop = document.querySelector('.header-reproduccion-individual');
+        elementotop.scrollIntoView({ behavior: 'smooth' });
     }, [location]);
+    
+
     const [elems, setItems] = useState(items);
     const bottomRef = useRef()
     const scrollToBottom = () => {
@@ -533,7 +537,7 @@ export const AutoComments = () => {
         console.log('estableciendo estado ', modalOpen);
         setModalOpen(!modalOpen);
         let elementoheader = document.querySelector('.box-header');
-        elementoheader.scrollIntoView({behavior:'smooth'});
+        elementoheader.scrollIntoView({ behavior: 'smooth' });
         console.log('estableciendo estado final ', modalOpen);
     };
     return (
@@ -546,7 +550,7 @@ export const AutoComments = () => {
             <div style={{ backgroundColor: 'black', height: '100px' }} onContextMenu={(e) => handleContextMenu(false, false)}>
                 <NavBar></NavBar>
             </div>
-            <h2 style={{padding:'1.5em 0'}}onContextMenu={(e) => handleContextMenu(false, false)}>
+            <h2 className='header-reproduccion-individual' style={{ padding: '1.5em 0' }} onContextMenu={(e) => handleContextMenu(false, false)}>
                 Reproduciendo: {titulo}
             </h2>
             <div onClick={(e) => resetMyEvents(null, true)} className='player-container' onContextMenu={(e) => handleContextMenu(false, false)}>

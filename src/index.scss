@@ -407,6 +407,15 @@ Estilos temáticos
   min-height: 115px;
   padding-bottom: .3em;
 }
+.navbar-principal.navbar-principal-static{
+  width: '40%';
+  float: 'left';
+  display: grid;
+  position: relative;
+  grid-template-columns: .5fr .5fr;
+  min-height: 115px;
+  padding-bottom: .3em;
+}
 
 .navbar-principal-static {
   background-color: black;
@@ -1974,7 +1983,7 @@ clases de los modales
 }
 .background{
   position: fixed; /* Sit on top of the page content */
-  display: none; /* Hidden by default */
+  display: block; /* Hidden by default */
   width: 100%; /* Full width (cover the whole page) */
   height: 100%; /* Full height (cover the whole page) */
   top: 0;

@@ -12,6 +12,7 @@ import { AutoComments } from './features/Players/Reproduccion';
 import { Autobiograficos } from './features/Biography/Autobiograficos';
 import { ThemeProvider } from './ThemeProvider';
 import Eventos from './features/Events/Eventos';
+import { useEffect } from 'react';
 const FlexContents = styled(Contents)`
   display: flex;
   justify-content: space-between;
@@ -40,28 +41,35 @@ history.push = args => {
 }
 
 function App() {
+  useEffect(() => {
+    window.addEventListener('popstate', (event) => {
+      let elementotop = document.querySelector('.navbar-principal');
+      if(elementotop !== undefined){setTimeout(function(){elementotop.scrollIntoView({behavior:'smooth'}); console.log('dispare el evento popstate', elementotop);},100)}
+      
+    });
+  },[]);
   return (
     <BrowserRouter>
       <div className="App">
         <Switch>
           <Route path='/' exact>
             <ThemeProvider>
-            <Home />
+              <Home />
             </ThemeProvider>
           </Route>
           {<Route path="/Categorias" exact
             render={({ location, search }) => {
               return (
                 <ThemeProvider>
-                <Flipper
-                  flipKey={`${location.pathname}-${location.search}`}
-                  decisionData={{
-                    location,
-                    search
-                  }}
-                >
-                  <IndexPage />
-                </Flipper>
+                  <Flipper
+                    flipKey={`${location.pathname}-${location.search}`}
+                    decisionData={{
+                      location,
+                      search
+                    }}
+                  >
+                    <IndexPage />
+                  </Flipper>
                 </ThemeProvider>
               )
             }}
@@ -70,17 +78,17 @@ function App() {
           </Route>
           <Route path="/Reproduccion/:video" exact>
             <ThemeProvider>
-            <AutoComments></AutoComments>
+              <AutoComments></AutoComments>
             </ThemeProvider>
           </Route>
           <Route path='/Autobiograficos/:relato' exact>
             <ThemeProvider>
-            <Autobiograficos></Autobiograficos>
+              <Autobiograficos></Autobiograficos>
             </ThemeProvider>
           </Route>
           <Route path="/Eventos/:evento" exact>
             <ThemeProvider>
-            <Eventos></Eventos>
+              <Eventos></Eventos>
             </ThemeProvider>
           </Route>
         </Switch>
