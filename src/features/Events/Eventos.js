@@ -421,7 +421,8 @@ const Eventos = () => {
                         <NavBar></NavBar>
                     </div>
                     <div ref={referencia} className="main-content-this-event">
-                        {<>
+                        {
+                            <>
                             <h1>
                                 {eventdetail && eventdetail.title + " (" + eventdetail.fecha.getFullYear() + "/" +
                                     (eventdetail.fecha.getMonth() + 1) + "/" + eventdetail.fecha.getDate() + " a las " + eventdetail.fecha.getHours() + "  horas)"
@@ -435,7 +436,7 @@ const Eventos = () => {
                         }
                     </div>
                     <div><h1 onMouseEnter={(e) => setHoverMoreEvent(true)} onMouseLeave={(e) => setHoverMoreEvent(false)}>
-                        {hoverMoreEvent ? <span onClick={(e) => setDetalleEvento(-1)} style={{ fontSize: '20px', cursor: 'pointer' }}>regresar...&nbsp;</span>
+                        {hoverMoreEvent ? <span onClick={(e) => {setDetalleEvento(-1); setClaseSemana({ indice: '', clasecss: ' activa' })}} style={{ fontSize: '20px', cursor: 'pointer' }}>regresar...&nbsp;</span>
                             : null}
                         <FontAwesomeIcon style={{ fontSize: '30px' }} icon={!hoverMoreEvent ? faArrowLeft : null} />{estableceTituloCalendario(detalleEvento, anioinicial)}</h1></div>
                     <div className="switch-week">
@@ -451,7 +452,7 @@ const Eventos = () => {
                         <div className={devuelveClaseSemana('cuarta-semana')} onClick={(e) => { enfocaSemana('.cuarta-semana') }}>
                             4a. semana
                         </div>
-                        <div className={devuelveClaseSemana('quinta-semana')} onClick={(e) => { enfocaSemana('.tercera-semana') }}>
+                        <div className={devuelveClaseSemana('quinta-semana')} onClick={(e) => { enfocaSemana('.quinta-semana') }}>
                             5a. semana
                         </div>
                     </div>
