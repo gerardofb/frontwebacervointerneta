@@ -33,7 +33,22 @@ Estilos de la reproducción individual de videos
 .player-container {
   margin: 0 2em;
 }
-
+.acciones-reproduccion{
+  min-height: 25px;
+  cursor: pointer;
+  margin-top:20px;
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+  gap:5px;
+}
+.item-acciones-repro{
+  cursor: pointer;
+  border-left: 1px solid gray;
+  padding:0 1em;
+}
+.item-acciones-repro:nth-child(4){
+  border-right: 1px solid gray;
+}
 .player-individual {
   height: 1200px;
   max-height: 1200px;
@@ -215,6 +230,7 @@ Estilos del chat en el reproductor individual de video
   display: grid;
   grid-template-columns: 2;
   color: #009639;
+  cursor: pointer;
 }
 
 .top-chat span {
@@ -319,6 +335,10 @@ Estilos de los eventos en la reproducción individual de video
 .control-evento-reproduccion {
   display: grid;
   grid-template-columns: auto auto;
+}
+.control-evento-reproduccion a{
+  text-decoration: none;
+  color:black;
 }
 
 .control-evento-reproduccion div {
@@ -1863,6 +1883,76 @@ Clases del detalle mensual de los eventos
 }
 
 
+/*
+clases de los modales
+*/
+.wrapper{
+  background-color: white;
+  border-radius: 7px;
+  border:1px solid gray;
+}
+.wrapper .close{
+  float:right;
+  border:none;
+  outline: none;
+  background-color: white;
+  margin-right: .9em;
+  cursor:pointer;
+
+}
+.wrapper .box-title{
+   text-align: center;
+}
+.wrapper .box-header{
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  margin:-.9em 0;
+}
+.wrapper .box-dialog{
+  width:100%;
+}
+.wrapper.darkmodal{
+  background-color: black;
+  border-radius: 7px;
+  border:1px solid lightgray;
+}
+.wrapper.darkmodal .close{
+  float:right;
+  border:none;
+  outline: none;
+  background-color: black;
+  color:white;
+  margin-right: .9em;
+  cursor: pointer;
+
+}
+.wrapper.darkmodal .box-header{
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  margin:-.9em 0;
+  background-color: black;
+  color:white;
+}
+.wrapper.darkmodal .box-content{
+  padding:1em 1.5em;
+  background-color: black;
+  color:white;
+}
+.background{
+  position: fixed; /* Sit on top of the page content */
+  display: none; /* Hidden by default */
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+  z-index: 500; /* Specify a stack order in case you're using a different order for other elements */
+  cursor: pointer; /* Add a pointer on hover */
+}
 
 
 

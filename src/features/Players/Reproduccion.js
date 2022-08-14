@@ -9,6 +9,7 @@ import {
     animated,
     useSpringRef,
 } from '@react-spring/web';
+import Modal from '../Modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faAngleDown,
@@ -23,7 +24,10 @@ import {
     faHeart,
     faCalendarDays,
     faVolumeHigh,
-    faBook
+    faBook,
+    faCircleInfo,
+    faShare,
+    faSave
 } from "@fortawesome/free-solid-svg-icons"
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
@@ -523,6 +527,12 @@ export const AutoComments = () => {
             }));
         }
     }
+    const [modalOpen, setModalOpen] = useState(false);
+    const toggleState = e => {
+        console.log('estableciendo estado ',modalOpen);
+        setModalOpen(!modalOpen);
+        console.log('estableciendo estado final ',modalOpen);
+      };
     return (
         <div className='player-individual' onScroll={handleScroll}>
             {
@@ -533,7 +543,7 @@ export const AutoComments = () => {
             <div style={{ backgroundColor: 'black', height: '100px' }} onContextMenu={(e) => handleContextMenu(false, false)}>
                 <NavBar></NavBar>
             </div>
-            <h2 onContextMenu={(e) => handleContextMenu(false, false)}>
+            <h2 style={{cursor:'pointer'}} onContextMenu={(e) => handleContextMenu(false, false)}>
                 Reproduciendo: {titulo}
             </h2>
             <div onClick={(e) => resetMyEvents(null, true)} className='player-container' onContextMenu={(e) => handleContextMenu(false, false)}>
@@ -542,8 +552,13 @@ export const AutoComments = () => {
                     <ControlBar></ControlBar>
                     <LoadingSpinner></LoadingSpinner>
                 </Player>
+                <div className='acciones-reproduccion'>
+                <div className='item-acciones-repro' onClick={toggleState}>
+                    <FontAwesomeIcon icon={faCircleInfo} />Créditos
+                </div>
             </div>
-
+            </div>
+           
 
             <div className='content-player'>
                 <div className="break" onContextMenu={(e) => handleContextMenu(false, false)}>
@@ -684,6 +699,9 @@ export const AutoComments = () => {
                 </div>
             </div>
             <HomeFooter></HomeFooter>
+            <Modal id="modal" isOpen={modalOpen} onClose={toggleState} modalClass="darkmodal" title={"Créditos del vídeo"}>
+                <div>Contenido</div>
+            </Modal>
         </div>
 
     )

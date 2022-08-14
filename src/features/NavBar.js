@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
-import { faGamepad, faXmark, faAngleRight, faAngleLeft, faMoon, faSun } from '@fortawesome/free-solid-svg-icons'
+import { faGamepad, faXmark, faAngleRight, faAngleLeft, faMoon, faSun, faBars } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import SearchBar from './SearchBar'
 import { ThemesContext } from '../ThemeProvider'
@@ -50,7 +50,7 @@ const NavBar = (props) => {
     const logotipo = !darkMode ? 'logo_blanco_interneta' : 'logo_negro_interneta';
     return (
         <>
-            <div className={styles.NavbarPrincipal}><Link to='/'><img src={url(logotipo)} style={{ height: '100px', float: 'left' }} /><h2 style={{ float: 'left' }}>Acervo Audiovisual Interneta</h2></Link>
+            <div className={styles.NavbarPrincipal}><Link to='/'><FontAwesomeIcon title='menú principal' icon={faBars} style={{color:'white', float:'left', cursor:'pointer', padding:'0 .25em'}} onClick={(e)=>{e.preventDefault()}}  /><img src={url(logotipo)} style={{ height: '100px', float: 'left' }} /><h2 style={{ float: 'left' }}>Acervo Audiovisual Interneta</h2></Link>
                 <div className='container-tematica'>
                     <div className={!showTemas ? 'tematica-sitio tematica-hidden' : 'tematica-sitio tematica-show'}>
                         <div className='close-tematica'><FontAwesomeIcon icon={faXmark} onClick={(e) => setShowTemas(false)} /></div>
