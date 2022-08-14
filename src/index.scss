@@ -1,3 +1,15 @@
+:root {
+  --numDays: 7;
+  --numHours: 35;
+  --timeHeight: 60px;
+  --calBgColor: #fff1f8;
+  --eventBorderColor: #f2d3d8;
+  --eventColor1: #ffd6d1;
+  --eventColor2: #fafaa3;
+  --eventColor3: #e2f8ff;
+  --eventColor4: #d1ffe6;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -1532,6 +1544,322 @@ max-width: 180px;
 .main-content-this-event img{
   width: 400px;
 
+}
+
+/*
+Clases del detalle mensual de los eventos
+*/
+
+
+.calendar-detail {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: auto 1fr;
+  margin: 2rem;
+  padding-bottom:100px;
+}
+.time-marker-detail{
+  margin:.2rem 0;
+  padding:.2rem;
+  background-color: white;
+}
+.timeline-detail {
+  display: grid;
+  grid-template-rows: repeat(var(--numHours), var(--timeHeight));
+  text-align: right;
+}
+
+.container-days-detail{
+  overflow-x:auto;
+  width:100%;
+  grid-column: 2;
+  grid-template-columns: 100% 100% 100% 100% 100%;
+  gap: 5px;
+  display: grid;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+}
+
+.container-days-detail::-webkit-scrollbar {
+  display: none;
+}
+.days-detail {
+  display: grid;
+  gap: 2px;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
+.events-detail {
+  display: grid;
+  grid-template-rows: repeat(var(--numHours), var(--timeHeight));
+  border-radius: 5px;
+  background: var(--calBgColor);
+}
+
+// Place on Timeline
+.start-9-detail {
+  grid-row-start: 4;
+}
+.start-9_5-detail {
+  grid-row-start: 5;
+}
+.start-10-detail {
+  grid-row-start: 6;
+}
+.start-10_5-detail {
+  grid-row-start: 7;
+}
+.start-11-detail {
+  grid-row-start: 8;
+}
+.start-11_5-detail {
+  grid-row-start: 9;
+}
+.start-12-detail {
+  grid-row-start: 10;
+}
+.start-12_5-detail {
+  grid-row-start: 11;
+}
+.start-13-detail {
+  grid-row-start:12;
+}
+.start-13_5-detail {
+  grid-row-start: 13;
+}
+.start-14-detail {
+  grid-row-start: 14;
+}
+.start-14_5-detail {
+  grid-row-start: 15;
+}
+.start-15-detail {
+  grid-row-start: 16;
+}
+.start-15_5-detail {
+  grid-row-start: 17;
+}
+.start-16-detail {
+  grid-row-start: 18;
+}
+.start-16_5-detail {
+  grid-row-start: 19;
+}
+.start-17-detail {
+  grid-row-start: 20;
+}
+.start-17_5-detail {
+  grid-row-start: 21;
+}
+.start-18-detail {
+  grid-row-start: 22;
+}
+.start-18_5-detail {
+  grid-row-start: 23;
+}
+.start-19-detail {
+  grid-row-start: 24;
+}
+.start-19_5-detail {
+  grid-row-start: 25;
+}
+.start-20-detail {
+  grid-row-start: 26;
+}
+.start-20_5-detail {
+  grid-row-start: 27;
+}
+.start-21-detail {
+  grid-row-start: 28;
+}
+.start-21_5-detail {
+  grid-row-start: 29;
+}
+.start-22-detail {
+  grid-row-start: 30;
+}
+.start-22_5-detail {
+  grid-row-start: 31;
+}
+.start-23-detail {
+  grid-row-start: 32;
+}
+.start-23_5-detail{
+  grid-row-start:33;
+}
+.start-24-detail{
+  grid-row-start: 34;
+}
+
+
+.end-9_5-detail {
+  grid-row-end: 5;
+}
+.end-10-detail {
+  grid-row-end: 6;
+}
+.end-10_5-detail {
+  grid-row-end: 7;
+}
+.end-11-detail {
+  grid-row-end: 8;
+}
+.end-11_5-detail {
+  grid-row-end: 9;
+}
+.end-12-detail {
+  grid-row-end: 10;
+}
+.end-12_5-detail {
+  grid-row-end: 11;
+}
+.end-13-detail {
+  grid-row-end: 12;
+}
+.end-13_5-detail {
+  grid-row-end: 13;
+}
+.end-14-detail {
+  grid-row-end: 14;
+}
+.end-14_5-detail {
+  grid-row-end: 15;
+}
+.end-15-detail {
+  grid-row-end: 16;
+}
+.end-15_5-detail {
+  grid-row-end: 17;
+}
+.end-16-detail {
+  grid-row-end: 18;
+}
+.end-16_5-detail {
+  grid-row-end: 19;
+}
+.end-17-detail {
+  grid-row-end: 20;
+}
+.end-17_5-detail {
+  grid-row-end: 21;
+}
+.end-18-detail {
+  grid-row-end: 22;
+}
+.end-18_5-detail {
+  grid-row-end: 23;
+}
+.end-19-detail {
+  grid-row-end: 24;
+}
+.end-19_5-detail {
+  grid-row-end: 25;
+}
+.end-20-detail {
+  grid-row-end: 26;
+}
+.end-20_5-detail {
+  grid-row-end: 27;
+}
+.end-21-detail {
+  grid-row-end: 28;
+}
+.end-21_5-detail {
+  grid-row-end: 29;
+}
+.end-22-detail {
+  grid-row-end: 30;
+}
+.end-22_5-detail {
+  grid-row-end: 31;
+}
+.end-23-detail {
+  grid-row-end: 32;
+}
+.end-23_5-detail {
+  grid-row-end: 33;
+}
+.end-24-detail{
+  grid-row-end: 34;
+}
+.end-24_5-detail{
+  grid-row-end: 35;
+}
+// Event
+
+.title-detail {
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.events-detail {
+  border: 1px solid var(--eventBorderColor);
+  border-radius: 5px;
+  margin: 0 0.5rem;
+  font-size: small;
+}
+
+.space-detail,
+.date-detail {
+  height: 60px
+}
+
+.day-detail.with_event .date-detail{
+   text-decoration: underline;
+}
+
+
+.corp-fi-detail {
+  background: var(--eventColor1);
+}
+
+.ent-law-detail {
+  background: var(--eventColor2);
+}
+
+.writing-detail {
+  background: var(--eventColor4);
+  margin: 0 .2rem;
+  cursor: pointer;
+}
+
+.securities-detail {
+  background: var(--eventColor4);
+}
+
+.date-detail {
+  display: flex;
+  gap: 0em;
+  justify-content: center;
+}
+
+.date-num-detail {
+  font-size: 3rem;
+  font-weight: 600;
+  display: inline;
+  padding:0 .2em;
+}
+
+.date-day-detail {
+  display: inline;
+  font-size: 3rem;
+  font-weight: 100;
+}
+.switch-week{
+  display: grid;
+  margin:auto;
+  justify-content: center;
+  gap:1em;
+  grid-template-columns: 200px 200px 200px 200px 200px;
+}
+.week{
+  border-radius: 10px;
+  background-color: white;
+  cursor:pointer;
+}
+.week.activa{
+  background-color: lightgreen;
 }
 
 

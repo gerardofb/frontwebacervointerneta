@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef, createRef } from "react";
 import { Parallax, ParallaxLayer } from '@react-spring/parallax';
 import NavBar from '../NavBar';
+import { HomeFooter } from "../HomeFooter";
 import { Spring, useSpring, animated, config } from "react-spring";
 import { Link } from "react-router-dom";
 import { useLocation, useParams } from "react-router-dom";
-import { faCalendar, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { faCalendar, faArrowRight, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
 const dayOfWeek = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sab'];
@@ -166,55 +167,80 @@ function fillInDaysMonth(mesinicial, anioinicial) {
     const aniodefecto = new Date(anioinicial, 0, 1).getFullYear();
     const numerodias = getDaysInMonth(aniodefecto, 0);
     const diainicial = new Date(aniodefecto, mesinicial, 1).getDay();
+    const diafinal = new Date(aniodefecto, (mesinicial + 1), 0).getDate();
     let salida = [];
     let intermedio = [];
     for (let i = 0; i < diainicial; i++) {
         intermedio.push('');
     }
-    for (let i = 1; i <= numerodias; i++) {
+    for (let i = 1; i <= diafinal; i++) {
         salida.push(i);
     }
+    console.log('saliendo de maximo dias en mes ', salida);
     let result = intermedio.concat(salida);
     return result;
+}
+function devuelveNombreDiaMes(fecha) {
+    return new Intl.DateTimeFormat('es-MX', { weekday: 'short' }).format(fecha);
+}
+function returnHoursDurationEvent(fecha, duracion) {
+    let hora = fecha.getHours() + (duracion / 60);
+    let minutes = 0;
+    if (hora.toString().indexOf('.') !== -1) {
+        minutes = 30;
+        hora = parseInt(hora.toString())
+    }
+    return new Date(fecha.getFullYear(), fecha.getMonth(), fecha.getDate(), hora, minutes, 0);
+}
+function returnClaseDurationEvent(fecha, duracion) {
+    let horainicial = fecha.getHours();
+    let hora = fecha.getHours() + (duracion / 60);
+    let minutos_inciales = fecha.getMinutes();
+    let minutes = 0;
+    if (hora.toString().indexOf('.') !== -1) {
+        minutes = 30;
+        hora = parseInt(hora.toString())
+    }
+    return ['start-' + ((minutos_inciales == 0) ? horainicial : horainicial + "_5") + "-detail", 'end-' + ((minutes == 0) ? hora : hora + "_5") + "-detail"];
 }
 function estableceTituloCalendario(mesinicial, anioinicial) {
     let salida = anioinicial.toString();
     switch (mesinicial) {
         case 0:
-            salida = "Enero "+salida;
+            salida = "Enero " + salida;
             break;
         case 1:
-            salida = "Febrero "+salida;
+            salida = "Febrero " + salida;
             break;
         case 2:
-            salida = "Marzo "+salida;
+            salida = "Marzo " + salida;
             break;
         case 3:
-            salida = "Abril "+salida;
+            salida = "Abril " + salida;
             break;
         case 4:
-            salida = "Mayo "+salida;
+            salida = "Mayo " + salida;
             break;
         case 5:
-            salida = "Junio "+salida;
+            salida = "Junio " + salida;
             break;
         case 6:
-            salida = "Julio "+salida;
+            salida = "Julio " + salida;
             break;
         case 7:
-            salida = "Agosto "+salida;
+            salida = "Agosto " + salida;
             break;
         case 8:
-            salida = "Septiembre "+salida;
+            salida = "Septiembre " + salida;
             break;
         case 9:
-            salida = "Octubre "+salida;
+            salida = "Octubre " + salida;
             break;
         case 10:
-            salida = "Noviembre "+salida;
+            salida = "Noviembre " + salida;
             break;
         case 11:
-            salida = "Diciembre "+salida;
+            salida = "Diciembre " + salida;
             break;
     }
     return salida;
@@ -223,27 +249,44 @@ const Eventos = () => {
     const { evento } = useParams();
     const location = useLocation();
     const anioinicial = new Date().getFullYear();
-    const [daysInitial, setDaysInitial] = useState({ numerodias: fillInDaysMonth(0, anioinicial), titulo:estableceTituloCalendario(0,anioinicial)});
+    const [daysInitial, setDaysInitial] = useState({ numerodias: fillInDaysMonth(0, anioinicial), titulo: estableceTituloCalendario(0, anioinicial) });
     const [clasesCalendario, setClasesCalendario] = useState({ titulocalendario: 'Enero 2022' });
     const [reset, setReset] = useState(false);
     const [hoverMoreEvent, setHoverMoreEvent] = useState(false);
-    const [diaevento,setDiaEvento] = useState(0);
+    const [diaevento, setDiaEvento] = useState(0);
+    const [detalleEvento, setDetalleEvento] = useState(-1);
+    const [clasesemana, setClaseSemana] = useState({ indice: '', clasecss: ' activa' });
     const styles = useSpring({
         from: { width: '0', opacity: .3 },
         to: { width: '100%', opacity: 1 },
         delay: 200,
         reset: reset,
-        config:config.slow
+        config: config.slow
     });
-    console.log('reset es ',reset);
+    console.log('reset es ', reset);
     const goToTop = () => {
         referencia.current ? referencia.current.scrollIntoView({ behavior: 'smooth' }) : referencia.current = createRef();
+    }
+    const enfocaSemana = (clasecss) => {
+        let elemento = document.querySelector(clasecss);
+        elemento.scrollIntoView({ behavior: 'smooth' });
+        setClaseSemana({
+            indice: clasecss.replace('.', ''),
+            activa: ' activa'
+        });
+    }
+    const devuelveClaseSemana = (clasecss) => {
+        if (clasecss === clasesemana.indice) {
+            return "week"+clasesemana.activa;
+        }
+        return "week";
     }
     useEffect(() => {
         console.log("Location changed");
         goToTop();
     }, [location]);
     const valor = eventosMin.find(x => x.index == evento);
+    const [eventdetail, setEventDetail] = useState(eventosMin.find(x => x.fecha.getMonth() == detalleEvento));
     const handleEnter = (indice) => {
 
         let clases = [
@@ -253,74 +296,86 @@ const Eventos = () => {
         let laclase = clases[indice] != undefined ? clases[indice] : { titulocalendario: 'Enero 2022' };
         setClasesCalendario(laclase);
         let numerodefecto = fillInDaysMonth(indice, anioinicial);
-        setDaysInitial({numerodias:numerodefecto, titulo:estableceTituloCalendario(indice,anioinicial)});
+        setDaysInitial({ numerodias: numerodefecto, titulo: estableceTituloCalendario(indice, anioinicial) });
         setDiaEvento(0);
     }
-    const estableceDiaEvento = (dia)=>{
+    const estableceDiaEvento = (dia) => {
         setReset(false);
         setDiaEvento(dia);
     }
     const referencia = useRef();
-
+    const diasdetalle = detalleEvento == -1 ? 0 : fillInDaysMonth(detalleEvento, anioinicial);
+    const primerasemana = diasdetalle != 0 ? diasdetalle.slice(1, 8) : null;
+    const segundasemana = diasdetalle != 0 ? diasdetalle.slice(8, 15) : null;
+    const tercerasemana = diasdetalle != 0 ? diasdetalle.slice(15, 22) : null;
+    const cuartasemana = diasdetalle != 0 ? diasdetalle.slice(22, 29) : null;
+    let quintasemana = diasdetalle != 0 ? diasdetalle.slice(29, 37) : null;
+    if (quintasemana && quintasemana.length < 7) {
+        for (let i = quintasemana.length; i <= 7; i++) {
+            quintasemana.push('');
+        }
+    }
+    const eventosdetallados = detalleEvento != -1 ? eventosMin.filter(x => x.fecha.getMonth() == detalleEvento) : [];
+    console.log('eventos del mes', eventosdetallados, detalleEvento);
     return (
-        <div>
-            <Parallax pages={13} className="eventos-main-container">
-                <ParallaxLayer offset={0} speed={0}>
-                    <div style={{ backgroundColor: 'black', height: '100px' }}>
-                        <NavBar></NavBar>
-                    </div>
-                </ParallaxLayer>
-                <ParallaxLayer offset={0.16} speed={1}>
-                    <div ref={referencia} className="main-content-this-event">
-                        {<>
-                            <h1>
-                                {valor && valor.title + " (" + valor.fecha.getFullYear() + "/" +
-                                    (valor.fecha.getMonth() + 1) + "/" + valor.fecha.getDate() + " a las " + valor.fecha.getHours() + "  horas)"
+        detalleEvento == -1 ?
+            <div>
+                <Parallax pages={14} className="eventos-main-container">
+                    <ParallaxLayer offset={0} speed={0}>
+                        <div style={{ backgroundColor: 'black', height: '100px' }}>
+                            <NavBar></NavBar>
+                        </div>
+                    </ParallaxLayer>
+                    <ParallaxLayer offset={0.16} speed={1}>
+                        <div ref={referencia} className="main-content-this-event">
+                            {<>
+                                <h1>
+                                    {valor && valor.title + " (" + valor.fecha.getFullYear() + "/" +
+                                        (valor.fecha.getMonth() + 1) + "/" + valor.fecha.getDate() + " a las " + valor.fecha.getHours() + "  horas)"
+                                    }
+                                </h1>
+                                <img src={valor.imagen} />
+                                <p>
+                                    {valor && valor.descripcion}
+                                </p>
+                            </>
+                            }
+                        </div>
+                    </ParallaxLayer>
+                    <ParallaxLayer sticky={{ start: 1, end: 12 }} style={{ maxWidth: '30%', zIndex: 1 }}>
+                        <div className="calendario-eventos-principal active">
+                            <header>
+                                <p>{daysInitial.titulo}</p>
+                            </header>
+                            <div className="eventos-main-calendar">
+
+                                {
+                                    dayOfWeek.map((el, index) => {
+                                        return (<div className="title-calendar" key={index}><div className="content-title-calendar">
+                                            {el}</div></div>)
+                                    })
                                 }
-                            </h1>
-                            <img src={valor.imagen} />
-                            <p>
-                                {valor && valor.descripcion}
-                            </p>
-                        </>
-                        }
-                    </div>
-                </ParallaxLayer>
-                <ParallaxLayer sticky={{ start: 1, end: 12 }} style={{ maxWidth: '30%', zIndex: 1 }}>
-                    <div className="calendario-eventos-principal active">
-                        <header>
-                            <p>{daysInitial.titulo}</p>
-                        </header>
-                        <div className="eventos-main-calendar">
 
-                            {
-                                dayOfWeek.map((el, index) => {
-                                    return (<div className="title-calendar" key={index}><div className="content-title-calendar">
-                                        {el}</div></div>)
-                                })
-                            }
-
+                            </div>
+                            <div className="eventos-main-calendar-content">
+                                {
+                                    daysInitial.numerodias.map((dia, indice) => {
+                                        let clasedia = diaevento === dia ? "day active" : "day";
+                                        return (<div className={clasedia} key={indice}>
+                                            <div className="date">
+                                                <span className="day">
+                                                    {dia}
+                                                </span>
+                                            </div>
+                                        </div>)
+                                    })
+                                }
+                            </div>
                         </div>
-                        <div className="eventos-main-calendar-content">
-                            {
-                                daysInitial.numerodias.map((dia, indice) => {
-                                    let clasedia = diaevento === dia ? "day active" : "day";
-                                    return (<div className={clasedia} key={indice}>
-                                        <div className="date">
-                                            <span className="day">
-                                                {dia}
-                                            </span>
-                                        </div>
-                                    </div>)
-                                })
-                            }
-                        </div>
-                    </div>
-                </ParallaxLayer>
-                {
-                    meses && meses.length > 0 ? meses.map((mes, index) => {
+                    </ParallaxLayer>
+                    {meses && meses.length > 0 ? meses.map((mes, index) => {
                         let eventosmes = eventosMin.filter(x => x.fecha.getMonth() == index);
-                        
+
                         return <ParallaxLayer onMouseEnter={(e) => { setReset(true); handleEnter(index); }} onMouseLeave={(e) => setReset(false)}
                             offset={index + 1} key={index} speed={1}>
                             <div className={"mes-evento-main " + cssMeses[index]} id={"mes_event_" + (index + 1)}>
@@ -328,7 +383,7 @@ const Eventos = () => {
                                 <h1 onMouseEnter=
                                     {(e) => setHoverMoreEvent(true)} onMouseLeave={(e) => setHoverMoreEvent(false)}>
                                     {!hoverMoreEvent ? null
-                                        : <span style={{ fontSize: '50px', cursor: 'pointer' }}>ver más...&nbsp;</span>}
+                                        : <span onClick={(e) => setDetalleEvento(index)} style={{ fontSize: '50px', cursor: 'pointer' }}>ver más...&nbsp;</span>}
                                     <FontAwesomeIcon style={{ fontSize: '50px' }} icon={!hoverMoreEvent ? faArrowRight : faCalendar} />{mes}</h1>
 
                                 <div className="listado-min-eventos">
@@ -337,7 +392,7 @@ const Eventos = () => {
                                             let idLink = '/Eventos/' + event.index;
                                             return (
                                                 <Link to={idLink} style={{ textDecoration: 'none', color: 'gray' }} key={idx}>
-                                                    <div className="miniatura-evento" onMouseEnter={(e)=>{estableceDiaEvento(parseInt(event.fecha.getDate()))}}>
+                                                    <div className="miniatura-evento" onMouseEnter={(e) => { estableceDiaEvento(parseInt(event.fecha.getDate())) }}>
                                                         {event.imagen !== "" ? <animated.img style={{ ...styles }} src={event.imagen} alt={event.title} /> : null}
                                                         <br />
                                                         <p>{event.title}&nbsp;<strong>({event.fecha.getFullYear() + "/" +
@@ -351,11 +406,267 @@ const Eventos = () => {
                                 </div>
                             </div>
                         </ParallaxLayer>
-                    }) : null
-                }
-            </Parallax>
-        </div>
-    );
+                    }) : null}
+                    <ParallaxLayer offset={13} speed={1}>
+                        <div style={{ marginTop: '61vh' }}>
+                            <HomeFooter></HomeFooter>
+                        </div>
+                    </ParallaxLayer>
+                </Parallax>
+            </div>
+            :
+            <div>
+                <div className="eventos-main-container">
+                    <div style={{ backgroundColor: 'black', height: '100px' }}>
+                        <NavBar></NavBar>
+                    </div>
+                    <div ref={referencia} className="main-content-this-event">
+                        {<>
+                            <h1>
+                                {eventdetail && eventdetail.title + " (" + eventdetail.fecha.getFullYear() + "/" +
+                                    (eventdetail.fecha.getMonth() + 1) + "/" + eventdetail.fecha.getDate() + " a las " + eventdetail.fecha.getHours() + "  horas)"
+                                }
+                            </h1>
+                            <img src={eventdetail && eventdetail.imagen} />
+                            <p>
+                                {eventdetail && eventdetail.descripcion}
+                            </p>
+                        </>
+                        }
+                    </div>
+                    <div><h1 onMouseEnter={(e) => setHoverMoreEvent(true)} onMouseLeave={(e) => setHoverMoreEvent(false)}>
+                        {hoverMoreEvent ? <span onClick={(e) => setDetalleEvento(-1)} style={{ fontSize: '20px', cursor: 'pointer' }}>regresar...&nbsp;</span>
+                            : null}
+                        <FontAwesomeIcon style={{ fontSize: '30px' }} icon={!hoverMoreEvent ? faArrowLeft : null} />{estableceTituloCalendario(detalleEvento, anioinicial)}</h1></div>
+                    <div className="switch-week">
+                        <div className={devuelveClaseSemana('primera-semana')} onClick={(e) => { enfocaSemana('.primera-semana') }}>
+                            1a. semana
+                        </div>
+                        <div className={devuelveClaseSemana('segunda-semana')} onClick={(e) => { enfocaSemana('.segunda-semana') }}>
+                            2a. semana
+                        </div>
+                        <div className={devuelveClaseSemana('tercera-semana')} onClick={(e) => { enfocaSemana('.tercera-semana') }}>
+                            3a. semana
+                        </div>
+                        <div className={devuelveClaseSemana('cuarta-semana')} onClick={(e) => { enfocaSemana('.cuarta-semana') }}>
+                            4a. semana
+                        </div>
+                        <div className={devuelveClaseSemana('quinta-semana')} onClick={(e) => { enfocaSemana('.tercera-semana') }}>
+                            5a. semana
+                        </div>
+                    </div>
+                    <div className="calendar-detail">
+                        <div className="timeline-detail">
+                            <div className="spacer-detail"></div>
+                            <div className="spacer-detail"></div>
+                            <div className="spacer-detail"></div>
+                            <div className="spacer-detail"></div>
+                            <div className="time-marker-detail">9 AM</div>
+                            <div className="time-marker-detail">9:30 AM</div>
+                            <div className="time-marker-detail">10 AM</div>
+                            <div className="time-marker-detail">10:30 AM</div>
+                            <div className="time-marker-detail">11 AM</div>
+                            <div className="time-marker-detail">11:30 AM</div>
+                            <div className="time-marker-detail">12 PM</div>
+                            <div className="time-marker-detail">12:30 PM</div>
+                            <div className="time-marker-detail">1 PM</div>
+                            <div className="time-marker-detail">1:30 PM</div>
+                            <div className="time-marker-detail">2 PM</div>
+                            <div className="time-marker-detail">2:30 PM</div>
+                            <div className="time-marker-detail">3 PM</div>
+                            <div className="time-marker-detail">3:30 PM</div>
+                            <div className="time-marker-detail">4 PM</div>
+                            <div className="time-marker-detail">4:30 PM</div>
+                            <div className="time-marker-detail">5 PM</div>
+                            <div className="time-marker-detail">5:30 PM</div>
+                            <div className="time-marker-detail">6 PM</div>
+                            <div className="time-marker-detail">6:30 PM</div>
+                            <div className="time-marker-detail">7 PM</div>
+                            <div className="time-marker-detail">7:30 PM</div>
+                            <div className="time-marker-detail">8 PM</div>
+                            <div className="time-marker-detail">8:30 PM</div>
+                            <div className="time-marker-detail">9 PM</div>
+                            <div className="time-marker-detail">9:30 PM</div>
+                            <div className="time-marker-detail">10 PM</div>
+                            <div className="time-marker-detail">10:30 PM</div>
+                            <div className="time-marker-detail">11 PM</div>
+                            <div className="time-marker-detail">11:30 PM</div>
+                            <div className="time-marker-detail">12:00 PM</div>
+                            <div className="time-marker-detail">12:30 PM</div>
+                        </div>
+
+                        <div className="container-days-detail">
+
+                            <div className="days-detail primera-semana">
+                                {primerasemana.map((detallediaevento, i) => {
+                                    let eventodetalle = eventosdetallados.find(x => x.fecha.getDate() == detallediaevento)
+                                    let horafinal = eventodetalle != undefined ? returnHoursDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : null;
+                                    let clasesCssEvento =
+                                        eventodetalle != undefined ? returnClaseDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : ["", ""];
+                                    return (<div className={"day-detail" + (eventodetalle ? " with_event" : "")} key={'primera-semana' + i}>
+                                        <div className="date-detail">
+                                            <p className="date-num-detail">{detallediaevento}</p>
+                                            <p className="date-day-detail">{detallediaevento !== '' ? devuelveNombreDiaMes(new Date(anioinicial, detalleEvento, detallediaevento)) : detallediaevento}</p>
+                                        </div>
+                                        {eventodetalle ?
+                                            <div className="events-detail">
+                                                {detallediaevento != '' ?
+                                                    <div onClick={(e) => { setEventDetail(eventodetalle); goToTop() }} className={clasesCssEvento[0] + ' ' + clasesCssEvento[1] + " writing-detail"}>
+                                                        <p className="title-detail">{eventodetalle && eventodetalle.title}</p>
+                                                        <p className="time-detail">{eventodetalle && eventodetalle.fecha.getHours() + ":" +
+                                                            (eventodetalle.fecha.getMinutes().toString().length < 2 ? '0' + eventodetalle.fecha.getMinutes() : eventodetalle.fecha.getMinutes())} -
+                                                            {horafinal && horafinal.getHours() + ":" + (horafinal.getMinutes().toString().length < 2 ?
+                                                                '0' + horafinal.getMinutes() : horafinal.getMinutes())}
+                                                        </p>
+                                                    </div> : null
+                                                }
+                                            </div>
+                                            : <div className="events-detail"></div>
+                                        }
+                                    </div>
+                                    )
+
+                                })
+                                }
+                            </div>
+                            <div className="days-detail segunda-semana">
+                                {segundasemana.map((detallediaevento, i) => {
+                                    let eventodetalle = eventosdetallados.find(x => x.fecha.getDate() == detallediaevento)
+                                    let horafinal = eventodetalle != undefined ? returnHoursDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : null;
+                                    let clasesCssEvento =
+                                        eventodetalle != undefined ? returnClaseDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : ["", ""];
+                                    return (<div className={"day-detail" + (eventodetalle ? " with_event" : "")} key={'segunda-semana' + i}>
+                                        <div className="date-detail">
+                                            <p className="date-num-detail">{detallediaevento}</p>
+                                            <p className="date-day-detail">{detallediaevento !== '' ? devuelveNombreDiaMes(new Date(anioinicial, detalleEvento, detallediaevento)) : detallediaevento}</p>
+                                        </div>
+                                        {eventodetalle ?
+                                            <div className="events-detail">
+                                                {detallediaevento != '' ?
+                                                    <div onClick={(e) => { setEventDetail(eventodetalle); goToTop() }} className={clasesCssEvento[0] + ' ' + clasesCssEvento[1] + " writing-detail"}>
+                                                        <p className="title-detail">{eventodetalle && eventodetalle.title}</p>
+                                                        <p className="time-detail">{eventodetalle && eventodetalle.fecha.getHours() + ":" +
+                                                            (eventodetalle.fecha.getMinutes().toString().length < 2 ? '0' + eventodetalle.fecha.getMinutes() : eventodetalle.fecha.getMinutes())} -
+                                                            {horafinal && horafinal.getHours() + ":" + (horafinal.getMinutes().toString().length < 2 ?
+                                                                '0' + horafinal.getMinutes() : horafinal.getMinutes())}
+                                                        </p>
+                                                    </div> : null
+                                                }
+                                            </div>
+                                            : <div className="events-detail"></div>
+                                        }
+                                    </div>)
+
+
+                                })
+
+                                }
+                            </div>
+                            <div className="days-detail tercera-semana">
+                                {tercerasemana.map((detallediaevento, i) => {
+                                    let eventodetalle = eventosdetallados.find(x => x.fecha.getDate() == detallediaevento)
+                                    let horafinal = eventodetalle != undefined ? returnHoursDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : null;
+                                    let clasesCssEvento =
+                                        eventodetalle != undefined ? returnClaseDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : ["", ""];
+                                    return (<div className={"day-detail" + (eventodetalle ? " with_event" : "")} key={'tercera-semana' + i}>
+                                        <div className="date-detail">
+                                            <p className="date-num-detail">{detallediaevento}</p>
+                                            <p className="date-day-detail">{detallediaevento !== '' ? devuelveNombreDiaMes(new Date(anioinicial, detalleEvento, detallediaevento)) : detallediaevento}</p>
+                                        </div>
+                                        {eventodetalle ?
+                                            <div className="events-detail">
+                                                {detallediaevento != '' ?
+                                                    <div onClick={(e) => { setEventDetail(eventodetalle); goToTop() }} className={clasesCssEvento[0] + ' ' + clasesCssEvento[1] + " writing-detail"}>
+                                                        <p className="title-detail">{eventodetalle && eventodetalle.title}</p>
+                                                        <p className="time-detail">{eventodetalle && eventodetalle.fecha.getHours() + ":" +
+                                                            (eventodetalle.fecha.getMinutes().toString().length < 2 ? '0' + eventodetalle.fecha.getMinutes() : eventodetalle.fecha.getMinutes())} -
+                                                            {horafinal && horafinal.getHours() + ":" + (horafinal.getMinutes().toString().length < 2 ?
+                                                                '0' + horafinal.getMinutes() : horafinal.getMinutes())}
+                                                        </p>
+                                                    </div> : null
+                                                }
+                                            </div>
+                                            : <div className="events-detail"></div>
+                                        }
+                                    </div>)
+
+
+                                })
+
+                                }
+                            </div>
+                            <div className="days-detail cuarta-semana">
+                                {cuartasemana.map((detallediaevento, i) => {
+                                    let eventodetalle = eventosdetallados.find(x => x.fecha.getDate() == detallediaevento)
+                                    let horafinal = eventodetalle != undefined ? returnHoursDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : null;
+                                    let clasesCssEvento =
+                                        eventodetalle != undefined ? returnClaseDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : ["", ""];
+                                    return (<div className={"day-detail" + (eventodetalle ? " with_event" : "")} key={'cuarta-semana' + i}>
+                                        <div className="date-detail">
+                                            <p className="date-num-detail">{detallediaevento}</p>
+                                            <p className="date-day-detail">{detallediaevento !== '' ? devuelveNombreDiaMes(new Date(anioinicial, detalleEvento, detallediaevento)) : detallediaevento}</p>
+                                        </div>
+                                        {eventodetalle ?
+                                            <div className="events-detail">
+                                                {detallediaevento != '' ?
+                                                    <div onClick={(e) => { setEventDetail(eventodetalle); goToTop() }} className={clasesCssEvento[0] + ' ' + clasesCssEvento[1] + " writing-detail"}>
+                                                        <p className="title-detail">{eventodetalle && eventodetalle.title}</p>
+                                                        <p className="time-detail">{eventodetalle && eventodetalle.fecha.getHours() + ":" +
+                                                            (eventodetalle.fecha.getMinutes().toString().length < 2 ? '0' + eventodetalle.fecha.getMinutes() : eventodetalle.fecha.getMinutes())} -
+                                                            {horafinal && horafinal.getHours() + ":" + (horafinal.getMinutes().toString().length < 2 ?
+                                                                '0' + horafinal.getMinutes() : horafinal.getMinutes())}
+                                                        </p>
+                                                    </div> : null
+                                                }
+                                            </div>
+                                            : <div className="events-detail"></div>
+                                        }
+                                    </div>)
+
+
+                                })
+
+                                }
+                            </div>
+                            <div className="days-detail quinta-semana">
+                                {quintasemana.map((detallediaevento, i) => {
+                                    let eventodetalle = eventosdetallados.find(x => x.fecha.getDate() == detallediaevento)
+                                    let horafinal = eventodetalle != undefined ? returnHoursDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : null;
+                                    let clasesCssEvento =
+                                        eventodetalle != undefined ? returnClaseDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : ["", ""];
+                                    return (<div className={"day-detail" + (eventodetalle ? " with_event" : "")} key={'quinta-semana' + i}>
+                                        <div className="date-detail">
+                                            <p className="date-num-detail">{detallediaevento}</p>
+                                            <p className="date-day-detail">{detallediaevento !== '' ? devuelveNombreDiaMes(new Date(anioinicial, detalleEvento, detallediaevento)) : detallediaevento}</p>
+                                        </div>
+                                        {eventodetalle ?
+                                            <div className="events-detail">
+                                                {detallediaevento != '' ?
+                                                    <div onClick={(e) => { setEventDetail(eventodetalle); goToTop() }} className={clasesCssEvento[0] + ' ' + clasesCssEvento[1] + " writing-detail"}>
+                                                        <p className="title-detail">{eventodetalle && eventodetalle.title}</p>
+                                                        <p className="time-detail">{eventodetalle && eventodetalle.fecha.getHours() + ":" +
+                                                            (eventodetalle.fecha.getMinutes().toString().length < 2 ? '0' + eventodetalle.fecha.getMinutes() : eventodetalle.fecha.getMinutes())} -
+                                                            {horafinal && horafinal.getHours() + ":" + (horafinal.getMinutes().toString().length < 2 ?
+                                                                '0' + horafinal.getMinutes() : horafinal.getMinutes())}
+                                                        </p>
+                                                    </div> : null
+                                                }
+                                            </div>
+                                            : <div className="events-detail"></div>
+                                        }
+                                    </div>)
+
+
+                                })
+
+                                }
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <HomeFooter></HomeFooter>
+            </div>)
 }
 
 export default Eventos;
