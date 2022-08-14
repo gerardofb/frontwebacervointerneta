@@ -3,7 +3,7 @@ import { Parallax, ParallaxLayer } from '@react-spring/parallax';
 import NavBar from '../NavBar';
 import { HomeFooter } from "../HomeFooter";
 import { Spring, useSpring, animated, config } from "react-spring";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useLocation, useParams } from "react-router-dom";
 import { faCalendar, faArrowRight, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -256,6 +256,7 @@ const Eventos = () => {
     const [diaevento, setDiaEvento] = useState(0);
     const [detalleEvento, setDetalleEvento] = useState(-1);
     const [clasesemana, setClaseSemana] = useState({ indice: '', clasecss: ' activa' });
+    const history = useHistory();
     const styles = useSpring({
         from: { width: '0', opacity: .3 },
         to: { width: '100%', opacity: 1 },
@@ -277,7 +278,7 @@ const Eventos = () => {
     }
     const devuelveClaseSemana = (clasecss) => {
         if (clasecss === clasesemana.indice) {
-            return "week"+clasesemana.activa;
+            return "week" + clasesemana.activa;
         }
         return "week";
     }
@@ -423,20 +424,20 @@ const Eventos = () => {
                     <div ref={referencia} className="main-content-this-event">
                         {
                             <>
-                            <h1>
-                                {eventdetail && eventdetail.title + " (" + eventdetail.fecha.getFullYear() + "/" +
-                                    (eventdetail.fecha.getMonth() + 1) + "/" + eventdetail.fecha.getDate() + " a las " + eventdetail.fecha.getHours() + "  horas)"
-                                }
-                            </h1>
-                            <img src={eventdetail && eventdetail.imagen} />
-                            <p>
-                                {eventdetail && eventdetail.descripcion}
-                            </p>
-                        </>
+                                <h1>
+                                    {valor && valor.title + " (" + valor.fecha.getFullYear() + "/" +
+                                        (valor.fecha.getMonth() + 1) + "/" + valor.fecha.getDate() + " a las " + valor.fecha.getHours() + "  horas)"
+                                    }
+                                </h1>
+                                <img src={valor && valor.imagen} />
+                                <p>
+                                    {valor && valor.descripcion}
+                                </p>
+                            </>
                         }
                     </div>
                     <div><h1 onMouseEnter={(e) => setHoverMoreEvent(true)} onMouseLeave={(e) => setHoverMoreEvent(false)}>
-                        {hoverMoreEvent ? <span onClick={(e) => {setDetalleEvento(-1); setClaseSemana({ indice: '', clasecss: ' activa' })}} style={{ fontSize: '20px', cursor: 'pointer' }}>regresar...&nbsp;</span>
+                        {hoverMoreEvent ? <span onClick={(e) => { setDetalleEvento(-1); setClaseSemana({ indice: '', clasecss: ' activa' }) }} style={{ fontSize: '20px', cursor: 'pointer' }}>regresar...&nbsp;</span>
                             : null}
                         <FontAwesomeIcon style={{ fontSize: '30px' }} icon={!hoverMoreEvent ? faArrowLeft : null} />{estableceTituloCalendario(detalleEvento, anioinicial)}</h1></div>
                     <div className="switch-week">
@@ -500,10 +501,12 @@ const Eventos = () => {
 
                             <div className="days-detail primera-semana">
                                 {primerasemana.map((detallediaevento, i) => {
+
                                     let eventodetalle = eventosdetallados.find(x => x.fecha.getDate() == detallediaevento)
                                     let horafinal = eventodetalle != undefined ? returnHoursDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : null;
                                     let clasesCssEvento =
                                         eventodetalle != undefined ? returnClaseDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : ["", ""];
+                                    let rutadetalle = '/Eventos/' + (eventodetalle && eventodetalle.index);
                                     return (<div className={"day-detail" + (eventodetalle ? " with_event" : "")} key={'primera-semana' + i}>
                                         <div className="date-detail">
                                             <p className="date-num-detail">{detallediaevento}</p>
@@ -512,7 +515,7 @@ const Eventos = () => {
                                         {eventodetalle ?
                                             <div className="events-detail">
                                                 {detallediaevento != '' ?
-                                                    <div onClick={(e) => { setEventDetail(eventodetalle); goToTop() }} className={clasesCssEvento[0] + ' ' + clasesCssEvento[1] + " writing-detail"}>
+                                                    <div onClick={(e) => { history.push(rutadetalle) }} className={clasesCssEvento[0] + ' ' + clasesCssEvento[1] + " writing-detail"}>
                                                         <p className="title-detail">{eventodetalle && eventodetalle.title}</p>
                                                         <p className="time-detail">{eventodetalle && eventodetalle.fecha.getHours() + ":" +
                                                             (eventodetalle.fecha.getMinutes().toString().length < 2 ? '0' + eventodetalle.fecha.getMinutes() : eventodetalle.fecha.getMinutes())} -
@@ -536,6 +539,7 @@ const Eventos = () => {
                                     let horafinal = eventodetalle != undefined ? returnHoursDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : null;
                                     let clasesCssEvento =
                                         eventodetalle != undefined ? returnClaseDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : ["", ""];
+                                    let rutadetalle = '/Eventos/' + (eventodetalle && eventodetalle.index);
                                     return (<div className={"day-detail" + (eventodetalle ? " with_event" : "")} key={'segunda-semana' + i}>
                                         <div className="date-detail">
                                             <p className="date-num-detail">{detallediaevento}</p>
@@ -544,7 +548,7 @@ const Eventos = () => {
                                         {eventodetalle ?
                                             <div className="events-detail">
                                                 {detallediaevento != '' ?
-                                                    <div onClick={(e) => { setEventDetail(eventodetalle); goToTop() }} className={clasesCssEvento[0] + ' ' + clasesCssEvento[1] + " writing-detail"}>
+                                                    <div onClick={(e) => { history.push(rutadetalle) }} className={clasesCssEvento[0] + ' ' + clasesCssEvento[1] + " writing-detail"}>
                                                         <p className="title-detail">{eventodetalle && eventodetalle.title}</p>
                                                         <p className="time-detail">{eventodetalle && eventodetalle.fecha.getHours() + ":" +
                                                             (eventodetalle.fecha.getMinutes().toString().length < 2 ? '0' + eventodetalle.fecha.getMinutes() : eventodetalle.fecha.getMinutes())} -
@@ -569,6 +573,7 @@ const Eventos = () => {
                                     let horafinal = eventodetalle != undefined ? returnHoursDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : null;
                                     let clasesCssEvento =
                                         eventodetalle != undefined ? returnClaseDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : ["", ""];
+                                    let rutadetalle = '/Eventos/' + (eventodetalle && eventodetalle.index);
                                     return (<div className={"day-detail" + (eventodetalle ? " with_event" : "")} key={'tercera-semana' + i}>
                                         <div className="date-detail">
                                             <p className="date-num-detail">{detallediaevento}</p>
@@ -577,7 +582,7 @@ const Eventos = () => {
                                         {eventodetalle ?
                                             <div className="events-detail">
                                                 {detallediaevento != '' ?
-                                                    <div onClick={(e) => { setEventDetail(eventodetalle); goToTop() }} className={clasesCssEvento[0] + ' ' + clasesCssEvento[1] + " writing-detail"}>
+                                                    <div onClick={(e) => { history.push(rutadetalle) }} className={clasesCssEvento[0] + ' ' + clasesCssEvento[1] + " writing-detail"}>
                                                         <p className="title-detail">{eventodetalle && eventodetalle.title}</p>
                                                         <p className="time-detail">{eventodetalle && eventodetalle.fecha.getHours() + ":" +
                                                             (eventodetalle.fecha.getMinutes().toString().length < 2 ? '0' + eventodetalle.fecha.getMinutes() : eventodetalle.fecha.getMinutes())} -
@@ -602,6 +607,7 @@ const Eventos = () => {
                                     let horafinal = eventodetalle != undefined ? returnHoursDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : null;
                                     let clasesCssEvento =
                                         eventodetalle != undefined ? returnClaseDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : ["", ""];
+                                    let rutadetalle = '/Eventos/' + (eventodetalle && eventodetalle.index);
                                     return (<div className={"day-detail" + (eventodetalle ? " with_event" : "")} key={'cuarta-semana' + i}>
                                         <div className="date-detail">
                                             <p className="date-num-detail">{detallediaevento}</p>
@@ -610,7 +616,7 @@ const Eventos = () => {
                                         {eventodetalle ?
                                             <div className="events-detail">
                                                 {detallediaevento != '' ?
-                                                    <div onClick={(e) => { setEventDetail(eventodetalle); goToTop() }} className={clasesCssEvento[0] + ' ' + clasesCssEvento[1] + " writing-detail"}>
+                                                    <div onClick={(e) => { history.push(rutadetalle) }} className={clasesCssEvento[0] + ' ' + clasesCssEvento[1] + " writing-detail"}>
                                                         <p className="title-detail">{eventodetalle && eventodetalle.title}</p>
                                                         <p className="time-detail">{eventodetalle && eventodetalle.fecha.getHours() + ":" +
                                                             (eventodetalle.fecha.getMinutes().toString().length < 2 ? '0' + eventodetalle.fecha.getMinutes() : eventodetalle.fecha.getMinutes())} -
@@ -635,6 +641,7 @@ const Eventos = () => {
                                     let horafinal = eventodetalle != undefined ? returnHoursDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : null;
                                     let clasesCssEvento =
                                         eventodetalle != undefined ? returnClaseDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : ["", ""];
+                                    let rutadetalle = '/Eventos/' + (eventodetalle && eventodetalle.index);
                                     return (<div className={"day-detail" + (eventodetalle ? " with_event" : "")} key={'quinta-semana' + i}>
                                         <div className="date-detail">
                                             <p className="date-num-detail">{detallediaevento}</p>
@@ -643,7 +650,7 @@ const Eventos = () => {
                                         {eventodetalle ?
                                             <div className="events-detail">
                                                 {detallediaevento != '' ?
-                                                    <div onClick={(e) => { setEventDetail(eventodetalle); goToTop() }} className={clasesCssEvento[0] + ' ' + clasesCssEvento[1] + " writing-detail"}>
+                                                    <div onClick={(e) => { history.push(rutadetalle) }} className={clasesCssEvento[0] + ' ' + clasesCssEvento[1] + " writing-detail"}>
                                                         <p className="title-detail">{eventodetalle && eventodetalle.title}</p>
                                                         <p className="time-detail">{eventodetalle && eventodetalle.fecha.getHours() + ":" +
                                                             (eventodetalle.fecha.getMinutes().toString().length < 2 ? '0' + eventodetalle.fecha.getMinutes() : eventodetalle.fecha.getMinutes())} -
