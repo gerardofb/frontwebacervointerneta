@@ -27,7 +27,8 @@ import {
     faBook,
     faCircleInfo,
     faShare,
-    faSave
+    faSave,
+    faScissors
 } from "@fortawesome/free-solid-svg-icons"
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
@@ -554,7 +555,19 @@ export const AutoComments = () => {
                 </Player>
                 <div className='acciones-reproduccion'>
                 <div className='item-acciones-repro' onClick={toggleState}>
-                    <FontAwesomeIcon icon={faCircleInfo} />Créditos
+                    <FontAwesomeIcon icon={faCircleInfo} /><span>Créditos</span>
+                </div>
+                <div className='item-acciones-repro'>
+                    <FontAwesomeIcon icon={faShare} /><span>Compartir</span>
+                </div>
+                <div className='item-acciones-repro'>
+                    <FontAwesomeIcon icon={faSave} /><span>Descargar</span>
+                </div>
+                <div className='item-acciones-repro'>
+                    <FontAwesomeIcon icon={faScissors} /><span>Clip</span>
+                </div>
+                <div className='item-acciones-repro'>
+                    <span>Calificar</span>
                 </div>
             </div>
             </div>

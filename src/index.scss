@@ -34,11 +34,11 @@ Estilos de la reproducción individual de videos
   margin: 0 2em;
 }
 .acciones-reproduccion{
-  min-height: 25px;
+  min-height: 35px;
   cursor: pointer;
   margin-top:20px;
   display: grid;
-  grid-template-columns: 25% 25% 25% 25%;
+  grid-template-columns: 20% 20% 20% 20% 18.5%;
   gap:5px;
 }
 .item-acciones-repro{
@@ -46,8 +46,12 @@ Estilos de la reproducción individual de videos
   border-left: 1px solid gray;
   padding:0 1em;
 }
-.item-acciones-repro:nth-child(4){
+.item-acciones-repro span{
+  padding-left: 1em;
+}
+.item-acciones-repro:nth-child(5){
   border-right: 1px solid gray;
+  padding-right:0;
 }
 .player-individual {
   height: 1200px;
