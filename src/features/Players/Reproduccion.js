@@ -546,7 +546,7 @@ export const AutoComments = () => {
             <div style={{ backgroundColor: 'black', height: '100px' }} onContextMenu={(e) => handleContextMenu(false, false)}>
                 <NavBar></NavBar>
             </div>
-            <h2 style={{ cursor: 'pointer' }} onContextMenu={(e) => handleContextMenu(false, false)}>
+            <h2 style={{padding:'1.5em 0'}}onContextMenu={(e) => handleContextMenu(false, false)}>
                 Reproduciendo: {titulo}
             </h2>
             <div onClick={(e) => resetMyEvents(null, true)} className='player-container' onContextMenu={(e) => handleContextMenu(false, false)}>
