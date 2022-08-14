@@ -302,7 +302,7 @@ export const AutoComments = () => {
     const tabuladores = ["Comentarios", "Autobiográficos/Podcasts", "Eventos"];
     const [alturaPlayer, setAlturaPlayer] = useState(true);
     const [alturaPlayerMax, setAlturaPlayerMax] = useState(false);
-    const {styles} = useContext(ThemesContext);
+    const { styles } = useContext(ThemesContext);
     const CustomMenu = () => (
         <div className="menu-personalizado">
             <div><FontAwesomeIcon icon={faClone}></FontAwesomeIcon>&nbsp;Copiar</div>
@@ -365,14 +365,14 @@ export const AutoComments = () => {
         open ? 0.1 : 0.6,
     ])
     const [active, setActive] = useState(tabuladores[0]);
-    const [relatos, setRelatos] = useState(autobiograficos.filter(x=> x.reciente == false));
-    const handleClickOptionRelatos = (parametro)=>{
-        if(parametro == 'recientes'){
-            let elementos = autobiograficos.filter(x=> x.reciente == true);
+    const [relatos, setRelatos] = useState(autobiograficos.filter(x => x.reciente == false));
+    const handleClickOptionRelatos = (parametro) => {
+        if (parametro == 'recientes') {
+            let elementos = autobiograficos.filter(x => x.reciente == true);
             setRelatos(elementos);
         }
-        else{
-            let elementos = autobiograficos.filter(x=> x.reciente == false);
+        else {
+            let elementos = autobiograficos.filter(x => x.reciente == false);
             setRelatos(elementos);
         }
     }
@@ -530,10 +530,12 @@ export const AutoComments = () => {
     }
     const [modalOpen, setModalOpen] = useState(false);
     const toggleState = e => {
-        console.log('estableciendo estado ',modalOpen);
+        console.log('estableciendo estado ', modalOpen);
         setModalOpen(!modalOpen);
-        console.log('estableciendo estado final ',modalOpen);
-      };
+        let elementoheader = document.querySelector('.box-header');
+        elementoheader.scrollIntoView({behavior:'smooth'});
+        console.log('estableciendo estado final ', modalOpen);
+    };
     return (
         <div className='player-individual' onScroll={handleScroll}>
             {
@@ -544,7 +546,7 @@ export const AutoComments = () => {
             <div style={{ backgroundColor: 'black', height: '100px' }} onContextMenu={(e) => handleContextMenu(false, false)}>
                 <NavBar></NavBar>
             </div>
-            <h2 style={{cursor:'pointer'}} onContextMenu={(e) => handleContextMenu(false, false)}>
+            <h2 style={{ cursor: 'pointer' }} onContextMenu={(e) => handleContextMenu(false, false)}>
                 Reproduciendo: {titulo}
             </h2>
             <div onClick={(e) => resetMyEvents(null, true)} className='player-container' onContextMenu={(e) => handleContextMenu(false, false)}>
@@ -554,24 +556,24 @@ export const AutoComments = () => {
                     <LoadingSpinner></LoadingSpinner>
                 </Player>
                 <div className='acciones-reproduccion'>
-                <div className='item-acciones-repro' onClick={toggleState}>
-                    <FontAwesomeIcon icon={faCircleInfo} /><span>Créditos</span>
-                </div>
-                <div className='item-acciones-repro'>
-                    <FontAwesomeIcon icon={faShare} /><span>Compartir</span>
-                </div>
-                <div className='item-acciones-repro'>
-                    <FontAwesomeIcon icon={faSave} /><span>Descargar</span>
-                </div>
-                <div className='item-acciones-repro'>
-                    <FontAwesomeIcon icon={faScissors} /><span>Clip</span>
-                </div>
-                <div className='item-acciones-repro'>
-                    <span>Calificar</span>
+                    <div className='item-acciones-repro' onClick={toggleState}>
+                        <FontAwesomeIcon icon={faCircleInfo} /><span>Créditos</span>
+                    </div>
+                    <div className='item-acciones-repro'>
+                        <FontAwesomeIcon icon={faShare} /><span>Compartir</span>
+                    </div>
+                    <div className='item-acciones-repro'>
+                        <FontAwesomeIcon icon={faSave} /><span>Descargar</span>
+                    </div>
+                    <div className='item-acciones-repro'>
+                        <FontAwesomeIcon icon={faScissors} /><span>Clip</span>
+                    </div>
+                    <div className='item-acciones-repro'>
+                        <span>Calificar</span>
+                    </div>
                 </div>
             </div>
-            </div>
-           
+
 
             <div className='content-player'>
                 <div className="break" onContextMenu={(e) => handleContextMenu(false, false)}>
@@ -626,30 +628,30 @@ export const AutoComments = () => {
                 </div>
                 <div className='scroll-list' onContextMenu={(e) => handleContextMenu(false, false)} style={estableceTab(tabuladores[1])}>
                     <div className={styles.OpcionesAutobiograficosReprod}>
-                        <button onClick={(e)=>handleClickOptionRelatos('popular')} className='autobiografico-reprod-white'>Populares<br /><FontAwesomeIcon icon={faHeart} style={{ paddingTop: '20px', display: 'inline-block' }} /></button>
-                        <button onClick={(e)=>handleClickOptionRelatos('recientes')} className='autobiografico-reprod-white'>Recientes<br /><FontAwesomeIcon icon={faCalendarDays} style={{ paddingTop: '20px', display: 'inline-block' }} /></button>
+                        <button onClick={(e) => handleClickOptionRelatos('popular')} className='autobiografico-reprod-white'>Populares<br /><FontAwesomeIcon icon={faHeart} style={{ paddingTop: '20px', display: 'inline-block' }} /></button>
+                        <button onClick={(e) => handleClickOptionRelatos('recientes')} className='autobiografico-reprod-white'>Recientes<br /><FontAwesomeIcon icon={faCalendarDays} style={{ paddingTop: '20px', display: 'inline-block' }} /></button>
                     </div>
                     <div className='content-relatos-reprod'>
-                        {relatos && 
-                        relatos.map((relato, index) => {
-                            return (<div key={index}>
-                                <Link to={'/Autobiograficos/' + relato.guid + "?podcast=" + relato.podcast} className="link-relatos-reprod-white">
-                                    <p>{relato.fecha}</p>
-                                    <h4><span className='header-relato-reprod'>{relato.podcast ? <FontAwesomeIcon icon={faVolumeHigh} /> : <FontAwesomeIcon icon={faBook} />}</span>{relato.autor}</h4>
-                                </Link>
-                            </div>)
-                        })}
+                        {relatos &&
+                            relatos.map((relato, index) => {
+                                return (<div key={index}>
+                                    <Link to={'/Autobiograficos/' + relato.guid + "?podcast=" + relato.podcast} className="link-relatos-reprod-white">
+                                        <p>{relato.fecha}</p>
+                                        <h4><span className='header-relato-reprod'>{relato.podcast ? <FontAwesomeIcon icon={faVolumeHigh} /> : <FontAwesomeIcon icon={faBook} />}</span>{relato.autor}</h4>
+                                    </Link>
+                                </div>)
+                            })}
                     </div>
                 </div>
                 <div className='scroll-list' onContextMenu={(e) => handleContextMenu(false, false)} style={estableceTab(tabuladores[2])}>
                     {
                         myevents.map((elem, index) => {
-                            let llave = "/Eventos/"+elem.index
+                            let llave = "/Eventos/" + elem.index
                             return (
                                 <div className="evento-reproduccion" key={index}>
                                     <div className="control-evento-reproduccion" onClick={(e) => resetMyEvents(elem)}>
                                         <Link to={llave}>
-                                        <div className='eventos-titulo'><h2>{elem.title}</h2><div><img src={elem.imagen} height={200} align="right" /></div></div>
+                                            <div className='eventos-titulo'><h2>{elem.title}</h2><div><img src={elem.imagen} height={200} align="right" /></div></div>
                                         </Link>
                                         <div>
                                             {elem.selected ?
@@ -712,8 +714,22 @@ export const AutoComments = () => {
                 </div>
             </div>
             <HomeFooter></HomeFooter>
-            <Modal id="modal" isOpen={modalOpen} onClose={toggleState} modalClass="darkmodal" title={"Créditos del vídeo"}>
-                <div>Contenido</div>
+            <Modal id="modal" isOpen={modalOpen} modalSize="lg" onClose={toggleState} modalClass="darkmodal" title={"Créditos del vídeo"}>
+                <div>
+                    <dl><dt>Título:</dt><dd>Muerte Mextiza</dd>
+                        <dt>Dirección:</dt><dd>Pablo Martínez</dd>
+                        <dt>Guión:</dt><dd>Pablo Martínez</dd>
+                        <dt>Cámara:</dt><dd>Pablo Martínez</dd>
+                        <dt>Sinopsis:</dt><dd>Carnaval de Huehuentones realizado en la zona mazateca (Sierra de Huautla de Jiménez, Oaxaca), en donde los jóvenes danzantes recorren diversas comunidades para abrir camino a los días de todos los santos o días de muertos. Danzan, conversan, con los hombres y las mujeres de "éste mundo".</dd>
+                        <dt>Tema:</dt><dd>El documental fue realizado en el Taller de Video Popular del Proyecto Transferencia de Medios. Este documental-memoria mira antropológicamente el carnaval en honor al santo de la cosecha en los pueblosdel Valle de México.</dd>
+                        <dt>Colección:</dt><dd>Pueblos Indígenas y Originarios_Fiestas Patronales</dd>
+                        <dt>Año:</dt><dd>1994</dd>
+                        <dt>Producción:</dt><dd>Pablo Martínez</dd>
+                        <dt>Duración:</dt><dd>8 minutos</dd>
+                        <dt>Formato de producción:</dt><dd>8 mm</dd>
+                        <dt>Formatos disponibles:</dt><dd>Betacam SP, VHS, MP4</dd>
+                    </dl>
+                </div>
             </Modal>
         </div>
 

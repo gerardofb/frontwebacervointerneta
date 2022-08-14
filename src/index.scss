@@ -1944,6 +1944,33 @@ clases de los modales
   background-color: black;
   color:white;
 }
+
+/* width */
+.wrapper.darkmodal::-webkit-scrollbar {
+  width: 7px;
+}
+
+/* Track */
+.wrapper.darkmodal::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 2px;
+}
+
+/* Handle */
+.wrapper.darkmodal::-webkit-scrollbar-thumb {
+  background: lightgray;
+  border-radius: 2px;
+}
+
+/* Handle on hover */
+.wrapper.darkmodal::-webkit-scrollbar-thumb:hover {
+  background: gray;
+}
+.wrapper.darkmodal dt{
+  font-weight: 600px;
+  color:darkgray;
+  font-size:larger;
+}
 .background{
   position: fixed; /* Sit on top of the page content */
   display: none; /* Hidden by default */

@@ -9,6 +9,8 @@ const StyledModal = styled.div`
   align-items: flex-start;
   justify-content: center;
   z-index: 2000;
+  overflow-y:auto;
+  
   width: ${props => {
     switch (props.size) {
       case "lg":

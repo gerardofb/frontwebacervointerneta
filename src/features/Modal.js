@@ -55,7 +55,7 @@ render() {
         id={this.props.id}
         className={`wrapper ${this.props.modalClass}`}
         role="dialog"
-        modalSize={this.props.size}
+        size={this.props.modalSize}
         onTransitionEnd={this.transitionEnd}
         fadeType={this.state.fadeType}
       >
