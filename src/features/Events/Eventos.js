@@ -5,7 +5,7 @@ import { HomeFooter } from "../HomeFooter";
 import { Spring, useSpring, animated, config } from "react-spring";
 import { Link, useHistory } from "react-router-dom";
 import { useLocation, useParams } from "react-router-dom";
-import { faCalendar, faArrowRight, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { faCalendarDays, faArrowRight, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
 const dayOfWeek = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sab'];
@@ -389,7 +389,7 @@ const Eventos = () => {
                                     {(e) => setHoverMoreEvent(true)} onMouseLeave={(e) => setHoverMoreEvent(false)}>
                                     {!hoverMoreEvent ? null
                                         : <span onClick={(e) => setDetalleEvento(index)} style={{ fontSize: '50px', cursor: 'pointer' }}>ver más...&nbsp;</span>}
-                                    <FontAwesomeIcon style={{ fontSize: '50px' }} icon={!hoverMoreEvent ? faArrowRight : faCalendar} />{mes}</h1>
+                                    <FontAwesomeIcon style={{ fontSize: '50px' }} icon={!hoverMoreEvent ? faArrowRight : faCalendarDays} />{mes}</h1>
 
                                 <div className="listado-min-eventos">
                                     {
