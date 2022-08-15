@@ -125,6 +125,11 @@ const sideBarData = [
         ]
       },
       {
+        title: "Colaboraciones",
+        path: "#",
+        icon: "clapperboard",
+      },
+      {
         title: "Mi cuenta",
         path: "#",
         icon: "user-check",

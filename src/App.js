@@ -15,11 +15,11 @@ import Eventos from './features/Events/Eventos';
 import { useEffect } from 'react';
 import {library} from '@fortawesome/fontawesome-svg-core';
 import { faBook, faHouse, faTape, faForward, faCommentDots, faVolumeHigh, faCalendarDays, faUserCheck, faUser,
-faEnvelope, faCircleExclamation, faHeart, faRadio, faTimeline, faPlay, faShuffle, faFilm, faVideo } from '@fortawesome/free-solid-svg-icons';
+faEnvelope, faCircleExclamation, faHeart, faRadio, faTimeline, faPlay, faShuffle, faFilm, faVideo, faClapperboard } from '@fortawesome/free-solid-svg-icons';
 import SideBar from './features/Menu/Sidebar'
 
 library.add(faBook, faHouse, faTape, faForward, faCommentDots, faVolumeHigh, faCalendarDays, faUserCheck, faEnvelope,
-  faCircleExclamation, faHeart, faRadio, faTimeline, faPlay, faShuffle, faFilm, faVideo);
+  faCircleExclamation, faHeart, faRadio, faTimeline, faPlay, faShuffle, faFilm, faVideo, faClapperboard);
 const FlexContents = styled(Contents)`
   display: flex;
   justify-content: space-between;
