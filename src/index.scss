@@ -1587,7 +1587,7 @@ max-width: 180px;
     }
 }
 .main-content-this-event{
-   height: '85vh';
+   height: '100vh';
    background: '#feecb8';
    margin:auto;
    text-align: center;
@@ -1920,7 +1920,11 @@ Clases del detalle mensual de los eventos
 .week.activa{
   background-color: lightgreen;
 }
-
+.vinculo-atras-generico{
+  text-decoration: none;
+  color:black;
+  font-size: larger;
+}
 
 /*
 clases de los modales

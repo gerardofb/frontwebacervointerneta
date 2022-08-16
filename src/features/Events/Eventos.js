@@ -252,6 +252,9 @@ function estableceTituloCalendario(mesinicial, anioinicial) {
 const Eventos = () => {
     const { evento } = useParams();
     const location = useLocation();
+    const backlink = new URLSearchParams(location.search);
+    const regresar = backlink.get('previous');
+    console.log('el link atrás es ',backlink, regresar);
     const anioinicial = new Date().getFullYear();
     const [daysInitial, setDaysInitial] = useState({ numerodias: fillInDaysMonth(0, anioinicial), titulo: estableceTituloCalendario(0, anioinicial) });
     const [clasesCalendario, setClasesCalendario] = useState({ titulocalendario: 'Enero 2022' });
@@ -334,6 +337,7 @@ const Eventos = () => {
                     <ParallaxLayer offset={0.16} speed={1}>
                         <div ref={referencia} className="main-content-this-event">
                             {<>
+                            <Link title="Regresar a reproducción" to={`/Reproduccion/${regresar}`} className="vinculo-atras-generico"><FontAwesomeIcon icon={faArrowLeft} /></Link>
                                 <h1>
                                     {valor && valor.title + " (" + valor.fecha.getFullYear() + "/" +
                                         (valor.fecha.getMonth() + 1) + "/" + valor.fecha.getDate() + " a las " + valor.fecha.getHours() + "  horas)"
@@ -429,8 +433,8 @@ const Eventos = () => {
                         {
                             <>
                                 <h1>
-                                    {valor && valor.title + " (" + valor.fecha.getFullYear() + "/" +
-                                        (valor.fecha.getMonth() + 1) + "/" + valor.fecha.getDate() + " a las " + valor.fecha.getHours() + "  horas)"
+                                    {valor && (valor.title + " (" + valor.fecha.getFullYear() + "/" +
+                                        (valor.fecha.getMonth() + 1) + "/" + valor.fecha.getDate() + " a las " + valor.fecha.getHours() + "  horas)")
                                     }
                                 </h1>
                                 <img src={valor && valor.imagen} />
