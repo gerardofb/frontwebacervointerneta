@@ -37,6 +37,8 @@ import ContextMenu from '../ContextMenu';
 import { HomeFooter } from '../HomeFooter';
 import { ThemesContext } from '../../ThemeProvider';
 
+const url= (name, wrap = false) => `${wrap ? 'url(' : ''}/images/SocialNetwork/${name}${wrap ? ')' : ''}`
+
 const Tab = styled.button`
   font-size: 20px;
   padding: 10px 60px;
@@ -59,6 +61,8 @@ const Vinculo = styled(Link)`
 display:block;
 width:100%;
 height:100%`;
+const MODAL_CREDITOS = 0;
+const MODAL_REDES = 1;
 
 let items = [
     { titulo: "Gerardo Flores Barrie", content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sit amet suscipit mi. Integer lacinia nisl sit amet sapien porta, nec posuere ante dictum. Aliquam erat volutpat. Pellentesque sem purus, laoreet at quam eget, ullamcorper efficitur mi. Integer pretium fringilla placerat. Suspendisse bibendum, neque quis vestibulum interdum, tortor metus scelerisque." },
@@ -255,7 +259,7 @@ function isInViewportFooter(element) {
     // );
 }
 
-function isInViewportMenu(element){
+function isInViewportMenu(element) {
     const rect = element.getBoundingClientRect();
     const { scrollTop, offsetHeight } = document.documentElement;
     console.log('datos de video encabezado', rect.top, rect.left, rect.bottom, rect.right)
@@ -299,8 +303,10 @@ let autobiograficos = [
     { autor: 'Gabriela Romo', fecha: new Date(2018, 5, 13).toLocaleDateString(), reciente: false, podcast: false, guid: '98e45f888485452381c1524a52b807f3' },
 ]
 
-
-
+const redesSociales = [{title:"incrustar",icon:'embed_icon.png'},{title:'Blogger',icon:'blogger_logo.png'},
+{title:"Facebook",icon:'facebook_logo.png'},{title:"Linkedin", icon:'linkedin_logo.png'},
+{title:"Pinterest", icon:'pinterest_logo.png'},{title:"Reddit", icon:'reddit_logo.png'},
+{title:"Twitter", icon:'twitter_logo.png'},{title:"Whats App", icon:'whatsapp_logo.jpg'}]
 
 export const AutoComments = () => {
 
@@ -331,7 +337,7 @@ export const AutoComments = () => {
         let elementotop = document.querySelector('.header-reproduccion-individual');
         elementotop.scrollIntoView({ behavior: 'smooth' });
     }, [location]);
-    
+
 
     const [elems, setItems] = useState(items);
     const bottomRef = useRef()
@@ -405,7 +411,7 @@ export const AutoComments = () => {
             }
         }
         setHeightChat();
-        
+
     }
     const estableceTab = (parameter) => {
 
@@ -541,8 +547,10 @@ export const AutoComments = () => {
         }
     }
     const [modalOpen, setModalOpen] = useState(false);
-    const toggleState = e => {
+    const [childrenModal, setChildrenModal] = useState(-1);
+    const toggleState = (e, indice) => {
         console.log('estableciendo estado ', modalOpen);
+        setChildrenModal(indice);
         setModalOpen(!modalOpen);
         let elementoheader = document.querySelector('.box-header');
         elementoheader.scrollIntoView({ behavior: 'smooth' });
@@ -568,10 +576,10 @@ export const AutoComments = () => {
                     <LoadingSpinner></LoadingSpinner>
                 </Player>
                 <div className='acciones-reproduccion'>
-                    <div className='item-acciones-repro' onClick={toggleState}>
+                    <div className='item-acciones-repro' onClick={(e) => toggleState(e, MODAL_CREDITOS)}>
                         <FontAwesomeIcon icon={faCircleInfo} /><span>Créditos</span>
                     </div>
-                    <div className='item-acciones-repro'>
+                    <div className='item-acciones-repro' onClick={(e) => toggleState(e, MODAL_REDES)}>
                         <FontAwesomeIcon icon={faShare} /><span>Compartir</span>
                     </div>
                     <div className='item-acciones-repro'>
@@ -726,23 +734,41 @@ export const AutoComments = () => {
                 </div>
             </div>
             <HomeFooter></HomeFooter>
-            <Modal id="modal" isOpen={modalOpen} modalSize="lg" onClose={toggleState} modalClass="darkmodal" title={"Créditos del vídeo"}>
-                <div>
-                    <dl><dt>Título:</dt><dd>Muerte Mextiza</dd>
-                        <dt>Dirección:</dt><dd>Pablo Martínez</dd>
-                        <dt>Guión:</dt><dd>Pablo Martínez</dd>
-                        <dt>Cámara:</dt><dd>Pablo Martínez</dd>
-                        <dt>Sinopsis:</dt><dd>Carnaval de Huehuentones realizado en la zona mazateca (Sierra de Huautla de Jiménez, Oaxaca), en donde los jóvenes danzantes recorren diversas comunidades para abrir camino a los días de todos los santos o días de muertos. Danzan, conversan, con los hombres y las mujeres de "éste mundo".</dd>
-                        <dt>Tema:</dt><dd>El documental fue realizado en el Taller de Video Popular del Proyecto Transferencia de Medios. Este documental-memoria mira antropológicamente el carnaval en honor al santo de la cosecha en los pueblosdel Valle de México.</dd>
-                        <dt>Colección:</dt><dd>Pueblos Indígenas y Originarios_Fiestas Patronales</dd>
-                        <dt>Año:</dt><dd>1994</dd>
-                        <dt>Producción:</dt><dd>Pablo Martínez</dd>
-                        <dt>Duración:</dt><dd>8 minutos</dd>
-                        <dt>Formato de producción:</dt><dd>8 mm</dd>
-                        <dt>Formatos disponibles:</dt><dd>Betacam SP, VHS, MP4</dd>
-                    </dl>
-                </div>
+            <Modal id="modal" isOpen={modalOpen} modalSize="lg" onClose={toggleState} modalClass={
+                childrenModal == MODAL_CREDITOS ?
+                "darkmodal" : ""} title={
+                childrenModal == MODAL_CREDITOS ? "Créditos del vídeo" : childrenModal == MODAL_REDES ? "Compartir por"
+                    : null
+            }>
+                {childrenModal == MODAL_CREDITOS ?
+                    <div>
+                        <dl><dt>Título:</dt><dd>Muerte Mextiza</dd>
+                            <dt>Dirección:</dt><dd>Pablo Martínez</dd>
+                            <dt>Guión:</dt><dd>Pablo Martínez</dd>
+                            <dt>Cámara:</dt><dd>Pablo Martínez</dd>
+                            <dt>Sinopsis:</dt><dd>Carnaval de Huehuentones realizado en la zona mazateca (Sierra de Huautla de Jiménez, Oaxaca), en donde los jóvenes danzantes recorren diversas comunidades para abrir camino a los días de todos los santos o días de muertos. Danzan, conversan, con los hombres y las mujeres de "éste mundo".</dd>
+                            <dt>Tema:</dt><dd>El documental fue realizado en el Taller de Video Popular del Proyecto Transferencia de Medios. Este documental-memoria mira antropológicamente el carnaval en honor al santo de la cosecha en los pueblosdel Valle de México.</dd>
+                            <dt>Colección:</dt><dd>Pueblos Indígenas y Originarios_Fiestas Patronales</dd>
+                            <dt>Año:</dt><dd>1994</dd>
+                            <dt>Producción:</dt><dd>Pablo Martínez</dd>
+                            <dt>Duración:</dt><dd>8 minutos</dd>
+                            <dt>Formato de producción:</dt><dd>8 mm</dd>
+                            <dt>Formatos disponibles:</dt><dd>Betacam SP, VHS, MP4</dd>
+                        </dl>
+                    </div>
+                    : childrenModal == MODAL_REDES ?
+                    <div className='modal-redes-regular'>
+                        {redesSociales.map((logo,index)=>{
+                        let background_size = logo.icon == "blogger_logo.png" ? "80%" : logo.icon == "reddit_logo.png" ? "60%" : 
+                        logo.icon == "twitter_logo.png" ? "85%" : logo.icon == "whatsapp_logo.jpg" ? "220%": 
+                        "contain";
+                        return <button title={logo.title} className={`social-network-regular`} style={{
+                            backgroundImage:url(logo.icon,true), backgroundSize:background_size
+                        }}>&nbsp;</button>
+                        })} 
+                </div> : null}
             </Modal>
+
         </div>
 
     )

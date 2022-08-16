@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ReactDom from "react-dom";
 import PropTypes from "prop-types";
-import { FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDisplay, faXmark } from "@fortawesome/free-solid-svg-icons";
 // styled
 import StyledModal from "./Modal.css";
@@ -12,44 +12,45 @@ class Modal extends Component {
     modalClass: "",
     modalSize: "md"
   };
-static propTypes = {
+  static propTypes = {
     id: PropTypes.string.isRequired,
     onClose: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
     modalClass: PropTypes.string,
     modalSize: PropTypes.string
   };
-state = { fadeType: null };
-background = React.createRef();
-componentDidMount() {
+  state = { fadeType: null };
+  background = React.createRef();
+  componentDidMount() {
     window.addEventListener("keydown", this.onEscKeyDown, false);
     //setTimeout(() => this.setState({ fadeType: "in" }), 0);
     console.log('actualizando montaje');
   }
-componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps, prevState) {
     if (this.props.isOpen && !prevProps.isOpen) {
       this.setState({ fadeType: "in" });
     }
-    console.log('actualizando componente ',this.props.isOpen)
+    console.log('actualizando componente ', this.props.isOpen)
   }
-componentWillUnmount() {
+  componentWillUnmount() {
     window.removeEventListener("keydown", this.onEscKeyDown, false);
   }
-transitionEnd = e => {
+  transitionEnd = e => {
     if (e.propertyName !== "opacity" || this.state.fadeType === "in") return;
-if (this.state.fadeType === "out") {
+    if (this.state.fadeType === "out") {
       this.props.onClose();
     }
   };
-onEscKeyDown = e => {
+  onEscKeyDown = e => {
     if (e.key !== "Escape") return;
     this.setState({ fadeType: "out" });
   };
-handleClick = e => {
+  handleClick = e => {
+    console.log('cerrando modal');
     e.preventDefault();
     this.setState({ fadeType: "out" });
   };
-render() {
+  render() {
     return ReactDom.createPortal(
       <><StyledModal
         id={this.props.id}
@@ -61,7 +62,7 @@ render() {
       >
         <div className="box-dialog">
           <div className="box-header">
-          <button onClick={this.handleClick} className="close">
+            <button onClick={this.handleClick} className="close">
               <FontAwesomeIcon icon={faXmark} />
             </button>
             <h4 className="box-title">{this.props.title}</h4>
@@ -70,15 +71,15 @@ render() {
           <div className="box-footer">
           </div>
         </div>
-        
+
       </StyledModal>
-      {this.props.isOpen?
-      <div
-          className={`background`}
-          onMouseDown={this.handleClick}
-          ref={this.background}
-          style={{display:'block'}}
-        />:null}</>,
+        {this.props.isOpen ?
+          <div
+            className={`background`}
+            onMouseDown={this.handleClick}
+            ref={this.background}
+            style={{ display: 'block' }}
+          /> : null}</>,
       modalRoot
     );
   }

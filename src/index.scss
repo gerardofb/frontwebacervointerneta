@@ -2020,7 +2020,24 @@ clases de los modales
   cursor: pointer; /* Add a pointer on hover */
 }
 
-
-
-
-
+/*
+estilos del modal de redes sociales en página de reproducción
+*/
+.social-network-regular {
+  outline: none;
+  border:1px solid gray;
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  background-size:contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+  margin:1rem;
+  cursor:pointer;
+}
+.modal-redes-regular {
+  display: flex;
+  flex-wrap: wrap;
+  margin:1em;
+  margin-top:12%;
+}
