@@ -2045,3 +2045,49 @@ estilos del modal de redes sociales en página de reproducción
   margin:1em;
   margin-top:12%;
 }
+
+/*
+clases de la grabación de podcasts y la edición de relatos
+*/
+.podcast-record{
+  text-align: center;
+}
+.podcast-record button{
+  outline: none;
+  border: none;
+  background-color: white;
+  font-size:xx-large;
+  margin:.5em .2em;
+}
+.podcast-controls-record{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.podcast-record button:hover{
+  background-color: gray;
+  color:white;
+  border:1px solid black;
+}
+.capture-relato{
+  display: grid;
+  grid-template-columns: 80% 20%;
+  gap:10px;
+  align-items:flex-end;
+  margin:0 1em;
+}
+.capture-relato button{
+  background-color: white;
+  outline: none;
+  border:none;
+  border-radius: 6px;
+  font-size: larger;
+  max-height: 60px;
+}
+.capture-relato button:hover{
+  background-color: gray;
+  color:white;
+}
+.capture-relato textarea{
+  border-radius:10px;
+}
