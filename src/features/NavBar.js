@@ -53,7 +53,7 @@ const NavBar = (props) => {
     const logotipo = !darkMode ? 'logo_blanco_interneta' : 'logo_negro_interneta';
     return (
         <>
-            <div className={styles.NavbarPrincipal}><Link to='/'><img src={url(logotipo)} style={{ height: '100px', float: 'left' }} /><h2 style={{ float: 'left' }}>Acervo Audiovisual Interneta</h2></Link>
+            <div className={styles.NavbarPrincipal}><Link to='/'><img src={url(logotipo)} style={{ height: '100px', float: 'left', marginLeft:'1.3em' }} /><h2 style={{ float: 'left' }}>Acervo Audiovisual Interneta</h2></Link>
                 <div className='container-tematica'>
                     <div className={!showTemas ? 'tematica-sitio tematica-hidden' : 'tematica-sitio tematica-show'}>
                         <div className='close-tematica'><FontAwesomeIcon icon={faXmark} onClick={(e) => setShowTemas(false)} /></div>

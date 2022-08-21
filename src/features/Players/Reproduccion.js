@@ -56,6 +56,7 @@ const Tab = styled.button`
 `;
 const ButtonGroup = styled.div`
   display: flex;
+  height:40px;
 `;
 const Vinculo = styled(Link)`
 display:block;

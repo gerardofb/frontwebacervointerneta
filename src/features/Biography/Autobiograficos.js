@@ -22,7 +22,9 @@ import { ThemesContext } from '../../ThemeProvider'
 import ReactAudioPlayer from 'react-audio-player';
 import { ControlBar, LoadingSpinner, Player, PlayToggle } from 'video-react'
 import AudioReactRecorder, { RecordState } from 'audio-react-recorder'
-
+import Accordion from './Accordion';
+import Card from './Card';
+import CardBody from './Card/CardBody';
 
 function random_color() {
     var letters = '0123456789ABCDEF'.split('');
@@ -45,6 +47,103 @@ function isInViewport(element) {
     //     rect.right <= (window.innerWidth || document.documentElement.clientWidth)
     // );
 }
+
+const MovimientosSoc = [
+    "Screenshot_5",
+    "Screenshot_6",
+    "Screenshot_7",
+    "Screenshot_9",
+    "Screenshot_12",
+    "Screenshot_53",
+    "Screenshot_55",
+    "Screenshot_60",
+    "Screenshot_61",
+    "Screenshot_62",
+    "Screenshot_64",
+];
+const MovimientosContra = [
+    "Screenshot_4",
+    "Screenshot_10",
+    "Screenshot_16",
+    "Screenshot_21",
+    "Screenshot_23",
+    "Screenshot_24",
+    "Screenshot_25",
+    "Screenshot_37",
+    "Screenshot_38",
+    "Screenshot_39",
+    "Screenshot_40",
+    "Screenshot_41",
+    "Screenshot_52",
+    "Screenshot_59",
+    "Screenshot_65",
+    "Screenshot_66",
+];
+const MovimientosUrbanos = [
+    "Screenshot_1",
+    "Screenshot_3",
+    "Screenshot_8",
+    "Screenshot_28",
+    "Screenshot_29",
+    "Screenshot_30",
+    "Screenshot_31",
+    "Screenshot_42",
+    "Screenshot_48",
+    "Screenshot_49",
+    "Screenshot_67",
+    "Screenshot_68",
+    "Screenshot_69",
+    "Screenshot_70",
+    "Screenshot_71",
+];
+const MovimientosDefensa = [
+    "Screenshot_2",
+    "Screenshot_11",
+    "Screenshot_33",
+    "Screenshot_34",
+    "Screenshot_43",
+    "Screenshot_75",
+    "Screenshot_76",
+    "Screenshot_77",
+    "Screenshot_79",
+    "Screenshot_80",
+    "Screenshot_81",
+];
+const ArteUrbano = [
+    "Screenshot_26",
+    "Screenshot_27",
+    "Screenshot_32",
+    "Screenshot_35",
+    "Screenshot_36",
+    "Screenshot_50",
+    "Screenshot_51",
+    "Screenshot_54",
+    "Screenshot_56",
+    "Screenshot_57",
+    "Screenshot_58",
+    "Screenshot_63",
+];
+const PueblosOriginarios = [
+    "Screenshot_44",
+    "Screenshot_45",
+    "Screenshot_46",
+    "Screenshot_47",
+    "Screenshot_48",
+    "Screenshot_72",
+    "Screenshot_73",
+    "Screenshot_74",
+    "Screenshot_78",
+];
+const GeneracionTransparente = [
+    "Screenshot_13",
+    "Screenshot_14",
+    "Screenshot_15",
+    "Screenshot_17",
+    "Screenshot_18",
+    "Screenshot_19",
+    "Screenshot_20",
+    "Screenshot_22",
+];
 let arreglotags = [
     { popular: false, content: 'punk' },
     { popular: false, content: 'rock' },
@@ -214,13 +313,13 @@ let autobiograficos = [
 ]
 
 const categorias = [
-    { description: "Movimientos Sociales", link: '/Categorias/Movimientos-Sociales/dummy', image: '/images/Art/BiograficosArt/movimientos-sociales.jpg' },
-    { description: "Movimientos Contraculturales", link: '/Categorias/Movimientos-Contraculturales/dummy', image: '/images/Art/BiograficosArt/movimientos-contraculturales.jpg' },
-    { description: "Movimientos en Defensa del Territorio", link: '/Categorias/Movimientos-en-Defensa-del-Territorio/dummy', image: '/images/Art/BiograficosArt/defensa-territorio.jpg' },
-    { description: "Movimientos Urbanos y Populares", link: '/Categorias/Memoria-Movimientos-Urbanos-y-Populares/dummy', image: '/images/Art/BiograficosArt/movimientos-urbanos.jpg' },
-    { description: "Arte Urbano", link: '/Categorias/Arte-Urbano/dummy', image: '/images/Art/BiograficosArt/arte-urbano.jpg' },
-    { description: "Pueblos Originarios", link: '/Categorias/Pueblos-Originarios-e-Indígenas/dummy', image: '/images/Art/BiograficosArt/pueblos-originarios.jpg' },
-    { description: "Generación Transparente", link: '/Categorias/Generación-Transparente/dummy', image: '/images/Art/BiograficosArt/generacion-transparente.jpg' }
+    { description: "Movimientos Sociales", link: '/Categorias/Movimientos-Sociales/dummy', image: '/images/Art/BiograficosArt/movimientos-sociales.jpg', listadoVideos: MovimientosSoc },
+    { description: "Movimientos Contraculturales", link: '/Categorias/Movimientos-Contraculturales/dummy', image: '/images/Art/BiograficosArt/movimientos-contraculturales.jpg', listadoVideos: MovimientosContra },
+    { description: "Movimientos en Defensa del Territorio", link: '/Categorias/Movimientos-en-Defensa-del-Territorio/dummy', image: '/images/Art/BiograficosArt/defensa-territorio.jpg', listadoVideos: MovimientosDefensa },
+    { description: "Movimientos Urbanos y Populares", link: '/Categorias/Memoria-Movimientos-Urbanos-y-Populares/dummy', image: '/images/Art/BiograficosArt/movimientos-urbanos.jpg', listadoVideos: MovimientosUrbanos },
+    { description: "Arte Urbano", link: '/Categorias/Arte-Urbano/dummy', image: '/images/Art/BiograficosArt/arte-urbano.jpg', listadoVideos: MovimientosUrbanos },
+    { description: "Pueblos Originarios", link: '/Categorias/Pueblos-Originarios-e-Indígenas/dummy', image: '/images/Art/BiograficosArt/pueblos-originarios.jpg', listadoVideos: PueblosOriginarios },
+    { description: "Generación Transparente", link: '/Categorias/Generación-Transparente/dummy', image: '/images/Art/BiograficosArt/generacion-transparente.jpg', listadoVideos: GeneracionTransparente }
 ]
 
 export const Autobiograficos = () => {
@@ -357,6 +456,8 @@ export const Autobiograficos = () => {
         console.log('audioData', audioData);
         setblobURL(audioData.url);
     }
+    const [activeEventKey, setActiveEventKey] = useState(0);
+    const [activeVideo, setActiveVideo] = useState('');
     const clasecolapsed = collapsed ? ['autobiografico-main-list-category-collapsed', 'autobiografico-main-list-tags-full'] : ['autobiografico-main-list-category', 'autobiografico-main-list-tags'];
     return (
         <div>
@@ -470,12 +571,12 @@ export const Autobiograficos = () => {
                                 </div>
 
                                 {solopodcasts === "PODCASTS" ?
-                                    <>  
-                                    <h4 style={{margin:'.5em 1em'}}>Escriba una descripción e inicie la grabación del podcast, relacionado al vídeo elegido en la siguiente columna</h4>                              
-                                    <div className='capture-relato'>
-                                        <textarea rows="12" cols="60"></textarea>
-                                        <button>Enviar</button>
-                                    </div>
+                                    <>
+                                        <h4 style={{ margin: '.5em 1em' }}>Escriba una descripción e inicie la grabación del podcast, relacionado al vídeo elegido en la siguiente columna</h4>
+                                        <div className='capture-relato'>
+                                            <textarea rows="12" cols="60"></textarea>
+                                            <button>Enviar</button>
+                                        </div>
                                         <div className='podcast-record'>
                                             <AudioReactRecorder state={recordState} onStop={onStop} />
                                             <div className='podcast-controls-record'>
@@ -484,12 +585,12 @@ export const Autobiograficos = () => {
                                                 <button title="Detener grabación" className='end-podcast-record' onClick={stop}><FontAwesomeIcon icon={faStop} /></button>
                                             </div>
                                         </div></>
-                                    : <>  
-                                    <h4 style={{margin:'.5em 1em'}}>Escriba una descripción de su relato, relacionado al vídeo elegido en la siguiente columna</h4>                                  
-                                    <div className='capture-relato'>
-                                        <textarea rows="34" cols="60"></textarea>
-                                        <button>Enviar</button>
-                                    </div></>
+                                    : <>
+                                        <h4 style={{ margin: '.5em 1em' }}>Escriba una descripción de su relato, relacionado al vídeo elegido en la siguiente columna</h4>
+                                        <div className='capture-relato'>
+                                            <textarea rows="34" cols="60"></textarea>
+                                            <button>Enviar</button>
+                                        </div></>
                                 }
 
                             </div>
@@ -531,11 +632,44 @@ export const Autobiograficos = () => {
 
                             </div>
                         }) :
-                            <Player>
-                                <source src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4"></source>
-                                <ControlBar></ControlBar>
-                                <LoadingSpinner></LoadingSpinner>
-                            </Player>
+                            <>
+                                {activeVideo && <Player>
+                                    <source src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4"></source>
+                                    <ControlBar></ControlBar>
+                                    <LoadingSpinner></LoadingSpinner>
+                                </Player>
+                                }
+                                <div className='listado-acordeon'>
+                                    <h3>
+                                        {activeVideo}
+                                    </h3>
+                                    <Accordion activeEventKey={activeEventKey} onToggle={setActiveEventKey}>
+                                        {
+                                            categorias.map(({ description, listadoVideos }, i) => {
+                                                console.log('categorias en acordeon ', description, listadoVideos);
+                                                return (<Card key={i}>
+                                                    <Accordion.Toggle element={Card.Header} eventKey={i}>
+                                                        {description}
+                                                        {activeEventKey !== i && <span><FontAwesomeIcon icon={faAngleDown} /></span>}
+                                                        {activeEventKey === i && <span><FontAwesomeIcon icon={faAngleUp} /></span>}
+                                                    </Accordion.Toggle>
+                                                    <Accordion.Collapse eventKey={i} element={Card.Body}>
+
+                                                        <ul className='accordion-list'>
+                                                            {
+                                                                listadoVideos.map((el, indicevideo) => {
+                                                                    return <li key={indicevideo} onClick={(e) => { setActiveVideo(el) }}>{el}</li>
+                                                                })
+                                                            }
+                                                        </ul>
+
+                                                    </Accordion.Collapse>
+                                                </Card>)
+                                            })
+                                        }
+                                    </Accordion>
+                                </div>
+                            </>
                     }
                 </div>
             </div>

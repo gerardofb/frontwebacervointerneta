@@ -13,7 +13,7 @@ const StaticNavBar = (props) => {
     
     return (
         <>
-        <div className='navbar-principal-static navbar-principal'><Link to='/'><img src={url('logo_blanco_interneta')} style={{ height: '100px', float: 'left' }} /><h2 style={{ float: 'left', color: 'white' }}>Acervo Audiovisual Interneta</h2></Link>
+        <div className='navbar-principal-static navbar-principal'><Link to='/'><img src={url('logo_blanco_interneta')} style={{ height: '100px', float: 'left', marginLeft:'1.3em' }} /><h2 style={{ float: 'left', color: 'white' }}>Acervo Audiovisual Interneta</h2></Link>
         <StaticSearchBar></StaticSearchBar></div>
         </>
     )
