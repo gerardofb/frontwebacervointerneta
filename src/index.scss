@@ -2134,3 +2134,44 @@ Clases del acordeón en página autobiográficos
   cursor: pointer;
   margin: .5em 0;
 }
+
+/*
+Estilos del modal de descargas en página reproducción
+*/
+.radio-button-std{
+  outline: none;
+  border: none;
+  color:gray;
+  font-size: xx-large;
+  background-color: transparent;
+  margin:.5em 0;
+  cursor: pointer;
+}
+.radio-button-std-active{
+  outline:none;
+  border:none;
+  color: #7291d8;
+  font-size: xx-large;
+  background-color: transparent;
+  margin:.5em 0;
+  cursor: pointer;
+}
+.download-video-std{
+  border:none;
+  outline: none;
+  color:white;
+  background-color: #009639;
+  border-radius: .3em;
+  line-height: 30px;
+  width: 200px;
+  justify-content: center;
+  text-align: center;
+  margin:3em auto;
+  cursor:pointer;
+}
+.download-reprod-std{
+  display: grid;
+  grid-template-rows: repeat(3,1fr);
+  align-items: center;
+  justify-content: center;
+}

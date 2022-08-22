@@ -28,7 +28,9 @@ import {
     faCircleInfo,
     faShare,
     faSave,
-    faScissors
+    faScissors,
+    faToggleOff,
+    faToggleOn
 } from "@fortawesome/free-solid-svg-icons"
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
@@ -36,8 +38,7 @@ import NavBar from '../NavBar';
 import ContextMenu from '../ContextMenu';
 import { HomeFooter } from '../HomeFooter';
 import { ThemesContext } from '../../ThemeProvider';
-
-const url= (name, wrap = false) => `${wrap ? 'url(' : ''}/images/SocialNetwork/${name}${wrap ? ')' : ''}`
+const url = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/SocialNetwork/${name}${wrap ? ')' : ''}`
 
 const Tab = styled.button`
   font-size: 20px;
@@ -64,6 +65,7 @@ width:100%;
 height:100%`;
 const MODAL_CREDITOS = 0;
 const MODAL_REDES = 1;
+const MODAL_DESCARGAS = 2;
 
 let items = [
     { titulo: "Gerardo Flores Barrie", content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sit amet suscipit mi. Integer lacinia nisl sit amet sapien porta, nec posuere ante dictum. Aliquam erat volutpat. Pellentesque sem purus, laoreet at quam eget, ullamcorper efficitur mi. Integer pretium fringilla placerat. Suspendisse bibendum, neque quis vestibulum interdum, tortor metus scelerisque." },
@@ -304,10 +306,16 @@ let autobiograficos = [
     { autor: 'Gabriela Romo', fecha: new Date(2018, 5, 13).toLocaleDateString(), reciente: false, podcast: false, guid: '98e45f888485452381c1524a52b807f3' },
 ]
 
-const redesSociales = [{title:"incrustar",icon:'embed_icon.png'},{title:'Blogger',icon:'blogger_logo.png'},
-{title:"Facebook",icon:'facebook_logo.png'},{title:"Linkedin", icon:'linkedin_logo.png'},
-{title:"Pinterest", icon:'pinterest_logo.png'},{title:"Reddit", icon:'reddit_logo.png'},
-{title:"Twitter", icon:'twitter_logo.png'},{title:"Whats App", icon:'whatsapp_logo.jpg'}]
+const redesSociales = [{ title: "incrustar", icon: 'embed_icon.png' }, { title: 'Blogger', icon: 'blogger_logo.png' },
+{ title: "Facebook", icon: 'facebook_logo.png' }, { title: "Linkedin", icon: 'linkedin_logo.png' },
+{ title: "Pinterest", icon: 'pinterest_logo.png' }, { title: "Reddit", icon: 'reddit_logo.png' },
+{ title: "Twitter", icon: 'twitter_logo.png' }, { title: "Whats App", icon: 'whatsapp_logo.jpg' }]
+
+const opcionesDescarga = [
+    { title: "Calidad Baja (Gratis)", free: true, index: 0, active: true },
+    { title: "Calidad Media ($20.00 M.N. ó 30 puntos)", free: false, index: 1, active: false },
+    { title: "Calidad Alta ($50.00 M.N. ó 100 puntos)", free: true, index: 2, active: false }
+]
 
 export const AutoComments = () => {
 
@@ -557,6 +565,21 @@ export const AutoComments = () => {
         elementoheader.scrollIntoView({ behavior: 'smooth' });
         console.log('estableciendo estado final ', modalOpen);
     };
+    const [radioDescarga, setRadioDescarga] = useState(opcionesDescarga);
+    const estableceRadiosDescarga = (parametro) => {
+        let nuevasopciones = opcionesDescarga.map((el, index) => {
+            if (el.index !== parametro) {
+                el.active = false;
+            }
+            else { el.active = true; }
+
+            return el;
+        })
+        setRadioDescarga(
+            nuevasopciones
+        );
+        console.log('el indice del radio es ', radioDescarga, parametro);
+    }
     return (
         <div className='player-individual' onScroll={handleScroll}>
             {
@@ -583,8 +606,9 @@ export const AutoComments = () => {
                     <div className='item-acciones-repro' onClick={(e) => toggleState(e, MODAL_REDES)}>
                         <FontAwesomeIcon icon={faShare} /><span>Compartir</span>
                     </div>
-                    <div className='item-acciones-repro'>
-                        <FontAwesomeIcon icon={faSave} /><span>Descargar</span>
+                    <div className='item-acciones-repro' onClick={(e) => toggleState(e, MODAL_DESCARGAS)}>
+                        <FontAwesomeIcon icon={faSave} />
+                        <span>Descargar</span>
                     </div>
                     <div className='item-acciones-repro'>
                         <FontAwesomeIcon icon={faScissors} /><span>Clip</span>
@@ -667,7 +691,7 @@ export const AutoComments = () => {
                 <div className='scroll-list' onContextMenu={(e) => handleContextMenu(false, false)} style={estableceTab(tabuladores[2])}>
                     {
                         myevents.map((elem, index) => {
-                            let llave = "/Eventos/" + elem.index +"?previous="+titulo;
+                            let llave = "/Eventos/" + elem.index + "?previous=" + titulo;
                             return (
                                 <div className="evento-reproduccion" key={index}>
                                     <div className="control-evento-reproduccion" onClick={(e) => resetMyEvents(elem)}>
@@ -737,10 +761,10 @@ export const AutoComments = () => {
             <HomeFooter></HomeFooter>
             <Modal id="modal" isOpen={modalOpen} modalSize="lg" onClose={toggleState} modalClass={
                 childrenModal == MODAL_CREDITOS ?
-                "darkmodal" : ""} title={
-                childrenModal == MODAL_CREDITOS ? "Créditos del vídeo" : childrenModal == MODAL_REDES ? "Compartir por"
-                    : null
-            }>
+                    "darkmodal" : ""} title={
+                        childrenModal == MODAL_CREDITOS ? "Créditos del vídeo" : childrenModal == MODAL_REDES ? "Compartir por"
+                            : childrenModal == MODAL_DESCARGAS ? "Descargar vídeo" : null
+                    }>
                 {childrenModal == MODAL_CREDITOS ?
                     <div>
                         <dl><dt>Título:</dt><dd>Muerte Mextiza</dd>
@@ -758,16 +782,39 @@ export const AutoComments = () => {
                         </dl>
                     </div>
                     : childrenModal == MODAL_REDES ?
-                    <div className='modal-redes-regular'>
-                        {redesSociales.map((logo,index)=>{
-                        let background_size = logo.icon == "blogger_logo.png" ? "80%" : logo.icon == "reddit_logo.png" ? "60%" : 
-                        logo.icon == "twitter_logo.png" ? "85%" : logo.icon == "whatsapp_logo.jpg" ? "220%": 
-                        "contain";
-                        return <button title={logo.title} className={`social-network-regular`} style={{
-                            backgroundImage:url(logo.icon,true), backgroundSize:background_size
-                        }}>&nbsp;</button>
-                        })} 
-                </div> : null}
+                        <div className='modal-redes-regular'>
+                            {redesSociales.map((logo, index) => {
+                                let background_size = logo.icon == "blogger_logo.png" ? "80%" : logo.icon == "reddit_logo.png" ? "60%" :
+                                    logo.icon == "twitter_logo.png" ? "85%" : logo.icon == "whatsapp_logo.jpg" ? "220%" :
+                                        "contain";
+                                return <button title={logo.title} className={`social-network-regular`} style={{
+                                    backgroundImage: url(logo.icon, true), backgroundSize: background_size
+                                }}>&nbsp;</button>
+                            })}
+                        </div> : childrenModal == MODAL_DESCARGAS ?
+                    <div className='download-reprod-std'>
+                    {
+                        radioDescarga && radioDescarga.map((radio, indice) => {
+                            console.log('el radio esta activo ', radio.active, radio.index)
+                            let claseCssRadio = radio.active ? "radio-button-std-active" : "radio-button-std"
+                            return (
+                                <div key={radio.index} onClick={(e) => estableceRadiosDescarga(radio.index)}>
+
+                                    <h4>{radio.title}</h4>
+                                    <button className={claseCssRadio}>
+                                        {
+                                            !radio.active ? <FontAwesomeIcon icon={faToggleOff} /> : <FontAwesomeIcon icon={faToggleOn} />
+                                        }
+                                    </button>
+                                </div>
+                            )
+                        })
+                    }
+                    <button className='download-video-std'>
+                        Descargar
+                    </button>
+                </div>
+                            : null }
             </Modal>
 
         </div>
