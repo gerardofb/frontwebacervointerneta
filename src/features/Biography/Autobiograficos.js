@@ -480,24 +480,24 @@ export const Autobiograficos = () => {
                                     <div className='autobiografico-main-menu'>
                                         {!editing.editando ?
                                             <div>
-                                                <div className='autobiografico-main-menu-entry active' onClick={(e) => estableceModoEdicion(false)}>
+                                                <div className={`${styles.AutoBiograficoMainMenuEntry} active`} onClick={(e) => estableceModoEdicion(false)}>
                                                     <span className='content-header-main-menu-entry'>Ver y escuchar</span>
                                                     <button className='btn-autobiografico-menu-white' onClick={(e) => { btnTipoAutobiograficoClick('RELATOS') }} title='Relatos autobiográficos'><span><FontAwesomeIcon icon={faAlignCenter}></FontAwesomeIcon></span>&nbsp;</button>
                                                     <button className='btn-autobiografico-menu-white' onClick={(e) => { btnTipoAutobiograficoClick('PODCASTS') }} title='Podcasts'><span><FontAwesomeIcon icon={faVolumeHigh}></FontAwesomeIcon></span>&nbsp;</button>
                                                 </div>
-                                                <div className='autobiografico-main-menu-entry inactive' onClick={(e) => estableceModoEdicion(true)}>
+                                                <div className={`${styles.AutoBiograficoMainMenuEntry} inactive`}  onClick={(e) => estableceModoEdicion(true)}>
                                                     <span className='content-header-main-menu-entry'>Editar</span>
                                                     <button className='btn-autobiografico-menu-white'><span><FontAwesomeIcon icon={faAlignCenter}></FontAwesomeIcon></span>&nbsp;</button>
                                                     <button className='btn-autobiografico-menu-white'><span><FontAwesomeIcon icon={faVolumeHigh}></FontAwesomeIcon></span>&nbsp;</button>
                                                 </div>
                                             </div> :
                                             <div>
-                                                <div className='autobiografico-main-menu-entry inactive' onClick={(e) => estableceModoEdicion(false)}>
+                                                <div className={`${styles.AutoBiograficoMainMenuEntry} inactive`}  onClick={(e) => estableceModoEdicion(false)}>
                                                     <span className='content-header-main-menu-entry'>Ver y escuchar</span>
                                                     <button className='btn-autobiografico-menu-white'><span><FontAwesomeIcon icon={faAlignCenter}></FontAwesomeIcon></span>&nbsp;</button>
                                                     <button className='btn-autobiografico-menu-white'><span><FontAwesomeIcon icon={faVolumeHigh}></FontAwesomeIcon></span>&nbsp;</button>
                                                 </div>
-                                                <div className='autobiografico-main-menu-entry active' onClick={(e) => estableceModoEdicion(true)}>
+                                                <div className={`${styles.AutoBiograficoMainMenuEntry} active`}  onClick={(e) => estableceModoEdicion(true)}>
                                                     <span className='content-header-main-menu-entry'>Editar</span>
                                                     <button className='btn-autobiografico-menu-white' onClick={(e) => { btnTipoAutobiograficoClick('RELATOS') }} title='Relatos autobiográficos'><span><FontAwesomeIcon icon={faAlignCenter}></FontAwesomeIcon></span>&nbsp;</button>
                                                     <button className='btn-autobiografico-menu-white' onClick={(e) => { btnTipoAutobiograficoClick('PODCASTS') }} title='Podcasts'><span><FontAwesomeIcon icon={faVolumeHigh}></FontAwesomeIcon></span>&nbsp;</button>
@@ -542,24 +542,24 @@ export const Autobiograficos = () => {
                                         <div className='autobiografico-main-menu'>
                                             {!editing.editando ?
                                                 <div>
-                                                    <div className='autobiografico-main-menu-entry active' onClick={(e) => setModeEdit({ podcast: editing.podcast, editando: false })}>
+                                                    <div className={`${styles.AutoBiograficoMainMenuEntry} active`}  onClick={(e) => setModeEdit({ podcast: editing.podcast, editando: false })}>
                                                         <span className='content-header-main-menu-entry'>Ver y escuchar</span>
                                                         <button className='btn-autobiografico-menu-white' onClick={(e) => { btnTipoAutobiograficoClick('RELATOS') }} title='Relatos autobiográficos'><span><FontAwesomeIcon icon={faAlignCenter}></FontAwesomeIcon></span>&nbsp;</button>
                                                         <button className='btn-autobiografico-menu-white' onClick={(e) => { btnTipoAutobiograficoClick('PODCASTS') }} title='Podcasts'><span><FontAwesomeIcon icon={faVolumeHigh}></FontAwesomeIcon></span>&nbsp;</button>
                                                     </div>
-                                                    <div className='autobiografico-main-menu-entry inactive' onClick={(e) => setModeEdit({ podcast: editing.podcast, editando: true })}>
+                                                    <div className={`${styles.AutoBiograficoMainMenuEntry} inactive`}  onClick={(e) => setModeEdit({ podcast: editing.podcast, editando: true })}>
                                                         <span className='content-header-main-menu-entry'>Editar</span>
                                                         <button className='btn-autobiografico-menu-white'><span><FontAwesomeIcon icon={faAlignCenter}></FontAwesomeIcon></span>&nbsp;</button>
                                                         <button className='btn-autobiografico-menu-white'><span><FontAwesomeIcon icon={faVolumeHigh}></FontAwesomeIcon></span>&nbsp;</button>
                                                     </div>
                                                 </div> :
                                                 <div>
-                                                    <div className='autobiografico-main-menu-entry inactive' onClick={(e) => setModeEdit({ podcast: editing.podcast, editando: false })}>
+                                                    <div className={`${styles.AutoBiograficoMainMenuEntry} inactive`}  onClick={(e) => setModeEdit({ podcast: editing.podcast, editando: false })}>
                                                         <span className='content-header-main-menu-entry'>Ver y escuchar</span>
                                                         <button className='btn-autobiografico-menu-white'><span><FontAwesomeIcon icon={faAlignCenter}></FontAwesomeIcon></span>&nbsp;</button>
                                                         <button className='btn-autobiografico-menu-white'><span><FontAwesomeIcon icon={faVolumeHigh}></FontAwesomeIcon></span>&nbsp;</button>
                                                     </div>
-                                                    <div className='autobiografico-main-menu-entry active' onClick={(e) => setModeEdit({ podcast: editing.podcast, editando: true })}>
+                                                    <div className={`${styles.AutoBiograficoMainMenuEntry} active`}  onClick={(e) => setModeEdit({ podcast: editing.podcast, editando: true })}>
                                                         <span className='content-header-main-menu-entry'>Editar</span>
                                                         <button className='btn-autobiografico-menu-white' onClick={(e) => { btnTipoAutobiograficoClick('RELATOS') }} title='Relatos autobiográficos'><span><FontAwesomeIcon icon={faAlignCenter}></FontAwesomeIcon></span>&nbsp;</button>
                                                         <button className='btn-autobiografico-menu-white' onClick={(e) => { btnTipoAutobiograficoClick('PODCASTS') }} title='Podcasts'><span><FontAwesomeIcon icon={faVolumeHigh}></FontAwesomeIcon></span>&nbsp;</button>

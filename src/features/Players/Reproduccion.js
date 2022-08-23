@@ -30,7 +30,8 @@ import {
     faSave,
     faScissors,
     faToggleOff,
-    faToggleOn
+    faToggleOn,
+    faStar
 } from "@fortawesome/free-solid-svg-icons"
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
@@ -66,6 +67,7 @@ height:100%`;
 const MODAL_CREDITOS = 0;
 const MODAL_REDES = 1;
 const MODAL_DESCARGAS = 2;
+const MODAL_CALIFICACION = 3;
 
 let items = [
     { titulo: "Gerardo Flores Barrie", content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sit amet suscipit mi. Integer lacinia nisl sit amet sapien porta, nec posuere ante dictum. Aliquam erat volutpat. Pellentesque sem purus, laoreet at quam eget, ullamcorper efficitur mi. Integer pretium fringilla placerat. Suspendisse bibendum, neque quis vestibulum interdum, tortor metus scelerisque." },
@@ -580,6 +582,18 @@ export const AutoComments = () => {
         );
         console.log('el indice del radio es ', radioDescarga, parametro);
     }
+    const [clicked, setClicked] = React.useState([false, false, false, false, false]);
+    const handleStarClick = (e, index) => {
+        e.preventDefault();
+        let clickStates = [...clicked];
+        for (let i = 0; i < 5; i++) {
+            if (i <= index) clickStates[i] = true;
+            else clickStates[i] = false;
+        }
+
+        setClicked(clickStates);
+    };
+    console.log('estrellas marcadas para calificar', clicked);
     return (
         <div className='player-individual' onScroll={handleScroll}>
             {
@@ -613,8 +627,18 @@ export const AutoComments = () => {
                     <div className='item-acciones-repro'>
                         <FontAwesomeIcon icon={faScissors} /><span>Clip</span>
                     </div>
-                    <div className='item-acciones-repro'>
-                        <span>Calificar</span>
+                    <div className='item-acciones-repro' onClick={(e) => toggleState(e, MODAL_CALIFICACION)}>
+                        {[0].map((el, index) => {
+                                        return <div style={{marginLeft:'.25em'}}>
+                                            <FontAwesomeIcon icon={faStar} className="clickedstar"/>
+                                            <FontAwesomeIcon icon={faStar} className="clickedstar"/>
+                                            <FontAwesomeIcon icon={faStar} className="clickedstar"/>
+                                            <FontAwesomeIcon icon={faStar} className="clickedstar"/>
+                                            <FontAwesomeIcon icon={faStar} className="clickedstar"/>
+                                            <span>(5)</span>
+                                        </div>
+                                    })
+                                    }
                     </div>
                 </div>
             </div>
@@ -763,7 +787,7 @@ export const AutoComments = () => {
                 childrenModal == MODAL_CREDITOS ?
                     "darkmodal" : ""} title={
                         childrenModal == MODAL_CREDITOS ? "Créditos del vídeo" : childrenModal == MODAL_REDES ? "Compartir por"
-                            : childrenModal == MODAL_DESCARGAS ? "Descargar vídeo" : null
+                            : childrenModal == MODAL_DESCARGAS ? "Descargar vídeo" : childrenModal == MODAL_CALIFICACION ? "Calificar vídeo" : null
                     }>
                 {childrenModal == MODAL_CREDITOS ?
                     <div>
@@ -792,29 +816,42 @@ export const AutoComments = () => {
                                 }}>&nbsp;</button>
                             })}
                         </div> : childrenModal == MODAL_DESCARGAS ?
-                    <div className='download-reprod-std'>
-                    {
-                        radioDescarga && radioDescarga.map((radio, indice) => {
-                            console.log('el radio esta activo ', radio.active, radio.index)
-                            let claseCssRadio = radio.active ? "radio-button-std-active" : "radio-button-std"
-                            return (
-                                <div key={radio.index} onClick={(e) => estableceRadiosDescarga(radio.index)}>
+                            <div className='download-reprod-std'>
+                                {
+                                    radioDescarga && radioDescarga.map((radio, indice) => {
+                                        console.log('el radio esta activo ', radio.active, radio.index)
+                                        let claseCssRadio = radio.active ? "radio-button-std-active" : "radio-button-std"
+                                        return (
+                                            <div key={radio.index} onClick={(e) => estableceRadiosDescarga(radio.index)}>
 
-                                    <h4>{radio.title}</h4>
-                                    <button className={claseCssRadio}>
-                                        {
-                                            !radio.active ? <FontAwesomeIcon icon={faToggleOff} /> : <FontAwesomeIcon icon={faToggleOn} />
-                                        }
-                                    </button>
+                                                <h4>{radio.title}</h4>
+                                                <button className={claseCssRadio}>
+                                                    {
+                                                        !radio.active ? <FontAwesomeIcon icon={faToggleOff} /> : <FontAwesomeIcon icon={faToggleOn} />
+                                                    }
+                                                </button>
+                                            </div>
+                                        )
+                                    })
+                                }
+                                <button className='download-video-std'>
+                                    Descargar
+                                </button>
+                            </div>
+                            : childrenModal == MODAL_CALIFICACION ?
+                                <div className='calificacion-reprod-std'>
+                                    {[0].map((el, index) => {
+                                        return <>
+                                            <FontAwesomeIcon icon={faStar} className={clicked[0] ? "clickedstar" : "std-star"} onClick={(e) => handleStarClick(e, 0)} />
+                                            <FontAwesomeIcon icon={faStar} className={clicked[1] ? "clickedstar" : "std-star"} onClick={(e) => handleStarClick(e, 1)} />
+                                            <FontAwesomeIcon icon={faStar} className={clicked[2] ? "clickedstar" : "std-star"} onClick={(e) => handleStarClick(e, 2)} />
+                                            <FontAwesomeIcon icon={faStar} className={clicked[3] ? "clickedstar" : "std-star"} onClick={(e) => handleStarClick(e, 3)} />
+                                            <FontAwesomeIcon icon={faStar} className={clicked[4] ? "clickedstar" : "std-star"} onClick={(e) => handleStarClick(e, 4)} />
+                                        </>
+                                    })
+                                    }
                                 </div>
-                            )
-                        })
-                    }
-                    <button className='download-video-std'>
-                        Descargar
-                    </button>
-                </div>
-                            : null }
+                                : null}
             </Modal>
 
         </div>

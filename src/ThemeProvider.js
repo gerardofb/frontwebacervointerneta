@@ -18,7 +18,8 @@ const estilos = {
         MainBodyCategory:'main-body-categories-basic',
         CategoryCard:'category-cards-basic',
         OpcionesAutobiograficosReprod:'options-autobiograficos-reproduccion-basic',
-        AutoBiograficoMain:'autobiografico-main-basic'
+        AutoBiograficoMain:'autobiografico-main-basic',
+        AutoBiograficoMainMenuEntry:'autobiografico-main-menu-entry-basic'
     },
     aesthetic: {
         BodyHome:'bodyHome-aesthetic',
@@ -37,7 +38,8 @@ const estilos = {
         MainBodyCategory:'main-body-categories-aesthetic',
         CategoryCard:'category-cards-aesthetic',
         OpcionesAutobiograficosReprod:'options-autobiograficos-reproduccion-aesthetic',
-        AutoBiograficoMain:'autobiografico-main-aesthetic'
+        AutoBiograficoMain:'autobiografico-main-aesthetic',
+        AutoBiograficoMainMenuEntry:'autobiografico-main-menu-entry-aesthetic'
     },
     basicDark: {
         BodyHome:'bodyHome-basic',
@@ -56,7 +58,8 @@ const estilos = {
         MainBodyCategory:'main-body-categories-basic',
         CategoryCard:'category-cards-basic',
         OpcionesAutobiograficosReprod:'options-autobiograficos-reproduccion-basic',
-        AutoBiograficoMain:'autobiografico-main-basic'
+        AutoBiograficoMain:'autobiografico-main-basic',
+        AutoBiograficoMainMenuEntry:'autobiografico-main-menu-entry-basic'
     },
     aestheticDark: {
         BodyHome:'bodyHome-aesthetic',
@@ -75,7 +78,8 @@ const estilos = {
         MainBodyCategory:'main-body-categories-aesthetic',
         CategoryCard:'category-cards-aesthetic',
         OpcionesAutobiograficosReprod:'options-autobiograficos-reproduccion-aesthetic',
-        AutoBiograficoMain:'autobiografico-main-aesthetic'
+        AutoBiograficoMain:'autobiografico-main-aesthetic',
+        AutoBiograficoMainMenuEntry:'autobiografico-main-menu-entry-aesthetic'
     },
 }
 export const ThemesContext = createContext({
