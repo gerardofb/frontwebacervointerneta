@@ -445,10 +445,16 @@ export const Autobiograficos = () => {
     }
 
     const stop = () => {
+        try{
         console.log("stop")
-        setRecordState(
+        // GFB COMENTAR PARA DESPLIEGUES EN PRUEBAS (SIN DOMINIO)
+       setRecordState(
             RecordState.STOP
         )
+        }
+        catch(ex){
+            console.log(ex);
+        }
     }
 
     //audioData contains blob and blobUrl
