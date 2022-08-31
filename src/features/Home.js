@@ -13,7 +13,13 @@ const urlpng = (name, wrap = false) => `${wrap ? 'url(' : ''}images/Art/inverted
 
 
 export class Home extends React.Component {
-    
+    draw = (ctx, frameCount) => {
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+        ctx.fillStyle = '#fff'
+        ctx.beginPath()
+        ctx.arc(50, 100, 20*Math.sin(frameCount*0.05)**2, 0, 2*Math.PI)
+        ctx.fill()
+      }
     render() {
         const {styles} = this.context;
         console.log('en home ', this.context)
@@ -36,7 +42,7 @@ export class Home extends React.Component {
                     </Parallax.Layer>
 
                     <Parallax.Layer offset={1.3} speed={0.8} style={{ pointerEvents: 'none' }}>
-                        <Canvas />
+                        <Canvas draw={this.draw} />
                     </Parallax.Layer>
                     <Parallax.Layer offset={1.95} speed={0.5} style={{ pointerEvents: 'none' }}>
                         <img alt='fondo' src={urlpng('white_art_tatoo_feather')} style={{ display: 'block', width: '20%', marginLeft: '55%', opacity: '40%' }} />
