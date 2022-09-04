@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React from 'react'
 import Parallax from 'react-springy-parallax'
 import { BigPlayButton, ControlBar, LoadingSpinner, Player, PlayToggle } from 'video-react'
 import { HomeCategories } from './HomeCategories';
@@ -11,17 +11,11 @@ import Canvas from './Canvas';
 const url = (name, wrap = false) => `${wrap ? 'url(' : ''}images/${name}.svg${wrap ? ')' : ''}`
 const urlpng = (name, wrap = false) => `${wrap ? 'url(' : ''}images/Art/inverted/${name}.png${wrap ? ')' : ''}`
 
-
 export class Home extends React.Component {
-    draw = (ctx, frameCount) => {
-        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
-        ctx.fillStyle = '#fff'
-        ctx.beginPath()
-        ctx.arc(50, 100, 20*Math.sin(frameCount*0.05)**2, 0, 2*Math.PI)
-        ctx.fill()
-      }
+
+
     render() {
-        const {styles} = this.context;
+        const { styles } = this.context;
         console.log('en home ', this.context)
         return (
             <div>
@@ -36,26 +30,22 @@ export class Home extends React.Component {
 
                     <Parallax.Layer
                         offset={0} speed={0} factor={4}
-                        style={{ backgroundImage: url('stars', true), backgroundSize: 'cover' }}
+                        style={{ backgroundSize: 'cover' }}
                     >
 
                     </Parallax.Layer>
 
                     <Parallax.Layer offset={1.3} speed={0.8} style={{ pointerEvents: 'none' }}>
-                        <Canvas draw={this.draw} />
+                        <Canvas />
                     </Parallax.Layer>
                     <Parallax.Layer offset={1.95} speed={0.5} style={{ pointerEvents: 'none' }}>
-                        <img alt='fondo' src={urlpng('white_art_tatoo_feather')} style={{ display: 'block', width: '20%', marginLeft: '55%', opacity: '40%' }} />
-                        <img alt='fondo' src={urlpng('white_art_tatoo_fenix')} style={{ display: 'block', width: '30%', marginLeft: '25%', opacity: '40%' }} />
-                        <img alt='fondo' src={urlpng('white_art_tatoo_libra')} style={{ display: 'block', width: '10%', marginLeft: '85%', opacity: '40%' }} />
+                        <Canvas />
                     </Parallax.Layer>
                     <Parallax.Layer offset={2.75} speed={0.5} style={{ pointerEvents: 'none' }}>
-                        <img alt='fondo' src={urlpng('white_art_tatoo_libra')} style={{ display: 'block', width: '20%', marginLeft: '55%', opacity: '40%' }} />
-                        <img alt='fondo' src={urlpng('white_art_tatoo_symbols')} style={{ display: 'block', width: '20%', marginLeft: '25%', opacity: '40%' }} />
-                        <img alt='fondo' src={urlpng('white_art_tatoo_rose')} style={{ display: 'block', width: '40%', marginLeft: '65%', opacity: '40%' }} />
+                        <Canvas />
                     </Parallax.Layer>
                     <Parallax.Layer offset={0} speed={0} style={{ display: 'block', backgroundColor: 'black' }}>
-                        <div style={{ backgroundColor: 'black', height:'100px' }}>
+                        <div style={{ backgroundColor: 'black', height: '100px' }}>
                             <NavBar></NavBar>
                         </div>
                     </Parallax.Layer>
@@ -74,7 +64,7 @@ export class Home extends React.Component {
                     <Parallax.Layer offset={1.4} speed={0} style={{ display: 'flex' }}>
                         <HomeCategories></HomeCategories>
                     </Parallax.Layer>
-                    <Parallax.Layer offset={2.5} speed={0} style={{ display: 'flex', marginBottom:'2em' }}>
+                    <Parallax.Layer offset={2.5} speed={0} style={{ display: 'flex', marginBottom: '2em' }}>
                         <HomeTags></HomeTags>
                     </Parallax.Layer>
                     <Parallax.Layer offset={3.3} speed={0} style={{ display: 'flex' }}>
