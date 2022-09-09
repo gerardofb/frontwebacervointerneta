@@ -1,4 +1,3 @@
-import userEvent from '@testing-library/user-event';
 import React, { useRef, useEffect } from 'react'
 
 const Canvas = props =>{
@@ -113,7 +112,7 @@ window.requestAnimationFrame(draw);
 
 
     return () => {
-      window.cancelAnimationFrame()
+      window.cancelAnimationFrame(draw)
     }
   }, [])
 

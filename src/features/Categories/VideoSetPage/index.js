@@ -12,6 +12,7 @@ import VideoBlock from "./VideoBlock"
 import StaticNavBar from '../StaticNavbar';
 import { HomeFooter } from "../../HomeFooter"
 import { ThemesContext } from "../../../ThemeProvider"
+import CanvasVideoSet from "../../CanvasVideoSet"
 
 const VideoSetGrid = styled.ul`
   display: grid;
@@ -30,7 +31,6 @@ const InverseContainer = styled.div`
 const Background = styled.div`
   position: relative;
   min-height: 165vh;
-  background-image:url('/images/Art/art_tatoo_dragon.png');
   background-position:bottom right;
   background-repeat:no-repeat;
   z-index: 1;
@@ -145,6 +145,16 @@ function VideoSetPage({
                             </SetContents>
                         </InverseContainer>
                     </Flipped>
+                   <CanvasVideoSet>
+                    
+                   </CanvasVideoSet>
+                   <div className="resume-video-set">
+                   <h2>Arte Público</h2>
+<p>Número de documentos audiovisuales: 26</p>
+<p>Esta colección se integra con audiovisuales que captan tanto prácticas populares como de arte urbano, así como disciplinas artísticas escenificadas en el espacio público. Entre ellas se encuentra el arte escénico colectivo del Grupo Barro Rojo(BRAE); los reportajes sobre dos primeras bienales del Cartel en México centradas en el cartel popular;  documentales sobre arte migrante mexicano en la ciudad de San Francisco, California y piezas performances de artistas multimedia, muralismo urbano y prácticas de grafiti en las ciudades de Monterrey, Estado de México y Ciudad de México. Se trata de documentales registrados en la década del noventa e inicio del nuevo siglo. 
+A éstos se suman documentales realizados en este siglo sobre las prácticas “creactivas” comunitarias y barriales para la recuperación del espacio público en colonias populares de la Ciudad de México. Y en últimas fechas se encuentran reflexiones compartidas de artistas, colectivos, gestores de arte y cultura comunitaria durante el encierro pandémico (COVID-19) en el año de 2020.</p>
+
+                    </div>
                 </Background>
             </Flipped>
             <HomeFooter style={{position:'absolute',bottom:'0'}}></HomeFooter>

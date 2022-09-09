@@ -7,6 +7,31 @@ import { Link, useHistory } from "react-router-dom";
 import { useLocation, useParams } from "react-router-dom";
 import { faCalendarDays, faArrowRight, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { AnimatedComponent } from "react-spring";
+const yearsacervo = [
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025,
+    2026,
+    2027,
+    2028,
+    2029,
+    2030,
+    2031,
+    2032,
+    2033,
+    2034,
+    2035,
+    2036,
+    2037,
+    2038,
+    2039,
+    2040
+]
 const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
 const dayOfWeek = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sab'];
 const cssMeses = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic']
@@ -137,7 +162,7 @@ const eventosMin = [
         index: 35, selected: false, title: "Feria ejemplo seis", descripcion: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In at augue at elit mattis gravida. Suspendisse luctus gravida mauris ac eleifend. Aliquam pulvinar ante sed urna tristique semper. Nulla eu purus a massa pulvinar ultricies in id velit. Sed pretium hendrerit justo, at semper risus bibendum eu. Mauris cursus eget tellus a euismod. Donec rutrum iaculis odio et aliquam. Donec quis placerat purus. Vivamus tincidunt quam et sem condimentum viverra. Nunc ultricies mi ornare varius sagittis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nunc finibus libero vel velit gravida, consectetur lacinia tortor finibus. Sed vehicula faucibus elementum. Pellentesque auctor quam et bibendum facilisis. Vivamus tincidunt sapien in metus feugiat pharetra. Maecenas ex enim, gravida a egestas a, mattis id lacus. Fusce convallis dictum rutrum. Fusce et aliquet enim. Fusce lobortis ligula eget mauris posuere, eget tempus metus finibus. Fusce euismod nibh vel ex vehicula imperdiet. Nulla dapibus metus sed mauris laoreet, nec faucibus dolor mattis. Sed luctus nisl eu facilisis vestibulum. Integer a leo sit amet dolor varius volutpat.",
         fecha: new Date(2022, 4, 30, 23, 0, 0), duracion: 90, imagen: "/images/Eventos/05_06.jpg"
     },
-	// JUNIO
+    // JUNIO
     {
         index: 37, selected: false, title: "Festival ejemplo siete", descripcion: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In at augue at elit mattis gravida. Suspendisse luctus gravida mauris ac eleifend. Aliquam pulvinar ante sed urna tristique semper. Nulla eu purus a massa pulvinar ultricies in id velit. Sed pretium hendrerit justo, at semper risus bibendum eu. Mauris cursus eget tellus a euismod. Donec rutrum iaculis odio et aliquam. Donec quis placerat purus. Vivamus tincidunt quam et sem condimentum viverra. Nunc ultricies mi ornare varius sagittis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nunc finibus libero vel velit gravida, consectetur lacinia tortor finibus. Sed vehicula faucibus elementum. Pellentesque auctor quam et bibendum facilisis. Vivamus tincidunt sapien in metus feugiat pharetra. Maecenas ex enim, gravida a egestas a, mattis id lacus. Fusce convallis dictum rutrum. Fusce et aliquet enim. Fusce lobortis ligula eget mauris posuere, eget tempus metus finibus. Fusce euismod nibh vel ex vehicula imperdiet. Nulla dapibus metus sed mauris laoreet, nec faucibus dolor mattis. Sed luctus nisl eu facilisis vestibulum. Integer a leo sit amet dolor varius volutpat.",
         fecha: new Date(2022, 5, 11, 21, 13, 0), duracion: 60, imagen: "/images/Eventos/06_03.png"
@@ -162,7 +187,7 @@ const eventosMin = [
         index: 42, selected: false, title: "Festival ejemplo diez", descripcion: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In at augue at elit mattis gravida. Suspendisse luctus gravida mauris ac eleifend. Aliquam pulvinar ante sed urna tristique semper. Nulla eu purus a massa pulvinar ultricies in id velit. Sed pretium hendrerit justo, at semper risus bibendum eu. Mauris cursus eget tellus a euismod. Donec rutrum iaculis odio et aliquam. Donec quis placerat purus. Vivamus tincidunt quam et sem condimentum viverra. Nunc ultricies mi ornare varius sagittis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nunc finibus libero vel velit gravida, consectetur lacinia tortor finibus. Sed vehicula faucibus elementum. Pellentesque auctor quam et bibendum facilisis. Vivamus tincidunt sapien in metus feugiat pharetra. Maecenas ex enim, gravida a egestas a, mattis id lacus. Fusce convallis dictum rutrum. Fusce et aliquet enim. Fusce lobortis ligula eget mauris posuere, eget tempus metus finibus. Fusce euismod nibh vel ex vehicula imperdiet. Nulla dapibus metus sed mauris laoreet, nec faucibus dolor mattis. Sed luctus nisl eu facilisis vestibulum. Integer a leo sit amet dolor varius volutpat.",
         fecha: new Date(2022, 5, 30, 23, 0, 0), duracion: 90, imagen: "/images/Eventos/06_02.jpg"
     },
-	// JULIO
+    // JULIO
     {
         index: 43, selected: false, title: "Concierto ejemplo trece", descripcion: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In at augue at elit mattis gravida. Suspendisse luctus gravida mauris ac eleifend. Aliquam pulvinar ante sed urna tristique semper. Nulla eu purus a massa pulvinar ultricies in id velit. Sed pretium hendrerit justo, at semper risus bibendum eu. Mauris cursus eget tellus a euismod. Donec rutrum iaculis odio et aliquam. Donec quis placerat purus. Vivamus tincidunt quam et sem condimentum viverra. Nunc ultricies mi ornare varius sagittis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nunc finibus libero vel velit gravida, consectetur lacinia tortor finibus. Sed vehicula faucibus elementum. Pellentesque auctor quam et bibendum facilisis. Vivamus tincidunt sapien in metus feugiat pharetra. Maecenas ex enim, gravida a egestas a, mattis id lacus. Fusce convallis dictum rutrum. Fusce et aliquet enim. Fusce lobortis ligula eget mauris posuere, eget tempus metus finibus. Fusce euismod nibh vel ex vehicula imperdiet. Nulla dapibus metus sed mauris laoreet, nec faucibus dolor mattis. Sed luctus nisl eu facilisis vestibulum. Integer a leo sit amet dolor varius volutpat.",
         fecha: new Date(2022, 6, 10, 20, 13, 0), duracion: 60, imagen: "/images/Eventos/07_01.png"
@@ -187,8 +212,8 @@ const eventosMin = [
         index: 48, selected: false, title: "Concierto ejemplo dieciocho", descripcion: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In at augue at elit mattis gravida. Suspendisse luctus gravida mauris ac eleifend. Aliquam pulvinar ante sed urna tristique semper. Nulla eu purus a massa pulvinar ultricies in id velit. Sed pretium hendrerit justo, at semper risus bibendum eu. Mauris cursus eget tellus a euismod. Donec rutrum iaculis odio et aliquam. Donec quis placerat purus. Vivamus tincidunt quam et sem condimentum viverra. Nunc ultricies mi ornare varius sagittis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nunc finibus libero vel velit gravida, consectetur lacinia tortor finibus. Sed vehicula faucibus elementum. Pellentesque auctor quam et bibendum facilisis. Vivamus tincidunt sapien in metus feugiat pharetra. Maecenas ex enim, gravida a egestas a, mattis id lacus. Fusce convallis dictum rutrum. Fusce et aliquet enim. Fusce lobortis ligula eget mauris posuere, eget tempus metus finibus. Fusce euismod nibh vel ex vehicula imperdiet. Nulla dapibus metus sed mauris laoreet, nec faucibus dolor mattis. Sed luctus nisl eu facilisis vestibulum. Integer a leo sit amet dolor varius volutpat.",
         fecha: new Date(2022, 6, 29, 21, 0, 0), duracion: 90, imagen: "/images/Eventos/07_06.jpg"
     },
-	// AGOSTO
-	{
+    // AGOSTO
+    {
         index: 49, selected: false, title: "Rodeo ejemplo siete", descripcion: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In at augue at elit mattis gravida. Suspendisse luctus gravida mauris ac eleifend. Aliquam pulvinar ante sed urna tristique semper. Nulla eu purus a massa pulvinar ultricies in id velit. Sed pretium hendrerit justo, at semper risus bibendum eu. Mauris cursus eget tellus a euismod. Donec rutrum iaculis odio et aliquam. Donec quis placerat purus. Vivamus tincidunt quam et sem condimentum viverra. Nunc ultricies mi ornare varius sagittis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nunc finibus libero vel velit gravida, consectetur lacinia tortor finibus. Sed vehicula faucibus elementum. Pellentesque auctor quam et bibendum facilisis. Vivamus tincidunt sapien in metus feugiat pharetra. Maecenas ex enim, gravida a egestas a, mattis id lacus. Fusce convallis dictum rutrum. Fusce et aliquet enim. Fusce lobortis ligula eget mauris posuere, eget tempus metus finibus. Fusce euismod nibh vel ex vehicula imperdiet. Nulla dapibus metus sed mauris laoreet, nec faucibus dolor mattis. Sed luctus nisl eu facilisis vestibulum. Integer a leo sit amet dolor varius volutpat.",
         fecha: new Date(2022, 7, 10, 22, 13, 0), duracion: 60, imagen: "/images/Eventos/08_01.png"
     },
@@ -212,9 +237,9 @@ const eventosMin = [
         index: 54, selected: false, title: "Rodeo ejemplo doce", descripcion: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In at augue at elit mattis gravida. Suspendisse luctus gravida mauris ac eleifend. Aliquam pulvinar ante sed urna tristique semper. Nulla eu purus a massa pulvinar ultricies in id velit. Sed pretium hendrerit justo, at semper risus bibendum eu. Mauris cursus eget tellus a euismod. Donec rutrum iaculis odio et aliquam. Donec quis placerat purus. Vivamus tincidunt quam et sem condimentum viverra. Nunc ultricies mi ornare varius sagittis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nunc finibus libero vel velit gravida, consectetur lacinia tortor finibus. Sed vehicula faucibus elementum. Pellentesque auctor quam et bibendum facilisis. Vivamus tincidunt sapien in metus feugiat pharetra. Maecenas ex enim, gravida a egestas a, mattis id lacus. Fusce convallis dictum rutrum. Fusce et aliquet enim. Fusce lobortis ligula eget mauris posuere, eget tempus metus finibus. Fusce euismod nibh vel ex vehicula imperdiet. Nulla dapibus metus sed mauris laoreet, nec faucibus dolor mattis. Sed luctus nisl eu facilisis vestibulum. Integer a leo sit amet dolor varius volutpat.",
         fecha: new Date(2022, 1, 19, 23, 0, 0), duracion: 90, imagen: "/images/Eventos/08_06.png"
     },
-	
-	// SEPTIEMBRE
-	
+
+    // SEPTIEMBRE
+
     {
         index: 1, selected: false, title: "Conferencia ejemplo dos", descripcion: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In at augue at elit mattis gravida. Suspendisse luctus gravida mauris ac eleifend. Aliquam pulvinar ante sed urna tristique semper. Nulla eu purus a massa pulvinar ultricies in id velit. Sed pretium hendrerit justo, at semper risus bibendum eu. Mauris cursus eget tellus a euismod. Donec rutrum iaculis odio et aliquam. Donec quis placerat purus. Vivamus tincidunt quam et sem condimentum viverra. Nunc ultricies mi ornare varius sagittis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nunc finibus libero vel velit gravida, consectetur lacinia tortor finibus. Sed vehicula faucibus elementum. Pellentesque auctor quam et bibendum facilisis. Vivamus tincidunt sapien in metus feugiat pharetra. Maecenas ex enim, gravida a egestas a, mattis id lacus. Fusce convallis dictum rutrum. Fusce et aliquet enim. Fusce lobortis ligula eget mauris posuere, eget tempus metus finibus. Fusce euismod nibh vel ex vehicula imperdiet. Nulla dapibus metus sed mauris laoreet, nec faucibus dolor mattis. Sed luctus nisl eu facilisis vestibulum. Integer a leo sit amet dolor varius volutpat.",
         fecha: new Date(2022, 8, 27, 20, 0, 0), duracion: 120, imagen: "/images/Eventos/cultura_urbana.jpg"
@@ -223,12 +248,12 @@ const eventosMin = [
         index: 2, selected: false, title: "Conferencia ejemplo tres", descripcion: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In at augue at elit mattis gravida. Suspendisse luctus gravida mauris ac eleifend. Aliquam pulvinar ante sed urna tristique semper. Nulla eu purus a massa pulvinar ultricies in id velit. Sed pretium hendrerit justo, at semper risus bibendum eu. Mauris cursus eget tellus a euismod. Donec rutrum iaculis odio et aliquam. Donec quis placerat purus. Vivamus tincidunt quam et sem condimentum viverra. Nunc ultricies mi ornare varius sagittis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nunc finibus libero vel velit gravida, consectetur lacinia tortor finibus. Sed vehicula faucibus elementum. Pellentesque auctor quam et bibendum facilisis. Vivamus tincidunt sapien in metus feugiat pharetra. Maecenas ex enim, gravida a egestas a, mattis id lacus. Fusce convallis dictum rutrum. Fusce et aliquet enim. Fusce lobortis ligula eget mauris posuere, eget tempus metus finibus. Fusce euismod nibh vel ex vehicula imperdiet. Nulla dapibus metus sed mauris laoreet, nec faucibus dolor mattis. Sed luctus nisl eu facilisis vestibulum. Integer a leo sit amet dolor varius volutpat.",
         fecha: new Date(2022, 8, 2, 23, 0, 0), duracion: 60, imagen: "/images/Eventos/mov_contraculturales.jpg"
     },
-	{
+    {
         index: 36, selected: false, title: "Conferencia ejemplo uno", descripcion: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In at augue at elit mattis gravida. Suspendisse luctus gravida mauris ac eleifend. Aliquam pulvinar ante sed urna tristique semper. Nulla eu purus a massa pulvinar ultricies in id velit. Sed pretium hendrerit justo, at semper risus bibendum eu. Mauris cursus eget tellus a euismod. Donec rutrum iaculis odio et aliquam. Donec quis placerat purus. Vivamus tincidunt quam et sem condimentum viverra. Nunc ultricies mi ornare varius sagittis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nunc finibus libero vel velit gravida, consectetur lacinia tortor finibus. Sed vehicula faucibus elementum. Pellentesque auctor quam et bibendum facilisis. Vivamus tincidunt sapien in metus feugiat pharetra. Maecenas ex enim, gravida a egestas a, mattis id lacus. Fusce convallis dictum rutrum. Fusce et aliquet enim. Fusce lobortis ligula eget mauris posuere, eget tempus metus finibus. Fusce euismod nibh vel ex vehicula imperdiet. Nulla dapibus metus sed mauris laoreet, nec faucibus dolor mattis. Sed luctus nisl eu facilisis vestibulum. Integer a leo sit amet dolor varius volutpat.",
-        fecha: new Date(2022, 8, 14, 22, 0, 0), duracion:60, imagen: "/images/Eventos/arte_urbano.jpg"
+        fecha: new Date(2022, 8, 14, 22, 0, 0), duracion: 60, imagen: "/images/Eventos/arte_urbano.jpg"
     },
-   
-	// OCTUBRE
+
+    // OCTUBRE
     {
         index: 3, selected: false, title: "Conferencia ejemplo cuatro", descripcion: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In at augue at elit mattis gravida. Suspendisse luctus gravida mauris ac eleifend. Aliquam pulvinar ante sed urna tristique semper. Nulla eu purus a massa pulvinar ultricies in id velit. Sed pretium hendrerit justo, at semper risus bibendum eu. Mauris cursus eget tellus a euismod. Donec rutrum iaculis odio et aliquam. Donec quis placerat purus. Vivamus tincidunt quam et sem condimentum viverra. Nunc ultricies mi ornare varius sagittis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nunc finibus libero vel velit gravida, consectetur lacinia tortor finibus. Sed vehicula faucibus elementum. Pellentesque auctor quam et bibendum facilisis. Vivamus tincidunt sapien in metus feugiat pharetra. Maecenas ex enim, gravida a egestas a, mattis id lacus. Fusce convallis dictum rutrum. Fusce et aliquet enim. Fusce lobortis ligula eget mauris posuere, eget tempus metus finibus. Fusce euismod nibh vel ex vehicula imperdiet. Nulla dapibus metus sed mauris laoreet, nec faucibus dolor mattis. Sed luctus nisl eu facilisis vestibulum. Integer a leo sit amet dolor varius volutpat.",
         fecha: new Date(2022, 9, 13, 14, 0, 0), duracion: 60, imagen: "/images/Eventos/mov_defensa_territorio.jpg"
@@ -242,7 +267,7 @@ const eventosMin = [
         fecha: new Date(2022, 9, 19, 18, 0, 0), duracion: 90, imagen: "/images/Eventos/mov_sociales.jpg"
     },
     // NOVIEMBRE
-	{
+    {
         index: 55, selected: false, title: "Feria ejemplo siete", descripcion: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In at augue at elit mattis gravida. Suspendisse luctus gravida mauris ac eleifend. Aliquam pulvinar ante sed urna tristique semper. Nulla eu purus a massa pulvinar ultricies in id velit. Sed pretium hendrerit justo, at semper risus bibendum eu. Mauris cursus eget tellus a euismod. Donec rutrum iaculis odio et aliquam. Donec quis placerat purus. Vivamus tincidunt quam et sem condimentum viverra. Nunc ultricies mi ornare varius sagittis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nunc finibus libero vel velit gravida, consectetur lacinia tortor finibus. Sed vehicula faucibus elementum. Pellentesque auctor quam et bibendum facilisis. Vivamus tincidunt sapien in metus feugiat pharetra. Maecenas ex enim, gravida a egestas a, mattis id lacus. Fusce convallis dictum rutrum. Fusce et aliquet enim. Fusce lobortis ligula eget mauris posuere, eget tempus metus finibus. Fusce euismod nibh vel ex vehicula imperdiet. Nulla dapibus metus sed mauris laoreet, nec faucibus dolor mattis. Sed luctus nisl eu facilisis vestibulum. Integer a leo sit amet dolor varius volutpat.",
         fecha: new Date(2022, 10, 11, 21, 13, 0), duracion: 60, imagen: "/images/Eventos/11_01.png"
     },
@@ -254,7 +279,7 @@ const eventosMin = [
         index: 57, selected: false, title: "Feria ejemplo nueve", descripcion: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In at augue at elit mattis gravida. Suspendisse luctus gravida mauris ac eleifend. Aliquam pulvinar ante sed urna tristique semper. Nulla eu purus a massa pulvinar ultricies in id velit. Sed pretium hendrerit justo, at semper risus bibendum eu. Mauris cursus eget tellus a euismod. Donec rutrum iaculis odio et aliquam. Donec quis placerat purus. Vivamus tincidunt quam et sem condimentum viverra. Nunc ultricies mi ornare varius sagittis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nunc finibus libero vel velit gravida, consectetur lacinia tortor finibus. Sed vehicula faucibus elementum. Pellentesque auctor quam et bibendum facilisis. Vivamus tincidunt sapien in metus feugiat pharetra. Maecenas ex enim, gravida a egestas a, mattis id lacus. Fusce convallis dictum rutrum. Fusce et aliquet enim. Fusce lobortis ligula eget mauris posuere, eget tempus metus finibus. Fusce euismod nibh vel ex vehicula imperdiet. Nulla dapibus metus sed mauris laoreet, nec faucibus dolor mattis. Sed luctus nisl eu facilisis vestibulum. Integer a leo sit amet dolor varius volutpat.",
         fecha: new Date(2022, 10, 16, 14, 0, 0), duracion: 60, imagen: "/images/Eventos/11_03.png"
     },
-	// DICIEMBRE
+    // DICIEMBRE
     {
         index: 58, selected: false, title: "Feria ejemplo diez", descripcion: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In at augue at elit mattis gravida. Suspendisse luctus gravida mauris ac eleifend. Aliquam pulvinar ante sed urna tristique semper. Nulla eu purus a massa pulvinar ultricies in id velit. Sed pretium hendrerit justo, at semper risus bibendum eu. Mauris cursus eget tellus a euismod. Donec rutrum iaculis odio et aliquam. Donec quis placerat purus. Vivamus tincidunt quam et sem condimentum viverra. Nunc ultricies mi ornare varius sagittis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nunc finibus libero vel velit gravida, consectetur lacinia tortor finibus. Sed vehicula faucibus elementum. Pellentesque auctor quam et bibendum facilisis. Vivamus tincidunt sapien in metus feugiat pharetra. Maecenas ex enim, gravida a egestas a, mattis id lacus. Fusce convallis dictum rutrum. Fusce et aliquet enim. Fusce lobortis ligula eget mauris posuere, eget tempus metus finibus. Fusce euismod nibh vel ex vehicula imperdiet. Nulla dapibus metus sed mauris laoreet, nec faucibus dolor mattis. Sed luctus nisl eu facilisis vestibulum. Integer a leo sit amet dolor varius volutpat.",
         fecha: new Date(2022, 11, 19, 12, 0, 0), duracion: 60, imagen: "/images/Eventos/12_01.jpg"
@@ -353,12 +378,15 @@ function estableceTituloCalendario(mesinicial, anioinicial) {
     }
     return salida;
 }
+const anioactualacervo = 2034//new Date().getFullYear();
 const Eventos = () => {
     const { evento } = useParams();
     const location = useLocation();
     const backlink = new URLSearchParams(location.search);
     const regresar = backlink.get('previous');
-    console.log('el link atrás es ',backlink, regresar);
+    const patrocinado = backlink.get('acervo');
+    const eventoacervo = patrocinado === "true";
+    console.log('el link atrás es ', backlink, regresar);
     const anioinicial = new Date().getFullYear();
     const [daysInitial, setDaysInitial] = useState({ numerodias: fillInDaysMonth(0, anioinicial), titulo: estableceTituloCalendario(0, anioinicial) });
     const [clasesCalendario, setClasesCalendario] = useState({ titulocalendario: 'Enero 2022' });
@@ -367,6 +395,8 @@ const Eventos = () => {
     const [diaevento, setDiaEvento] = useState(0);
     const [detalleEvento, setDetalleEvento] = useState(-1);
     const [clasesemana, setClaseSemana] = useState({ indice: '', clasecss: ' activa' });
+    const [eventoPatrocinado, setEventoPatrocinado] = useState(eventoacervo);
+    const [anioseventos, setAniosEventos] = useState(anioactualacervo);
     const history = useHistory();
     const styles = useSpring({
         from: { width: '0', opacity: .3 },
@@ -378,6 +408,12 @@ const Eventos = () => {
     console.log('reset es ', reset);
     const goToTop = () => {
         referencia.current ? referencia.current.scrollIntoView({ behavior: 'smooth' }) : referencia.current = createRef();
+    }
+    const centerYear = () => {
+        if (eventoacervo) {
+            const elementoanio = document.querySelector('.active-year-change');
+            elementoanio.scrollIntoView({ behavior: 'smooth' })
+        }
     }
     const enfocaSemana = (clasecss) => {
         let elemento = document.querySelector(clasecss);
@@ -396,6 +432,7 @@ const Eventos = () => {
     useEffect(() => {
         console.log("Location changed");
         goToTop();
+        centerYear();
     }, [location]);
     const valor = eventosMin.find(x => x.index == evento);
     const [eventdetail, setEventDetail] = useState(eventosMin.find(x => x.fecha.getMonth() == detalleEvento));
@@ -429,8 +466,41 @@ const Eventos = () => {
     }
     const eventosdetallados = detalleEvento != -1 ? eventosMin.filter(x => x.fecha.getMonth() == detalleEvento) : [];
     console.log('eventos del mes', eventosdetallados, detalleEvento);
+    const [flip, setFlip] = useState(false);
+    const [distance, setDistance] = useState(0);
+    const stylesacervo = useSpring({
+        from: { x: 0 },
+        to: { x: distance },
+        reverse: flip
+    })
+    const forward = (distancia) => {
+        let anio = yearsacervo.findIndex(el => el == anioseventos);
+        if (distance > -(distancia * (yearsacervo.length - anio + 3)) && anioseventos != yearsacervo[0]) {
+            setFlip(false);
+            setDistance(distance - distancia);
+            setAniosEventos(yearsacervo[anio + 1]);
+        }
+        else {
+            setFlip(true);
+            setAniosEventos(anioactualacervo);
+            setDistance(0);
+        }
+    }
+    const backward = (distancia) => {
+        let anio = yearsacervo.findIndex(el => el == anioseventos);
+        if (distance < (distancia * (yearsacervo.length -anio+3)) && anioseventos != yearsacervo[0]) {
+            setFlip(true);
+            setDistance(-(distance - distancia));
+            setAniosEventos(yearsacervo[anio - 1]);
+        }
+        else {
+            setFlip(false);
+            setDistance(0);
+            setAniosEventos(anioactualacervo);
+        }
+    }
     return (
-        detalleEvento == -1 ?
+        detalleEvento == -1 && !eventoacervo ?
             <div>
                 <Parallax pages={14} className="eventos-main-container">
                     <ParallaxLayer offset={0} speed={0}>
@@ -441,7 +511,7 @@ const Eventos = () => {
                     <ParallaxLayer offset={0.16} speed={1}>
                         <div ref={referencia} className="main-content-this-event">
                             {<>
-                            <Link title="Regresar a reproducción" to={`/Reproduccion/${regresar}`} className="vinculo-atras-generico"><FontAwesomeIcon icon={faArrowLeft} /></Link>
+                                <Link title="Regresar a reproducción" to={`/Reproduccion/${regresar}`} className="vinculo-atras-generico"><FontAwesomeIcon icon={faArrowLeft} /></Link>
                                 <h1>
                                     {valor && valor.title + " (" + valor.fecha.getFullYear() + "/" +
                                         (valor.fecha.getMonth() + 1) + "/" + valor.fecha.getDate() + " a las " + valor.fecha.getHours() + "  horas)"
@@ -502,7 +572,7 @@ const Eventos = () => {
                                 <div className="listado-min-eventos">
                                     {
                                         eventosmes.map((event, idx) => {
-                                            let idLink = '/Eventos/' + event.index+"?previous="+regresar;
+                                            let idLink = '/Eventos/' + event.index + "?previous=" + regresar;
                                             return (
                                                 <Link to={idLink} style={{ textDecoration: 'none', color: 'gray' }} key={idx}>
                                                     <div className="miniatura-evento" onMouseEnter={(e) => { estableceDiaEvento(parseInt(event.fecha.getDate())) }}>
@@ -527,266 +597,306 @@ const Eventos = () => {
                     </ParallaxLayer>
                 </Parallax>
             </div>
-            :
-            <div>
-                <div className="eventos-main-container">
-                    <div style={{ backgroundColor: 'black', height: '100px' }}>
-                        <NavBar></NavBar>
-                    </div>
-                    <div ref={referencia} className="main-content-this-event">
-                        {
-                            <>
-                                <h1>
-                                    {valor && (valor.title + " (" + valor.fecha.getFullYear() + "/" +
-                                        (valor.fecha.getMonth() + 1) + "/" + valor.fecha.getDate() + " a las " + valor.fecha.getHours() + "  horas)")
+            : !eventoacervo ?
+                <div>
+                    <div className="eventos-main-container">
+                        <div style={{ backgroundColor: 'black', height: '100px' }}>
+                            <NavBar></NavBar>
+                        </div>
+                        <div ref={referencia} className="main-content-this-event">
+                            {
+                                <>
+                                    <h1>
+                                        {valor && (valor.title + " (" + valor.fecha.getFullYear() + "/" +
+                                            (valor.fecha.getMonth() + 1) + "/" + valor.fecha.getDate() + " a las " + valor.fecha.getHours() + "  horas)")
+                                        }
+                                    </h1>
+                                    <img src={valor && valor.imagen} />
+                                    <p>
+                                        {valor && valor.descripcion}
+                                    </p>
+                                </>
+                            }
+                        </div>
+                        <div><h1 onMouseEnter={(e) => setHoverMoreEvent(true)} onMouseLeave={(e) => setHoverMoreEvent(false)}>
+                            {hoverMoreEvent ? <span onClick={(e) => { setDetalleEvento(-1); setClaseSemana({ indice: '', clasecss: ' activa' }) }} style={{ fontSize: '20px', cursor: 'pointer' }}>regresar...&nbsp;</span>
+                                : null}
+                            <FontAwesomeIcon style={{ fontSize: '30px' }} icon={!hoverMoreEvent ? faArrowLeft : null} />{estableceTituloCalendario(detalleEvento, anioinicial)}</h1></div>
+                        <div className="switch-week">
+                            <div className={devuelveClaseSemana('primera-semana')} onClick={(e) => { enfocaSemana('.primera-semana') }}>
+                                1a. semana
+                            </div>
+                            <div className={devuelveClaseSemana('segunda-semana')} onClick={(e) => { enfocaSemana('.segunda-semana') }}>
+                                2a. semana
+                            </div>
+                            <div className={devuelveClaseSemana('tercera-semana')} onClick={(e) => { enfocaSemana('.tercera-semana') }}>
+                                3a. semana
+                            </div>
+                            <div className={devuelveClaseSemana('cuarta-semana')} onClick={(e) => { enfocaSemana('.cuarta-semana') }}>
+                                4a. semana
+                            </div>
+                            <div className={devuelveClaseSemana('quinta-semana')} onClick={(e) => { enfocaSemana('.quinta-semana') }}>
+                                5a. semana
+                            </div>
+                        </div>
+                        <div className="calendar-detail">
+                            <div className="timeline-detail">
+                                <div className="spacer-detail"></div>
+                                <div className="spacer-detail"></div>
+                                <div className="spacer-detail"></div>
+                                <div className="spacer-detail"></div>
+                                <div className="time-marker-detail">9 AM</div>
+                                <div className="time-marker-detail">9:30 AM</div>
+                                <div className="time-marker-detail">10 AM</div>
+                                <div className="time-marker-detail">10:30 AM</div>
+                                <div className="time-marker-detail">11 AM</div>
+                                <div className="time-marker-detail">11:30 AM</div>
+                                <div className="time-marker-detail">12 PM</div>
+                                <div className="time-marker-detail">12:30 PM</div>
+                                <div className="time-marker-detail">1 PM</div>
+                                <div className="time-marker-detail">1:30 PM</div>
+                                <div className="time-marker-detail">2 PM</div>
+                                <div className="time-marker-detail">2:30 PM</div>
+                                <div className="time-marker-detail">3 PM</div>
+                                <div className="time-marker-detail">3:30 PM</div>
+                                <div className="time-marker-detail">4 PM</div>
+                                <div className="time-marker-detail">4:30 PM</div>
+                                <div className="time-marker-detail">5 PM</div>
+                                <div className="time-marker-detail">5:30 PM</div>
+                                <div className="time-marker-detail">6 PM</div>
+                                <div className="time-marker-detail">6:30 PM</div>
+                                <div className="time-marker-detail">7 PM</div>
+                                <div className="time-marker-detail">7:30 PM</div>
+                                <div className="time-marker-detail">8 PM</div>
+                                <div className="time-marker-detail">8:30 PM</div>
+                                <div className="time-marker-detail">9 PM</div>
+                                <div className="time-marker-detail">9:30 PM</div>
+                                <div className="time-marker-detail">10 PM</div>
+                                <div className="time-marker-detail">10:30 PM</div>
+                                <div className="time-marker-detail">11 PM</div>
+                                <div className="time-marker-detail">11:30 PM</div>
+                                <div className="time-marker-detail">12:00 PM</div>
+                                <div className="time-marker-detail">12:30 PM</div>
+                            </div>
+
+                            <div className="container-days-detail">
+
+                                <div className="days-detail primera-semana">
+                                    {primerasemana.map((detallediaevento, i) => {
+
+                                        let eventodetalle = eventosdetallados.find(x => x.fecha.getDate() == detallediaevento)
+                                        let horafinal = eventodetalle != undefined ? returnHoursDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : null;
+                                        let clasesCssEvento =
+                                            eventodetalle != undefined ? returnClaseDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : ["", ""];
+                                        let rutadetalle = '/Eventos/' + (eventodetalle && eventodetalle.index) + "?previous=" + regresar;
+                                        return (<div className={"day-detail" + (eventodetalle ? " with_event" : "")} key={'primera-semana' + i}>
+                                            <div className="date-detail">
+                                                <p className="date-num-detail">{detallediaevento}</p>
+                                                <p className="date-day-detail">{detallediaevento !== '' ? devuelveNombreDiaMes(new Date(anioinicial, detalleEvento, detallediaevento)) : detallediaevento}</p>
+                                            </div>
+                                            {eventodetalle ?
+                                                <div className="events-detail">
+                                                    {detallediaevento != '' ?
+                                                        <div onClick={(e) => { history.push(rutadetalle) }} className={clasesCssEvento[0] + ' ' + clasesCssEvento[1] + " writing-detail"}>
+                                                            <p className="title-detail">{eventodetalle && eventodetalle.title}</p>
+                                                            <p className="time-detail">{eventodetalle && eventodetalle.fecha.getHours() + ":" +
+                                                                (eventodetalle.fecha.getMinutes().toString().length < 2 ? '0' + eventodetalle.fecha.getMinutes() : eventodetalle.fecha.getMinutes())} -
+                                                                {horafinal && horafinal.getHours() + ":" + (horafinal.getMinutes().toString().length < 2 ?
+                                                                    '0' + horafinal.getMinutes() : horafinal.getMinutes())}
+                                                            </p>
+                                                        </div> : null
+                                                    }
+                                                </div>
+                                                : <div className="events-detail"></div>
+                                            }
+                                        </div>
+                                        )
+
+                                    })
                                     }
-                                </h1>
-                                <img src={valor && valor.imagen} />
-                                <p>
-                                    {valor && valor.descripcion}
-                                </p>
-                            </>
-                        }
+                                </div>
+                                <div className="days-detail segunda-semana">
+                                    {segundasemana.map((detallediaevento, i) => {
+                                        let eventodetalle = eventosdetallados.find(x => x.fecha.getDate() == detallediaevento)
+                                        let horafinal = eventodetalle != undefined ? returnHoursDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : null;
+                                        let clasesCssEvento =
+                                            eventodetalle != undefined ? returnClaseDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : ["", ""];
+                                        let rutadetalle = '/Eventos/' + (eventodetalle && eventodetalle.index) + "?previous=" + regresar;
+                                        return (<div className={"day-detail" + (eventodetalle ? " with_event" : "")} key={'segunda-semana' + i}>
+                                            <div className="date-detail">
+                                                <p className="date-num-detail">{detallediaevento}</p>
+                                                <p className="date-day-detail">{detallediaevento !== '' ? devuelveNombreDiaMes(new Date(anioinicial, detalleEvento, detallediaevento)) : detallediaevento}</p>
+                                            </div>
+                                            {eventodetalle ?
+                                                <div className="events-detail">
+                                                    {detallediaevento != '' ?
+                                                        <div onClick={(e) => { history.push(rutadetalle) }} className={clasesCssEvento[0] + ' ' + clasesCssEvento[1] + " writing-detail"}>
+                                                            <p className="title-detail">{eventodetalle && eventodetalle.title}</p>
+                                                            <p className="time-detail">{eventodetalle && eventodetalle.fecha.getHours() + ":" +
+                                                                (eventodetalle.fecha.getMinutes().toString().length < 2 ? '0' + eventodetalle.fecha.getMinutes() : eventodetalle.fecha.getMinutes())} -
+                                                                {horafinal && horafinal.getHours() + ":" + (horafinal.getMinutes().toString().length < 2 ?
+                                                                    '0' + horafinal.getMinutes() : horafinal.getMinutes())}
+                                                            </p>
+                                                        </div> : null
+                                                    }
+                                                </div>
+                                                : <div className="events-detail"></div>
+                                            }
+                                        </div>)
+
+
+                                    })
+
+                                    }
+                                </div>
+                                <div className="days-detail tercera-semana">
+                                    {tercerasemana.map((detallediaevento, i) => {
+                                        let eventodetalle = eventosdetallados.find(x => x.fecha.getDate() == detallediaevento)
+                                        let horafinal = eventodetalle != undefined ? returnHoursDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : null;
+                                        let clasesCssEvento =
+                                            eventodetalle != undefined ? returnClaseDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : ["", ""];
+                                        let rutadetalle = '/Eventos/' + (eventodetalle && eventodetalle.index) + "?previous=" + regresar;
+                                        return (<div className={"day-detail" + (eventodetalle ? " with_event" : "")} key={'tercera-semana' + i}>
+                                            <div className="date-detail">
+                                                <p className="date-num-detail">{detallediaevento}</p>
+                                                <p className="date-day-detail">{detallediaevento !== '' ? devuelveNombreDiaMes(new Date(anioinicial, detalleEvento, detallediaevento)) : detallediaevento}</p>
+                                            </div>
+                                            {eventodetalle ?
+                                                <div className="events-detail">
+                                                    {detallediaevento != '' ?
+                                                        <div onClick={(e) => { history.push(rutadetalle) }} className={clasesCssEvento[0] + ' ' + clasesCssEvento[1] + " writing-detail"}>
+                                                            <p className="title-detail">{eventodetalle && eventodetalle.title}</p>
+                                                            <p className="time-detail">{eventodetalle && eventodetalle.fecha.getHours() + ":" +
+                                                                (eventodetalle.fecha.getMinutes().toString().length < 2 ? '0' + eventodetalle.fecha.getMinutes() : eventodetalle.fecha.getMinutes())} -
+                                                                {horafinal && horafinal.getHours() + ":" + (horafinal.getMinutes().toString().length < 2 ?
+                                                                    '0' + horafinal.getMinutes() : horafinal.getMinutes())}
+                                                            </p>
+                                                        </div> : null
+                                                    }
+                                                </div>
+                                                : <div className="events-detail"></div>
+                                            }
+                                        </div>)
+
+
+                                    })
+
+                                    }
+                                </div>
+                                <div className="days-detail cuarta-semana">
+                                    {cuartasemana.map((detallediaevento, i) => {
+                                        let eventodetalle = eventosdetallados.find(x => x.fecha.getDate() == detallediaevento)
+                                        let horafinal = eventodetalle != undefined ? returnHoursDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : null;
+                                        let clasesCssEvento =
+                                            eventodetalle != undefined ? returnClaseDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : ["", ""];
+                                        let rutadetalle = '/Eventos/' + (eventodetalle && eventodetalle.index) + "?previous=" + regresar;
+                                        return (<div className={"day-detail" + (eventodetalle ? " with_event" : "")} key={'cuarta-semana' + i}>
+                                            <div className="date-detail">
+                                                <p className="date-num-detail">{detallediaevento}</p>
+                                                <p className="date-day-detail">{detallediaevento !== '' ? devuelveNombreDiaMes(new Date(anioinicial, detalleEvento, detallediaevento)) : detallediaevento}</p>
+                                            </div>
+                                            {eventodetalle ?
+                                                <div className="events-detail">
+                                                    {detallediaevento != '' ?
+                                                        <div onClick={(e) => { history.push(rutadetalle) }} className={clasesCssEvento[0] + ' ' + clasesCssEvento[1] + " writing-detail"}>
+                                                            <p className="title-detail">{eventodetalle && eventodetalle.title}</p>
+                                                            <p className="time-detail">{eventodetalle && eventodetalle.fecha.getHours() + ":" +
+                                                                (eventodetalle.fecha.getMinutes().toString().length < 2 ? '0' + eventodetalle.fecha.getMinutes() : eventodetalle.fecha.getMinutes())} -
+                                                                {horafinal && horafinal.getHours() + ":" + (horafinal.getMinutes().toString().length < 2 ?
+                                                                    '0' + horafinal.getMinutes() : horafinal.getMinutes())}
+                                                            </p>
+                                                        </div> : null
+                                                    }
+                                                </div>
+                                                : <div className="events-detail"></div>
+                                            }
+                                        </div>)
+
+
+                                    })
+
+                                    }
+                                </div>
+                                <div className="days-detail quinta-semana">
+                                    {quintasemana.map((detallediaevento, i) => {
+                                        let eventodetalle = eventosdetallados.find(x => x.fecha.getDate() == detallediaevento)
+                                        let horafinal = eventodetalle != undefined ? returnHoursDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : null;
+                                        let clasesCssEvento =
+                                            eventodetalle != undefined ? returnClaseDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : ["", ""];
+                                        let rutadetalle = '/Eventos/' + (eventodetalle && eventodetalle.index) + "?previous=" + regresar;
+                                        return (<div className={"day-detail" + (eventodetalle ? " with_event" : "")} key={'quinta-semana' + i}>
+                                            <div className="date-detail">
+                                                <p className="date-num-detail">{detallediaevento}</p>
+                                                <p className="date-day-detail">{detallediaevento !== '' ? devuelveNombreDiaMes(new Date(anioinicial, detalleEvento, detallediaevento)) : detallediaevento}</p>
+                                            </div>
+                                            {eventodetalle ?
+                                                <div className="events-detail">
+                                                    {detallediaevento != '' ?
+                                                        <div onClick={(e) => { history.push(rutadetalle) }} className={clasesCssEvento[0] + ' ' + clasesCssEvento[1] + " writing-detail"}>
+                                                            <p className="title-detail">{eventodetalle && eventodetalle.title}</p>
+                                                            <p className="time-detail">{eventodetalle && eventodetalle.fecha.getHours() + ":" +
+                                                                (eventodetalle.fecha.getMinutes().toString().length < 2 ? '0' + eventodetalle.fecha.getMinutes() : eventodetalle.fecha.getMinutes())} -
+                                                                {horafinal && horafinal.getHours() + ":" + (horafinal.getMinutes().toString().length < 2 ?
+                                                                    '0' + horafinal.getMinutes() : horafinal.getMinutes())}
+                                                            </p>
+                                                        </div> : null
+                                                    }
+                                                </div>
+                                                : <div className="events-detail"></div>
+                                            }
+                                        </div>)
+
+
+                                    })
+
+                                    }
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
-                    <div><h1 onMouseEnter={(e) => setHoverMoreEvent(true)} onMouseLeave={(e) => setHoverMoreEvent(false)}>
-                        {hoverMoreEvent ? <span onClick={(e) => { setDetalleEvento(-1); setClaseSemana({ indice: '', clasecss: ' activa' }) }} style={{ fontSize: '20px', cursor: 'pointer' }}>regresar...&nbsp;</span>
-                            : null}
-                        <FontAwesomeIcon style={{ fontSize: '30px' }} icon={!hoverMoreEvent ? faArrowLeft : null} />{estableceTituloCalendario(detalleEvento, anioinicial)}</h1></div>
-                    <div className="switch-week">
-                        <div className={devuelveClaseSemana('primera-semana')} onClick={(e) => { enfocaSemana('.primera-semana') }}>
-                            1a. semana
+                    <HomeFooter></HomeFooter>
+                </div> :
+                (<div>
+                    <div className="eventos-main-container">
+                        <div style={{ backgroundColor: 'black', height: '100px' }}>
+                            <NavBar></NavBar>
                         </div>
-                        <div className={devuelveClaseSemana('segunda-semana')} onClick={(e) => { enfocaSemana('.segunda-semana') }}>
-                            2a. semana
+                        <div className="year-event-acervo-container">
+                        
+                            <div
+                                style={{ width: '90%', marginLeft: 'auto', marginRight: 'auto' }} className="year-container">
+                               <animated.div 
+                                    style={{
+                                        width: '280%',
+                                        height: '100%',
+                                        position: 'relative',
+                                        ...stylesacervo
+                                    }}>
+
+                                    {
+                                        yearsacervo.map((anio, indice) => {
+                                            let claseanioacervo = anio == anioseventos ? "year-change active-year-change" : "year-change";
+                                            return (
+                                                <div key={indice}
+                                                onClick={(e)=>setAniosEventos(anio)}
+                                                className={claseanioacervo} style={{ float: 'left', margin: '25px', padding: '25px', display: 'block', cursor:'pointer' }}>
+                                                    {anio}
+                                                </div>
+                                            )
+                                        })
+                                    }
+                                </animated.div>
+                            </div>+
+                            
                         </div>
-                        <div className={devuelveClaseSemana('tercera-semana')} onClick={(e) => { enfocaSemana('.tercera-semana') }}>
-                            3a. semana
-                        </div>
-                        <div className={devuelveClaseSemana('cuarta-semana')} onClick={(e) => { enfocaSemana('.cuarta-semana') }}>
-                            4a. semana
-                        </div>
-                        <div className={devuelveClaseSemana('quinta-semana')} onClick={(e) => { enfocaSemana('.quinta-semana') }}>
-                            5a. semana
-                        </div>
-                    </div>
-                    <div className="calendar-detail">
-                        <div className="timeline-detail">
-                            <div className="spacer-detail"></div>
-                            <div className="spacer-detail"></div>
-                            <div className="spacer-detail"></div>
-                            <div className="spacer-detail"></div>
-                            <div className="time-marker-detail">9 AM</div>
-                            <div className="time-marker-detail">9:30 AM</div>
-                            <div className="time-marker-detail">10 AM</div>
-                            <div className="time-marker-detail">10:30 AM</div>
-                            <div className="time-marker-detail">11 AM</div>
-                            <div className="time-marker-detail">11:30 AM</div>
-                            <div className="time-marker-detail">12 PM</div>
-                            <div className="time-marker-detail">12:30 PM</div>
-                            <div className="time-marker-detail">1 PM</div>
-                            <div className="time-marker-detail">1:30 PM</div>
-                            <div className="time-marker-detail">2 PM</div>
-                            <div className="time-marker-detail">2:30 PM</div>
-                            <div className="time-marker-detail">3 PM</div>
-                            <div className="time-marker-detail">3:30 PM</div>
-                            <div className="time-marker-detail">4 PM</div>
-                            <div className="time-marker-detail">4:30 PM</div>
-                            <div className="time-marker-detail">5 PM</div>
-                            <div className="time-marker-detail">5:30 PM</div>
-                            <div className="time-marker-detail">6 PM</div>
-                            <div className="time-marker-detail">6:30 PM</div>
-                            <div className="time-marker-detail">7 PM</div>
-                            <div className="time-marker-detail">7:30 PM</div>
-                            <div className="time-marker-detail">8 PM</div>
-                            <div className="time-marker-detail">8:30 PM</div>
-                            <div className="time-marker-detail">9 PM</div>
-                            <div className="time-marker-detail">9:30 PM</div>
-                            <div className="time-marker-detail">10 PM</div>
-                            <div className="time-marker-detail">10:30 PM</div>
-                            <div className="time-marker-detail">11 PM</div>
-                            <div className="time-marker-detail">11:30 PM</div>
-                            <div className="time-marker-detail">12:00 PM</div>
-                            <div className="time-marker-detail">12:30 PM</div>
-                        </div>
+                        <div className="main-content-this-event">
 
-                        <div className="container-days-detail">
-
-                            <div className="days-detail primera-semana">
-                                {primerasemana.map((detallediaevento, i) => {
-
-                                    let eventodetalle = eventosdetallados.find(x => x.fecha.getDate() == detallediaevento)
-                                    let horafinal = eventodetalle != undefined ? returnHoursDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : null;
-                                    let clasesCssEvento =
-                                        eventodetalle != undefined ? returnClaseDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : ["", ""];
-                                    let rutadetalle = '/Eventos/' + (eventodetalle && eventodetalle.index)+"?previous="+regresar;
-                                    return (<div className={"day-detail" + (eventodetalle ? " with_event" : "")} key={'primera-semana' + i}>
-                                        <div className="date-detail">
-                                            <p className="date-num-detail">{detallediaevento}</p>
-                                            <p className="date-day-detail">{detallediaevento !== '' ? devuelveNombreDiaMes(new Date(anioinicial, detalleEvento, detallediaevento)) : detallediaevento}</p>
-                                        </div>
-                                        {eventodetalle ?
-                                            <div className="events-detail">
-                                                {detallediaevento != '' ?
-                                                    <div onClick={(e) => { history.push(rutadetalle) }} className={clasesCssEvento[0] + ' ' + clasesCssEvento[1] + " writing-detail"}>
-                                                        <p className="title-detail">{eventodetalle && eventodetalle.title}</p>
-                                                        <p className="time-detail">{eventodetalle && eventodetalle.fecha.getHours() + ":" +
-                                                            (eventodetalle.fecha.getMinutes().toString().length < 2 ? '0' + eventodetalle.fecha.getMinutes() : eventodetalle.fecha.getMinutes())} -
-                                                            {horafinal && horafinal.getHours() + ":" + (horafinal.getMinutes().toString().length < 2 ?
-                                                                '0' + horafinal.getMinutes() : horafinal.getMinutes())}
-                                                        </p>
-                                                    </div> : null
-                                                }
-                                            </div>
-                                            : <div className="events-detail"></div>
-                                        }
-                                    </div>
-                                    )
-
-                                })
-                                }
-                            </div>
-                            <div className="days-detail segunda-semana">
-                                {segundasemana.map((detallediaevento, i) => {
-                                    let eventodetalle = eventosdetallados.find(x => x.fecha.getDate() == detallediaevento)
-                                    let horafinal = eventodetalle != undefined ? returnHoursDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : null;
-                                    let clasesCssEvento =
-                                        eventodetalle != undefined ? returnClaseDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : ["", ""];
-                                    let rutadetalle = '/Eventos/' + (eventodetalle && eventodetalle.index)+"?previous="+regresar;
-                                    return (<div className={"day-detail" + (eventodetalle ? " with_event" : "")} key={'segunda-semana' + i}>
-                                        <div className="date-detail">
-                                            <p className="date-num-detail">{detallediaevento}</p>
-                                            <p className="date-day-detail">{detallediaevento !== '' ? devuelveNombreDiaMes(new Date(anioinicial, detalleEvento, detallediaevento)) : detallediaevento}</p>
-                                        </div>
-                                        {eventodetalle ?
-                                            <div className="events-detail">
-                                                {detallediaevento != '' ?
-                                                    <div onClick={(e) => { history.push(rutadetalle) }} className={clasesCssEvento[0] + ' ' + clasesCssEvento[1] + " writing-detail"}>
-                                                        <p className="title-detail">{eventodetalle && eventodetalle.title}</p>
-                                                        <p className="time-detail">{eventodetalle && eventodetalle.fecha.getHours() + ":" +
-                                                            (eventodetalle.fecha.getMinutes().toString().length < 2 ? '0' + eventodetalle.fecha.getMinutes() : eventodetalle.fecha.getMinutes())} -
-                                                            {horafinal && horafinal.getHours() + ":" + (horafinal.getMinutes().toString().length < 2 ?
-                                                                '0' + horafinal.getMinutes() : horafinal.getMinutes())}
-                                                        </p>
-                                                    </div> : null
-                                                }
-                                            </div>
-                                            : <div className="events-detail"></div>
-                                        }
-                                    </div>)
-
-
-                                })
-
-                                }
-                            </div>
-                            <div className="days-detail tercera-semana">
-                                {tercerasemana.map((detallediaevento, i) => {
-                                    let eventodetalle = eventosdetallados.find(x => x.fecha.getDate() == detallediaevento)
-                                    let horafinal = eventodetalle != undefined ? returnHoursDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : null;
-                                    let clasesCssEvento =
-                                        eventodetalle != undefined ? returnClaseDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : ["", ""];
-                                    let rutadetalle = '/Eventos/' + (eventodetalle && eventodetalle.index)+"?previous="+regresar;
-                                    return (<div className={"day-detail" + (eventodetalle ? " with_event" : "")} key={'tercera-semana' + i}>
-                                        <div className="date-detail">
-                                            <p className="date-num-detail">{detallediaevento}</p>
-                                            <p className="date-day-detail">{detallediaevento !== '' ? devuelveNombreDiaMes(new Date(anioinicial, detalleEvento, detallediaevento)) : detallediaevento}</p>
-                                        </div>
-                                        {eventodetalle ?
-                                            <div className="events-detail">
-                                                {detallediaevento != '' ?
-                                                    <div onClick={(e) => { history.push(rutadetalle) }} className={clasesCssEvento[0] + ' ' + clasesCssEvento[1] + " writing-detail"}>
-                                                        <p className="title-detail">{eventodetalle && eventodetalle.title}</p>
-                                                        <p className="time-detail">{eventodetalle && eventodetalle.fecha.getHours() + ":" +
-                                                            (eventodetalle.fecha.getMinutes().toString().length < 2 ? '0' + eventodetalle.fecha.getMinutes() : eventodetalle.fecha.getMinutes())} -
-                                                            {horafinal && horafinal.getHours() + ":" + (horafinal.getMinutes().toString().length < 2 ?
-                                                                '0' + horafinal.getMinutes() : horafinal.getMinutes())}
-                                                        </p>
-                                                    </div> : null
-                                                }
-                                            </div>
-                                            : <div className="events-detail"></div>
-                                        }
-                                    </div>)
-
-
-                                })
-
-                                }
-                            </div>
-                            <div className="days-detail cuarta-semana">
-                                {cuartasemana.map((detallediaevento, i) => {
-                                    let eventodetalle = eventosdetallados.find(x => x.fecha.getDate() == detallediaevento)
-                                    let horafinal = eventodetalle != undefined ? returnHoursDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : null;
-                                    let clasesCssEvento =
-                                        eventodetalle != undefined ? returnClaseDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : ["", ""];
-                                    let rutadetalle = '/Eventos/' + (eventodetalle && eventodetalle.index)+"?previous="+regresar;
-                                    return (<div className={"day-detail" + (eventodetalle ? " with_event" : "")} key={'cuarta-semana' + i}>
-                                        <div className="date-detail">
-                                            <p className="date-num-detail">{detallediaevento}</p>
-                                            <p className="date-day-detail">{detallediaevento !== '' ? devuelveNombreDiaMes(new Date(anioinicial, detalleEvento, detallediaevento)) : detallediaevento}</p>
-                                        </div>
-                                        {eventodetalle ?
-                                            <div className="events-detail">
-                                                {detallediaevento != '' ?
-                                                    <div onClick={(e) => { history.push(rutadetalle) }} className={clasesCssEvento[0] + ' ' + clasesCssEvento[1] + " writing-detail"}>
-                                                        <p className="title-detail">{eventodetalle && eventodetalle.title}</p>
-                                                        <p className="time-detail">{eventodetalle && eventodetalle.fecha.getHours() + ":" +
-                                                            (eventodetalle.fecha.getMinutes().toString().length < 2 ? '0' + eventodetalle.fecha.getMinutes() : eventodetalle.fecha.getMinutes())} -
-                                                            {horafinal && horafinal.getHours() + ":" + (horafinal.getMinutes().toString().length < 2 ?
-                                                                '0' + horafinal.getMinutes() : horafinal.getMinutes())}
-                                                        </p>
-                                                    </div> : null
-                                                }
-                                            </div>
-                                            : <div className="events-detail"></div>
-                                        }
-                                    </div>)
-
-
-                                })
-
-                                }
-                            </div>
-                            <div className="days-detail quinta-semana">
-                                {quintasemana.map((detallediaevento, i) => {
-                                    let eventodetalle = eventosdetallados.find(x => x.fecha.getDate() == detallediaevento)
-                                    let horafinal = eventodetalle != undefined ? returnHoursDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : null;
-                                    let clasesCssEvento =
-                                        eventodetalle != undefined ? returnClaseDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : ["", ""];
-                                    let rutadetalle = '/Eventos/' + (eventodetalle && eventodetalle.index)+"?previous="+regresar;
-                                    return (<div className={"day-detail" + (eventodetalle ? " with_event" : "")} key={'quinta-semana' + i}>
-                                        <div className="date-detail">
-                                            <p className="date-num-detail">{detallediaevento}</p>
-                                            <p className="date-day-detail">{detallediaevento !== '' ? devuelveNombreDiaMes(new Date(anioinicial, detalleEvento, detallediaevento)) : detallediaevento}</p>
-                                        </div>
-                                        {eventodetalle ?
-                                            <div className="events-detail">
-                                                {detallediaevento != '' ?
-                                                    <div onClick={(e) => { history.push(rutadetalle) }} className={clasesCssEvento[0] + ' ' + clasesCssEvento[1] + " writing-detail"}>
-                                                        <p className="title-detail">{eventodetalle && eventodetalle.title}</p>
-                                                        <p className="time-detail">{eventodetalle && eventodetalle.fecha.getHours() + ":" +
-                                                            (eventodetalle.fecha.getMinutes().toString().length < 2 ? '0' + eventodetalle.fecha.getMinutes() : eventodetalle.fecha.getMinutes())} -
-                                                            {horafinal && horafinal.getHours() + ":" + (horafinal.getMinutes().toString().length < 2 ?
-                                                                '0' + horafinal.getMinutes() : horafinal.getMinutes())}
-                                                        </p>
-                                                    </div> : null
-                                                }
-                                            </div>
-                                            : <div className="events-detail"></div>
-                                        }
-                                    </div>)
-
-
-                                })
-
-                                }
-                            </div>
                         </div>
 
                     </div>
-                </div>
-                <HomeFooter></HomeFooter>
-            </div>)
+                </div>)
+    )
 }
 
 export default Eventos;
