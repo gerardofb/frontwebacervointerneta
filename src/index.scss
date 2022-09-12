@@ -2292,7 +2292,6 @@ Clases de los eventos específicos del acervo (no los publicados por otros usuar
 */
 .year-event-acervo-container{
   display: flex;
-  
 }
 .year-change{
   color:#7b494c;
@@ -2300,7 +2299,7 @@ Clases de los eventos específicos del acervo (no los publicados por otros usuar
   font-weight: bold;
   opacity: 40%;
   transition: all 1s ease-in-out;
-  width:75px;
+  width:30px;
 }
 .year-change.active-year-change{
    opacity: 100%;
@@ -2309,7 +2308,91 @@ Clases de los eventos específicos del acervo (no los publicados por otros usuar
   display:block;
   overflow-x: auto;
   scrollbar-width: none;
+  width: 100%;
+  margin:0 auto;
 }
 .year-container::-webkit-scrollbar {
   display: none;
+}
+.main-eventos-link-acervo-eventos-editor, .main-eventos-link-acervo-eventos-editor a{
+  color:black;
+  text-decoration: none;
+  font-size: x-large;
+}
+.year{
+  margin: 96px auto;
+  width: 960px;
+  padding: 10px;
+  border: 1px solid #E0E0E0;
+  border-radius: 4px;
+  display: flex;
+  background: #FFF;
+  box-shadow: 0 10px 50px -15px rgba(0,0,0,0.75);
+  
+  position: relative;
+  
+  &:before{
+    position: absolute;
+    content: attr(data-year);
+    color: #68341c;
+    top: -60px;
+    left: 10px;
+    font-family: sans-serif;
+    font-weight: 700;
+    font-size: 64px;
+  }
+}
+.year ul{
+  display: inline-block;
+  padding: 0;
+  margin: 0 1px;
+  list-style: none;
+  flex: 1;
+  
+  position: relative;
+  
+  &:before{
+    position: absolute;
+    content: attr(data-month);
+    color: transparent;
+    text-shadow: 0 0 0 rgba(0,0,0,0.25);
+    font-family: sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    
+    transform-origin: 0 100%;
+    transform: rotate(90deg) translateX(-20px) translateY(0px);
+    top: 0px;
+    left: 0px;
+  }
+  
+  &:first-child{
+    margin-left: 0;
+  }
+  &:last-child{
+    margin-right: 0;
+  }
+}
+.year ul li{
+  padding: 0;
+  margin: 0;
+  height: 22px;
+  box-shadow: inset 0 0 0 1px #f0f0f0;
+  background: #F8F8F8;
+  
+  &:before{
+    content: attr(data-date);
+    color: transparent;
+    text-shadow: 0 0 0 rgba(0,0,0,0.25);
+    text-align: right;
+    right: 2px;
+    position: absolute;
+    line-height: 24px;
+    font-size: 10px;
+  }
+  
+  &[data-day="0"], &[data-day="6"]{
+    background: #EEEEEE;
+    box-shadow: inset 0 0 0 1px #E0E0E0;
+  }
 }

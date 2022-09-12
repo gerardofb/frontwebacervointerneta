@@ -30,7 +30,17 @@ const yearsacervo = [
     2037,
     2038,
     2039,
-    2040
+    2040,
+    2041,
+    2042,
+    2043,
+    2044,
+    2045,
+    2046,
+    2047,
+    2048,
+    2049,
+    2050
 ]
 const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
 const dayOfWeek = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sab'];
@@ -378,6 +388,20 @@ function estableceTituloCalendario(mesinicial, anioinicial) {
     }
     return salida;
 }
+let modelCalendarAcervo = {
+    "Enero": [],
+    "Febrero": [],
+    "Marzo": [],
+    "Abril": [],
+    "Mayo": [],
+    "Junio": [],
+    "Julio": [],
+    "Agosto": [],
+    "Septiembre": [],
+    "Octubre": [],
+    "Noviembre": [],
+    "Diciembre": [],
+}
 const anioactualacervo = 2034//new Date().getFullYear();
 const Eventos = () => {
     const { evento } = useParams();
@@ -407,12 +431,18 @@ const Eventos = () => {
     });
     console.log('reset es ', reset);
     const goToTop = () => {
-        referencia.current ? referencia.current.scrollIntoView({ behavior: 'smooth' }) : referencia.current = createRef();
+        try {
+            referencia.current ? referencia.current.scrollIntoView({ behavior: 'smooth' }) : referencia.current = createRef();
+        }
+        catch (ex) {
+
+        }
     }
     const centerYear = () => {
         if (eventoacervo) {
             const elementoanio = document.querySelector('.active-year-change');
             elementoanio.scrollIntoView({ behavior: 'smooth' })
+            fillCalendarAcervo(anioseventos);
         }
     }
     const enfocaSemana = (clasecss) => {
@@ -433,6 +463,7 @@ const Eventos = () => {
         console.log("Location changed");
         goToTop();
         centerYear();
+
     }, [location]);
     const valor = eventosMin.find(x => x.index == evento);
     const [eventdetail, setEventDetail] = useState(eventosMin.find(x => x.fecha.getMonth() == detalleEvento));
@@ -473,31 +504,91 @@ const Eventos = () => {
         to: { x: distance },
         reverse: flip
     })
-    const forward = (distancia) => {
-        let anio = yearsacervo.findIndex(el => el == anioseventos);
-        if (distance > -(distancia * (yearsacervo.length - anio + 3)) && anioseventos != yearsacervo[0]) {
-            setFlip(false);
-            setDistance(distance - distancia);
-            setAniosEventos(yearsacervo[anio + 1]);
+
+    const [eventoseditor, setEventosEditor] = useState(false);
+    const [calendarioAcervoEne, setCalendarioAcervoEne] = useState([]);
+    const [calendarioAcervoFeb, setCalendarioAcervoFeb] = useState([]);
+    const [calendarioAcervoMar, setCalendarioAcervoMar] = useState([]);
+    const [calendarioAcervoAbr, setCalendarioAcervoAbr] = useState([]);
+    const [calendarioAcervoMay, setCalendarioAcervoMay] = useState([]);
+    const [calendarioAcervoJun, setCalendarioAcervoJun] = useState([]);
+    const [calendarioAcervoJul, setCalendarioAcervoJul] = useState([]);
+    const [calendarioAcervoAgo, setCalendarioAcervoAgo] = useState([]);
+    const [calendarioAcervoSep, setCalendarioAcervoSep] = useState([]);
+    const [calendarioAcervoOct, setCalendarioAcervoOct] = useState([]);
+    const [calendarioAcervoNov, setCalendarioAcervoNov] = useState([]);
+    const [calendarioAcervoDic, setCalendarioAcervoDic] = useState([]);
+
+    const fillCalendarAcervo = (year) => {
+        var i;
+        for (i = 0; i < 12; i++) {
+            renderMonth(i + 1, year);
         }
-        else {
-            setFlip(true);
-            setAniosEventos(anioactualacervo);
-            setDistance(0);
-        }
+        
     }
-    const backward = (distancia) => {
-        let anio = yearsacervo.findIndex(el => el == anioseventos);
-        if (distance < (distancia * (yearsacervo.length -anio+3)) && anioseventos != yearsacervo[0]) {
-            setFlip(true);
-            setDistance(-(distance - distancia));
-            setAniosEventos(yearsacervo[anio - 1]);
+
+    function renderMonth(month, year) {
+        console.log("renderizando calendario acervo", year, month);
+        var first_day = new Date(year + "-" + month),
+        last_day = new Date(year+"-"+month);
+        last_day.setYear(year);
+        last_day.setMonth(month);
+        last_day.setDate(0);
+
+        var i, l = last_day.getDate() + 1, d;
+        let daysmonth = [];
+        let cuentafinessem = 0;
+        for (i = 1; i < l; i++) {
+            d = new Date(year + "-" + month + "-" + i);
+            
+            daysmonth.push({ day: d.getDay(), fecha: d, numerodia: i });
         }
-        else {
-            setFlip(false);
-            setDistance(0);
-            setAniosEventos(anioactualacervo);
+        switch (month) {
+            case 1:
+                
+                setCalendarioAcervoEne(daysmonth);
+                
+                break;
+            case 2:
+                
+                setCalendarioAcervoFeb(daysmonth);
+                break;
+            case 3:
+                setCalendarioAcervoMar(daysmonth);
+                break;
+            case 4:
+                setCalendarioAcervoAbr(daysmonth);
+                break;
+            case 5:
+                setCalendarioAcervoMay(daysmonth);
+                break;
+            case 6:
+                setCalendarioAcervoJun(daysmonth);
+                break;
+            case 7:
+                setCalendarioAcervoJul(daysmonth);
+                break;
+            case 8:
+                setCalendarioAcervoAgo(daysmonth);
+                break;
+            case 9:
+                setCalendarioAcervoSep(daysmonth);
+                break;
+            case 10:
+                setCalendarioAcervoOct(daysmonth);
+                break;
+            case 11:
+                setCalendarioAcervoNov(daysmonth);
+                break;
+            case 12:
+                setCalendarioAcervoDic(daysmonth);
+                break;
         }
+        
+    }
+    const estableceAnioAcervo = (anio)=>{
+        setAniosEventos(anio);
+        fillCalendarAcervo(anio);
     }
     return (
         detalleEvento == -1 && !eventoacervo ?
@@ -512,6 +603,13 @@ const Eventos = () => {
                         <div ref={referencia} className="main-content-this-event">
                             {<>
                                 <Link title="Regresar a reproducción" to={`/Reproduccion/${regresar}`} className="vinculo-atras-generico"><FontAwesomeIcon icon={faArrowLeft} /></Link>
+                                <div className="main-eventos-link-acervo-eventos-editor">
+                                    <Link title="Ver eventos del editor de la página" onMouseEnter={(e) => setEventosEditor(true)}
+                                        onMouseLeave={(e) => setEventosEditor(false)}
+                                        to={"/Eventos/" + evento + "?previous=" + regresar + "&acervo=true"}>Quizás prefiera... <span>{
+                                            eventoseditor ?
+                                                "¿ver los eventos del editor del sitio?" : null}</span></Link>
+                                </div>
                                 <h1>
                                     {valor && valor.title + " (" + valor.fecha.getFullYear() + "/" +
                                         (valor.fecha.getMonth() + 1) + "/" + valor.fecha.getDate() + " a las " + valor.fecha.getHours() + "  horas)"
@@ -523,6 +621,7 @@ const Eventos = () => {
                                 </p>
                             </>
                             }
+
                         </div>
                     </ParallaxLayer>
                     <ParallaxLayer sticky={{ start: 1, end: 12 }} style={{ maxWidth: '30%', zIndex: 1 }}>
@@ -863,10 +962,9 @@ const Eventos = () => {
                             <NavBar></NavBar>
                         </div>
                         <div className="year-event-acervo-container">
-                        
                             <div
-                                style={{ width: '90%', marginLeft: 'auto', marginRight: 'auto' }} className="year-container">
-                               <animated.div 
+                                style={{ marginLeft: 'auto', marginRight: 'auto' }} className="year-container">
+                                <animated.div
                                     style={{
                                         width: '280%',
                                         height: '100%',
@@ -879,22 +977,94 @@ const Eventos = () => {
                                             let claseanioacervo = anio == anioseventos ? "year-change active-year-change" : "year-change";
                                             return (
                                                 <div key={indice}
-                                                onClick={(e)=>setAniosEventos(anio)}
-                                                className={claseanioacervo} style={{ float: 'left', margin: '25px', padding: '25px', display: 'block', cursor:'pointer' }}>
+                                                    onClick={(e) => estableceAnioAcervo(anio)}
+                                                    className={claseanioacervo} style={{ float: 'left', margin: '25px', padding: '25px', display: 'block', cursor: 'pointer' }}>
                                                     {anio}
                                                 </div>
                                             )
                                         })
                                     }
                                 </animated.div>
-                            </div>+
-                            
+                            </div>
                         </div>
                         <div className="main-content-this-event">
-
+                            <Link title="Regresar a eventos de los usuarios" to={"/Eventos/" + evento + "?previous=" + regresar} className="vinculo-atras-generico"><FontAwesomeIcon icon={faArrowLeft} /></Link>
                         </div>
-
+                        <div className="year" data-year={anioseventos}>
+                            <ul className="1" data-month="Enero">{
+                                calendarioAcervoEne && calendarioAcervoEne.map((dia, indice) => {
+                                    return <li data-day={dia.day} data-date={dia.numerodia} key={"Enero_"+indice}></li>
+                                })
+                            }</ul>
+                            <ul className="2" data-month="Febrero">
+                                {
+                                    calendarioAcervoFeb && calendarioAcervoFeb.map((dia, indice) => {
+                                        return <li data-day={dia.day} data-date={dia.numerodia} key={"Febrero_"+indice}></li>
+                                    })
+                                }</ul>
+                            <ul className="3" data-month="Marzo">
+                                {
+                                    calendarioAcervoMar && calendarioAcervoMar.map((dia, indice) => {
+                                        return <li data-day={dia.day} data-date={dia.numerodia} key={"Marzo_"+indice}></li>
+                                    })
+                                }</ul>
+                            <ul className="4" data-month="Abril">
+                                {
+                                    calendarioAcervoAbr && calendarioAcervoAbr.map((dia, indice) => {
+                                        return <li data-day={dia.day} data-date={dia.numerodia} key={"Abril_"+indice}></li>
+                                    })
+                                }</ul>
+                            <ul className="5" data-month="Mayo">
+                                {
+                                    calendarioAcervoMay && calendarioAcervoMay.map((dia, indice) => {
+                                        return <li data-day={dia.day} data-date={dia.numerodia} key={"Mayo_"+indice}></li>
+                                    })
+                                }</ul>
+                            <ul className="6" data-month="Junio">
+                                {
+                                    calendarioAcervoJun && calendarioAcervoJun.map((dia, indice) => {
+                                        return <li data-day={dia.day} data-date={dia.numerodia} key={"Junio_"+indice}></li>
+                                    })
+                                }</ul>
+                            <ul className="7" data-month="Julio">
+                                {
+                                    calendarioAcervoJul && calendarioAcervoJul.map((dia, indice) => {
+                                        return <li data-day={dia.day} data-date={dia.numerodia} key={"Julio_"+indice}></li>
+                                    })
+                                }</ul>
+                            <ul className="8" data-month="Agosto">{
+                                calendarioAcervoAgo  && calendarioAcervoAgo.map((dia, indice) => {
+                                    return <li data-day={dia.day} data-date={dia.numerodia} key={"Agosto_"+indice}></li>
+                                })
+                            }</ul>
+                            <ul className="9" data-month="Septiembre">
+                                {
+                                    calendarioAcervoSep && calendarioAcervoSep.map((dia, indice) => {
+                                        return <li data-day={dia.day} data-date={dia.numerodia} key={"Septiembre_"+indice}></li>
+                                    })
+                                }</ul>
+                            <ul className="10" data-month="Octubre">
+                                {
+                                    calendarioAcervoOct && calendarioAcervoOct.map((dia, indice) => {
+                                        return <li data-day={dia.day} data-date={dia.numerodia} key={"Octubre_"+indice}></li>
+                                    })
+                                }</ul>
+                            <ul className="11" data-month="Noviembre">
+                                {
+                                    calendarioAcervoNov && calendarioAcervoNov.map((dia, indice) => {
+                                        return <li data-day={dia.day} data-date={dia.numerodia} key={"Noviembre_"+indice}></li>
+                                    })
+                                }</ul>
+                            <ul className="12" data-month="Diciembre">
+                                {
+                                    calendarioAcervoDic && calendarioAcervoDic.map((dia, indice) => {
+                                        return <li data-day={dia.day} data-date={dia.numerodia} key={"Diciembre_"+indice}></li>
+                                    })
+                                }</ul>
+                        </div>
+                        <div style={{minHeight:'3em', width:'100%'}}></div>
                     </div>
+                    <HomeFooter></HomeFooter>
                 </div>)
     )
 }
