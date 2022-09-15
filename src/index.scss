@@ -18,23 +18,27 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-.container-menu-main{
+
+.container-menu-main {
   position: absolute;
-  top:0;
-  left:0;
+  top: 0;
+  left: 0;
   z-index: 10000;
   margin-right: .2em;
-  background: #15171c; 
+  background: #15171c;
   font-size: large;
 }
-#sidebar::-webkit-scrollbar{
-  display:none;
-}
-.inner-menu-list-hidden{
+
+#sidebar::-webkit-scrollbar {
   display: none;
 }
-.inner-menu-list{
-  display:list-item;
+
+.inner-menu-list-hidden {
+  display: none;
+}
+
+.inner-menu-list {
+  display: list-item;
   font-size: smaller;
 }
 
@@ -44,7 +48,15 @@ code {
 }
 
 
-
+.search-bar-principal-input {
+  float: left;
+  border-radius: 5px;
+  min-height: 30px;
+  min-width: 30rem;
+  width: 100%;
+  border: 1px solid grey;
+  grid-column: 2
+}
 
 /*
 Estilos de la reproducción individual de videos
@@ -52,27 +64,32 @@ Estilos de la reproducción individual de videos
 .player-container {
   margin: 0 2em;
 }
-.acciones-reproduccion{
+
+.acciones-reproduccion {
   min-height: 35px;
   cursor: pointer;
-  margin:20px 0;
+  margin: 20px 0;
   display: grid;
   grid-template-columns: 20% 20% 20% 20% 18.5%;
-  gap:5px;
+  gap: 5px;
 
 }
-.item-acciones-repro{
+
+.item-acciones-repro {
   cursor: pointer;
   border-left: 1px solid gray;
-  padding:0 1em;
+  padding: 0 1em;
 }
-.item-acciones-repro span{
+
+.item-acciones-repro span {
   padding-left: 1em;
 }
-.item-acciones-repro:nth-child(5){
+
+.item-acciones-repro:nth-child(5) {
   border-right: 1px solid gray;
-  padding-right:0;
+  padding-right: 0;
 }
+
 .player-individual {
   height: 1200px;
   max-height: 1200px;
@@ -360,9 +377,10 @@ Estilos de los eventos en la reproducción individual de video
   display: grid;
   grid-template-columns: auto auto;
 }
-.control-evento-reproduccion a{
+
+.control-evento-reproduccion a {
   text-decoration: none;
-  color:black;
+  color: black;
 }
 
 .control-evento-reproduccion div {
@@ -416,14 +434,18 @@ Estilos temáticos
 .bodyHome-aesthetic {
   background-color: #66545e;
 }
-.menu-main-list, .menu-main-list ul{
+
+.menu-main-list,
+.menu-main-list ul {
   list-style-type: none;
   background: #15171c;
 }
-.menu-main-list{
-  width:120%;
-  margin-left:-5em;
+
+.menu-main-list {
+  width: 120%;
+  margin-left: -5em;
 }
+
 .navbar-principal {
   width: '40%';
   float: 'left';
@@ -433,10 +455,12 @@ Estilos temáticos
   min-height: 115px;
   padding-bottom: .3em;
 }
-.with-menu{
-    height: 100vh;
+
+.with-menu {
+  height: 100vh;
 }
-.navbar-principal.navbar-principal-static{
+
+.navbar-principal.navbar-principal-static {
   width: '40%';
   float: 'left';
   display: grid;
@@ -597,55 +621,68 @@ Estilo de footer
 */
 .footer-site {
   max-height: 350px;
-  display:grid;
+  display: grid;
   grid-template-columns: repeat(2fr);
   grid-template-rows: 2;
-  gap:2em;
-  align-items:flex-start;
-  justify-content:left;
+  gap: 2em;
+  align-items: flex-start;
+  justify-content: left;
   padding-bottom: 2em;
-  
+
 }
-.footer-site div:nth-child(1){
+
+.footer-site div:nth-child(1) {
   grid-column-start: 1;
   grid-column-end: 6;
   grid-row: 1;
 }
+
 .footer-site-black {
   background-color: black;
 }
-.footer-list-red:nth-child(1){
+
+.footer-list-red:nth-child(1) {
   grid-column: 1;
 }
-.footer-list-red:nth-child(2){
+
+.footer-list-red:nth-child(2) {
   grid-column: 2;
 }
-.footer-list-red:nth-child(3){
+
+.footer-list-red:nth-child(3) {
   grid-column: 3;
 }
-.footer-list-red:nth-child(4){
+
+.footer-list-red:nth-child(4) {
   grid-column: 4;
 }
+
 .footer-list-black {
   background-color: red;
 }
-.footer-list-red{
- list-style:none; text-align:left; color:red;
- width:100%;
- grid-row:2;
+
+.footer-list-red {
+  list-style: none;
+  text-align: left;
+  color: red;
+  width: 100%;
+  grid-row: 2;
 }
-.footer-list-red li{
-  cursor:pointer
+
+.footer-list-red li {
+  cursor: pointer
 }
-.logo-interneta-footer{
+
+.logo-interneta-footer {
   grid-column: 5;
-  width:100px;
-  grid-row:2;
+  width: 100px;
+  grid-row: 2;
   display: grid;
-  grid-template-columns:100% 100% 100% 100% 100% 100% 100%;
+  grid-template-columns: 100% 100% 100% 100% 100% 100% 100%;
 }
-.logo-interneta-footer img:nth-child(1){
-  width:100%;
+
+.logo-interneta-footer img:nth-child(1) {
+  width: 100%;
   grid-column: 7;
 }
 
@@ -752,18 +789,20 @@ Estilo de footer
 .video-set-white {
   background-color: white;
 }
-.resume-video-set{
-  width:700px;
-  margin:auto;
-  height:500px;
-  background:white;
-  z-index:9999;
-  position:absolute;
-  bottom:4rem;
+
+.resume-video-set {
+  width: 700px;
+  margin: auto;
+  height: 500px;
+  background: white;
+  z-index: 9999;
+  position: absolute;
+  bottom: 4rem;
   text-align: left;
-  padding:2em;
-  left:25rem;
+  padding: 2em;
+  left: 25rem;
 }
+
 .category-cards-basic {
   background-color: #213a3b;
 }
@@ -863,27 +902,33 @@ Estilo de footer
   cursor: pointer;
   text-align: center;
 }
-.button-group-repro{
+
+.button-group-repro {
   display: flex;
-  height:40px;
+  height: 40px;
 }
-.icon-ver-detail-event{
-  font-size: 50px; cursor: pointer;
+
+.icon-ver-detail-event {
+  font-size: 50px;
+  cursor: pointer;
 }
-.mes-evento-main h1{
+
+.mes-evento-main h1 {
   position: absolute;
-  top:0;
-  right:.1em;
+  top: 0;
+  right: .1em;
   font-size: 120px;
 }
-.switch-week{
+
+.switch-week {
   display: grid;
-  margin:auto;
+  margin: auto;
   justify-content: center;
-  gap:1em;
+  gap: 1em;
   grid-template-columns: 200px 200px 200px 200px 200px;
 }
-.year{
+
+.year {
   margin: 96px auto;
   width: 960px;
   padding: 10px;
@@ -891,11 +936,11 @@ Estilo de footer
   border-radius: 4px;
   display: flex;
   background: #FFF;
-  box-shadow: 0 10px 50px -15px rgba(0,0,0,0.75);
-  
+  box-shadow: 0 10px 50px -15px rgba(0, 0, 0, 0.75);
+
   position: relative;
-  
-  &:before{
+
+  &:before {
     position: absolute;
     content: attr(data-year);
     color: #68341c;
@@ -906,69 +951,74 @@ Estilo de footer
     font-size: 64px;
   }
 }
-.year ul{
+
+.year ul {
   display: inline-block;
   padding: 0;
   margin: 0 1px;
   list-style: none;
   flex: 1;
-  
+
   position: relative;
-  
-  &:before{
+
+  &:before {
     position: absolute;
     content: attr(data-month);
     color: transparent;
-    text-shadow: 0 0 0 rgba(0,0,0,0.25);
+    text-shadow: 0 0 0 rgba(0, 0, 0, 0.25);
     font-family: sans-serif;
     font-weight: 700;
     font-size: 24px;
-    
+
     transform-origin: 0 100%;
     transform: rotate(90deg) translateX(-20px) translateY(0px);
     top: 0px;
     left: 0px;
   }
-  
-  &:first-child{
+
+  &:first-child {
     margin-left: 0;
   }
-  &:last-child{
+
+  &:last-child {
     margin-right: 0;
   }
 }
-.year ul li{
+
+.year ul li {
   padding: 0;
   margin: 0;
   height: 22px;
   box-shadow: inset 0 0 0 1px #f0f0f0;
   background: #F8F8F8;
-  
-  &:before{
+
+  &:before {
     content: attr(data-date);
     color: transparent;
-    text-shadow: 0 0 0 rgba(0,0,0,0.25);
+    text-shadow: 0 0 0 rgba(0, 0, 0, 0.25);
     text-align: right;
     right: 2px;
     position: absolute;
     line-height: 24px;
     font-size: 10px;
   }
-  
-  &[data-day="0"], &[data-day="6"]{
+
+  &[data-day="0"],
+  &[data-day="6"] {
     background: #EEEEEE;
     box-shadow: inset 0 0 0 1px #E0E0E0;
   }
 }
 
-.year-change{
-  color:#7b494c;
+.year-change {
+  color: #7b494c;
   font-size: xx-large;
   font-weight: bold;
   opacity: 40%;
   transition: all 1s ease-in-out;
-  width:30px;
+  width: 30px;
 }
+
 @media screen and (max-width: 1260px) {
   .container-tematica {
     display: none;
@@ -982,11 +1032,22 @@ Estilo de footer
     display: none;
   }
 }
-@media screen and (max-width:1520px){
-  .container-tematica{
+
+@media screen and (max-width:1520px) {
+  .container-tematica {
     display: none;
   }
+  .search-bar-principal-input {
+    float: left;
+    border-radius: 5px;
+    min-height: 30px;
+    min-width: 20rem;
+    width: 100%;
+    border: 1px solid grey;
+    grid-column: 2
+  }
 }
+
 @media screen and (max-width:900px) {
   .navbar-principal h2 {
     display: none;
@@ -994,16 +1055,25 @@ Estilo de footer
 
 }
 
-@media screen and (max-width:1300px){
-  .year-change{
-    color:#7b494c;
-    font-size:large;
+@media screen and (max-width:1300px) {
+  .year-change {
+    color: #7b494c;
+    font-size: large;
     font-weight: bold;
     opacity: 40%;
     transition: all 1s ease-in-out;
-    width:5px;
+    width: 5px;
   }
-  .year{
+  .search-bar-principal-input {
+    float: left;
+    border-radius: 5px;
+    min-height: 30px;
+    min-width: 16rem;
+    width: 100%;
+    border: 1px solid grey;
+    grid-column: 2
+  }
+  .year {
     margin: 96px auto;
     width: 800px;
     padding: 10px;
@@ -1011,11 +1081,11 @@ Estilo de footer
     border-radius: 4px;
     display: flex;
     background: #FFF;
-    box-shadow: 0 10px 50px -15px rgba(0,0,0,0.75);
-    
+    box-shadow: 0 10px 50px -15px rgba(0, 0, 0, 0.75);
+
     position: relative;
-    
-    &:before{
+
+    &:before {
       position: absolute;
       content: attr(data-year);
       color: #68341c;
@@ -1026,119 +1096,137 @@ Estilo de footer
       font-size: 54px;
     }
   }
-  .year ul{
+
+  .year ul {
     display: inline-block;
     padding: 0;
     margin: 0 1px;
     list-style: none;
     flex: 1;
-    
+
     position: relative;
-    
-    &:before{
+
+    &:before {
       position: absolute;
       content: attr(data-month);
       color: transparent;
-      text-shadow: 0 0 0 rgba(0,0,0,0.25);
+      text-shadow: 0 0 0 rgba(0, 0, 0, 0.25);
       font-family: sans-serif;
       font-weight: 500;
       font-size: 18px;
-      
+
       transform-origin: 0 100%;
       transform: rotate(90deg) translateX(-20px) translateY(0px);
       top: 0px;
       left: 0px;
     }
-    
-    &:first-child{
+
+    &:first-child {
       margin-left: 0;
     }
-    &:last-child{
+
+    &:last-child {
       margin-right: 0;
     }
   }
-  .year ul li{
+
+  .year ul li {
     padding: 0;
     margin: 0;
     height: 22px;
     box-shadow: inset 0 0 0 1px #f0f0f0;
     background: #F8F8F8;
-    
-    &:before{
+
+    &:before {
       content: attr(data-date);
       color: transparent;
-      text-shadow: 0 0 0 rgba(0,0,0,0.25);
+      text-shadow: 0 0 0 rgba(0, 0, 0, 0.25);
       text-align: right;
       right: 2px;
       position: absolute;
       line-height: 24px;
       font-size: 10px;
     }
-    
-    &[data-day="0"], &[data-day="6"]{
+
+    &[data-day="0"],
+    &[data-day="6"] {
       background: #EEEEEE;
       box-shadow: inset 0 0 0 1px #E0E0E0;
     }
   }
-  .video-set-white canvas{
+
+  .video-set-white canvas {
     visibility: hidden;
   }
-  .resume-video-set{
-    left:2.5rem;
+
+  .resume-video-set {
+    left: 2.5rem;
   }
+
   .content-player {
     display: grid;
     grid-template-columns: repeat(.5fr);
   }
-  .button-group-repro{
+
+  .button-group-repro {
     display: grid;
     grid-template-rows: 3;
-    height:120;
-     & button{
+    height: 120;
+
+    & button {
       border-bottom: 2px solid black;
-     }
+    }
   }
-  .mes-evento-main .icon-ver-detail-event{
-    & before{
-      content:"\ ";
+
+  .mes-evento-main .icon-ver-detail-event {
+    & before {
+      content: "\ ";
       white-space: pre-wrap;
     }
+
     font-size: 25px;
   }
-  .mes-evento-main h1{
-    font-size:80px;
+
+  .mes-evento-main h1 {
+    font-size: 80px;
   }
-  .scroll-list{
-    margin-top:140px;
+
+  .scroll-list {
+    margin-top: 140px;
   }
-  .switch-week{
+
+  .switch-week {
     display: grid;
-    margin:auto;
+    margin: auto;
     justify-content: center;
-    gap:1em;
+    gap: 1em;
     grid-template-columns: 150px 150px 150px 150px 150px;
   }
-  .logo-interneta-footer img:nth-child(1){
-    width:100%;
+
+  .logo-interneta-footer img:nth-child(1) {
+    width: 100%;
     grid-column: 2;
   }
 }
+
 @media screen and (max-width:1000px) {
-  .logo-interneta-footer img:nth-child(1){
-    width:50%;
+  .logo-interneta-footer img:nth-child(1) {
+    width: 50%;
     grid-column: 2;
   }
 }
-@media screen and (max-width:1000px){
-  .year-change{
-    color:#7b494c;
-    font-size:small;
+
+@media screen and (max-width:1000px) {
+  .year-change {
+    color: #7b494c;
+    font-size: small;
     font-weight: bold;
     opacity: 40%;
     transition: all 1s ease-in-out;
-    width:2px;
+    width: 2px;
   }
 }
+
 .tematica-sitio {
   min-width: 200px;
   margin-left: 20%;
@@ -1678,6 +1766,7 @@ Pagina autobiograficos
   transform: scale(1.15);
   box-shadow: none;
 }
+
 .autobiografico-main-menu-entry-aesthetic.inactive {
   transition: all .5s ease-in-out;
 }
@@ -1728,6 +1817,7 @@ Pagina autobiograficos
   transform: scale(1.15);
   box-shadow: none;
 }
+
 .autobiografico-main-editing {
   min-height: 640px;
 }
@@ -1740,6 +1830,7 @@ Pagina autobiograficos
   font-size: 16px;
   margin: 0 0 0 1.5em;
 }
+
 .autobiografico-main-menu .autobiografico-main-menu-entry-aesthetic span {
   margin-right: 3rem;
 }
@@ -1758,6 +1849,7 @@ Pagina autobiograficos
   opacity: 0.7;
   transform: translate(-20px)
 }
+
 .autobiografico-main-menu-entry-aesthetic.inactive:hover {
   opacity: 0.7;
   transform: translate(-20px)
@@ -1766,6 +1858,7 @@ Pagina autobiograficos
 .autobiografico-main-menu-entry-basic.active {
   background: #203b12;
 }
+
 .autobiografico-main-menu-entry-aesthetic.active {
   background: #503032;
 }
@@ -1773,6 +1866,7 @@ Pagina autobiograficos
 .autobiografico-main-menu-entry-basic.inactive {
   background-color: transparent;
 }
+
 .autobiografico-main-menu-entry-aesthetic.inactive {
   background-color: transparent;
 }
@@ -1789,42 +1883,50 @@ Página de eventos
   top: 0;
   left: 0;
 }
-.eventos-main-container{
+
+.eventos-main-container {
   background: #feecb8
 }
-.eventos-main-calendar{
+
+.eventos-main-calendar {
   display: grid;
-  grid-template-columns:3em 3em 3em 3em 3em 3em 3em;
-  width:25%;
+  grid-template-columns: 3em 3em 3em 3em 3em 3em 3em;
+  width: 25%;
 }
-.eventos-main-calendar .title-calendar{
+
+.eventos-main-calendar .title-calendar {
   padding: 0rem .5rem;
   min-height: 60px;
-  width:60px;
+  width: 60px;
 }
-.eventos-main-calendar .title-calendar .content-title-calendar{
+
+.eventos-main-calendar .title-calendar .content-title-calendar {
   display: flex;
   align-items: baseline;
-  padding:  0 1rem;
+  padding: 0 1rem;
   text-align: right;
   text-transform: uppercase;
 }
+
 .eventos-main-calendar-content {
   display: grid;
-  grid-template-columns:3em 3em 3em 3em 3em 3em 3em;
-  width:25%;
-  
+  grid-template-columns: 3em 3em 3em 3em 3em 3em 3em;
+  width: 25%;
+
 }
-.calendario-eventos-principal{
+
+.calendario-eventos-principal {
   background-color: white;
-  min-width:21em;
-  padding:2em 2em 2em 0em;
+  min-width: 21em;
+  padding: 2em 2em 2em 0em;
   border-radius: 0em 0em 1.5em 0em;
   display: none;
 }
-.calendario-eventos-principal.active{
+
+.calendario-eventos-principal.active {
   display: block;
 }
+
 .calendario-eventos-principal header {
   display: flex;
   justify-content: space-between;
@@ -1840,14 +1942,15 @@ Página de eventos
 .eventos-main-calendar-content .day {
   padding: 0rem .5rem;
   min-height: 50px;
-  width:3em;
+  width: 3em;
 }
+
 .eventos-main-calendar-content .day.active {
   padding: 0rem .5rem;
   min-height: 50px;
-  width:3em;
+  width: 3em;
   background-color: lightseagreen;
-  color:white;
+  color: white;
 }
 
 
@@ -1860,122 +1963,147 @@ Página de eventos
   padding: 0 2rem 0 0;
   text-align: right;
 }
+
 .calendario-eventos-principal {
-  width:25%;
+  width: 25%;
 }
-.calendario-eventos-principal header p{
+
+.calendario-eventos-principal header p {
   text-align: center;
   font-size: 1.5rem;
   font-size: 1.5rem;
-  margin:0 auto;
+  margin: 0 auto;
 }
-.mes-evento-main{
+
+.mes-evento-main {
   height: 200vh;
-  position:relative;
-  width:100%;
+  position: relative;
+  width: 100%;
   right: 0;
 }
 
-.mes-evento-main.ene{
-  background: linear-gradient(to right,white,#E5E6EB);
+.mes-evento-main.ene {
+  background: linear-gradient(to right, white, #E5E6EB);
 }
-.mes-evento-main.feb{
+
+.mes-evento-main.feb {
   background: linear-gradient(to right, white, #B3CDE0);
 }
-.mes-evento-main.mar{
-  background: linear-gradient(to right,white, #99CC33);
+
+.mes-evento-main.mar {
+  background: linear-gradient(to right, white, #99CC33);
 }
-.mes-evento-main.abr{
+
+.mes-evento-main.abr {
   background: linear-gradient(to right, white, #FFCC00);
 }
-.mes-evento-main.may{
+
+.mes-evento-main.may {
   background: linear-gradient(to right, white, #FF9966);
 }
-.mes-evento-main.jun{
+
+.mes-evento-main.jun {
   background: linear-gradient(to right, white, #FF4D00);
 }
-.mes-evento-main.jul{
+
+.mes-evento-main.jul {
   background: linear-gradient(to right, white, #B48811);
 }
-.mes-evento-main.ago{
+
+.mes-evento-main.ago {
   background: linear-gradient(to right, white, #967259);
 }
-.mes-evento-main.sep{
+
+.mes-evento-main.sep {
   background: linear-gradient(to right, white, #DC6900);
 }
-.mes-evento-main.oct{
+
+.mes-evento-main.oct {
   background: linear-gradient(to right, white, #FF7B7B);
 }
-.mes-evento-main.nov{
+
+.mes-evento-main.nov {
   background: linear-gradient(to right, white, #A32020);
 }
 
-.mes-evento-main.dic{
-  background: linear-gradient(to right, white,#5D5D5D);
+.mes-evento-main.dic {
+  background: linear-gradient(to right, white, #5D5D5D);
 }
-.mes-evento-main .listado-min-eventos .miniatura-evento{
+
+.mes-evento-main .listado-min-eventos .miniatura-evento {
   max-width: 180px;
   display: block;
   background-color: white;
 }
-.mes-evento-main .listado-min-eventos .miniatura-evento img{
-width:100%;
-max-width: 180px;
+
+.mes-evento-main .listado-min-eventos .miniatura-evento img {
+  width: 100%;
+  max-width: 180px;
 }
-.mes-evento-main .listado-min-eventos .miniatura-evento p{
+
+.mes-evento-main .listado-min-eventos .miniatura-evento p {
   background-color: white;
   display: block;
-  font-size:14px;
+  font-size: 14px;
 }
-.mes-evento-main .listado-min-eventos{
+
+.mes-evento-main .listado-min-eventos {
   display: grid;
   grid-template-columns: 180px 180px 180px 180px 180px;
   grid-gap: 2.5rem;
   min-width: 640px;
-  position:relative;
-  top:50%;
-  left:30%;
+  position: relative;
+  top: 50%;
+  left: 30%;
 }
+
 @media screen and (max-width:1190px) {
-  .mes-evento-main .listado-min-eventos{
+  .mes-evento-main .listado-min-eventos {
     display: grid;
     grid-template-columns: 110px 110px 110px 110px;
     min-width: 768px;
-    position:absolute;
-    top:50%;
-    left:40%
+    position: absolute;
+    top: 50%;
+    left: 40%
   }
-  .mes-evento-main .listado-min-eventos .miniatura-evento img{
-    width:100%;
-    max-width:110px;
-    }
-    .mes-evento-main .listado-min-eventos .miniatura-evento{
-      max-width: 110px;
-      display: block;
-      background-color: white;
-    }
-    .mes-evento-main .listado-min-eventos .miniatura-evento p{
-      background-color: white;
-      display: block;
-      font-size:small
-    }
+
+  .mes-evento-main .listado-min-eventos .miniatura-evento img {
+    width: 100%;
+    max-width: 110px;
+  }
+
+  .mes-evento-main .listado-min-eventos .miniatura-evento {
+    max-width: 110px;
+    display: block;
+    background-color: white;
+  }
+
+  .mes-evento-main .listado-min-eventos .miniatura-evento p {
+    background-color: white;
+    display: block;
+    font-size: small
+  }
 }
-.main-content-this-event{
-   height: '100vh';
-   background: '#feecb8';
-   margin:auto;
-   margin-top:2em;
-   text-align: center;
+
+.main-content-this-event {
+  height: '100vh';
+  background: '#feecb8';
+  margin: auto;
+  margin-top: 2em;
+  text-align: center;
 }
-.main-content-this-event h1{
+
+.main-content-this-event h1 {
   font-size: xx-large;
 }
-.main-content-this-event p{
-  font-size:medium;
+
+.main-content-this-event p {
+  font-size: medium;
   text-align: left;
   padding: 0 2.5em;
 }
-.main-content-this-event img{
+
+.main-content-this-event img {
   width: 400px;
 
 }
@@ -1990,22 +2118,24 @@ Clases del detalle mensual de los eventos
   gap: 10px;
   grid-template-columns: auto 1fr;
   margin: 2rem;
-  padding-bottom:100px;
+  padding-bottom: 100px;
 }
-.time-marker-detail{
-  margin:.2rem 0;
-  padding:.2rem;
+
+.time-marker-detail {
+  margin: .2rem 0;
+  padding: .2rem;
   background-color: white;
 }
+
 .timeline-detail {
   display: grid;
   grid-template-rows: repeat(var(--numHours), var(--timeHeight));
   text-align: right;
 }
 
-.container-days-detail{
-  overflow-x:auto;
-  width:100%;
+.container-days-detail {
+  overflow-x: auto;
+  width: 100%;
   grid-column: 2;
   grid-template-columns: 100% 100% 100% 100% 100%;
   gap: 5px;
@@ -2018,6 +2148,7 @@ Clases del detalle mensual de los eventos
 .container-days-detail::-webkit-scrollbar {
   display: none;
 }
+
 .days-detail {
   display: grid;
   gap: 2px;
@@ -2035,94 +2166,124 @@ Clases del detalle mensual de los eventos
 .start-9-detail {
   grid-row-start: 4;
 }
+
 .start-9_5-detail {
   grid-row-start: 5;
 }
+
 .start-10-detail {
   grid-row-start: 6;
 }
+
 .start-10_5-detail {
   grid-row-start: 7;
 }
+
 .start-11-detail {
   grid-row-start: 8;
 }
+
 .start-11_5-detail {
   grid-row-start: 9;
 }
+
 .start-12-detail {
   grid-row-start: 10;
 }
+
 .start-12_5-detail {
   grid-row-start: 11;
 }
+
 .start-13-detail {
-  grid-row-start:12;
+  grid-row-start: 12;
 }
+
 .start-13_5-detail {
   grid-row-start: 13;
 }
+
 .start-14-detail {
   grid-row-start: 14;
 }
+
 .start-14_5-detail {
   grid-row-start: 15;
 }
+
 .start-15-detail {
   grid-row-start: 16;
 }
+
 .start-15_5-detail {
   grid-row-start: 17;
 }
+
 .start-16-detail {
   grid-row-start: 18;
 }
+
 .start-16_5-detail {
   grid-row-start: 19;
 }
+
 .start-17-detail {
   grid-row-start: 20;
 }
+
 .start-17_5-detail {
   grid-row-start: 21;
 }
+
 .start-18-detail {
   grid-row-start: 22;
 }
+
 .start-18_5-detail {
   grid-row-start: 23;
 }
+
 .start-19-detail {
   grid-row-start: 24;
 }
+
 .start-19_5-detail {
   grid-row-start: 25;
 }
+
 .start-20-detail {
   grid-row-start: 26;
 }
+
 .start-20_5-detail {
   grid-row-start: 27;
 }
+
 .start-21-detail {
   grid-row-start: 28;
 }
+
 .start-21_5-detail {
   grid-row-start: 29;
 }
+
 .start-22-detail {
   grid-row-start: 30;
 }
+
 .start-22_5-detail {
   grid-row-start: 31;
 }
+
 .start-23-detail {
   grid-row-start: 32;
 }
-.start-23_5-detail{
-  grid-row-start:33;
+
+.start-23_5-detail {
+  grid-row-start: 33;
 }
-.start-24-detail{
+
+.start-24-detail {
   grid-row-start: 34;
 }
 
@@ -2130,96 +2291,127 @@ Clases del detalle mensual de los eventos
 .end-9_5-detail {
   grid-row-end: 5;
 }
+
 .end-10-detail {
   grid-row-end: 6;
 }
+
 .end-10_5-detail {
   grid-row-end: 7;
 }
+
 .end-11-detail {
   grid-row-end: 8;
 }
+
 .end-11_5-detail {
   grid-row-end: 9;
 }
+
 .end-12-detail {
   grid-row-end: 10;
 }
+
 .end-12_5-detail {
   grid-row-end: 11;
 }
+
 .end-13-detail {
   grid-row-end: 12;
 }
+
 .end-13_5-detail {
   grid-row-end: 13;
 }
+
 .end-14-detail {
   grid-row-end: 14;
 }
+
 .end-14_5-detail {
   grid-row-end: 15;
 }
+
 .end-15-detail {
   grid-row-end: 16;
 }
+
 .end-15_5-detail {
   grid-row-end: 17;
 }
+
 .end-16-detail {
   grid-row-end: 18;
 }
+
 .end-16_5-detail {
   grid-row-end: 19;
 }
+
 .end-17-detail {
   grid-row-end: 20;
 }
+
 .end-17_5-detail {
   grid-row-end: 21;
 }
+
 .end-18-detail {
   grid-row-end: 22;
 }
+
 .end-18_5-detail {
   grid-row-end: 23;
 }
+
 .end-19-detail {
   grid-row-end: 24;
 }
+
 .end-19_5-detail {
   grid-row-end: 25;
 }
+
 .end-20-detail {
   grid-row-end: 26;
 }
+
 .end-20_5-detail {
   grid-row-end: 27;
 }
+
 .end-21-detail {
   grid-row-end: 28;
 }
+
 .end-21_5-detail {
   grid-row-end: 29;
 }
+
 .end-22-detail {
   grid-row-end: 30;
 }
+
 .end-22_5-detail {
   grid-row-end: 31;
 }
+
 .end-23-detail {
   grid-row-end: 32;
 }
+
 .end-23_5-detail {
   grid-row-end: 33;
 }
-.end-24-detail{
+
+.end-24-detail {
   grid-row-end: 34;
 }
-.end-24_5-detail{
+
+.end-24_5-detail {
   grid-row-end: 35;
 }
+
 // Event
 
 .title-detail {
@@ -2239,8 +2431,8 @@ Clases del detalle mensual de los eventos
   height: 60px
 }
 
-.day-detail.with_event .date-detail{
-   text-decoration: underline;
+.day-detail.with_event .date-detail {
+  text-decoration: underline;
 }
 
 
@@ -2272,7 +2464,7 @@ Clases del detalle mensual de los eventos
   font-size: 3rem;
   font-weight: 600;
   display: inline;
-  padding:0 .2em;
+  padding: 0 .2em;
 }
 
 .date-day-detail {
@@ -2281,76 +2473,86 @@ Clases del detalle mensual de los eventos
   font-weight: 100;
 }
 
-.week{
+.week {
   border-radius: 10px;
   background-color: white;
-  cursor:pointer;
+  cursor: pointer;
 }
-.week.activa{
+
+.week.activa {
   background-color: lightgreen;
 }
-.vinculo-atras-generico{
+
+.vinculo-atras-generico {
   text-decoration: none;
-  color:black;
+  color: black;
   font-size: larger;
 }
 
 /*
 clases de los modales
 */
-.wrapper{
+.wrapper {
   background-color: white;
   border-radius: 7px;
-  border:1px solid gray;
+  border: 1px solid gray;
 }
-.wrapper .close{
-  float:right;
-  border:none;
-  outline: none;
-  background-color: white;
-  margin-right: .9em;
-  cursor:pointer;
 
-}
-.wrapper .box-title{
-   text-align: center;
-}
-.wrapper .box-header{
-  justify-content: flex-start;
-  align-items: flex-start;
-  width: 100%;
-  margin:-.9em 0;
-}
-.wrapper .box-dialog{
-  width:100%;
-}
-.wrapper.darkmodal{
-  background-color: black;
-  border-radius: 7px;
-  border:1px solid lightgray;
-}
-.wrapper.darkmodal .close{
-  float:right;
-  border:none;
+.wrapper .close {
+  float: right;
+  border: none;
   outline: none;
-  background-color: black;
-  color:white;
+  background-color: white;
   margin-right: .9em;
   cursor: pointer;
 
 }
-.wrapper.darkmodal .box-header{
+
+.wrapper .box-title {
+  text-align: center;
+}
+
+.wrapper .box-header {
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-  margin:-.9em 0;
-  background-color: black;
-  color:white;
+  margin: -.9em 0;
 }
-.wrapper.darkmodal .box-content{
-  padding:1em 1.5em;
+
+.wrapper .box-dialog {
+  width: 100%;
+}
+
+.wrapper.darkmodal {
   background-color: black;
-  color:white;
+  border-radius: 7px;
+  border: 1px solid lightgray;
+}
+
+.wrapper.darkmodal .close {
+  float: right;
+  border: none;
+  outline: none;
+  background-color: black;
+  color: white;
+  margin-right: .9em;
+  cursor: pointer;
+
+}
+
+.wrapper.darkmodal .box-header {
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  margin: -.9em 0;
+  background-color: black;
+  color: white;
+}
+
+.wrapper.darkmodal .box-content {
+  padding: 1em 1.5em;
+  background-color: black;
+  color: white;
 }
 
 /* width */
@@ -2374,23 +2576,32 @@ clases de los modales
 .wrapper.darkmodal::-webkit-scrollbar-thumb:hover {
   background: gray;
 }
-.wrapper.darkmodal dt{
+
+.wrapper.darkmodal dt {
   font-weight: 600px;
-  color:darkgray;
-  font-size:larger;
+  color: darkgray;
+  font-size: larger;
 }
-.background{
-  position: fixed; /* Sit on top of the page content */
-  display: block; /* Hidden by default */
-  width: 100%; /* Full width (cover the whole page) */
-  height: 100%; /* Full height (cover the whole page) */
+
+.background {
+  position: fixed;
+  /* Sit on top of the page content */
+  display: block;
+  /* Hidden by default */
+  width: 100%;
+  /* Full width (cover the whole page) */
+  height: 100%;
+  /* Full height (cover the whole page) */
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0,0,0,0.5); /* Black background with opacity */
-  z-index: 500; /* Specify a stack order in case you're using a different order for other elements */
-  cursor: pointer; /* Add a pointer on hover */
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Black background with opacity */
+  z-index: 500;
+  /* Specify a stack order in case you're using a different order for other elements */
+  cursor: pointer;
+  /* Add a pointer on hover */
 }
 
 /*
@@ -2398,70 +2609,78 @@ estilos del modal de redes sociales en página de reproducción
 */
 .social-network-regular {
   outline: none;
-  border:1px solid gray;
+  border: 1px solid gray;
   border-radius: 50%;
   width: 120px;
   height: 120px;
-  background-size:contain;
+  background-size: contain;
   background-repeat: no-repeat;
   background-position: center center;
-  margin:1rem;
-  cursor:pointer;
+  margin: 1rem;
+  cursor: pointer;
 }
+
 .modal-redes-regular {
   display: flex;
   flex-wrap: wrap;
-  margin:1em;
-  margin-top:12%;
+  margin: 1em;
+  margin-top: 12%;
 }
 
 /*
 clases de la grabación de podcasts y la edición de relatos
 */
-.podcast-record{
+.podcast-record {
   text-align: left;
-  margin-left:1em;
-  margin-top:.5em;
+  margin-left: 1em;
+  margin-top: .5em;
 }
-.podcast-record button{
+
+.podcast-record button {
   outline: none;
   border: none;
   background-color: white;
-  font-size:xx-large;
-  margin:.5em .2em;
+  font-size: xx-large;
+  margin: .5em .2em;
 }
-.podcast-controls-record{
+
+.podcast-controls-record {
   display: flex;
   justify-content: left;
   align-items: left;
-  margin-left:1em;
+  margin-left: 1em;
 }
-.podcast-record button:hover{
+
+.podcast-record button:hover {
   background-color: gray;
-  color:white;
-  border:1px solid black;
+  color: white;
+  border: 1px solid black;
 }
-.capture-relato{
+
+.capture-relato {
   display: grid;
   grid-template-columns: 80% 20%;
-  gap:10px;
-  align-items:flex-end;
-  margin:0 1em;
+  gap: 10px;
+  align-items: flex-end;
+  margin: 0 1em;
 }
-.capture-relato button{
+
+.capture-relato button {
   background-color: white;
   outline: none;
-  border:none;
+  border: none;
   border-radius: 6px;
   font-size: larger;
   max-height: 60px;
 }
-.capture-relato button:hover{
+
+.capture-relato button:hover {
   background-color: gray;
-  color:white;
+  color: white;
 }
-.capture-relato textarea{
-  border-radius:10px;
+
+.capture-relato textarea {
+  border-radius: 10px;
 }
 
 /*
@@ -2497,13 +2716,16 @@ Clases del acordeón en página autobiográficos
 
   font-size: 12px;
 }
-.listado-acordeon{
-  margin:1em 0;
+
+.listado-acordeon {
+  margin: 1em 0;
 }
-.accordion-list{
+
+.accordion-list {
   list-style-type: none;
 }
-.accordion-list li{
+
+.accordion-list li {
   cursor: pointer;
   margin: .5em 0;
 }
@@ -2511,58 +2733,62 @@ Clases del acordeón en página autobiográficos
 /*
 Estilos del modal de descargas en página reproducción
 */
-.radio-button-std{
+.radio-button-std {
   outline: none;
   border: none;
-  color:gray;
+  color: gray;
   font-size: xx-large;
   background-color: transparent;
-  margin:.5em 0;
+  margin: .5em 0;
   cursor: pointer;
 }
-.radio-button-std-active{
-  outline:none;
-  border:none;
+
+.radio-button-std-active {
+  outline: none;
+  border: none;
   color: #7291d8;
   font-size: xx-large;
   background-color: transparent;
-  margin:.5em 0;
+  margin: .5em 0;
   cursor: pointer;
 }
-.download-video-std{
-  border:none;
+
+.download-video-std {
+  border: none;
   outline: none;
-  color:white;
+  color: white;
   background-color: #009639;
   border-radius: .3em;
   line-height: 30px;
   width: 200px;
   justify-content: center;
   text-align: center;
-  margin:3em auto;
-  cursor:pointer;
+  margin: 3em auto;
+  cursor: pointer;
 }
-.download-reprod-std{
+
+.download-reprod-std {
   display: grid;
-  grid-template-rows: repeat(3,1fr);
+  grid-template-rows: repeat(3, 1fr);
   align-items: center;
   justify-content: center;
 }
+
 /*
 Estilos para el modal de calificación en página de reproducción
 */
 .calificacion-reprod-std {
   display: flex;
-  flex-wrap:wrap;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  min-height:31em;
+  min-height: 31em;
 }
 
 .std-star {
   color: #dbdbdb;
   transition: all 300ms ease;
-  margin:auto 0;
+  margin: auto 0;
   margin-right: 1rem;
 }
 
@@ -2574,35 +2800,38 @@ Estilos para el modal de calificación en página de reproducción
 
 .clickedstar {
   color: #d6bb0d;
-  margin:auto 0;
+  margin: auto 0;
   margin-right: 1rem;
 }
 
 /*
 Clases de los eventos específicos del acervo (no los publicados por otros usuarios)
 */
-.year-event-acervo-container{
+.year-event-acervo-container {
   display: flex;
 }
 
-.year-change.active-year-change{
-   opacity: 100%;
+.year-change.active-year-change {
+  opacity: 100%;
 }
-.year-container{
-  display:block;
+
+.year-container {
+  display: block;
   overflow-x: auto;
   overflow-y: hidden;
   scrollbar-width: none;
   width: 100%;
   max-height: 200px;
-  margin:0 auto;
+  margin: 0 auto;
 }
+
 .year-container::-webkit-scrollbar {
   display: none;
 }
-.main-eventos-link-acervo-eventos-editor, .main-eventos-link-acervo-eventos-editor a{
-  color:black;
+
+.main-eventos-link-acervo-eventos-editor,
+.main-eventos-link-acervo-eventos-editor a {
+  color: black;
   text-decoration: none;
   font-size: x-large;
 }
-
