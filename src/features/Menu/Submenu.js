@@ -53,7 +53,13 @@ const DropdownSpan = styled.span`
 
 
 const SubMenu = ({ item }, { key }) => {
-
+    function randomBetween10_19(){
+        let aleatorio = Math.floor(Math.random()*19);
+        if(aleatorio >= 11 && aleatorio < 20){
+        return ""+aleatorio;
+        }
+        else return '11';
+      }
     const [subnav, setSubnav] = useState(true);
     const showSubnav = () => setSubnav(!subnav);
     const [innerSubnav,setInnerSubnav] = useState('');
@@ -90,7 +96,7 @@ const SubMenu = ({ item }, { key }) => {
                                             elem.subNav.map((el, indice) => {
                                                 let claseinner = innerSubnav == elem.title?"inner-menu-list":"inner-menu-list-hidden";
                                                 return <ul key={indice} className={claseinner}><li>
-                                                <DropdownLink to={el.path}>
+                                                <DropdownLink to={el.title !== "Reproducción aleatoria" ? el.path : el.path+randomBetween10_19()}>
                                                     <span style={{ paggingRight: "10px" }}><FontAwesomeIcon icon={el.icon} /></span>
                                                     <SidebarLabel>{el.title}</SidebarLabel>
                                                 </DropdownLink></li></ul>

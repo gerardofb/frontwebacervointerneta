@@ -1,6 +1,13 @@
 export function getMenuData(user = {}) {
   return sideBarData;
 }
+function randomBetween10_19(){
+  let aleatorio = Math.floor(Math.random()*19);
+  if(aleatorio > 11 && aleatorio < 20){
+  return ""+aleatorio;
+  }
+  else return '11';
+}
 const sideBarData = [
   {
     title: "Menú",
@@ -63,7 +70,7 @@ const sideBarData = [
         subNav: [
           {
             title: "Favoritos",
-            path: '/Reproduccion/Screenshot-46',
+            path: '#',
             icon: 'heart'
           },
           {
@@ -73,7 +80,7 @@ const sideBarData = [
           },
           {
             title: "Reproducción aleatoria",
-            path: '#',
+            path: '/Reproduccion/Screenshot-',
             icon: 'shuffle'
           },
         ]
