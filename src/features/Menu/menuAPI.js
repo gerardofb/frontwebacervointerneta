@@ -16,7 +16,7 @@ const sideBarData = [
       },
       {
         title: "Categorias",
-        path: "/Categorias",
+        path: "#",
         icon: "tape",
         subNav: [
           {
