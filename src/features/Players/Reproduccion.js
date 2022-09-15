@@ -56,10 +56,7 @@ const Tab = styled.button`
     opacity: 1;
   `}
 `;
-const ButtonGroup = styled.div`
-  display: flex;
-  height:40px;
-`;
+
 const Vinculo = styled(Link)`
 display:block;
 width:100%;
@@ -651,7 +648,7 @@ export const AutoComments = () => {
                         : null}
                 </div>
                 <div className='tabuladores-repro' onContextMenu={(e) => handleContextMenu(false, false)}>
-                    <ButtonGroup>
+                    <div className='button-group-repro'>
                         {
                             tabuladores.map(type => (
                                 <Tab
@@ -663,7 +660,7 @@ export const AutoComments = () => {
                                 </Tab>
                             ))
                         }
-                    </ButtonGroup>
+                    </div>
                 </div>
                 <div onClick={(e) => resetMyEvents(null, true)} className='category-player' onContextMenu={(e) => handleContextMenu(false, false)}>
 

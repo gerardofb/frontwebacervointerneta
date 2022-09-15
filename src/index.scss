@@ -429,7 +429,7 @@ Estilos temáticos
   float: 'left';
   display: grid;
   position: relative;
-  grid-template-columns: .5fr .4fr .2fr .5fr;
+  grid-template-columns: .5fr .4fr .25fr .5fr;
   min-height: 115px;
   padding-bottom: .3em;
 }
@@ -863,7 +863,112 @@ Estilo de footer
   cursor: pointer;
   text-align: center;
 }
+.button-group-repro{
+  display: flex;
+  height:40px;
+}
+.icon-ver-detail-event{
+  font-size: 50px; cursor: pointer;
+}
+.mes-evento-main h1{
+  position: absolute;
+  top:0;
+  right:.1em;
+  font-size: 120px;
+}
+.switch-week{
+  display: grid;
+  margin:auto;
+  justify-content: center;
+  gap:1em;
+  grid-template-columns: 200px 200px 200px 200px 200px;
+}
+.year{
+  margin: 96px auto;
+  width: 960px;
+  padding: 10px;
+  border: 1px solid #E0E0E0;
+  border-radius: 4px;
+  display: flex;
+  background: #FFF;
+  box-shadow: 0 10px 50px -15px rgba(0,0,0,0.75);
+  
+  position: relative;
+  
+  &:before{
+    position: absolute;
+    content: attr(data-year);
+    color: #68341c;
+    top: -60px;
+    left: 10px;
+    font-family: sans-serif;
+    font-weight: 700;
+    font-size: 64px;
+  }
+}
+.year ul{
+  display: inline-block;
+  padding: 0;
+  margin: 0 1px;
+  list-style: none;
+  flex: 1;
+  
+  position: relative;
+  
+  &:before{
+    position: absolute;
+    content: attr(data-month);
+    color: transparent;
+    text-shadow: 0 0 0 rgba(0,0,0,0.25);
+    font-family: sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    
+    transform-origin: 0 100%;
+    transform: rotate(90deg) translateX(-20px) translateY(0px);
+    top: 0px;
+    left: 0px;
+  }
+  
+  &:first-child{
+    margin-left: 0;
+  }
+  &:last-child{
+    margin-right: 0;
+  }
+}
+.year ul li{
+  padding: 0;
+  margin: 0;
+  height: 22px;
+  box-shadow: inset 0 0 0 1px #f0f0f0;
+  background: #F8F8F8;
+  
+  &:before{
+    content: attr(data-date);
+    color: transparent;
+    text-shadow: 0 0 0 rgba(0,0,0,0.25);
+    text-align: right;
+    right: 2px;
+    position: absolute;
+    line-height: 24px;
+    font-size: 10px;
+  }
+  
+  &[data-day="0"], &[data-day="6"]{
+    background: #EEEEEE;
+    box-shadow: inset 0 0 0 1px #E0E0E0;
+  }
+}
 
+.year-change{
+  color:#7b494c;
+  font-size: xx-large;
+  font-weight: bold;
+  opacity: 40%;
+  transition: all 1s ease-in-out;
+  width:30px;
+}
 @media screen and (max-width: 1260px) {
   .container-tematica {
     display: none;
@@ -877,7 +982,11 @@ Estilo de footer
     display: none;
   }
 }
-
+@media screen and (max-width:1520px){
+  .container-tematica{
+    display: none;
+  }
+}
 @media screen and (max-width:900px) {
   .navbar-principal h2 {
     display: none;
@@ -885,6 +994,151 @@ Estilo de footer
 
 }
 
+@media screen and (max-width:1300px){
+  .year-change{
+    color:#7b494c;
+    font-size:large;
+    font-weight: bold;
+    opacity: 40%;
+    transition: all 1s ease-in-out;
+    width:5px;
+  }
+  .year{
+    margin: 96px auto;
+    width: 800px;
+    padding: 10px;
+    border: 1px solid #E0E0E0;
+    border-radius: 4px;
+    display: flex;
+    background: #FFF;
+    box-shadow: 0 10px 50px -15px rgba(0,0,0,0.75);
+    
+    position: relative;
+    
+    &:before{
+      position: absolute;
+      content: attr(data-year);
+      color: #68341c;
+      top: -60px;
+      left: 10px;
+      font-family: sans-serif;
+      font-weight: 400;
+      font-size: 54px;
+    }
+  }
+  .year ul{
+    display: inline-block;
+    padding: 0;
+    margin: 0 1px;
+    list-style: none;
+    flex: 1;
+    
+    position: relative;
+    
+    &:before{
+      position: absolute;
+      content: attr(data-month);
+      color: transparent;
+      text-shadow: 0 0 0 rgba(0,0,0,0.25);
+      font-family: sans-serif;
+      font-weight: 500;
+      font-size: 18px;
+      
+      transform-origin: 0 100%;
+      transform: rotate(90deg) translateX(-20px) translateY(0px);
+      top: 0px;
+      left: 0px;
+    }
+    
+    &:first-child{
+      margin-left: 0;
+    }
+    &:last-child{
+      margin-right: 0;
+    }
+  }
+  .year ul li{
+    padding: 0;
+    margin: 0;
+    height: 22px;
+    box-shadow: inset 0 0 0 1px #f0f0f0;
+    background: #F8F8F8;
+    
+    &:before{
+      content: attr(data-date);
+      color: transparent;
+      text-shadow: 0 0 0 rgba(0,0,0,0.25);
+      text-align: right;
+      right: 2px;
+      position: absolute;
+      line-height: 24px;
+      font-size: 10px;
+    }
+    
+    &[data-day="0"], &[data-day="6"]{
+      background: #EEEEEE;
+      box-shadow: inset 0 0 0 1px #E0E0E0;
+    }
+  }
+  .video-set-white canvas{
+    visibility: hidden;
+  }
+  .resume-video-set{
+    left:2.5rem;
+  }
+  .content-player {
+    display: grid;
+    grid-template-columns: repeat(.5fr);
+  }
+  .button-group-repro{
+    display: grid;
+    grid-template-rows: 3;
+    height:120;
+     & button{
+      border-bottom: 2px solid black;
+     }
+  }
+  .mes-evento-main .icon-ver-detail-event{
+    & before{
+      content:"\ ";
+      white-space: pre-wrap;
+    }
+    font-size: 25px;
+  }
+  .mes-evento-main h1{
+    font-size:80px;
+  }
+  .scroll-list{
+    margin-top:140px;
+  }
+  .switch-week{
+    display: grid;
+    margin:auto;
+    justify-content: center;
+    gap:1em;
+    grid-template-columns: 150px 150px 150px 150px 150px;
+  }
+  .logo-interneta-footer img:nth-child(1){
+    width:100%;
+    grid-column: 2;
+  }
+}
+@media screen and (max-width:1000px) {
+  .logo-interneta-footer img:nth-child(1){
+    width:50%;
+    grid-column: 2;
+  }
+}
+@media screen and (max-width:1000px){
+  .year-change{
+    color:#7b494c;
+    font-size:small;
+    font-weight: bold;
+    opacity: 40%;
+    transition: all 1s ease-in-out;
+    width:2px;
+  }
+}
 .tematica-sitio {
   min-width: 200px;
   margin-left: 20%;
@@ -1621,12 +1875,7 @@ Página de eventos
   width:100%;
   right: 0;
 }
-.mes-evento-main h1{
-  position: absolute;
-  top:0;
-  right:.1em;
-  font-size: 120px;
-}
+
 .mes-evento-main.ene{
   background: linear-gradient(to right,white,#E5E6EB);
 }
@@ -2031,13 +2280,7 @@ Clases del detalle mensual de los eventos
   font-size: 3rem;
   font-weight: 100;
 }
-.switch-week{
-  display: grid;
-  margin:auto;
-  justify-content: center;
-  gap:1em;
-  grid-template-columns: 200px 200px 200px 200px 200px;
-}
+
 .week{
   border-radius: 10px;
   background-color: white;
@@ -2341,22 +2584,17 @@ Clases de los eventos específicos del acervo (no los publicados por otros usuar
 .year-event-acervo-container{
   display: flex;
 }
-.year-change{
-  color:#7b494c;
-  font-size: xx-large;
-  font-weight: bold;
-  opacity: 40%;
-  transition: all 1s ease-in-out;
-  width:30px;
-}
+
 .year-change.active-year-change{
    opacity: 100%;
 }
 .year-container{
   display:block;
   overflow-x: auto;
+  overflow-y: hidden;
   scrollbar-width: none;
   width: 100%;
+  max-height: 200px;
   margin:0 auto;
 }
 .year-container::-webkit-scrollbar {
@@ -2367,80 +2605,4 @@ Clases de los eventos específicos del acervo (no los publicados por otros usuar
   text-decoration: none;
   font-size: x-large;
 }
-.year{
-  margin: 96px auto;
-  width: 960px;
-  padding: 10px;
-  border: 1px solid #E0E0E0;
-  border-radius: 4px;
-  display: flex;
-  background: #FFF;
-  box-shadow: 0 10px 50px -15px rgba(0,0,0,0.75);
-  
-  position: relative;
-  
-  &:before{
-    position: absolute;
-    content: attr(data-year);
-    color: #68341c;
-    top: -60px;
-    left: 10px;
-    font-family: sans-serif;
-    font-weight: 700;
-    font-size: 64px;
-  }
-}
-.year ul{
-  display: inline-block;
-  padding: 0;
-  margin: 0 1px;
-  list-style: none;
-  flex: 1;
-  
-  position: relative;
-  
-  &:before{
-    position: absolute;
-    content: attr(data-month);
-    color: transparent;
-    text-shadow: 0 0 0 rgba(0,0,0,0.25);
-    font-family: sans-serif;
-    font-weight: 700;
-    font-size: 24px;
-    
-    transform-origin: 0 100%;
-    transform: rotate(90deg) translateX(-20px) translateY(0px);
-    top: 0px;
-    left: 0px;
-  }
-  
-  &:first-child{
-    margin-left: 0;
-  }
-  &:last-child{
-    margin-right: 0;
-  }
-}
-.year ul li{
-  padding: 0;
-  margin: 0;
-  height: 22px;
-  box-shadow: inset 0 0 0 1px #f0f0f0;
-  background: #F8F8F8;
-  
-  &:before{
-    content: attr(data-date);
-    color: transparent;
-    text-shadow: 0 0 0 rgba(0,0,0,0.25);
-    text-align: right;
-    right: 2px;
-    position: absolute;
-    line-height: 24px;
-    font-size: 10px;
-  }
-  
-  &[data-day="0"], &[data-day="6"]{
-    background: #EEEEEE;
-    box-shadow: inset 0 0 0 1px #E0E0E0;
-  }
-}
+

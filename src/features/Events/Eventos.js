@@ -665,8 +665,8 @@ const Eventos = () => {
                                 <h1 onMouseEnter=
                                     {(e) => setHoverMoreEvent(true)} onMouseLeave={(e) => setHoverMoreEvent(false)}>
                                     {!hoverMoreEvent ? null
-                                        : <span onClick={(e) => setDetalleEvento(index)} style={{ fontSize: '50px', cursor: 'pointer' }}>ver más...&nbsp;</span>}
-                                    <FontAwesomeIcon style={{ fontSize: '50px' }} icon={!hoverMoreEvent ? faArrowRight : faCalendarDays} />{mes}</h1>
+                                        : <span onClick={(e) => setDetalleEvento(index)} className="icon-ver-detail-event">ver más...&nbsp;</span>}
+                                    <FontAwesomeIcon className="icon-ver-detail-event" icon={!hoverMoreEvent ? faArrowRight : faCalendarDays} />{mes}</h1>
 
                                 <div className="listado-min-eventos">
                                     {
