@@ -24,7 +24,7 @@ body {
   left:0;
   z-index: 10000;
   margin-right: .2em;
-  background-color: black;  
+  background: #15171c; 
   font-size: large;
 }
 #sidebar::-webkit-scrollbar{
@@ -418,6 +418,7 @@ Estilos temáticos
 }
 .menu-main-list, .menu-main-list ul{
   list-style-type: none;
+  background: #15171c;
 }
 .menu-main-list{
   width:120%;

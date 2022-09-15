@@ -26,7 +26,7 @@ const NavIcon = styled(Link)`
   
 const SidebarNav = styled.nav`
   background: #15171c;
-  width: 350px;
+  width: 370px;
   height: 100vh;
   display: flex;
   justify-content: left;
@@ -38,7 +38,7 @@ const SidebarNav = styled.nav`
   overflow-y:scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;
-  webkit-scrollbar:none;
+ 
 `;
   
 const SidebarWrap = styled.div`
@@ -52,7 +52,7 @@ const SideBar = ()=>{
     const showSidebar = ()=> setSidebar(!sidebar);
     const sideBarData = getMenuData();
     return (
-        <>  
+        <div style={{background: '#15171c'}}>  
         <FontAwesomeIcon title='menú principal' icon={faBars} style={{ color: 'white', float: 'left', cursor: 'pointer', padding: '0 .25em' }} onClick={(e) => { e.preventDefault(); setSidebar(!sidebar) }} />              
         <SidebarNav onMouseLeave={(e)=>setSidebar(false)} sidebar={sidebar} id="sidebar">
                 <div className="">
@@ -71,7 +71,7 @@ const SideBar = ()=>{
                     </div>
                 </div>
             </SidebarNav>
-        </>
+        </div>
     );
 }
 export default SideBar;

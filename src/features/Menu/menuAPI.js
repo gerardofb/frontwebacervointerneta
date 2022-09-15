@@ -140,7 +140,7 @@ const sideBarData = [
         icon: "envelope",
       },
       {
-        title: "Aviso de privacidad",
+        title: "Aviso de Privacidad",
         path: "#",
         icon: "circle-exclamation",
       },
