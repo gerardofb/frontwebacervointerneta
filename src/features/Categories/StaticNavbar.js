@@ -4,7 +4,7 @@ import { faGamepad, faXmark, faAngleRight, faAngleLeft } from '@fortawesome/free
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import StaticSearchBar from './StaticSearchBar'
 
-const url = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/${name}.svg${wrap ? ')' : ''}`
+const url = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/${name}.png${wrap ? ')' : ''}`
 
 
 
@@ -13,7 +13,7 @@ const StaticNavBar = (props) => {
     
     return (
         <>
-        <div className='navbar-principal-static navbar-principal'><Link to='/'><img src={url('logo_blanco_interneta')} style={{ height: '100px', float: 'left', marginLeft:'1.3em' }} /><h2 style={{ float: 'left', color: 'white' }}>Acervo Audiovisual Interneta</h2></Link>
+        <div className='navbar-principal-static navbar-principal'><Link to='/'><img src={url('head_blanco')} style={{ height: '100px', float: 'left', marginLeft:'1.3em' }} /><h2 style={{ position: 'absolute', color: 'white', top:'35px', left:'112px' }}>Acervo Audiovisual Interneta</h2></Link>
         <StaticSearchBar></StaticSearchBar></div>
         </>
     )

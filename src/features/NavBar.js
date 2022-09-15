@@ -8,7 +8,7 @@ import SideBar from './Menu/Sidebar';
 import styled from 'styled-components';
 import SubMenu from './Menu/Submenu';
 import { getMenuData } from './Menu/menuAPI'
-const url = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/${name}.svg${wrap ? ')' : ''}`
+const url = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/${name}.png${wrap ? ')' : ''}`
 
 const paletas = [
     { title: 'basic', colors: ['#253237', '#7291d8', '#1f3871', '#5fa3a7', '#274546'], dark: false, indice: 0 },
@@ -50,10 +50,10 @@ const NavBar = (props) => {
             paletas.find(x => x.dark === darkMode && x.title === paletaActiva.title) : paletas.find(x => x.dark === darkMode);
         updateTheme(lapaleta.title)
     }
-    const logotipo = !darkMode ? 'logo_blanco_interneta' : 'logo_negro_interneta';
+    const logotipo = !darkMode ? 'head_blanco' : 'head_negro';
     return (
         <>
-            <div className={styles.NavbarPrincipal}><Link to='/'><img src={url(logotipo)} style={{ height: '100px', float: 'left', marginLeft:'1.3em' }} /><h2 style={{ float: 'left' }}>Acervo Audiovisual Interneta</h2></Link>
+            <div className={styles.NavbarPrincipal}><Link to='/'><img src={url(logotipo)} style={{ height: '100px', float: 'left', marginLeft:'1.3em' }} /><h2 style={{ float: 'left', marginTop:'50px' }}>Acervo Audiovisual Interneta</h2></Link>
                 <div className='container-tematica'>
                     <div className={!showTemas ? 'tematica-sitio tematica-hidden' : 'tematica-sitio tematica-show'}>
                         <div className='close-tematica'><FontAwesomeIcon icon={faXmark} onClick={(e) => setShowTemas(false)} /></div>

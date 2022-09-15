@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+const url = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/${name}.png${wrap ? ')' : ''}`
 
 const HomeFooter = (props)=>{
     return (
@@ -8,7 +9,7 @@ const HomeFooter = (props)=>{
                     Acervo Audiovisual Interneta
                 </h2>
             </div>
-            <ul className='footer-list-red' style={{float:'left', color:'red', margin:'3%', listStyle:'none', textAlign:'left'}}>
+            <ul className='footer-list-red' style={{color:'red', margin:'3%', listStyle:'none', textAlign:'left'}}>
                 <li>
                 <h3 style={{borderBottom:'2px red solid'}}>
                     Vínculos
@@ -25,7 +26,7 @@ const HomeFooter = (props)=>{
                 </li>
 
             </ul>
-            <ul className='footer-list-red' style={{float:'left', margin:'3%', listStyle:'none', textAlign:'left', color:'red'}}>
+            <ul className='footer-list-red' style={{ margin:'3%', listStyle:'none', textAlign:'left', color:'red'}}>
                 <li>
                 <h3 style={{borderBottom:'2px red solid'}}>
                     Eventos
@@ -35,7 +36,7 @@ const HomeFooter = (props)=>{
                     Suscribirse
                 </li>
             </ul>
-            <ul className='footer-list-red' style={{float:'left', margin:'3%', listStyle:'none', textAlign:'left', color:'red'}}>
+            <ul className='footer-list-red' style={{margin:'3%', listStyle:'none', textAlign:'left', color:'red'}}>
                 <li>
                 <h3 style={{borderBottom:'2px red solid'}}>
                     Categorías
@@ -51,14 +52,16 @@ const HomeFooter = (props)=>{
                     Autobiográficos
                 </li>
             </ul>
-            <ul className='footer-list-red' style={{float:'left', margin:'3%', listStyle:'none', textAlign:'left', color:'red'}}>
+            <ul className='footer-list-red' style={{margin:'3%', listStyle:'none', textAlign:'left', color:'red'}}>
                 <li>
                 <h3 style={{borderBottom:'2px red solid'}}>
                     Salas de chat
                 </h3>
                 </li>
             </ul>
-            <div style={{clear:'both'}}></div>
+            <div className='logo-interneta-footer'>
+                <img src={url('logo_interneta_blanco')} />
+            </div>            
         </div>
     )
 }

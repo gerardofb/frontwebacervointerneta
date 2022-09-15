@@ -608,7 +608,7 @@ const Eventos = () => {
                                         onMouseLeave={(e) => setEventosEditor(false)}
                                         to={"/Eventos/" + evento + "?previous=" + regresar + "&acervo=true"}>Quizás prefiera... <span>{
                                             eventoseditor ?
-                                                "¿ver los eventos del editor del sitio?" : null}</span></Link>
+                                                "ver los eventos del editor del sitio." : null}</span></Link>
                                 </div>
                                 <h1>
                                     {valor && valor.title + " (" + valor.fecha.getFullYear() + "/" +

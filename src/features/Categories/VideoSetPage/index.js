@@ -145,6 +145,7 @@ function VideoSetPage({
                             </SetContents>
                         </InverseContainer>
                     </Flipped>
+                    <div style={{marginTop:'10em'}}>
                    <CanvasVideoSet>
                     
                    </CanvasVideoSet>
@@ -154,6 +155,7 @@ function VideoSetPage({
 <p>Esta colección se integra con audiovisuales que captan tanto prácticas populares como de arte urbano, así como disciplinas artísticas escenificadas en el espacio público. Entre ellas se encuentra el arte escénico colectivo del Grupo Barro Rojo(BRAE); los reportajes sobre dos primeras bienales del Cartel en México centradas en el cartel popular;  documentales sobre arte migrante mexicano en la ciudad de San Francisco, California y piezas performances de artistas multimedia, muralismo urbano y prácticas de grafiti en las ciudades de Monterrey, Estado de México y Ciudad de México. Se trata de documentales registrados en la década del noventa e inicio del nuevo siglo. 
 A éstos se suman documentales realizados en este siglo sobre las prácticas “creactivas” comunitarias y barriales para la recuperación del espacio público en colonias populares de la Ciudad de México. Y en últimas fechas se encuentran reflexiones compartidas de artistas, colectivos, gestores de arte y cultura comunitaria durante el encierro pandémico (COVID-19) en el año de 2020.</p>
 
+                    </div>
                     </div>
                 </Background>
             </Flipped>
