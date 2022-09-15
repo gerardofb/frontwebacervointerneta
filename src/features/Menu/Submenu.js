@@ -12,7 +12,7 @@ const SidebarLink = styled.button`
   width:100%;
   list-style: none;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 12px;
   height:${({ subnav }) => (subnav ? "30px" : "auto")};
   
   &:hover {
@@ -28,13 +28,13 @@ const SidebarLabel = styled.span`
 
 const DropdownLink = styled(Link)`
   background: #15171c;
-  height: 60px;
+  height: 45px;
   padding-left: 3rem;
   display: flex;
   align-items: center;
   text-decoration: none;
   color: #f5f5f5;
-  font-size: 18px;
+  font-size: 12px;
   
   &:hover {
     background: green;
@@ -47,6 +47,7 @@ const DropdownSpan = styled.span`
   display: flex;
   align-items: center;
   text-decoration: none;
+  font-size:14px;
 `;
 
 

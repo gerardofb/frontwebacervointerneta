@@ -26,15 +26,19 @@ const NavIcon = styled(Link)`
   
 const SidebarNav = styled.nav`
   background: #15171c;
-  width: 400px;
+  width: 350px;
   height: 100vh;
   display: flex;
-  justify-content: center;
+  justify-content: left;
   position: fixed;
   top: 1em;
   left: ${({ sidebar }) => (sidebar ? "0" : "-100%")};
   transition: 350ms;
   z-index: 1500;
+  overflow-y:scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  webkit-scrollbar:none;
 `;
   
 const SidebarWrap = styled.div`
@@ -56,9 +60,11 @@ const SideBar = ()=>{
                         <div className="">
                             <SidebarWrap>
                                 <ul className="menu-main-list">
+                                    <li>
                                     {sideBarData.map((item, index) => {
                                         return <SubMenu item={item} key={index}></SubMenu>
                                     })}
+                                    </li>
                                 </ul>
                             </SidebarWrap>
                         </div>

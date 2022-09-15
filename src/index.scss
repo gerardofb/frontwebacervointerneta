@@ -23,14 +23,19 @@ body {
   top:0;
   left:0;
   z-index: 10000;
-  margin-right: .8em;
+  margin-right: .2em;
   background-color: black;  
+  font-size: large;
+}
+#sidebar::-webkit-scrollbar{
+  display:none;
 }
 .inner-menu-list-hidden{
   display: none;
 }
 .inner-menu-list{
   display:list-item;
+  font-size: smaller;
 }
 
 code {
