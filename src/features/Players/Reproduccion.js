@@ -319,7 +319,7 @@ const opcionesDescarga = [
 export const AutoComments = () => {
 
     const { video } = useParams();
-    const titulo = video;
+    
     const location = useLocation();
     const tabuladores = ["Comentarios", "Autobiográficos/Podcasts", "Eventos"];
     const [alturaPlayer, setAlturaPlayer] = useState(true);
@@ -333,11 +333,18 @@ export const AutoComments = () => {
         </div>
     );
     const [msjesChat, setMsjesChat] = useState({ chat: mensajes, show: false });
-
+    
+    const [videoaleatorio,setVideoAleatorio] = useState('');
+   
+    
     useEffect(() => {
         console.log("Location changed");
         items = shuffleArray(items);
-
+        let videoaleatorio = randomBetween10_19();
+        ;
+        if(location.search){
+        setVideoAleatorio(videoaleatorio);
+        }
         setMsjesChat({
             chat: msjesChat.chat.filter(a => a.propio == false),
             show: false
@@ -345,8 +352,18 @@ export const AutoComments = () => {
         let elementotop = document.querySelector('.header-reproduccion-individual');
         elementotop.scrollIntoView({ behavior: 'smooth' });
     }, [location]);
-
-
+    console.log('el video aleatorio es ',videoaleatorio);
+    function randomBetween10_19(){
+        
+        let arreglo = [11,12,13,14,15,16,17,18,19]
+        let aleatorio = Math.floor(Math.random()*arreglo.length)
+        //if(aleatorio >= 11 && aleatorio < 20){
+        return ""+arreglo[aleatorio];
+        //}
+        //else return '11';
+      }
+    
+    const titulo = videoaleatorio === "" ? video : "Screenshot-"+videoaleatorio;
     const [elems, setItems] = useState(items);
     const bottomRef = useRef()
     const scrollToBottom = () => {
@@ -602,7 +619,7 @@ export const AutoComments = () => {
                 <NavBar></NavBar>
             </div>
             <h2 className='header-reproduccion-individual' style={{ padding: '1.5em 1.3em' }} onContextMenu={(e) => handleContextMenu(false, false)}>
-                Reproduciendo: {titulo}
+                Reproduciendo: {titulo }
             </h2>
             <div onClick={(e) => resetMyEvents(null, true)} className='player-container' onContextMenu={(e) => handleContextMenu(false, false)}>
                 <Player>
