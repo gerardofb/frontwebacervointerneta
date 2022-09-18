@@ -303,6 +303,20 @@ const eventosMin = [
         fecha: new Date(2022, 11, 30, 23, 0, 0), duracion: 90, imagen: "/images/Eventos/02_03.jpg"
     },
 ]
+function getEventosAcervoTemp() {
+    let salida = [];
+    for (let i = 0; i < eventosMin.length; i++) {
+        if (i % 4 == 0) {
+            salida.push(eventosMin[i])
+        }
+    }
+    return salida;
+}
+function compareFechaAcervoMin(search, eventosacervo) {
+    let eventoBuscado = eventosacervo.find(x => x.fecha.getFullYear() == search.getFullYear() && x.fecha.getMonth() == search.getMonth()
+        && x.fecha.getDate() == search.getDate());
+    return eventoBuscado;
+}
 function getDaysInMonth(year, month) {
     return new Date(year, month, 0).getDate();
 }
@@ -319,7 +333,6 @@ function fillInDaysMonth(mesinicial, anioinicial) {
     for (let i = 1; i <= diafinal; i++) {
         salida.push(i);
     }
-    console.log('saliendo de maximo dias en mes ', salida);
     let result = intermedio.concat(salida);
     return result;
 }
@@ -402,6 +415,9 @@ let modelCalendarAcervo = {
     "Noviembre": [],
     "Diciembre": [],
 }
+var mesesAcervoChosen = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto",
+    "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+var diasAcervoChosen = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
 const anioactualacervo = 2034//new Date().getFullYear();
 const Eventos = () => {
     const { evento } = useParams();
@@ -410,7 +426,6 @@ const Eventos = () => {
     const regresar = backlink.get('previous');
     const patrocinado = backlink.get('acervo');
     const eventoacervo = patrocinado === "true";
-    console.log('el link atrás es ', backlink, regresar);
     const anioinicial = new Date().getFullYear();
     const [daysInitial, setDaysInitial] = useState({ numerodias: fillInDaysMonth(0, anioinicial), titulo: estableceTituloCalendario(0, anioinicial) });
     const [clasesCalendario, setClasesCalendario] = useState({ titulocalendario: 'Enero 2022' });
@@ -421,6 +436,7 @@ const Eventos = () => {
     const [clasesemana, setClaseSemana] = useState({ indice: '', clasecss: ' activa' });
     const [eventoPatrocinado, setEventoPatrocinado] = useState(eventoacervo);
     const [anioseventos, setAniosEventos] = useState(anioactualacervo);
+    const [eventosTemporalesAcervo, setEventosTemporalesAcervo] = useState(getEventosAcervoTemp())
     const history = useHistory();
     const styles = useSpring({
         from: { width: '0', opacity: .3 },
@@ -429,7 +445,6 @@ const Eventos = () => {
         reset: reset,
         config: config.slow
     });
-    console.log('reset es ', reset);
     const goToTop = () => {
         try {
             referencia.current ? referencia.current.scrollIntoView({ behavior: 'smooth' }) : referencia.current = createRef();
@@ -484,6 +499,7 @@ const Eventos = () => {
         setDiaEvento(dia);
     }
     const referencia = useRef();
+    const referenciaEventAcervo = useRef();
     const diasdetalle = detalleEvento == -1 ? 0 : fillInDaysMonth(detalleEvento, anioinicial);
     const primerasemana = diasdetalle != 0 ? diasdetalle.slice(1, 8) : null;
     const segundasemana = diasdetalle != 0 ? diasdetalle.slice(8, 15) : null;
@@ -496,7 +512,6 @@ const Eventos = () => {
         }
     }
     const eventosdetallados = detalleEvento != -1 ? eventosMin.filter(x => x.fecha.getMonth() == detalleEvento) : [];
-    console.log('eventos del mes', eventosdetallados, detalleEvento);
     const [flip, setFlip] = useState(false);
     const [distance, setDistance] = useState(0);
     const stylesacervo = useSpring({
@@ -524,13 +539,12 @@ const Eventos = () => {
         for (i = 0; i < 12; i++) {
             renderMonth(i + 1, year);
         }
-        
+
     }
 
     function renderMonth(month, year) {
-        console.log("renderizando calendario acervo", year, month);
         var first_day = new Date(year + "-" + month),
-        last_day = new Date(year+"-"+month);
+            last_day = new Date(year + "-" + month);
         last_day.setYear(year);
         last_day.setMonth(month);
         last_day.setDate(0);
@@ -540,17 +554,17 @@ const Eventos = () => {
         let cuentafinessem = 0;
         for (i = 1; i < l; i++) {
             d = new Date(year + "-" + month + "-" + i);
-            
+
             daysmonth.push({ day: d.getDay(), fecha: d, numerodia: i });
         }
         switch (month) {
             case 1:
-                
+
                 setCalendarioAcervoEne(daysmonth);
-                
+
                 break;
             case 2:
-                
+
                 setCalendarioAcervoFeb(daysmonth);
                 break;
             case 3:
@@ -584,11 +598,55 @@ const Eventos = () => {
                 setCalendarioAcervoDic(daysmonth);
                 break;
         }
-        
+
     }
-    const estableceAnioAcervo = (anio)=>{
+    const estableceAnioAcervo = (anio) => {
         setAniosEventos(anio);
         fillCalendarAcervo(anio);
+    }
+    const [eventoAcervoChosen, setEventoAcervoChosen] = useState(null);
+    const [tickAcervoChosen, setTickAcervoChosen] = useState(null);
+    const [tick, setTick] = useState(null);
+    const estableceAcervoChosen = (evento) => {
+        setEventoAcervoChosen(evento);
+        let actual = new Date();
+        let faltante = new Date(evento.fecha - actual);
+        let oneDay = 24 * 60 * 60 * 1000;
+        let oneHour = 60 * 60 * 1000;
+        let oneMinute = 60 * 1000;
+
+        let hours = Math.ceil(faltante.getTime() / oneHour);
+        let horafaltante = (hours < 10 ? "0" : "") + hours;
+        let dias = Math.ceil(faltante.getTime() / oneDay);
+        let diasfaltante = (dias < 10 ? "0" : "") + dias;
+        let minutes = Math.ceil(faltante.getTime() / oneMinute);
+        let minutosfaltante = (minutes < 10 ? "0" : "") + minutes;
+        if (actual < evento.fecha) {
+            clearInterval(tick)
+            setTickAcervoChosen({ dias: diasfaltante, hora: horafaltante, minutos: minutosfaltante });
+            let lapso = setInterval(function () {
+                setTickAcervoChosen({ dias: diasfaltante, hora: horafaltante, minutos: minutosfaltante });
+            }, 1000);
+            setTick(lapso);
+        } else {
+            clearInterval(tick)
+            setTickAcervoChosen({ dias: '0', hora: '00', minutos: '00' });
+            let lapso = setInterval(function () {
+                setTickAcervoChosen({ dias: '0', hora: '00', minutos: '00' });
+            }, 1000);
+            setTick(lapso);
+        }
+        console.log('el faltante es ', dias, hours, minutes, evento.fecha)
+        goToBottom();
+    }
+    const goToBottom = () => {
+        try {
+            console.log('yendo a evento abajo');
+            referenciaEventAcervo.current ? referenciaEventAcervo.current.scrollIntoView({ behavior: 'smooth' }) : referenciaEventAcervo.current = createRef();
+        }
+        catch (ex) {
+
+        }
     }
     return (
         detalleEvento == -1 && !eventoacervo ?
@@ -993,76 +1051,181 @@ const Eventos = () => {
                         <div className="year" data-year={anioseventos}>
                             <ul className="1" data-month="Enero">{
                                 calendarioAcervoEne && calendarioAcervoEne.map((dia, indice) => {
-                                    return <li data-day={dia.day} data-date={dia.numerodia} key={"Enero_"+indice}></li>
+                                    let eventoChosen = compareFechaAcervoMin(dia.fecha, eventosTemporalesAcervo)
+
+                                    return eventoChosen !== undefined ?
+                                        <li className="evento-temporal-acervo-search" onClick={(e) => estableceAcervoChosen(eventoChosen)} data-day={dia.day} data-date={dia.numerodia} key={"Enero_" + indice}></li>
+                                        : <li data-day={dia.day} data-date={dia.numerodia} key={"Enero_" + indice}></li>
                                 })
                             }</ul>
                             <ul className="2" data-month="Febrero">
                                 {
                                     calendarioAcervoFeb && calendarioAcervoFeb.map((dia, indice) => {
-                                        return <li data-day={dia.day} data-date={dia.numerodia} key={"Febrero_"+indice}></li>
+                                        let eventoChosen = compareFechaAcervoMin(dia.fecha, eventosTemporalesAcervo)
+
+                                        return eventoChosen !== undefined ?
+                                            <li className="evento-temporal-acervo-search" onClick={(e) => estableceAcervoChosen(eventoChosen)} data-day={dia.day} data-date={dia.numerodia} key={"Febrero_" + indice}></li>
+                                            : <li data-day={dia.day} data-date={dia.numerodia} key={"Febrero_" + indice}></li>
                                     })
                                 }</ul>
                             <ul className="3" data-month="Marzo">
                                 {
                                     calendarioAcervoMar && calendarioAcervoMar.map((dia, indice) => {
-                                        return <li data-day={dia.day} data-date={dia.numerodia} key={"Marzo_"+indice}></li>
+                                        let eventoChosen = compareFechaAcervoMin(dia.fecha, eventosTemporalesAcervo)
+
+                                        return eventoChosen !== undefined ?
+                                            <li className="evento-temporal-acervo-search" onClick={(e) => estableceAcervoChosen(eventoChosen)} data-day={dia.day} data-date={dia.numerodia} key={"Marzo_" + indice}></li>
+                                            : <li data-day={dia.day} data-date={dia.numerodia} key={"Marzo_" + indice}></li>
                                     })
                                 }</ul>
                             <ul className="4" data-month="Abril">
                                 {
                                     calendarioAcervoAbr && calendarioAcervoAbr.map((dia, indice) => {
-                                        return <li data-day={dia.day} data-date={dia.numerodia} key={"Abril_"+indice}></li>
+                                        let eventoChosen = compareFechaAcervoMin(dia.fecha, eventosTemporalesAcervo)
+
+                                        return eventoChosen !== undefined ?
+                                            <li className="evento-temporal-acervo-search" onClick={(e) => estableceAcervoChosen(eventoChosen)} data-day={dia.day} data-date={dia.numerodia} key={"Abril_" + indice}></li>
+                                            : <li data-day={dia.day} data-date={dia.numerodia} key={"Abril_" + indice}></li>
                                     })
                                 }</ul>
                             <ul className="5" data-month="Mayo">
                                 {
                                     calendarioAcervoMay && calendarioAcervoMay.map((dia, indice) => {
-                                        return <li data-day={dia.day} data-date={dia.numerodia} key={"Mayo_"+indice}></li>
+                                        let eventoChosen = compareFechaAcervoMin(dia.fecha, eventosTemporalesAcervo)
+
+                                        return eventoChosen !== undefined ?
+                                            <li className="evento-temporal-acervo-search" onClick={(e) => estableceAcervoChosen(eventoChosen)} data-day={dia.day} data-date={dia.numerodia} key={"Mayo_" + indice}></li>
+                                            : <li data-day={dia.day} data-date={dia.numerodia} key={"Mayo_" + indice}></li>
                                     })
                                 }</ul>
                             <ul className="6" data-month="Junio">
                                 {
                                     calendarioAcervoJun && calendarioAcervoJun.map((dia, indice) => {
-                                        return <li data-day={dia.day} data-date={dia.numerodia} key={"Junio_"+indice}></li>
+                                        let eventoChosen = compareFechaAcervoMin(dia.fecha, eventosTemporalesAcervo)
+
+                                        return eventoChosen !== undefined ?
+                                            <li className="evento-temporal-acervo-search" onClick={(e) => estableceAcervoChosen(eventoChosen)} data-day={dia.day} data-date={dia.numerodia} key={"Junio_" + indice}></li>
+                                            : <li data-day={dia.day} data-date={dia.numerodia} key={"Junio_" + indice}></li>
                                     })
                                 }</ul>
                             <ul className="7" data-month="Julio">
                                 {
                                     calendarioAcervoJul && calendarioAcervoJul.map((dia, indice) => {
-                                        return <li data-day={dia.day} data-date={dia.numerodia} key={"Julio_"+indice}></li>
+                                        let eventoChosen = compareFechaAcervoMin(dia.fecha, eventosTemporalesAcervo)
+
+                                        return eventoChosen !== undefined ?
+                                            <li className="evento-temporal-acervo-search" onClick={(e) => estableceAcervoChosen(eventoChosen)} data-day={dia.day} data-date={dia.numerodia} key={"Julio_" + indice}></li>
+                                            : <li data-day={dia.day} data-date={dia.numerodia} key={"Julio_" + indice}></li>
                                     })
                                 }</ul>
                             <ul className="8" data-month="Agosto">{
-                                calendarioAcervoAgo  && calendarioAcervoAgo.map((dia, indice) => {
-                                    return <li data-day={dia.day} data-date={dia.numerodia} key={"Agosto_"+indice}></li>
+                                calendarioAcervoAgo && calendarioAcervoAgo.map((dia, indice) => {
+                                    let eventoChosen = compareFechaAcervoMin(dia.fecha, eventosTemporalesAcervo)
+
+                                    return eventoChosen !== undefined ?
+                                        <li className="evento-temporal-acervo-search" onClick={(e) => estableceAcervoChosen(eventoChosen)} data-day={dia.day} data-date={dia.numerodia} key={"Agosto_" + indice}></li>
+                                        : <li data-day={dia.day} data-date={dia.numerodia} key={"Agosto_" + indice}></li>
                                 })
                             }</ul>
                             <ul className="9" data-month="Septiembre">
                                 {
                                     calendarioAcervoSep && calendarioAcervoSep.map((dia, indice) => {
-                                        return <li data-day={dia.day} data-date={dia.numerodia} key={"Septiembre_"+indice}></li>
+                                        let eventoChosen = compareFechaAcervoMin(dia.fecha, eventosTemporalesAcervo)
+
+                                        return eventoChosen !== undefined ?
+                                            <li className="evento-temporal-acervo-search" onClick={(e) => estableceAcervoChosen(eventoChosen)} data-day={dia.day} data-date={dia.numerodia} key={"Septiembre_" + indice}></li>
+                                            : <li data-day={dia.day} data-date={dia.numerodia} key={"Septiembre_" + indice}></li>
                                     })
                                 }</ul>
                             <ul className="10" data-month="Octubre">
                                 {
                                     calendarioAcervoOct && calendarioAcervoOct.map((dia, indice) => {
-                                        return <li data-day={dia.day} data-date={dia.numerodia} key={"Octubre_"+indice}></li>
+                                        let eventoChosen = compareFechaAcervoMin(dia.fecha, eventosTemporalesAcervo)
+
+                                        return eventoChosen !== undefined ?
+                                            <li className="evento-temporal-acervo-search" onClick={(e) => estableceAcervoChosen(eventoChosen)} data-day={dia.day} data-date={dia.numerodia} key={"Octubre_" + indice}></li>
+                                            : <li data-day={dia.day} data-date={dia.numerodia} key={"Octubre_" + indice}></li>
                                     })
                                 }</ul>
                             <ul className="11" data-month="Noviembre">
                                 {
                                     calendarioAcervoNov && calendarioAcervoNov.map((dia, indice) => {
-                                        return <li data-day={dia.day} data-date={dia.numerodia} key={"Noviembre_"+indice}></li>
+                                        let eventoChosen = compareFechaAcervoMin(dia.fecha, eventosTemporalesAcervo)
+
+                                        return eventoChosen !== undefined ?
+                                            <li className="evento-temporal-acervo-search" onClick={(e) => estableceAcervoChosen(eventoChosen)} data-day={dia.day} data-date={dia.numerodia} key={"Noviembre_" + indice}></li>
+                                            : <li data-day={dia.day} data-date={dia.numerodia} key={"Noviembre_" + indice}></li>
                                     })
                                 }</ul>
                             <ul className="12" data-month="Diciembre">
                                 {
                                     calendarioAcervoDic && calendarioAcervoDic.map((dia, indice) => {
-                                        return <li data-day={dia.day} data-date={dia.numerodia} key={"Diciembre_"+indice}></li>
+                                        let eventoChosen = compareFechaAcervoMin(dia.fecha, eventosTemporalesAcervo)
+
+                                        return eventoChosen !== undefined ?
+                                            <li className="evento-temporal-acervo-search" onClick={(e) => estableceAcervoChosen(eventoChosen)} data-day={dia.day} data-date={dia.numerodia} key={"Diciembre_" + indice}></li>
+                                            : <li data-day={dia.day} data-date={dia.numerodia} key={"Diciembre_" + indice}></li>
                                     })
                                 }</ul>
                         </div>
-                        <div style={{minHeight:'3em', width:'100%'}}></div>
+                        <div style={{ minHeight: '3em', width: '100%' }}></div>
+                        <div className="evento-editor-chosen">
+                            {eventoAcervoChosen && tickAcervoChosen &&
+                                <><div className="signboard outer">
+                                    <div className="signboard front inner anim04c">
+                                        <ul>
+                                            <li className="year-acervo-chosen anim04c">
+                                                <span>{eventoAcervoChosen.fecha.getFullYear()}</span>
+                                            </li>
+                                        </ul>
+                                        <ul className="calendarMain anim04c">
+                                            <li className="month anim04c">
+                                                <span>{mesesAcervoChosen[eventoAcervoChosen.fecha.getMonth()]}</span>
+                                            </li>
+                                            <li className="date anim04c">
+                                                <span>{eventoAcervoChosen.fecha.getDate()}</span>
+                                            </li>
+                                            <li className="day anim04c">
+                                                <span>{diasAcervoChosen[eventoAcervoChosen.fecha.getDay()]}</span>
+                                            </li>
+                                        </ul>
+                                        <li className="clock minute anim04c">
+                                            <span>{tickAcervoChosen.hora}</span>
+                                        </li>
+                                        <li className="calendarNormal date2 anim04c">
+                                            <span>horas</span>
+                                        </li>
+                                    </div>
+                                    <div className="signboard left inner anim04c">
+                                        <li className="clock hour anim04c">
+                                            <span>{tickAcervoChosen.dias}</span>
+                                        </li>
+                                        <li className="calendarNormal day2 anim04c">
+                                            <span>dias</span>
+                                        </li>
+                                    </div>
+                                    <div className="signboard right inner anim04c">
+                                        <li className="clock second anim04c">
+                                            <span>{tickAcervoChosen.minutos}</span>
+                                        </li>
+                                        <li className="calendarNormal month2 anim04c">
+                                            <span>minutos</span>
+                                        </li>
+                                    </div>
+                                </div>
+                                </>
+                            }
+                            <div className="evento-acervo-desc-chosen" ref={referenciaEventAcervo}>
+                                        <h1>
+                                            {eventoAcervoChosen && eventoAcervoChosen.title + " (" + eventoAcervoChosen.fecha.getFullYear() + "/" + (eventoAcervoChosen.fecha.getMonth() + 1) + "/" + eventoAcervoChosen.fecha.getDate() + " a las " + eventoAcervoChosen.fecha.getHours() + "  horas)"}
+                                        </h1>
+                                        <img src={eventoAcervoChosen && eventoAcervoChosen.imagen} />
+                                        <p>
+                                            {eventoAcervoChosen && eventoAcervoChosen.descripcion}
+                                        </p>
+                                    </div>
+                        </div>
+
                     </div>
                     <HomeFooter></HomeFooter>
                 </div>)

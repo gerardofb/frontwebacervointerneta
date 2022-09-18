@@ -9,7 +9,7 @@ const HomeFooter = (props)=>{
                     Acervo Audiovisual Interneta
                 </h2>
             </div>
-            <ul className='footer-list-red' style={{color:'red', margin:'3%', listStyle:'none', textAlign:'left'}}>
+            <ul className='footer-list-red'>
                 <li>
                 <h3 style={{borderBottom:'2px red solid'}}>
                     Vínculos
@@ -26,7 +26,7 @@ const HomeFooter = (props)=>{
                 </li>
 
             </ul>
-            <ul className='footer-list-red' style={{ margin:'3%', listStyle:'none', textAlign:'left', color:'red'}}>
+            <ul className='footer-list-red'>
                 <li>
                 <h3 style={{borderBottom:'2px red solid'}}>
                     Eventos
@@ -36,7 +36,7 @@ const HomeFooter = (props)=>{
                     Suscribirse
                 </li>
             </ul>
-            <ul className='footer-list-red' style={{margin:'3%', listStyle:'none', textAlign:'left', color:'red'}}>
+            <ul className='footer-list-red'>
                 <li>
                 <h3 style={{borderBottom:'2px red solid'}}>
                     Categorías
@@ -52,7 +52,7 @@ const HomeFooter = (props)=>{
                     Autobiográficos
                 </li>
             </ul>
-            <ul className='footer-list-red' style={{margin:'3%', listStyle:'none', textAlign:'left', color:'red'}}>
+            <ul className='footer-list-red'>
                 <li>
                 <h3 style={{borderBottom:'2px red solid'}}>
                     Salas de chat
