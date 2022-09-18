@@ -306,7 +306,7 @@ const eventosMin = [
 function getEventosAcervoTemp() {
     let salida = [];
     for (let i = 0; i < eventosMin.length; i++) {
-        if (i % 4 == 0) {
+        if (i % 3 == 0) {
             salida.push(eventosMin[i])
         }
     }
@@ -455,8 +455,9 @@ const Eventos = () => {
     }
     const centerYear = () => {
         if (eventoacervo) {
-            const elementoanio = document.querySelector('.active-year-change');
-            elementoanio.scrollIntoView({ behavior: 'smooth' })
+            const elementoanio = document.querySelector('.second-active-year-change');
+            elementoanio && elementoanio.scrollIntoView({ behavior: 'smooth' })
+            //window.scrollTo({behavior:'smooth', left:elementoanio.offsetLeft+100})
             fillCalendarAcervo(anioseventos);
         }
     }
@@ -553,7 +554,7 @@ const Eventos = () => {
         let daysmonth = [];
         let cuentafinessem = 0;
         for (i = 1; i < l; i++) {
-            d = new Date(year + "-" + month + "-" + i);
+            d = new Date(year, month-1,i);
 
             daysmonth.push({ day: d.getDay(), fecha: d, numerodia: i });
         }
@@ -648,6 +649,7 @@ const Eventos = () => {
 
         }
     }
+    const [banderaacervo, setBanderaAcervo] = useState(false);
     return (
         detalleEvento == -1 && !eventoacervo ?
             <div>
@@ -1032,11 +1034,12 @@ const Eventos = () => {
 
                                     {
                                         yearsacervo.map((anio, indice) => {
-                                            let claseanioacervo = anio == anioseventos ? "year-change active-year-change" : "year-change";
+                                            let claseanioacervo = anio == anioseventos ? "year-change active-year-change" : anio == (anioseventos+1) ?"year-change second-active-year-change" :  "year-change";
+                                            
                                             return (
                                                 <div key={indice}
                                                     onClick={(e) => estableceAnioAcervo(anio)}
-                                                    className={claseanioacervo} style={{ float: 'left', margin: '25px', padding: '25px', display: 'block', cursor: 'pointer' }}>
+                                                    className={claseanioacervo} style={{ float: 'left', margin: '25px', padding:'25px', display: 'block', cursor: 'pointer' }}>
                                                     {anio}
                                                 </div>
                                             )

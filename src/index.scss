@@ -1139,6 +1139,7 @@ Estilo de footer
   opacity: 40%;
   transition: all 1s ease-in-out;
   width: 30px;
+  margin:0 1em;
 }
 
 @media screen and (max-width: 1260px) {
@@ -3106,10 +3107,10 @@ Clases de los eventos específicos del acervo (no los publicados por otros usuar
   opacity: 1;
 }
 .clock.second{
-  font-size: xx-small;
+  font-size: 7px;
 }
 .clock.minute{
-  font-size: small;
+  font-size: 10px;
 }
 .month,
 .day {
@@ -3132,7 +3133,7 @@ Clases de los eventos específicos del acervo (no los publicados por otros usuar
   width: 100%;
   height: 100%;
   position: absolute;
-  font-size: 40px;
+  font-size: 20px;
   line-height: 100px;
   font-weight: 300;
   text-transform: uppercase;
