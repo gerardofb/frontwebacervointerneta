@@ -82,7 +82,7 @@ const NavBar = (props) => {
                         </div>
                     </div>
                 </div>
-                <div className={styles.ControlTematicoBtn}><button onMouseEnter={(e => setShowTemas(true))}
+                <div className={styles.ControlTematicoBtn}><button onClick={(e => setShowTemas(true))}
                     title='control temático del sitio'><FontAwesomeIcon icon={faGamepad} /></button></div><SearchBar></SearchBar></div>
 
         </>
