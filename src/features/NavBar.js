@@ -66,7 +66,7 @@ const NavBar = (props) => {
                             </span>
                         </div>
                         <div className='content-tematica-sitio'>
-                            <div className='control-paletas left' onClick={(e) => switchPaleta(false)}><FontAwesomeIcon icon={faAngleLeft} /></div>
+                            <div className='control-paletas left-control' onClick={(e) => switchPaleta(false)}><FontAwesomeIcon icon={faAngleLeft} /></div>
 
                             <div className='contenedor-colores-paleta' onClick={(e) => estableceTemaAdecuado()}>
                                 {
@@ -78,7 +78,7 @@ const NavBar = (props) => {
                                 }
                             </div>
 
-                            <div className='control-paletas right' onClick={(e) => switchPaleta(true)}><FontAwesomeIcon icon={faAngleRight} /></div>
+                            <div className='control-paletas right-control' onClick={(e) => switchPaleta(true)}><FontAwesomeIcon icon={faAngleRight} /></div>
                         </div>
                     </div>
                 </div>
