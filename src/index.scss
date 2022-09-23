@@ -916,15 +916,21 @@ Estilo de footer
   height: 500px;
   background: black;
   color:white;
-  opacity: 0.5;
+  opacity: 1;
   z-index: 9999;
   position: absolute;
   bottom: 4rem;
   text-align: left;
   padding: 2em;
   left: 25rem;
+  font-weight: 100;
+  font-size:18px;
 }
-
+.resume-video-set p {
+  background:black;
+  opacity: 1;
+  z-index: 2;
+}
 .category-cards-basic {
   background-color: #213a3b;
 }
@@ -3192,4 +3198,41 @@ Clases de los eventos específicos del acervo (no los publicados por otros usuar
 }
 .evento-acervo-desc-chosen img{
   max-height: 400px;
+}
+.container-default-combo{
+  max-width: 500px;
+}
+.default-combo {
+  display:grid;
+  grid-template-rows: repeat(1fr);
+  justify-content:left;
+  padding:0 .5em;
+  align-items: left;
+
+}
+.default-combo div{
+  max-height: 25px;
+  height:25px;
+  text-align: left;
+  padding:0 .5em;
+  display:none;
+}
+.default-combo div{
+  transition: all 20ms;
+}
+.default-combo div:hover{
+  background-color: lightgray;
+}
+.default-combo div:first-child, .default-combo:not(:hover) div:first-child{
+  display: block;
+}
+.default-combo div.item-default-combo-visible{
+  background-color: #5fa3a7;
+}
+.default-combo:hover div{
+  display: block;
+}
+.default-combo:not(:hover) div{
+  display: none;
+  background-color: white;
 }

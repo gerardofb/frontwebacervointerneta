@@ -121,7 +121,7 @@ const sideBarData = [
         subNav: [
           {
             title: "Favoritos",
-            path: '#',
+            path: '/Eventos/ListadoEventos/Proximos',
             icon: 'heart'
           },
           {

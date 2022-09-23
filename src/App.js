@@ -10,6 +10,7 @@ import styled from "styled-components";
 import VideoSetPage from './features/Categories/VideoSetPage';
 import { AutoComments } from './features/Players/Reproduccion';
 import { Autobiograficos } from './features/Biography/Autobiograficos';
+import ListadoEventos from './features/Events/ListadoEventos';
 import { ThemeProvider } from './ThemeProvider';
 import Eventos from './features/Events/Eventos';
 import { useEffect } from 'react';
@@ -100,6 +101,11 @@ function App() {
             <ThemeProvider>
               <Eventos></Eventos>
             </ThemeProvider>
+          </Route>
+          <Route path="/Eventos/ListadoEventos/:tipo" exact>
+              <ThemeProvider>
+                <ListadoEventos></ListadoEventos>
+              </ThemeProvider>
           </Route>
         </Switch>
       </div>

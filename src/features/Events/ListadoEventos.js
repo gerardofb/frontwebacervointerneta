@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, createRef } from "react";
 import NavBar from '../NavBar';
 import { HomeFooter } from "../HomeFooter";
 import { useLocation, useParams } from "react-router-dom";
+import DefaultCombo from "./DefaultCombo";
 const eventosMin = [
     //ENERO
     {
@@ -259,7 +260,7 @@ const eventosMin = [
         fecha: new Date(2022, 11, 30, 23, 0, 0), duracion: 90, imagen: "/images/Eventos/02_03.jpg"
     },
 ];
-const seleccionaTipoEvento = {MAS_VISITADOS:2,PROXIMOS:3,FAVORITOS:4};
+const seleccionaTipoEvento = { MAS_VISITADOS: 2, PROXIMOS: 3, FAVORITOS: 4 };
 function getEventosListado(tipoEvento) {
     let salida = [];
     for (let i = 0; i < eventosMin.length; i++) {
@@ -270,10 +271,10 @@ function getEventosListado(tipoEvento) {
     return salida;
 }
 const ordenBusquedaPredeterminado = {
-    Nombre:1,
-    Bandera:2,
-    Fecha:3,
-    Publicador:4
+    Nombre: 1,
+    Bandera: 2,
+    Fecha: 3,
+    Publicador: 4
 }
 
 function getDaysInMonth(year, month) {
@@ -307,18 +308,42 @@ function returnHoursDurationEvent(fecha, duracion) {
     }
     return new Date(fecha.getFullYear(), fecha.getMonth(), fecha.getDate(), hora, minutes, 0);
 }
-const ListadoEventos = (props)=>{ 
+const ListadoOrdenar = [
+    {
+        indice: 1, title: 'Nombre',
+
+    },
+    {
+        indice: 2, title: 'Bandera',
+
+    },
+    {
+        indice: 3, title: 'Fecha',
+
+    },
+    {
+        indice: 4, title: 'Publicador',
+    }
+]
+const ListadoEventos = (props) => {
     const rutaTipoListado = useParams();
     const tipoListado = rutaTipoListado == "MasVisitados" ? seleccionaTipoEvento.MAS_VISITADOS : rutaTipoListado == "Favoritos" ?
-    rutaTipoListado.FAVORITOS : rutaTipoListado == "Proximos" ? seleccionaTipoEvento.PROXIMOS : seleccionaTipoEvento.PROXIMOS;
-    const [ordernarPor,setOrdenarPor] = useState({orden:ordenBusquedaPredeterminado.Nombre, descendiente:false});
-    const [buscarPor,setBuscarPor] = useState(ordenBusquedaPredeterminado.Nombre);
+        rutaTipoListado.FAVORITOS : rutaTipoListado == "Proximos" ? seleccionaTipoEvento.PROXIMOS : seleccionaTipoEvento.PROXIMOS;
+    const [ordenarPor, setOrdenarPor] = useState({ orden: ordenBusquedaPredeterminado.Nombre, descendiente: false });
+    const [buscarPor, setBuscarPor] = useState(ordenBusquedaPredeterminado.Nombre);
     const [diaEventoSeleccionado, setDiaEventoSeleccionado] = useState(null);
+    const estableceOrdenamiento = (orden) => {
+        setOrdenarPor({orden:orden.indice, descendiente:false});
+        console.log(orden.indice);
+    }
+    let claseContenedorCalendario = tipoListado == "Proximos" ? "contenedor-calendarios-proximos" : "contenedor-calendario-listado"
     return (
         <div className="container-listado-eventos">
-             {
-                claseContenedorCalendario = tipoListado == "Proximos" ? "contenedor-calendarios-proximos" : "contenedor-calendario-listado"
-             }
+            <div className="container-default-combo">
+            <DefaultCombo 
+            on={ordenarPor} onChange={estableceOrdenamiento} listado={ListadoOrdenar} />
+            </div>
         </div>
     )
 }
+export default ListadoEventos;
