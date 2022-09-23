@@ -325,6 +325,29 @@ const ListadoOrdenar = [
         indice: 4, title: 'Publicador',
     }
 ]
+const orderBy = (listado,ordenamiento, desc)=>{
+    let salida = listado;
+    salida = desc ? listado.reverse() : listado;
+    if(ordenamiento == ordenBusquedaPredeterminado.Nombre){
+        if(desc){
+            salida.sort((a,b)=>a.title.localeCompare(b.title));
+        }
+        else{
+            salida.sort((a,b)=>a.title.localeCompare(b.title));
+        }
+    }
+    if(ordenamiento == ordenBusquedaPredeterminado.Fecha){
+        if(desc){
+            salida.sort((a,b)=>a.fecha- b.fecha);
+        }
+        else{
+            salida.sort((a,b)=>a.fecha - b.fecha);
+        }
+    }
+    console.log('ordenando listado' ,ordenamiento,salida, ordenBusquedaPredeterminado);
+    return salida;
+}
+
 const ListadoEventos = (props) => {
     const rutaTipoListado = useParams();
     const tipoListado = rutaTipoListado == "MasVisitados" ? seleccionaTipoEvento.MAS_VISITADOS : rutaTipoListado == "Favoritos" ?
@@ -332,9 +355,14 @@ const ListadoEventos = (props) => {
     const [ordenarPor, setOrdenarPor] = useState({ orden: ordenBusquedaPredeterminado.Nombre, descendiente: false });
     const [buscarPor, setBuscarPor] = useState(ordenBusquedaPredeterminado.Nombre);
     const [diaEventoSeleccionado, setDiaEventoSeleccionado] = useState(null);
+    let listadodefecto = getEventosListado(tipoListado);
+
+    const [listado, setListado] = useState(listadodefecto);
+
     const estableceOrdenamiento = (orden) => {
         setOrdenarPor({orden:orden.indice, descendiente:false});
-        console.log(orden.indice);
+        let salida = orderBy(listado,orden.indice,false);
+        setListado(salida);
     }
     let claseContenedorCalendario = tipoListado == "Proximos" ? "contenedor-calendarios-proximos" : "contenedor-calendario-listado"
     return (
@@ -342,6 +370,17 @@ const ListadoEventos = (props) => {
             <div className="container-default-combo">
             <DefaultCombo 
             on={ordenarPor} onChange={estableceOrdenamiento} listado={ListadoOrdenar} />
+            </div>
+            <div className="listado-default">
+                {
+                    listado.map((item, index)=>{
+                        return (
+                            <div key={index}>
+                                {item.title}
+                            </div>
+                        )
+                    })
+                }
             </div>
         </div>
     )
