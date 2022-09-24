@@ -915,7 +915,7 @@ Estilo de footer
   margin: auto;
   height: 500px;
   background: black;
-  color:white;
+  color: white;
   opacity: 1;
   z-index: 9999;
   position: absolute;
@@ -924,13 +924,15 @@ Estilo de footer
   padding: 2em;
   left: 25rem;
   font-weight: 100;
-  font-size:18px;
+  font-size: 18px;
 }
+
 .resume-video-set p {
-  background:black;
+  background: black;
   opacity: 1;
   z-index: 2;
 }
+
 .category-cards-basic {
   background-color: #213a3b;
 }
@@ -980,7 +982,7 @@ Estilo de footer
   font-size: x-large;
   text-align: right;
   margin-top: .7rem;
-  cursor:pointer
+  cursor: pointer
 }
 
 .header-control-temas-basic-dark,
@@ -998,7 +1000,7 @@ Estilo de footer
   font-size: x-large;
   text-align: right;
   margin-top: .7rem;
-  cursor:pointer
+  cursor: pointer
 }
 
 .header-control-temas-aesthetic button {
@@ -1010,7 +1012,7 @@ Estilo de footer
   font-size: x-large;
   text-align: right;
   margin-top: .7rem;
-  cursor:pointer
+  cursor: pointer
 }
 
 .header-control-temas-aesthetic-dark button {
@@ -1022,7 +1024,7 @@ Estilo de footer
   font-size: x-large;
   text-align: right;
   margin-top: .7rem;
-  cursor:pointer
+  cursor: pointer
 }
 
 .container-tematica {
@@ -1149,9 +1151,24 @@ Estilo de footer
   opacity: 40%;
   transition: all 1s ease-in-out;
   width: 30px;
-  margin:0 1em;
+  margin: 0 1em;
 }
 
+.header-opciones-listado input {
+  min-width: 88%;
+}
+
+.container-listado-eventos {
+  background-color: lightgray;
+  display: grid;
+  grid-template-columns: 25% 75%;
+  grid-template-rows: 2% 4% 94%;
+
+}
+.container-listado-eventos .calendario-eventos-principal {
+  grid-row: 2 / span 2;
+  max-height: 480px;
+}
 @media screen and (max-width: 1260px) {
   .container-tematica {
     display: none;
@@ -1164,7 +1181,19 @@ Estilo de footer
   .header-control-temas-basic {
     display: none;
   }
+
+  .header-opciones-listado input {
+    min-width: 80%;
+  }
+  .container-listado-eventos {
+    background-color: lightgray;
+    display: grid;
+    grid-template-columns: 35% 65%;
+    grid-template-rows: 2% 4% 94%;
+  
+  }
 }
+
 
 @media screen and (max-width:1520px) {
   .container-tematica {
@@ -1179,6 +1208,13 @@ Estilo de footer
     width: 100%;
     border: 1px solid grey;
     grid-column: 2
+  }
+  .container-listado-eventos {
+    background-color: lightgray;
+    display: grid;
+    grid-template-columns: 30% 70%;
+    grid-template-rows: 2% 4% 94%;
+  
   }
 }
 
@@ -1297,8 +1333,8 @@ Estilo de footer
 
   .resume-video-set {
     left: 2.5rem;
-    background:white;
-    color:black;
+    background: white;
+    color: black;
     opacity: 1;
   }
 
@@ -1346,12 +1382,33 @@ Estilo de footer
     width: 100%;
     grid-column: 2;
   }
+
+  .header-opciones-listado input {
+    min-width: 77%;
+  }
+  .container-listado-eventos {
+    background-color: lightgray;
+    display: grid;
+    grid-template-columns: 35% 65%;
+    grid-template-rows: 2% 4% 94%;
+  
+  }
 }
 
 @media screen and (max-width:1000px) {
   .logo-interneta-footer img:nth-child(1) {
     width: 50%;
     grid-column: 2;
+  }
+  .container-listado-eventos .calendario-eventos-principal, .container-listado-eventos .calendario-eventos-principal.active{
+    display: none;
+  }
+  .container-listado-eventos {
+    background-color: lightgray;
+    display: grid;
+    grid-template-columns: 5% 95%;
+    grid-template-rows: 0% 5% 94%;
+  
   }
 }
 
@@ -1363,6 +1420,17 @@ Estilo de footer
     opacity: 40%;
     transition: all 1s ease-in-out;
     width: 2px;
+  }
+
+  .header-opciones-listado input {
+    min-width: 75%;
+  }
+  .container-listado-eventos {
+    background-color: lightgray;
+    display: grid;
+    grid-template-columns: 5% 95%;
+    grid-template-rows: 2% 4% 94%;
+  
   }
 }
 
@@ -2974,15 +3042,18 @@ Clases de los eventos específicos del acervo (no los publicados por otros usuar
   text-decoration: none;
   font-size: x-large;
 }
-.evento-temporal-acervo-search{
-  background-color:#89edb8 !important;
-  cursor:pointer
+
+.evento-temporal-acervo-search {
+  background-color: #89edb8 !important;
+  cursor: pointer
 }
 
 
-.signboard ul, .signboard li{
+.signboard ul,
+.signboard li {
   list-style-type: none;
 }
+
 .outer {
   position: relative;
   top: 50%;
@@ -3013,6 +3084,7 @@ Clases de los eventos específicos del acervo (no los publicados por otros usuar
   background: #ff726b;
   text-align: center;
 }
+
 .right {
   position: absolute;
   right: 0;
@@ -3024,6 +3096,7 @@ Clases de los eventos específicos del acervo (no los publicados por otros usuar
   transform: rotate(-10deg) translate(7px, 8px);
   background: #EFC94C;
 }
+
 .left {
   position: absolute;
   left: 0;
@@ -3053,10 +3126,12 @@ Clases de los eventos específicos del acervo (no los publicados por otros usuar
   -o-transform: rotate(0) translate(0) scale(0.9);
   transform: rotate(0) translate(0) scale(0.9);
 }
+
 .outer:active .front .date {
   -webkit-transform: scale(2);
   transform: scale(2);
 }
+
 .outer:active .front .day,
 .outer:active .front .month {
   visibility: hidden;
@@ -3067,6 +3142,7 @@ Clases de los eventos específicos del acervo (no los publicados por otros usuar
   -o-transform: scale(0);
   transform: scale(0);
 }
+
 .outer:active .right {
   -webkit-transform: rotate(-5deg) translateX(80px) scale(0.9);
   -moz-transform: rotate(-5deg) translateX(80px) scale(0.9);
@@ -3074,6 +3150,7 @@ Clases de los eventos específicos del acervo (no los publicados por otros usuar
   -o-transform: rotate(-5deg) translateX(80px) scale(0.9);
   transform: rotate(-5deg) translateX(80px) scale(0.9);
 }
+
 .outer:active .left {
   -webkit-transform: rotate(5deg) translateX(-80px) scale(0.9);
   -moz-transform: rotate(5deg) translateX(-80px) scale(0.9);
@@ -3089,17 +3166,20 @@ Clases de los eventos específicos del acervo (no los publicados por otros usuar
   opacity: 0;
   visibility: hidden;
 }
+
 .outer:active .clock {
   -webkit-transform: scale(1.4);
   transform: scale(1.4);
   opacity: 1;
   visibility: visible;
 }
+
 .outer:active .calendarNormal {
   bottom: -30px;
   opacity: 1;
   visibility: visible;
 }
+
 .outer:active .year {
   top: -30px;
   opacity: 1;
@@ -3112,16 +3192,19 @@ Clases de los eventos específicos del acervo (no los publicados por otros usuar
   width: 100%;
   height: 100%;
   position: absolute;
-  left:-2.25em;
-  bottom:-15px;
+  left: -2.25em;
+  bottom: -15px;
   opacity: 1;
 }
-.clock.second{
+
+.clock.second {
   font-size: 7px;
 }
-.clock.minute{
+
+.clock.minute {
   font-size: 10px;
 }
+
 .month,
 .day {
   font-size: 10px;
@@ -3130,6 +3213,7 @@ Clases de los eventos específicos del acervo (no los publicados por otros usuar
   text-transform: uppercase;
   letter-spacing: 3px;
 }
+
 .date {
   font-size: 40px;
   line-height: 40px;
@@ -3168,6 +3252,7 @@ Clases de los eventos específicos del acervo (no los publicados por otros usuar
   visibility: hidden;
   color: #ff726b;
 }
+
 .calendarNormal {
   width: 100%;
   position: absolute;
@@ -3181,58 +3266,182 @@ Clases de los eventos específicos del acervo (no los publicados por otros usuar
   opacity: 0;
   visibility: hidden;
 }
+
 .date2 {
   color: #ff726b;
 }
+
 .day2 {
   color: #3498DB;
 }
+
 .month2 {
   color: #EFC94C;
 }
-.evento-acervo-desc-chosen p{
+
+.evento-acervo-desc-chosen p {
   text-align: left;
 }
-.evento-acervo-desc-chosen{
-  padding:2em 1em;
+
+.evento-acervo-desc-chosen {
+  padding: 2em 1em;
 }
-.evento-acervo-desc-chosen img{
+
+.evento-acervo-desc-chosen img {
   max-height: 400px;
 }
-.container-default-combo{
+
+.container-default-combo {
   max-width: 500px;
 }
-.default-combo {
-  display:grid;
-  grid-template-rows: repeat(1fr);
-  justify-content:left;
-  padding:0 .5em;
-  align-items: left;
 
+.default-combo {
+  display: grid;
+  grid-template-rows: repeat(1fr);
+  justify-content: left;
+  padding: 0 .5em;
+  align-items: left;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
-.default-combo div{
+
+.default-combo div {
   max-height: 25px;
-  height:25px;
+  height: 25px;
   text-align: left;
-  padding:0 .5em;
-  display:none;
+  padding: 0 .5em;
+  display: none;
+  background-color: white;
+  z-index: 999;
 }
-.default-combo div{
+
+.default-combo div {
   transition: all 20ms;
 }
-.default-combo div:hover{
+
+.default-combo div:hover {
   background-color: lightgray;
 }
-.default-combo div:first-child, .default-combo:not(:hover) div:first-child{
+
+.default-combo div:first-child,
+.default-combo:not(:hover) div:first-child {
   display: block;
 }
-.default-combo div.item-default-combo-visible{
+
+.default-combo div.item-default-combo-visible {
   background-color: #5fa3a7;
 }
-.default-combo:hover div{
+
+.default-combo:hover div {
   display: block;
 }
-.default-combo:not(:hover) div{
+
+.default-combo:not(:hover) div {
   display: none;
   background-color: white;
 }
+
+.listado-default-header {
+  display: grid;
+  grid-template-columns: 26% 20% 20% 20% 14%;
+  min-height: 70px;
+  border-bottom: 1px solid gray;
+  background-color: white;
+  grid-column: 2;
+  justify-content: left;
+  align-items: flex-start;
+  grid-row: 2
+}
+
+.listado-default-header div {
+  text-align: left;
+  padding: 0 1em;
+}
+
+.evt-listado {
+  display: grid;
+  grid-template-columns: 26% 20% 20% 20% 14%;
+  background-color: white;
+  margin: .5em;
+  padding: .5em;
+  border-radius: 10px;
+  justify-content: left;
+  align-items: flex-start;
+}
+
+.evt-listado div:nth-child(1) {
+  display: grid;
+  grid-template-columns: 10% 90%;
+}
+
+.evt-listado div {
+  text-align: left;
+  padding: 0 .5em;
+}
+
+.evt-listado button {
+  margin: 0 1em;
+  outline: none;
+  background-color: transparent;
+  border: none;
+}
+
+.listado-default {
+  grid-column: 2;
+  min-height: 100vh;
+}
+
+.evt-listado div img {
+  max-width: 50px;
+}
+
+
+
+.container-default-combo {
+  position: relative;
+  min-height: 25px;
+}
+
+.combo-hidden {
+  display: none;
+}
+
+.default-combo div span {
+  margin: 0 .5em 0 0;
+}
+
+.header-opciones-listado {
+  grid-column: 2 / span 1;
+  min-width: 100%;
+  background-color: white;
+  display: grid;
+  grid-template-columns: .9fr 1fr .5fr 1.9fr;
+  justify-content: left;
+  grid-row: 1;
+}
+
+.header-opciones-listado button {
+  outline: none;
+  border: none;
+  color: white;
+  background-color: black;
+  min-height: 24px;
+  padding: 0 1em;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.header-opciones-listado span {
+  text-align: left;
+  padding: 0 1em;
+}
+
+.item-listado-header-visible {
+  display: inline;
+}
+
+.item-listado-header-invisible {
+  display: none;
+}
+
