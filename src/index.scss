@@ -1161,8 +1161,9 @@ Estilo de footer
 .container-listado-eventos {
   background-color: lightgray;
   display: grid;
+  gap:.5em;
   grid-template-columns: 25% 75%;
-  grid-template-rows: 2% 4% 94%;
+  grid-template-rows: 35px 4% 94%;
 
 }
 .container-listado-eventos .calendario-eventos-principal {
@@ -1189,8 +1190,7 @@ Estilo de footer
     background-color: lightgray;
     display: grid;
     grid-template-columns: 35% 65%;
-    grid-template-rows: 2% 4% 94%;
-  
+    grid-template-rows: 35px 4% 94%;  
   }
 }
 
@@ -1213,8 +1213,7 @@ Estilo de footer
     background-color: lightgray;
     display: grid;
     grid-template-columns: 30% 70%;
-    grid-template-rows: 2% 4% 94%;
-  
+    grid-template-rows: 35px 4% 94%;  
   }
 }
 
@@ -1390,8 +1389,7 @@ Estilo de footer
     background-color: lightgray;
     display: grid;
     grid-template-columns: 35% 65%;
-    grid-template-rows: 2% 4% 94%;
-  
+    grid-template-rows: 35px 4% 94%;  
   }
 }
 
@@ -1406,9 +1404,8 @@ Estilo de footer
   .container-listado-eventos {
     background-color: lightgray;
     display: grid;
-    grid-template-columns: 5% 95%;
-    grid-template-rows: 0% 5% 94%;
-  
+    grid-template-columns: 0% 99%;
+    grid-template-rows: 35px 4% 94%;  
   }
 }
 
@@ -1429,8 +1426,7 @@ Estilo de footer
     background-color: lightgray;
     display: grid;
     grid-template-columns: 5% 95%;
-    grid-template-rows: 2% 4% 94%;
-  
+    grid-template-rows: 35px 4% 94%;  
   }
 }
 
@@ -3364,13 +3360,14 @@ Clases de los eventos específicos del acervo (no los publicados por otros usuar
   grid-template-columns: 26% 20% 20% 20% 14%;
   background-color: white;
   margin: .5em;
-  padding: .5em;
+  padding: .25em;
   border-radius: 10px;
   justify-content: left;
   align-items: flex-start;
+  position: relative;
 }
 
-.evt-listado div:nth-child(1) {
+.evt-listado div.check-listado {
   display: grid;
   grid-template-columns: 10% 90%;
 }
@@ -3390,6 +3387,7 @@ Clases de los eventos específicos del acervo (no los publicados por otros usuar
 .listado-default {
   grid-column: 2;
   min-height: 100vh;
+  margin:1em .25em;
 }
 
 .evt-listado div img {
@@ -3443,5 +3441,9 @@ Clases de los eventos específicos del acervo (no los publicados por otros usuar
 
 .item-listado-header-invisible {
   display: none;
+}
+.listado-default-header{
+  max-width: 99%;
+  margin:0 1%;
 }
 

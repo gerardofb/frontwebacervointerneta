@@ -446,18 +446,19 @@ const ListadoEventos = (props) => {
     const [opcionesSetVisible, setVisibleOpciones] = useState(-1);
     const [opcionEvenotPor, setOpcionEvenotPor] = useState(-1);
     let claseContenedorCalendario = tipoListado == "Proximos" ? "contenedor-calendarios-proximos" : "contenedor-calendario-listado";
-    const [textoSearch, setTextoSearch] = useState(null);
+    const [textoSearch, setTextoSearch] = useState('');
     const estableceBusqueda = () => {
         setOrdenamientoDesc(ordenamientoDesc);
         setOrdenarPor({ orden: ordenarPor, descendiente: ordenamientoDesc });
         let salida = orderBy(listado, ordenarPor.orden, ordenamientoDesc);
-        salida = salida.filter(x => x.title.indexOf(textoSearch) != -1);
+        salida = salida.filter(x => x.title.toLowerCase().indexOf(textoSearch.toLowerCase()) != -1);
         if (textoSearch.trim() != '') {
             setListado(salida);
         }
         else {
             setListado(listadodefecto);
-        }
+        }setEvtChecked(-1);
+
 
     }
     const anioinicial = new Date().getFullYear();
@@ -521,7 +522,7 @@ const ListadoEventos = (props) => {
                             let claseHeaderCss = ordenarPor.orden === header.indice ? "item-listado-header-visible" : "item-listado-header-invisible";
                             return (
                                 header.title != "Bandera" && header.title != "Publicador" && header.title != "Seleccionar..." ?
-                                    <div  key={indice}>{header.title} <span className={claseHeaderCss}
+                                    <div key={indice}>{header.title} <span className={claseHeaderCss}
                                         onClick={(e) => { estableceDescendienteAscendiente(!ordenamientoDesc, ordenarPor.orden) }}>
                                         <FontAwesomeIcon icon={ordenamientoDesc ? faArrowUp : faArrowDown} /></span></div>
                                     : null)
@@ -536,21 +537,22 @@ const ListadoEventos = (props) => {
                         listado.map((item, index) => {
                             let fechaevt = item.fecha.getFullYear() + "/" + ((item.fecha.getMonth() + 1) < 10 ? "0" + (item.fecha.getMonth() + 1) : (item.fecha.getMonth() + 1)) +
                                 "/" + (item.fecha.getDate() < 10 ? "0" + item.fecha.getDate() : item.fecha.getDate());
-                            let claseCssBotonOpciones = opcionesSetVisible == index ? "container-default-combo" : "container-default-combo combo-hidden"
-                            
+                            let claseCssBotonOpciones = opcionesSetVisible == index ? "container-default-combo listado-combo" : "container-default-combo combo-hidden"
+
                             return (
-                                <div className="evt-listado"  key={index}>
-                                    <div>{evtChecked === item.index ? 
-                    <input type="checkbox" checked onChange={(e)=>{handleEnter(item.fecha, item.index)}} /> : <input type="checkbox" onChange={(e)=>{handleEnter(item.fecha, item.index)}} />    
-                    }
-                                    {item.title}</div><div>{fechaevt}</div><div>{item.duracion} minutos</div><div><img src={item.imagen} /></div><div>
+                                <div className="evt-listado" key={index}>
+                                    <div className="check-listado">{evtChecked === item.index ?
+                                        <input type="checkbox" checked onChange={(e) => { handleEnter(item.fecha, item.index) }} /> : <input type="checkbox" onChange={(e) => { handleEnter(item.fecha, item.index) }} />
+                                    }
+                                        {item.title}</div><div>{fechaevt}</div><div>{item.duracion} minutos</div><div><img src={item.imagen} /></div><div>
                                         <button title="opciones de la lista (doble click para ocultar)"
                                             onClick={(e) => setVisibleOpciones(index)} onDoubleClick={(e) => setVisibleOpciones(-1)}
                                             className="opt-evt-listado"><FontAwesomeIcon icon={faBars} /></button>
                                         <div className={claseCssBotonOpciones}>
                                             <DefaultCombo
                                                 on={opcionEvenotPor} listado={ListadoOpcionesEvento} />
-                                        </div></div>
+                                        </div>
+                                        </div>
                                 </div>
                             )
                         })
