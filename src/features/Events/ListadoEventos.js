@@ -487,7 +487,7 @@ const ListadoEventos = (props) => {
 
     }
     const anioinicial = new Date().getFullYear();
-    const [daysInitial, setDaysInitial] = useState({ numerodias: fillInDaysMonth(0, anioinicial), titulo: estableceTituloCalendario(0, anioinicial) });
+    const [daysInitial, setDaysInitial] = useState({ numerodias: fillInDaysMonth(tipoListado == seleccionaTipoEvento.PROXIMOS ? new Date().getMonth() : 0, anioinicial), titulo: estableceTituloCalendario(tipoListado == seleccionaTipoEvento.PROXIMOS ? new Date().getMonth() : 0, anioinicial) });
     const [diaevento, setDiaEvento] = useState(0);
     const dayOfWeek = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sab'];
     
