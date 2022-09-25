@@ -88,7 +88,6 @@ const SubMenu = ({ item }, { key }) => {
 
 
                     {subnav && item.subNav.map((elem, index) => {
-                        console.log('elementos internos de menu ', elem.subNav)
                         return (
                             <ul key={index}>
                                 <li className="relative block flex-row items-center h-11 focus:outline-none border-l-4 border-transparent">

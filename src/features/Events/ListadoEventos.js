@@ -268,11 +268,21 @@ const eventosMin = [
 const seleccionaTipoEvento = { MAS_VISITADOS: 2, PROXIMOS: 3, FAVORITOS: 4 };
 function getEventosListado(tipoEvento) {
     let salida = [];
+    if(tipoEvento !== seleccionaTipoEvento.PROXIMOS){
     for (let i = 0; i < eventosMin.length; i++) {
-        if (i % tipoEvento == 0) {
+        if (eventosMin[i].index % tipoEvento == 0) {
             salida.push(eventosMin[i])
         }
     }
+}
+else{
+    for (let i = 0; i < eventosMin.length; i++) {
+        let fechacomparar = new Date();
+        if (eventosMin[i].fecha.getMonth() >= fechacomparar.getMonth()) {
+            salida.push(eventosMin[i])
+        }
+    }
+}
     return salida;
 }
 const ordenBusquedaPredeterminado = {
@@ -344,6 +354,12 @@ const ListadoOpcionesEvento = [
     },
     {
         indice: 2, title: 'Eliminar', icono: faTrash
+
+    },
+]
+const ListadoOpcionesEventoProximos = [
+    {
+        indice: 1, title: 'Marcar', icono: faFlag
 
     },
 ]
@@ -422,15 +438,24 @@ function estableceTituloCalendario(mesinicial, anioinicial) {
 }
 const ListadoEventos = (props) => {
     const rutaTipoListado = useParams();
-    const tipoListado = rutaTipoListado == "MasVisitados" ? seleccionaTipoEvento.MAS_VISITADOS : rutaTipoListado == "Favoritos" ?
-        rutaTipoListado.FAVORITOS : rutaTipoListado == "Proximos" ? seleccionaTipoEvento.PROXIMOS : seleccionaTipoEvento.PROXIMOS;
+    // const [tipoListado, setTipoListado] = useState(3);
+    
+    const [evtChecked, setEvtChecked] = useState(-1);
+    const tipoListado = rutaTipoListado.tipo === "MasVisitados" ? seleccionaTipoEvento.MAS_VISITADOS : rutaTipoListado.tipo === "Favoritos" ?
+    seleccionaTipoEvento.FAVORITOS : rutaTipoListado.tipo === "Proximos" ? seleccionaTipoEvento.PROXIMOS : seleccionaTipoEvento.PROXIMOS;
+    
+    const [listado, setListado] = useState(getEventosListado(tipoListado));
+    //setTipoListado(valorlistado);
+    let listadoruta = getEventosListado(tipoListado);
+    //setListado(listadoruta);
     const [ordenarPor, setOrdenarPor] = useState({ orden: ordenBusquedaPredeterminado.Nombre, descendiente: false });
     const [buscarPor, setBuscarPor] = useState(ordenBusquedaPredeterminado.Nombre);
     const [diaEventoSeleccionado, setDiaEventoSeleccionado] = useState(null);
     const [ordenamientoDesc, setOrdenamientoDesc] = useState(false);
-    let listadodefecto = getEventosListado(tipoListado);
+    
 
-    const [listado, setListado] = useState(listadodefecto);
+    
+    console.log('tipo listado ', rutaTipoListado, tipoListado, listado)
     const estableceDescendienteAscendiente = (valor, orden) => {
         setOrdenamientoDesc(valor);
         setOrdenarPor({ orden: orden, descendiente: valor });
@@ -456,16 +481,16 @@ const ListadoEventos = (props) => {
             setListado(salida);
         }
         else {
-            setListado(listadodefecto);
-        }setEvtChecked(-1);
-
+            let listadoruta = getEventosListado(tipoListado);
+            setListado(listadoruta);
+        } setEvtChecked(-1);
 
     }
     const anioinicial = new Date().getFullYear();
     const [daysInitial, setDaysInitial] = useState({ numerodias: fillInDaysMonth(0, anioinicial), titulo: estableceTituloCalendario(0, anioinicial) });
     const [diaevento, setDiaEvento] = useState(0);
     const dayOfWeek = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sab'];
-    const [evtChecked, setEvtChecked] = useState(-1);
+    
     const handleEnter = (fecha, indice) => {
         let numerodefecto = fillInDaysMonth(fecha.getMonth(), fecha.getFullYear());
         setDaysInitial({ numerodias: numerodefecto, titulo: estableceTituloCalendario(fecha.getMonth(), anioinicial) });
@@ -550,9 +575,9 @@ const ListadoEventos = (props) => {
                                             className="opt-evt-listado"><FontAwesomeIcon icon={faBars} /></button>
                                         <div className={claseCssBotonOpciones}>
                                             <DefaultCombo
-                                                on={opcionEvenotPor} listado={ListadoOpcionesEvento} />
+                                                on={opcionEvenotPor} listado={tipoListado !== seleccionaTipoEvento.PROXIMOS ? ListadoOpcionesEvento : ListadoOpcionesEventoProximos} />
                                         </div>
-                                        </div>
+                                    </div>
                                 </div>
                             )
                         })

@@ -125,8 +125,13 @@ const sideBarData = [
             icon: 'heart'
           },
           {
+            title: "Más visitados",
+            path: '/Eventos/ListadoEventos/MasVisitados',
+            icon: 'check'
+          },
+          {
             title: "Próximos",
-            path: '#',
+            path: '/Eventos/ListadoEventos/Proximos',
             icon: 'timeline'
           },
         ]
