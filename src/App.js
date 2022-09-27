@@ -11,6 +11,7 @@ import VideoSetPage from './features/Categories/VideoSetPage';
 import { AutoComments } from './features/Players/Reproduccion';
 import { Autobiograficos } from './features/Biography/Autobiograficos';
 import ListadoEventos from './features/Events/ListadoEventos';
+import ListadoEventosProximos from './features/Events/ListadoEventosProximos';
 import { ThemeProvider } from './ThemeProvider';
 import Eventos from './features/Events/Eventos';
 import { useEffect } from 'react';
@@ -105,6 +106,11 @@ function App() {
           <Route path="/Eventos/ListadoEventos/:tipo" exact>
               <ThemeProvider>
                 <ListadoEventos></ListadoEventos>
+              </ThemeProvider>
+          </Route>
+          <Route path="/Eventos/ListadoProximosEventos/:tipo" exact>
+              <ThemeProvider>
+                <ListadoEventosProximos></ListadoEventosProximos>
               </ThemeProvider>
           </Route>
         </Switch>

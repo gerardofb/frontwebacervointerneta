@@ -131,7 +131,7 @@ const sideBarData = [
           },
           {
             title: "Próximos",
-            path: '/Eventos/ListadoEventos/Proximos',
+            path: '/Eventos/ListadoProximosEventos/Proximos',
             icon: 'timeline'
           },
         ]
