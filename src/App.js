@@ -12,6 +12,7 @@ import { AutoComments } from './features/Players/Reproduccion';
 import { Autobiograficos } from './features/Biography/Autobiograficos';
 import ListadoEventos from './features/Events/ListadoEventos';
 import ListadoEventosProximos from './features/Events/ListadoEventosProximos';
+import EventosMasVisitados from './features/Events/EventosMasVisitados';
 import { ThemeProvider } from './ThemeProvider';
 import Eventos from './features/Events/Eventos';
 import { useEffect } from 'react';
@@ -111,6 +112,11 @@ function App() {
           <Route path="/Eventos/ListadoProximosEventos/:tipo" exact>
               <ThemeProvider>
                 <ListadoEventosProximos></ListadoEventosProximos>
+              </ThemeProvider>
+          </Route>
+          <Route path="/Eventos/EventosMasVisitados/:tipo" exact>
+              <ThemeProvider>
+                <EventosMasVisitados></EventosMasVisitados>
               </ThemeProvider>
           </Route>
         </Switch>

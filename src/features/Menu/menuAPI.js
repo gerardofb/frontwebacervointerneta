@@ -126,7 +126,7 @@ const sideBarData = [
           },
           {
             title: "Más visitados",
-            path: '/Eventos/ListadoEventos/MasVisitados',
+            path: '/Eventos/EventosMasVisitados/MasVisitados',
             icon: 'check'
           },
           {
