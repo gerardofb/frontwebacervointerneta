@@ -5,7 +5,7 @@ import { useLocation, useParams } from "react-router-dom";
 import DefaultCombo from "./DefaultCombo";
 import {
     faTrash, faFlag, faList, faCalendarAlt, faUser, faBars, faClock,
-    faArrowDown, faArrowUp, faSearch
+    faArrowDown, faArrowUp, faSearch, faBullseye
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const eventosMin = [
@@ -356,12 +356,18 @@ const ListadoOpcionesEvento = [
         indice: 2, title: 'Eliminar', icono: faTrash
 
     },
+    {
+        indice:3, title:"Explorar", icono:faBullseye,
+    }
 ]
 const ListadoOpcionesEventoProximos = [
     {
         indice: 1, title: 'Marcar', icono: faFlag
 
     },
+    {
+        indice:3, title:"Explorar", icono:faBullseye,
+    }
 ]
 const orderBy = (listado, ordenamiento, desc) => {
     let salida = listado;

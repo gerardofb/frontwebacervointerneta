@@ -1158,7 +1158,7 @@ Estilo de footer
   min-width: 88%;
 }
 
-.container-listado-eventos {
+.container-listado-eventos, .container-listado-videos {
   background-color: lightgray;
   display: grid;
   gap:.5em;
@@ -1186,7 +1186,7 @@ Estilo de footer
   .header-opciones-listado input {
     min-width: 80%;
   }
-  .container-listado-eventos {
+  .container-listado-eventos, .container-listado-videos {
     background-color: lightgray;
     display: grid;
     grid-template-columns: 35% 65%;
@@ -1209,7 +1209,7 @@ Estilo de footer
     border: 1px solid grey;
     grid-column: 2
   }
-  .container-listado-eventos {
+  .container-listado-eventos, .container-listado-videos {
     background-color: lightgray;
     display: grid;
     grid-template-columns: 30% 70%;
@@ -1385,7 +1385,7 @@ Estilo de footer
   .header-opciones-listado input {
     min-width: 77%;
   }
-  .container-listado-eventos {
+  .container-listado-eventos, .container-listado-videos {
     background-color: lightgray;
     display: grid;
     grid-template-columns: 35% 65%;
@@ -1401,7 +1401,7 @@ Estilo de footer
   .container-listado-eventos .calendario-eventos-principal, .container-listado-eventos .calendario-eventos-principal.active{
     display: none;
   }
-  .container-listado-eventos {
+  .container-listado-eventos, .container-listado-videos {
     background-color: lightgray;
     display: grid;
     grid-template-columns: 0% 99%;
@@ -1422,7 +1422,7 @@ Estilo de footer
   .header-opciones-listado input {
     min-width: 75%;
   }
-  .container-listado-eventos {
+  .container-listado-eventos, .container-listado-videos {
     background-color: lightgray;
     display: grid;
     grid-template-columns: 5% 95%;
@@ -3366,18 +3366,29 @@ Clases de los eventos específicos del acervo (no los publicados por otros usuar
   align-items: flex-start;
   position: relative;
 }
+.vid-listado{
+  display: grid;
+  grid-template-columns: 12% 15% 10% 15% 15% 12% 15%;
+  background-color: white;
+  margin: .5em;
+  padding: .25em;
+  border-radius: 10px;
+  justify-content: left;
+  align-items: flex-start;
+  position: relative;
+}
 
-.evt-listado div.check-listado {
+.evt-listado div.check-listado, .vid-listado div.check-listado {
   display: grid;
   grid-template-columns: 10% 90%;
 }
 
-.evt-listado div {
+.evt-listado div, .vid-listado div {
   text-align: left;
   padding: 0 .5em;
 }
 
-.evt-listado button {
+.evt-listado button, .vid-listado button {
   margin: 0 1em;
   outline: none;
   background-color: transparent;
@@ -3390,7 +3401,7 @@ Clases de los eventos específicos del acervo (no los publicados por otros usuar
   margin:1em .25em;
 }
 
-.evt-listado div img {
+.evt-listado div img, .vid-listado div img {
   max-width: 50px;
 }
 
@@ -3446,4 +3457,65 @@ Clases de los eventos específicos del acervo (no los publicados por otros usuar
   max-width: 99%;
   margin:0 1%;
 }
+.listado-default-header-vid{
+  max-width: 99%;
+  margin:0 1%;
+  display: grid;
+  grid-template-columns: 12% 15% 10% 15% 15% 12% 15%;
+  grid-column: 2;
+  background-color: white;
+  justify-content: left;
+  align-items: flex-start;
+  min-height: 60px;
+}
+.listado-default-header-vid div{
+  text-align: center;
+}
+.listado-default-header-vid div:nth-child(3){
+  text-align: left;
+}
+.vid-listado div:nth-child(5){
+  width: 160px;
+  overflow: auto;
+  scrollbar-width: none;
+  overflow-wrap: normal;
+}
+.vid-listado div:nth-child(5)::-webkit-scrollbar {
+  display: none;
+}
+.nowrap-tags-listado{
+  width:3000px
+}
+button.tag-listado-vid{
+  border-radius: 5px;
+  background-color: #d3d3d3;
+  border:1px solid black;
+}
+.busqueda-videos-listado{
+  background-color:white;
+  border-top-right-radius: 1em;
+  border-bottom-right-radius: 1em;
+  display:grid;
+  grid-template-rows: repeat(5,1fr);
+  min-height: 50vh;
+  margin:3em 0;
+  justify-content: flex-end;
+}
+.busqueda-videos-listado div:nth-child(1) button{
+  outline: none;
+  border: none;
+  color:white;
+  background-color: black;
+  min-height: 1.7em;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius:10px;
+}
+.busqueda-videos-listado div:nth-child(1){
+  margin-top:1em;
+}
+.busqueda-videos-listado div{
+  text-align: right;
+  margin:.5em 2em;
+}
+
 

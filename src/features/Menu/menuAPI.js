@@ -70,7 +70,7 @@ const sideBarData = [
         subNav: [
           {
             title: "Favoritos",
-            path: '#',
+            path: '/ListadoReproduccion/Favoritos',
             icon: 'heart'
           },
           {

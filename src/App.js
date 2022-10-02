@@ -13,6 +13,7 @@ import { Autobiograficos } from './features/Biography/Autobiograficos';
 import ListadoEventos from './features/Events/ListadoEventos';
 import ListadoEventosProximos from './features/Events/ListadoEventosProximos';
 import EventosMasVisitados from './features/Events/EventosMasVisitados';
+import ListadoVieosFavoritos from './features/Players/ListadoFavoritosVideos';
 import { ThemeProvider } from './ThemeProvider';
 import Eventos from './features/Events/Eventos';
 import { useEffect } from 'react';
@@ -117,6 +118,11 @@ function App() {
           <Route path="/Eventos/EventosMasVisitados/:tipo" exact>
               <ThemeProvider>
                 <EventosMasVisitados></EventosMasVisitados>
+              </ThemeProvider>
+          </Route>
+          <Route path="/ListadoReproduccion/:tipo" exact>
+              <ThemeProvider>
+                <ListadoVieosFavoritos></ListadoVieosFavoritos>
               </ThemeProvider>
           </Route>
         </Switch>
