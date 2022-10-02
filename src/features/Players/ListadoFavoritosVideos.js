@@ -478,7 +478,7 @@ const ListadoVieosFavoritos = (props) => {
                                             <FontAwesomeIcon icon={faBars} /></button>
                                         <div className={claseCssBotonOpciones}>
                                             <DefaultCombo
-                                                on={opcionVideoPor} listado={tipoListado !== seleccionaTipoVideo.FAVORITOS ? ListadoOpcionesVideo : ListadoOpcionesVideoVisitados} />
+                                                on={opcionVideoPor} listado={tipoListado !== seleccionaTipoVideo.MAS_VISITADOS ? ListadoOpcionesVideo : ListadoOpcionesVideoVisitados} />
                                         </div>
                                     </div>
                                 </div>
