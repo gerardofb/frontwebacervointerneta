@@ -75,7 +75,7 @@ const sideBarData = [
           },
           {
             title: "Más visitados",
-            path: '#',
+            path: '/ListadoReproduccionVisitados/MasVisitados',
             icon: 'play'
           },
           {
@@ -109,7 +109,7 @@ const sideBarData = [
           },
           {
             title: "Más visitados",
-            path: '/Autobiograficos/9e0ff745446e4b528a7ba1fbf0857db9?mostvisited=true',
+            path: '#',
             icon: 'radio'
           },
         ]

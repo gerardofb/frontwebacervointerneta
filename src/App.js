@@ -13,7 +13,8 @@ import { Autobiograficos } from './features/Biography/Autobiograficos';
 import ListadoEventos from './features/Events/ListadoEventos';
 import ListadoEventosProximos from './features/Events/ListadoEventosProximos';
 import EventosMasVisitados from './features/Events/EventosMasVisitados';
-import ListadoVieosFavoritos from './features/Players/ListadoFavoritosVideos';
+import ListadoVideosFavoritos from './features/Players/ListadoFavoritosVideos';
+import ListadoVideosMasVisitados from './features/Players/ListadoVideosMasVisitados';
 import { ThemeProvider } from './ThemeProvider';
 import Eventos from './features/Events/Eventos';
 import { useEffect } from 'react';
@@ -122,7 +123,12 @@ function App() {
           </Route>
           <Route path="/ListadoReproduccion/:tipo" exact>
               <ThemeProvider>
-                <ListadoVieosFavoritos></ListadoVieosFavoritos>
+                <ListadoVideosFavoritos></ListadoVideosFavoritos>
+              </ThemeProvider>
+          </Route>
+          <Route path="/ListadoReproduccionVisitados/:tipo" exact>
+              <ThemeProvider>
+                <ListadoVideosMasVisitados></ListadoVideosMasVisitados>
               </ThemeProvider>
           </Route>
         </Switch>

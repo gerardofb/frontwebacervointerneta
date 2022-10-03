@@ -184,13 +184,16 @@ Estilos de la reproducción individual de videos
 .player-container {
   margin: 0 2em;
 }
-
+.cuenta-favoritos-small{
+  font-size: xx-small;
+  margin-left: 2.6em;
+}
 .acciones-reproduccion {
   min-height: 35px;
   cursor: pointer;
   margin: 20px 0;
   display: grid;
-  grid-template-columns: 20% 20% 20% 20% 18.5%;
+  grid-template-columns: 15% 15% 15% 15% 18.5% 10% 9%;
   gap: 5px;
 
 }
@@ -205,9 +208,13 @@ Estilos de la reproducción individual de videos
   padding-left: 1em;
 }
 
-.item-acciones-repro:nth-child(5) {
+.item-acciones-repro:nth-child(7) {
   border-right: 1px solid gray;
   padding-right: 0;
+ 
+}
+.item-acciones-repro:nth-child(6) svg{
+  color:red;
 }
 
 .player-individual {
@@ -1170,7 +1177,42 @@ Estilo de footer
   grid-row: 2 / span 2;
   max-height: 480px;
 }
+.busqueda-videos-listado{
+  background-color:white;
+  border-top-right-radius: 1em;
+  border-bottom-right-radius: 1em;
+  display:grid;
+  grid-template-rows: repeat(5,1fr);
+  min-height: 50vh;
+  margin:3em 0;
+  justify-content: flex-end;
+}
+@media screen and (max-width:1400) {
+  .item-acciones-repro:nth-child(6), .item-acciones-repro:nth-child(7){
+    font-size:small;
+  }
+  .item-acciones-repro:nth-child(5){
+    font-size: xx-small;
+  }
+}
+@media screen and (max-width:1320) {
+  .item-acciones-repro:nth-child(6), .item-acciones-repro:nth-child(7){
+    font-size:small;
+  }
+  .item-acciones-repro:nth-child(5){
+    font-size: xx-small;
+  }
+  .item-acciones-repro:nth-child(5) .clickedstar{
+    max-width: 15px;
+  }
+}
 @media screen and (max-width: 1260px) {
+  .item-acciones-repro:nth-child(5){
+    font-size: xx-small;
+  }
+  .item-acciones-repro:nth-child(6), .item-acciones-repro:nth-child(7){
+    font-size: small;
+  }
   .container-tematica {
     display: none;
   }
@@ -1221,8 +1263,14 @@ Estilo de footer
   .navbar-principal h2 {
     display: none;
   }
-
+  .item-acciones-repro{
+    font-size: small;
+  }
+  .item-acciones-repro:nth-child(6), .item-acciones-repro:nth-child(7), .item-acciones-repro:nth-child(5){
+    font-size: xx-small;
+  }
 }
+
 
 @media screen and (max-width:1300px) {
   .year-change {
@@ -1233,7 +1281,12 @@ Estilo de footer
     transition: all 1s ease-in-out;
     width: 5px;
   }
-
+  .item-acciones-repro:nth-child(6), .item-acciones-repro:nth-child(7){
+    font-size:small;
+  }
+  .item-acciones-repro:nth-child(5){
+    font-size: xx-small;
+  }
   .search-bar-principal-input {
     float: left;
     border-radius: 5px;
@@ -1398,7 +1451,13 @@ Estilo de footer
     width: 50%;
     grid-column: 2;
   }
+  .item-acciones-repro:nth-child(6), .item-acciones-repro:nth-child(7), .item-acciones-repro:nth-child(5){
+    font-size: xx-small;
+  }
   .container-listado-eventos .calendario-eventos-principal, .container-listado-eventos .calendario-eventos-principal.active{
+    display: none;
+  }
+  .busqueda-videos-listado{
     display: none;
   }
   .container-listado-eventos, .container-listado-videos {
@@ -3081,7 +3140,7 @@ Clases de los eventos específicos del acervo (no los publicados por otros usuar
   text-align: center;
 }
 
-.right {
+.right-signboard {
   position: absolute;
   right: 0;
   z-index: 2;
@@ -3093,7 +3152,7 @@ Clases de los eventos específicos del acervo (no los publicados por otros usuar
   background: #EFC94C;
 }
 
-.left {
+.left-signboard {
   position: absolute;
   left: 0;
   z-index: 1;
@@ -3139,7 +3198,7 @@ Clases de los eventos específicos del acervo (no los publicados por otros usuar
   transform: scale(0);
 }
 
-.outer:active .right {
+.outer:active .right-signboard {
   -webkit-transform: rotate(-5deg) translateX(80px) scale(0.9);
   -moz-transform: rotate(-5deg) translateX(80px) scale(0.9);
   -ms-transform: rotate(-5deg) translateX(80px) scale(0.9);
@@ -3147,15 +3206,21 @@ Clases de los eventos específicos del acervo (no los publicados por otros usuar
   transform: rotate(-5deg) translateX(80px) scale(0.9);
 }
 
-.outer:active .left {
+.outer:active .left-signboard {
   -webkit-transform: rotate(5deg) translateX(-80px) scale(0.9);
   -moz-transform: rotate(5deg) translateX(-80px) scale(0.9);
   -ms-transform: rotate(5deg) translateX(-80px) scale(0.9);
   -o-transform: rotate(5deg) translateX(-80px) scale(0.9);
   transform: rotate(5deg) translateX(-80px) scale(0.9);
 }
-
-
+.timecode-eventoacervo{
+  text-align:center;
+  height:80px;
+  background-position: 32% 0;
+  background-repeat: no-repeat;
+  padding-top:20px;
+  margin-bottom: 4em;
+}
 .outer:active .calendarMain {
   -webkit-transform: scale(1.8);
   transform: scale(1.8);
@@ -3466,7 +3531,7 @@ Clases de los eventos específicos del acervo (no los publicados por otros usuar
   background-color: white;
   justify-content: left;
   align-items: flex-start;
-  min-height: 60px;
+  min-height: 70px;
 }
 .listado-default-header-vid div{
   text-align: center;
@@ -3491,16 +3556,7 @@ button.tag-listado-vid{
   background-color: #d3d3d3;
   border:1px solid black;
 }
-.busqueda-videos-listado{
-  background-color:white;
-  border-top-right-radius: 1em;
-  border-bottom-right-radius: 1em;
-  display:grid;
-  grid-template-rows: repeat(5,1fr);
-  min-height: 50vh;
-  margin:3em 0;
-  justify-content: flex-end;
-}
+
 .busqueda-videos-listado div:nth-child(1) button{
   outline: none;
   border: none;

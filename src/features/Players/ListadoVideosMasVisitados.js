@@ -273,6 +273,7 @@ const ListadoOpcionesVideo = [
         indice: 2, title: 'Eliminar', icono: faTrash
 
     },
+    ,
     {
         indice:3, title:'Encolar', icono:faHeadphones
     }
@@ -321,7 +322,7 @@ function random_color() {
     }
     return color;
 }
-const ListadoVideosFavoritos = (props) => {
+const ListadoVideosMasVisitados = (props) => {
     const rutaTipoListado = useParams();
     const tipoListado = rutaTipoListado.tipo === "MasVisitados" ? seleccionaTipoVideo.MAS_VISITADOS : rutaTipoListado.tipo === "Favoritos" ?
         seleccionaTipoVideo.FAVORITOS : seleccionaTipoVideo.MAS_VISITADOS;
@@ -499,4 +500,4 @@ const ListadoVideosFavoritos = (props) => {
         </>
     )
 }
-export default ListadoVideosFavoritos;
+export default ListadoVideosMasVisitados;

@@ -419,6 +419,7 @@ var mesesAcervoChosen = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", 
     "Septiembre", "Octubre", "Noviembre", "Diciembre"];
 var diasAcervoChosen = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
 const anioactualacervo = 2034//new Date().getFullYear();
+const urlpng = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/${name}.png${wrap ? ')' : ''}`
 const Eventos = () => {
     const { evento } = useParams();
     const location = useLocation();
@@ -554,7 +555,7 @@ const Eventos = () => {
         let daysmonth = [];
         let cuentafinessem = 0;
         for (i = 1; i < l; i++) {
-            d = new Date(year, month-1,i);
+            d = new Date(year, month - 1, i);
 
             daysmonth.push({ day: d.getDay(), fecha: d, numerodia: i });
         }
@@ -650,6 +651,7 @@ const Eventos = () => {
         }
     }
     const [banderaacervo, setBanderaAcervo] = useState(false);
+    const [timeCodeTitle, setTimeCodeTitle] = useState(false);
     return (
         detalleEvento == -1 && !eventoacervo ?
             <div>
@@ -1034,12 +1036,12 @@ const Eventos = () => {
 
                                     {
                                         yearsacervo.map((anio, indice) => {
-                                            let claseanioacervo = anio == anioseventos ? "year-change active-year-change" : anio == (anioseventos+1) ?"year-change second-active-year-change" :  "year-change";
-                                            
+                                            let claseanioacervo = anio == anioseventos ? "year-change active-year-change" : anio == (anioseventos + 1) ? "year-change second-active-year-change" : "year-change";
+
                                             return (
                                                 <div key={indice}
                                                     onClick={(e) => estableceAnioAcervo(anio)}
-                                                    className={claseanioacervo} style={{ float: 'left', margin: '25px', padding:'25px', display: 'block', cursor: 'pointer' }}>
+                                                    className={claseanioacervo} style={{ float: 'left', margin: '25px', padding: '25px', display: 'block', cursor: 'pointer' }}>
                                                     {anio}
                                                 </div>
                                             )
@@ -1172,9 +1174,11 @@ const Eventos = () => {
                                 }</ul>
                         </div>
                         <div style={{ minHeight: '3em', width: '100%' }}></div>
+
                         <div className="evento-editor-chosen">
+
                             {eventoAcervoChosen && tickAcervoChosen &&
-                                <><div className="signboard outer">
+                                <><div className="signboard outer" onMouseDown={(e) => setTimeCodeTitle(!timeCodeTitle)} onMouseUp={(e) => setTimeCodeTitle(false)}>
                                     <div className="signboard front inner anim04c">
                                         <ul>
                                             <li className="year-acervo-chosen anim04c">
@@ -1218,15 +1222,16 @@ const Eventos = () => {
                                 </div>
                                 </>
                             }
-                            <div className="evento-acervo-desc-chosen" ref={referenciaEventAcervo}>
-                                        <h1>
-                                            {eventoAcervoChosen && eventoAcervoChosen.title + " (" + eventoAcervoChosen.fecha.getFullYear() + "/" + (eventoAcervoChosen.fecha.getMonth() + 1) + "/" + eventoAcervoChosen.fecha.getDate() + " a las " + eventoAcervoChosen.fecha.getHours() + "  horas)"}
-                                        </h1>
-                                        <img src={eventoAcervoChosen && eventoAcervoChosen.imagen} />
-                                        <p>
-                                            {eventoAcervoChosen && eventoAcervoChosen.descripcion}
-                                        </p>
-                                    </div>
+                            {timeCodeTitle ? <div className="timecode-eventoacervo" style={{ backgroundImage: urlpng('clapperboard_timecode', true) }}><span>Faltan (horas, minutos o segundos) para el evento (Time Code)</span></div> : null}
+                            <div className="evento-acervo-desc-chosen" style={timeCodeTitle ? { marginTop: '-165px' } : null} ref={referenciaEventAcervo}>
+                                <h1>
+                                    {eventoAcervoChosen && eventoAcervoChosen.title + " (" + eventoAcervoChosen.fecha.getFullYear() + "/" + (eventoAcervoChosen.fecha.getMonth() + 1) + "/" + eventoAcervoChosen.fecha.getDate() + " a las " + eventoAcervoChosen.fecha.getHours() + "  horas)"}
+                                </h1>
+                                <img src={eventoAcervoChosen && eventoAcervoChosen.imagen} />
+                                <p>
+                                    {eventoAcervoChosen && eventoAcervoChosen.descripcion}
+                                </p>
+                            </div>
                         </div>
 
                     </div>

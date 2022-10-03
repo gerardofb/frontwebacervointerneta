@@ -470,6 +470,7 @@ const EventosMasVisitados = (props) => {
         console.log('descendiente ', valor, orden)
     }
     const estableceOrdenamiento = (orden) => {
+        setVisibleOpciones(-1);
         setOrdenarPor({ orden: orden.indice, descendiente: ordenamientoDesc });
         let salida = orderBy(listado, orden.indice, ordenamientoDesc);
         setListado(salida);
@@ -479,6 +480,7 @@ const EventosMasVisitados = (props) => {
     let claseContenedorCalendario = tipoListado == "Proximos" ? "contenedor-calendarios-proximos" : "contenedor-calendario-listado";
     const [textoSearch, setTextoSearch] = useState('');
     const estableceBusqueda = () => {
+        setVisibleOpciones(-1);
         setOrdenamientoDesc(ordenamientoDesc);
         setOrdenarPor({ orden: ordenarPor, descendiente: ordenamientoDesc });
         let salida = orderBy(listado, ordenarPor.orden, ordenamientoDesc);

@@ -31,7 +31,8 @@ import {
     faScissors,
     faToggleOff,
     faToggleOn,
-    faStar
+    faStar, 
+    faHeadphones
 } from "@fortawesome/free-solid-svg-icons"
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
@@ -607,6 +608,7 @@ export const AutoComments = () => {
 
         setClicked(clickStates);
     };
+    const [esFavorito, setEsFavorito] = useState({valor:false, cuenta:4056});
     console.log('estrellas marcadas para calificar', clicked);
     return (
         <div className='player-individual' onScroll={handleScroll}>
@@ -653,6 +655,13 @@ export const AutoComments = () => {
                                         </div>
                                     })
                                     }
+                    </div>
+                    <div className='item-acciones-repro' onClick={(e)=>{setEsFavorito({...esFavorito, valor:!esFavorito.valor,
+                        cuenta:!esFavorito.valor ? ++esFavorito.cuenta : --esFavorito.cuenta})}}>
+                        <FontAwesomeIcon  style={esFavorito.valor ? {color:'red'} : {color:'darkgray'}} icon={faHeart} /><span>Favoritos <span className="cuenta-favoritos-small">{esFavorito.cuenta}</span></span>
+                    </div>
+                    <div className='item-acciones-repro'>
+                        <FontAwesomeIcon icon={faHeadphones} /><span>Encolar</span>
                     </div>
                 </div>
             </div>
