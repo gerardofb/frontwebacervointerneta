@@ -1223,7 +1223,7 @@ const Eventos = () => {
                                 </>
                             }
                             {timeCodeTitle ? <div className="timecode-eventoacervo" style={{ backgroundImage: urlpng('clapperboard_timecode', true) }}><span>Faltan (horas, minutos o segundos) para el evento (Time Code)</span></div> : null}
-                            <div className="evento-acervo-desc-chosen" style={timeCodeTitle ? { marginTop: '-165px' } : null} ref={referenciaEventAcervo}>
+                            <div className="evento-acervo-desc-chosen" ref={referenciaEventAcervo}>
                                 <h1>
                                     {eventoAcervoChosen && eventoAcervoChosen.title + " (" + eventoAcervoChosen.fecha.getFullYear() + "/" + (eventoAcervoChosen.fecha.getMonth() + 1) + "/" + eventoAcervoChosen.fecha.getDate() + " a las " + eventoAcervoChosen.fecha.getHours() + "  horas)"}
                                 </h1>
