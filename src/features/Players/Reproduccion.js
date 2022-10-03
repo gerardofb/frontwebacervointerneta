@@ -624,11 +624,13 @@ export const AutoComments = () => {
                 Reproduciendo: {titulo }
             </h2>
             <div onClick={(e) => resetMyEvents(null, true)} className='player-container' onContextMenu={(e) => handleContextMenu(false, false)}>
+                <div class="player-inner">
                 <Player>
                     <source src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4"></source>
                     <ControlBar></ControlBar>
                     <LoadingSpinner></LoadingSpinner>
                 </Player>
+                </div>
                 <div className='acciones-reproduccion'>
                     <div className='item-acciones-repro' onClick={(e) => toggleState(e, MODAL_CREDITOS)}>
                         <FontAwesomeIcon icon={faCircleInfo} /><span>Créditos</span>

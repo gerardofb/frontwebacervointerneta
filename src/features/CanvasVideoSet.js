@@ -14,7 +14,7 @@ let orientation2 = 0;
 let orientation3 = 0;
 let orientation4 = 0;
 let orientation5 = 0;
-function randomGreyHex() 
+function random_color() 
 {
     var color = "";
     for(var i = 0; i < 3; i++) {
@@ -23,7 +23,7 @@ function randomGreyHex()
     }
     return "#" + color;
 }
-function random_color() {
+function randomGreyHex() {
   var v = (Math.random()*(256)|0).toString(16);//bitwise OR. Gives value in the range 0-255 which is then converted to base 16 (hex).
   return "#" + v + v + v;
 }

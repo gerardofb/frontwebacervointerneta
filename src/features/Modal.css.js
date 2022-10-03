@@ -2,7 +2,7 @@ import styled from "styled-components";
 const StyledModal = styled.div`
   position: absolute;
   left: 0;
-  top:15%;
+  top:18%;
   right: 0;
   bottom: 0;
   display: flex;
@@ -37,6 +37,6 @@ const StyledModal = styled.div`
         return "";
     }
   }};
-  margin: 40px auto;
+  margin: 20px auto;
 `;
 export default StyledModal;

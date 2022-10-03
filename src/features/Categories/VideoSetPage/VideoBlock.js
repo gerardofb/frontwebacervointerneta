@@ -111,7 +111,7 @@ class VideoBlock extends PureComponent {
                     &nbsp;<Link to={"/Reproduccion/"+name}><FontAwesomeIcon style={{fontSize:'large'}} icon={faArrowRight} /></Link>
                     </StyledParagraph>
                     <StyledTools className="video-block-tool-white">
-                        <span style={{color:'black'}}>{generateRandom(2000)} likes <img src={urlsvg("thumbs-up-solid")} style={{width:'6%', color:'white'}} /></span>
+                        <span style={{color:'black'}}>{generateRandom(5)} calificación <img src={urlsvg("thumbs-up-solid")} style={{width:'6%', color:'white'}} /></span>
                         <span style={{color:'black'}}>{generateRandom(2000)} favoritos <img src={urlsvg("heart-solid")} style={{width:'6%', color:'white'}} /></span>
                         <span style={{color:'black'}}>{generateRandom(2000)} comentarios <img src={urlsvg("comments-solid")} style={{width:'6%', color:'white'}} /></span>
                     </StyledTools>
