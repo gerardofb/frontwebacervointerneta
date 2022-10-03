@@ -14,7 +14,7 @@ let orientation2 = 0;
 let orientation3 = 0;
 let orientation4 = 0;
 let orientation5 = 0;
-function get_random_color() 
+function randomGreyHex() 
 {
     var color = "";
     for(var i = 0; i < 3; i++) {
@@ -22,6 +22,10 @@ function get_random_color()
         color += (sub.length == 1 ? "0" + sub : sub);
     }
     return "#" + color;
+}
+function random_color() {
+  var v = (Math.random()*(256)|0).toString(16);//bitwise OR. Gives value in the range 0-255 which is then converted to base 16 (hex).
+  return "#" + v + v + v;
 }
 const straight = new Straight2(0,
       canvas.height /2,
@@ -98,7 +102,7 @@ function Straight(x, y, particleTrailWidth, strokeColor, speed, orientacionX, or
     }
     ctx.beginPath();
     ctx.lineWidth = this.particleTrailWidth;
-    ctx.strokeStyle = orientation%2 == 0 ? get_random_color() : '#fff';
+    ctx.strokeStyle = orientation%2 == 0 ? randomGreyHex() : '#fff';
     ctx.lineCap='square'
     ctx.moveTo(ls.x, ls.y);
     ctx.lineTo(this.x, this.y);
@@ -133,7 +137,7 @@ function Straight2(x, y, particleTrailWidth, strokeColor, speed, orientacionX, o
     }
     ctx.beginPath();
     ctx.lineWidth = this.particleTrailWidth;
-    ctx.strokeStyle = orientation2%2 == 0 ? get_random_color() : '#fff';
+    ctx.strokeStyle = orientation2%2 == 0 ? randomGreyHex() : '#fff';
     ctx.lineCap='square'
     ctx.moveTo(ls.x, ls.y);
     ctx.lineTo(this.x, this.y);
@@ -201,7 +205,7 @@ function Straight4(x, y, particleTrailWidth, strokeColor, speed, orientacionX, o
     }
     ctx.beginPath();
     ctx.lineWidth = this.particleTrailWidth;
-    ctx.strokeStyle = orientation4%2 == 0 ? get_random_color() : '#fff';
+    ctx.strokeStyle = orientation4%2 == 0 ? randomGreyHex() : '#fff';
     ctx.lineCap='square'
     ctx.moveTo(ls.x, ls.y);
     ctx.lineTo(this.x, this.y);
@@ -236,7 +240,7 @@ function Straight5(x, y, particleTrailWidth, strokeColor, speed, orientacionX, o
     }
     ctx.beginPath();
     ctx.lineWidth = this.particleTrailWidth;
-    ctx.strokeStyle = orientation5%2 == 0 ? get_random_color() : '#fff';
+    ctx.strokeStyle = orientation5%2 == 0 ? randomGreyHex() : '#fff';
     ctx.lineCap='square'
     ctx.moveTo(ls.x, ls.y);
     ctx.lineTo(this.x, this.y);
@@ -257,7 +261,7 @@ const line = {
     ctx.lineTo(this.x,this.y)
     ctx.closePath()
     ctx.strokeStyle=orientation%5 == 0 ?
-      get_random_color() : "#eee"
+      randomGreyHex() : "#eee"
     ctx.lineWidth=1.5;
     ctx.stroke()
     

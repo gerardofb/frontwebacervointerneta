@@ -936,6 +936,7 @@ Estilo de footer
 
 .resume-video-set p {
   background: black;
+  color:white;
   opacity: 1;
   z-index: 2;
 }
@@ -1389,7 +1390,12 @@ Estilo de footer
     color: black;
     opacity: 1;
   }
-
+  .resume-video-set p {
+    background: white;
+    color:black;
+    opacity: 1;
+    z-index: 2;
+  }
   .content-player {
     display: grid;
     grid-template-columns: repeat(.5fr);
