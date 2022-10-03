@@ -3219,7 +3219,6 @@ Clases de los eventos específicos del acervo (no los publicados por otros usuar
   background-position: 32% 0;
   background-repeat: no-repeat;
   padding-top:20px;
-  margin-bottom: 4em;
 }
 .outer:active .calendarMain {
   -webkit-transform: scale(1.8);
@@ -3540,7 +3539,7 @@ Clases de los eventos específicos del acervo (no los publicados por otros usuar
   text-align: left;
 }
 .vid-listado div:nth-child(5){
-  width: 160px;
+  width: 80px;
   overflow: auto;
   scrollbar-width: none;
   overflow-wrap: normal;
