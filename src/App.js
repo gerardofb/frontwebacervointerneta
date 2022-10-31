@@ -1,4 +1,5 @@
 import './App.css';
+import axios from 'axios';
 import { Home } from './features/Home';
 import 'video-react/dist/video-react.css';
 import IndexPage from './features/Categories/Index';
@@ -22,6 +23,7 @@ import {library} from '@fortawesome/fontawesome-svg-core';
 import { faBook, faHouse, faTape, faForward, faCommentDots, faVolumeHigh, faCalendarDays, faUserCheck, faUser,
 faEnvelope, faCircleExclamation, faHeart, faRadio, faTimeline, faPlay, faShuffle, faFilm, faVideo, faClapperboard , faCheck} from '@fortawesome/free-solid-svg-icons';
 import SideBar from './features/Menu/Sidebar'
+import { useState } from 'react';
 
 library.add(faBook, faHouse, faTape, faForward, faCommentDots, faVolumeHigh, faCalendarDays, faUserCheck, faEnvelope,
   faCircleExclamation, faHeart, faRadio, faTimeline, faPlay, faShuffle, faFilm, faVideo, faClapperboard, faCheck);
@@ -53,13 +55,61 @@ history.push = args => {
 }
 
 function App() {
+  const [videosPopulated,setVideosPopulated] = useState(null);
+  const[categoriasService,setCategoriasService] = useState([])
   useEffect(() => {
     window.addEventListener('popstate', (event) => {
       let elementotop = document.querySelector('.navbar-principal');
       if(elementotop !== undefined){setTimeout(function(){elementotop.scrollIntoView({behavior:'smooth'}); console.log('dispare el evento popstate', elementotop);},100)}
       
     });
-  },[]);
+    populate_videos_set();
+},[]);
+const populate_videos_set = () => {
+  const requestone= axios.get('http://localhost:8000/api/categorias/');
+  
+  const requestwo = axios.get('http://localhost:8000/api/videos/');
+   
+  const promise = axios.all([requestone,requestwo]).then(axios.spread((...response) => {
+     //console.log(response[0].data)
+     let primeracat = [response[0].data[0].titulo, response[0].data[0].contenedor_img, response[1].data.filter(x=> x.id_categoria == 1)];
+     let segundacat = [response[0].data[1].titulo, response[0].data[1].contenedor_img,response[1].data.filter(x=> x.id_categoria == 2)]
+     let terceracat = [response[0].data[2].titulo, response[0].data[2].contenedor_img,response[1].data.filter(x=> x.id_categoria == 4)]
+     let cuartacat = [response[0].data[3].titulo,  response[0].data[3].contenedor_img,response[1].data.filter(x=> x.id_categoria == 5)]
+     let quintacat = [response[0].data[4].titulo, response[0].data[4].contenedor_img,response[1].data.filter(x=> x.id_categoria == 6)]
+     let sextacat = [response[0].data[5].titulo, response[0].data[5].contenedor_img,response[1].data.filter(x=> x.id_categoria == 7)]
+     //console.log('listados de respuesta videos categorizados',primeracat,segundacat,terceracat,cuartacat,quintacat,sextacat)
+     let salida = arrange_videos([primeracat,segundacat,terceracat,cuartacat,quintacat,sextacat]);
+     //console.log(salida);
+     setVideosPopulated(salida);
+   }));
+  return;
+  }
+  function arrange_videos(arreglo) {
+    let videosService = {}
+    arreglo.forEach(([title, container, pic]) => {
+      const picsArray = pic.reduce((acc, key) => {
+        const name = container//key.replace(/^\.\/|\.png$/g, "").replace(/_/g, "-")
+        return acc.concat({
+          id: `${title.replace(' ', '-')}`,
+          name,
+          Video: name,
+        })
+      }, [])
+      // randomize the icons to show on the index page
+      const highlightedVideos = picsArray
+        .map(a => ({ sort: Math.random(), value: a }))
+        .sort((a, b) => a.sort - b.sort)
+        .map(a => a.value)
+        .slice(0, 1)
+      //console.log('en función de poblamiento de videos ',highlightedVideos)
+      videosService[title] = picsArray.map(
+        obj =>
+          highlightedVideos.includes(obj) ? { ...obj, highlighted: true } : obj
+      )
+    })
+    return videosService;
+  }
   return (
     <BrowserRouter>
       <div className="App">
@@ -89,7 +139,8 @@ function App() {
               )
             }}
           />}
-          <Route path="/Categorias/:set/:focusedVideo" children={VideoSetPage}>
+          <Route path="/Categorias/:set/:focusedVideo">
+            <VideoSetPage videos={videosPopulated}></VideoSetPage>
           </Route>
           <Route path="/Reproduccion/:video" exact>
             <ThemeProvider>

@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from 'axios';
 import Parallax from 'react-springy-parallax'
 import { BigPlayButton, ControlBar, LoadingSpinner, Player, PlayToggle } from 'video-react'
 import { HomeCategories } from './HomeCategories';
@@ -12,8 +13,16 @@ const url = (name, wrap = false) => `${wrap ? 'url(' : ''}images/${name}.svg${wr
 const urlpng = (name, wrap = false) => `${wrap ? 'url(' : ''}images/Art/inverted/${name}.png${wrap ? ')' : ''}`
 
 export class Home extends React.Component {
-
-
+    state = {
+        categoriasService:[]
+    }
+    
+    componentDidMount(){
+        axios.get('http://localhost:8000/api/categorias/').then(response=>{
+            this.setState({categoriasService:response.data})
+            console.log('respuesta de api ',response.data)
+        });
+    }
     render() {
         const { styles } = this.context;
         console.log('en home ', this.context)
@@ -62,7 +71,7 @@ export class Home extends React.Component {
                         </Player>
                     </Parallax.Layer>
                     <Parallax.Layer offset={1.4} speed={0} style={{ display: 'flex' }}>
-                        <HomeCategories></HomeCategories>
+                        <HomeCategories categoriasService={this.state.categoriasService}></HomeCategories>
                     </Parallax.Layer>
                     <Parallax.Layer offset={2.5} speed={0} style={{ display: 'flex', marginBottom: '2em' }}>
                         <HomeTags></HomeTags>

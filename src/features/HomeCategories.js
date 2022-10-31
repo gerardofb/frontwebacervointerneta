@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSpring, animated } from 'react-spring'
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const url = (name, wrap = false) => `${wrap ? 'url(' : ''}images/Stills/${name}.png${wrap ? ')' : ''}`;
 const imagenes = ['Categoria_uno', 'Categoria_dos', 'Categoria_tres', 'Categoria_cuatro', 'Categoria_cinco', 'Categoria_seis', 'Categoria_siete'];
@@ -22,6 +23,8 @@ const HomeCategories = (props) => {
     const [fliptext, setFlipText] = useState(false);
     const [distance, setDistance] = useState(0);
     const [distancetext, setDistanceText] = useState(0);
+    const [categorias,setCategorias]=useState(props.categoriasService)
+   
     const styles = useSpring({
         from: { x: 0 },
         to: { x: distance },
@@ -78,10 +81,10 @@ const HomeCategories = (props) => {
                 position: 'relative',
                 ...styles
             }}>
-                {imagenes.map(function (el, index) {
+                {props.categoriasService.map(function (el, index) {
                     return (
                         <div className='category-images-green' key={index} style={{ float: 'left', margin: '25px', padding: '25px', display: 'block' }}>
-                            <img src={url(el)} style={{ width: '450px', height: '337px' }}></img>
+                            <img src={el.contenedor_img} style={{ width: '450px', height: '337px' }}></img>
                         </div>
                     )
                 })}
@@ -97,15 +100,12 @@ const HomeCategories = (props) => {
                 ...stylesText
             }}>
                 {
-                    headerscategories.map(function (el, index) {
+                    props.categoriasService.map(function (el, index) {
                         return (
-                            <div key={index} style={{ float: 'left', margin: '25px', padding: '25px', display: 'block', width: '960px', textAlign: 'left', color: 'white'}} className={headercolors[index]}>
-                                <h1>{el}</h1>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut felis lorem, dapibus sed sapien eget, placerat fermentum nisl. Fusce at erat justo. Duis facilisis aliquam sodales. Integer tristique arcu et enim congue dictum. Duis volutpat quam lorem, sit amet lobortis sapien posuere nec. Duis non vulputate mi, ut dignissim nibh. Sed scelerisque efficitur nunc, nec sagittis mauris ultrices non. Nam molestie facilisis tempus. Pellentesque ac aliquet magna. Vestibulum sed dapibus orci. Sed suscipit ipsum at sapien volutpat egestas.
-
-                                    Nam quis fringilla nisl. Nunc accumsan in dolor id pellentesque. Cras interdum felis vel venenatis maximus. Phasellus quis ante eget felis lobortis faucibus. Ut urna neque, suscipit vitae tempus a, lobortis ut urna. Suspendisse id nulla quis lectus euismod commodo sed blandit diam. Quisque vitae posuere sem. Donec ante turpis, tempus at nisi ac, hendrerit finibus nibh.</p>
-
+                            <div key={index} style={{ float: 'left', margin: '25px', padding: '25px', display: 'block', maxHeight:'250px', width: '960px', textAlign: 'left', color: 'white', overflowY:'auto'}} className={headercolors[index]}>
+                                <h1>{el.titulo}</h1>
+                                <p>{el.descripcion}
+                                </p>
 
                             </div>
                         )

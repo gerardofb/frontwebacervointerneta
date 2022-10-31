@@ -197,11 +197,11 @@ class IconSetCard extends PureComponent {
                 <IndexGrid>
                   {videos
                     .filter(obj => obj.highlighted)
-                    .map(({ Video, id }) => {
+                    .map(({ Video,name, id }) => {
                       return (
                         <IndexListItem key={id}>
                           <Flipped flipId={id} shouldFlip={this.shouldFlip}>
-                            <img src={Video} />
+                            <img src={name} />
                           </Flipped>
                         </IndexListItem>
                       )

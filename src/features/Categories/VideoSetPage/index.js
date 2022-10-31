@@ -1,18 +1,19 @@
-import React, { useContext } from "react"
+import React, { useContext, useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import styled from "styled-components"
 import { Flipped } from "react-flip-toolkit"
-
+import axios from "axios"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
 import anime from "animejs"
-import videos from '../videosCategorized'
 import { Contents } from "../BaseComponents"
 import VideoBlock from "./VideoBlock"
 import StaticNavBar from '../StaticNavbar';
 import { HomeFooter } from "../../HomeFooter"
 import { ThemesContext } from "../../../ThemeProvider"
+import { useParams, useLocation } from "react-router-dom"
 import CanvasVideoSet from "../../CanvasVideoSet"
+import { videos } from "../videosCategorized"
 
 const VideoSetGrid = styled.ul`
   display: grid;
@@ -87,15 +88,83 @@ const onExit = el => {
         delay: anime.stagger(20)
     }).finished
 }
+const ruta_aws = "https://deploy-videos-acervo-interneta.s3.amazonaws.com/"
+const VideoSetPage = (
+    props) => {
+    const { set, focusedVideo } = useParams();
+    //console.log('el primer estado del video enfocado es ');
+    console.log('el titulo del bloque de videos es ',set);
+    //console.log(focusedVideo)
+    const location = useLocation();
+    const [videosPopulated, setVideosPopulated] = useState(null);
+    const [categoriaSet, setCategoriaSet] = useState({})
+    useEffect(() => {
+        populate_videos_set();
+    }, []);
+    const populate_videos_set = () => {
+        const requestone = axios.get('http://localhost:8000/api/categorias/');
 
-function VideoSetPage({
-    match: { params: { set, focusedVideo } = {} },
-    location
-}) {
+        const requestwo = axios.get('http://localhost:8000/api/videos/');
+
+        const promise = axios.all([requestone, requestwo]).then(axios.spread((...response) => {
+            //console.log('categorias ',response[0].data)
+            let primeracat = [response[0].data[0].titulo, response[0].data[0].contenedor_img, response[1].data.filter(x => x.id_categoria == 1)];
+            let segundacat = [response[0].data[1].titulo, response[0].data[1].contenedor_img, response[1].data.filter(x => x.id_categoria == 2)]
+            let terceracat = [response[0].data[2].titulo, response[0].data[2].contenedor_img, response[1].data.filter(x => x.id_categoria == 4)]
+            let cuartacat = [response[0].data[3].titulo, response[0].data[3].contenedor_img, response[1].data.filter(x => x.id_categoria == 5)]
+            let quintacat = [response[0].data[4].titulo, response[0].data[4].contenedor_img, response[1].data.filter(x => x.id_categoria == 6)]
+            let sextacat = [response[0].data[5].titulo, response[0].data[5].contenedor_img, response[1].data.filter(x => x.id_categoria == 7)]
+            ////console.log('listados de respuesta videos categorizados',primeracat,segundacat,terceracat,cuartacat,quintacat,sextacat)
+            let salida = arrange_videos([primeracat, segundacat, terceracat, cuartacat, quintacat, sextacat]);
+            ////console.log(salida);
+            setVideosPopulated(salida);
+            response[0].data.map((el,indice)=>{
+                console.log('iterando en categorias de respuesta ',el)
+                if(el.titulo == set){
+                setCategoriaSet(el)
+        }
+            });
+            
+        }));
+        return;
+    }
+    function arrange_videos(arreglo) {
+        let videosService = {}
+        arreglo.forEach(([title, container, pic]) => {
+            const picsArray = pic.reduce((acc, key) => {
+                const name = container//key.replace(/^\.\/|\.png$/g, "").replace(/_/g, "-")
+                const elvideo = key.contenedor_img.split('/')
+                console.log('la llave es ',key);
+                return acc.concat({
+                    id: `${title.replace(' ', '-')}`,
+                    name,
+                    Video: elvideo[elvideo.length - 1],
+                    llave:key.id,
+                    titulovideo:key.titulo,
+                    categoriavideo:key.id_categoria
+                })
+            }, [])
+            // randomize the icons to show on the index page
+            const highlightedVideos = picsArray
+                .map(a => ({ sort: Math.random(), value: a }))
+                .sort((a, b) => a.sort - b.sort)
+                .map(a => a.value)
+                .slice(0, 1)
+            ////console.log('en función de poblamiento de videos ',highlightedVideos)
+            videosService[title] = picsArray.map(
+                obj =>
+                    highlightedVideos.includes(obj) ? { ...obj, highlighted: true } : obj
+            )
+        })
+        return videosService;
+    }
+    { ////console.log('el estado de los videos en esta categoría es', videosPopulated, focusedVideo, categoriaSet)
+     }
     return (
+
         <div>
-            <div style={{ zIndex:'1', height:'100px', display:'block' }}>
-                <StaticNavBar style={{marginRight:'40%'}}></StaticNavBar>
+            <div style={{ zIndex: '1', height: '100px', display: 'block' }}>
+                <StaticNavBar style={{ marginRight: '40%' }}></StaticNavBar>
             </div>
             <Flipped
                 flipId={set}
@@ -128,16 +197,21 @@ function VideoSetPage({
                                     <p data-fade-in>click para ver video</p>
                                 </SetDescription>
                                 <VideoSetGrid>
-                                    {videos[set] != undefined && videos[set].map(({ name, Video, id }) => {
-                                        console.log('iterando en videos ', focusedVideo)
+                                    {videosPopulated && videosPopulated[set] != undefined && videosPopulated[set].map(({ name, Video, id,llave,titulovideo, categoriavideo }) => {
+                                        //console.log('iterando en videos ');
+                                        //console.log(focusedVideo)
+                                        console.log('en iteracion de llave ',videosPopulated[set])
                                         return (
                                             <VideoBlock
-                                                Video={Video}
-                                                isFocused={name === focusedVideo}
+                                                Video={ruta_aws + Video}
+                                                isFocused={Video === focusedVideo}
                                                 id={id}
-                                                name={name}
+                                                name={Video}
                                                 set={set}
                                                 key={id}
+                                                identificador={llave}
+                                                titulo={titulovideo}
+                                                id_categoria_video={categoriavideo}
                                             />
                                         )
                                     })}
@@ -145,21 +219,22 @@ function VideoSetPage({
                             </SetContents>
                         </InverseContainer>
                     </Flipped>
-                    <div style={{marginTop:'10em'}}>
-                   <CanvasVideoSet>
-                    
-                   </CanvasVideoSet>
-                   <div className="resume-video-set">
-                   <h2>Arte Público</h2>
-<p>Número de documentos audiovisuales: 26</p>
-<p>Esta colección se integra con audiovisuales que captan tanto prácticas populares como de arte urbano, así como disciplinas artísticas escenificadas en el espacio público. Entre ellas se encuentra el arte escénico colectivo del Grupo Barro Rojo(BRAE); los reportajes sobre dos primeras bienales del Cartel en México centradas en el cartel popular;  documentales sobre arte migrante mexicano en la ciudad de San Francisco, California y piezas performances de artistas multimedia, muralismo urbano y prácticas de grafiti en las ciudades de Monterrey, Estado de México y Ciudad de México. Se trata de documentales registrados en la década del noventa e inicio del nuevo siglo. 
-A éstos se suman documentales realizados en este siglo sobre las prácticas “creactivas” comunitarias y barriales para la recuperación del espacio público en colonias populares de la Ciudad de México. Y en últimas fechas se encuentran reflexiones compartidas de artistas, colectivos, gestores de arte y cultura comunitaria durante el encierro pandémico (COVID-19) en el año de 2020.</p>
+                    <div style={{ marginTop: '10em' }}>
+                        <CanvasVideoSet>
 
-                    </div>
+                        </CanvasVideoSet>
+                        <div className="resume-video-set">
+                            <h2>{set.replace('-', ' ')}</h2>
+                            <p>Número de documentos audiovisuales: 26</p>
+                            <p>{
+                                categoriaSet && categoriaSet.descripcion
+                            }</p>
+
+                        </div>
                     </div>
                 </Background>
             </Flipped>
-            <HomeFooter style={{position:'absolute',bottom:'0'}}></HomeFooter>
+            <HomeFooter style={{ position: 'absolute', bottom: '0' }}></HomeFooter>
         </div>
     )
 }

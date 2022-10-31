@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState, useContext } from 'react'
 import { ControlBar, LoadingSpinner, Player } from 'video-react'
+import axios from "axios"
 import { useParams } from 'react-router-dom'
 import {
     useTransition,
@@ -31,7 +32,7 @@ import {
     faScissors,
     faToggleOff,
     faToggleOn,
-    faStar, 
+    faStar,
     faHeadphones
 } from "@fortawesome/free-solid-svg-icons"
 import { Link, useLocation } from "react-router-dom";
@@ -80,14 +81,6 @@ let items = [
     { titulo: "Ernesto Flores", content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec luctus, dui quis porttitor gravida, nulla sem consequat nibh, eget fermentum ex orci ornare sem. Curabitur viverra vehicula elit, a pretium mi pretium a. Curabitur sed accumsan enim. Donec ultricies odio non congue cursus. Phasellus finibus lorem quis bibendum scelerisque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas." }
 ]
 let catdata = [
-    {
-        name: 'Rare Wind',
-        description: '#a8edea → #fed6e3',
-        css: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
-        image: 'url("/images/Classification/Cat_1.png")',
-        url: "Screenshot_1",
-        height: 200,
-    },
     {
         name: 'Saint Petersburg',
         description: '#f5f7fa → #c3cfe2',
@@ -238,7 +231,7 @@ function shuffleArray(array) {
 function isInViewport(element) {
     const rect = element.getBoundingClientRect();
 
-    console.log('datos de video clip ', rect.top, rect.left, rect.bottom, rect.right)
+    //console.log('datos de video clip ', rect.top, rect.left, rect.bottom, rect.right)
 
     return rect.bottom > 0;
     // return (
@@ -251,8 +244,8 @@ function isInViewport(element) {
 function isInViewportFooter(element) {
     const rect = element.getBoundingClientRect();
     const { scrollTop, offsetHeight } = document.documentElement;
-    console.log('datos de video clip footer ', rect.top, rect.left, rect.bottom, rect.right)
-    console.log('limite datos de video clip footer ', Math.round(scrollTop - rect.top))
+    // console.log('datos de video clip footer ', rect.top, rect.left, rect.bottom, rect.right)
+    // console.log('limite datos de video clip footer ', Math.round(scrollTop - rect.top))
     return Math.round(scrollTop - rect.top) > -350;
     // return (
     //     rect.top >= 0 &&
@@ -265,8 +258,8 @@ function isInViewportFooter(element) {
 function isInViewportMenu(element) {
     const rect = element.getBoundingClientRect();
     const { scrollTop, offsetHeight } = document.documentElement;
-    console.log('datos de video encabezado', rect.top, rect.left, rect.bottom, rect.right)
-    console.log('limite datos de video encabezado ', Math.round(scrollTop - rect.top))
+    // console.log('datos de video encabezado', rect.top, rect.left, rect.bottom, rect.right)
+    // console.log('limite datos de video encabezado ', Math.round(scrollTop - rect.top))
     return Math.round(scrollTop - rect.top) > 0;
 }
 const mensajes = [
@@ -320,7 +313,11 @@ const opcionesDescarga = [
 export const AutoComments = () => {
 
     const { video } = useParams();
-    
+    const [sourcevideo, setSourceVideo] = useState('');
+    const [datostransicion, setDatosTransicion] = useState(null);
+    const [videoreproduciendo, setVideoReproduciendo] = useState(null);
+    const [videoscategoria, setVideosCategoria] = useState(null);
+    const [creditosvideo, setCreditosVideo] = useState(null);
     const location = useLocation();
     const tabuladores = ["Comentarios", "Autobiográficos/Podcasts", "Eventos"];
     const [alturaPlayer, setAlturaPlayer] = useState(true);
@@ -334,17 +331,55 @@ export const AutoComments = () => {
         </div>
     );
     const [msjesChat, setMsjesChat] = useState({ chat: mensajes, show: false });
-    
-    const [videoaleatorio,setVideoAleatorio] = useState('');
-   
-    
+
+    const [videoaleatorio, setVideoAleatorio] = useState('');
+    const obtenervideo = video.split('|')
+    const categoriareproduciendo = obtenervideo[obtenervideo.length - 1];
+    const titulo = videoaleatorio === "" ? obtenervideo[obtenervideo.length - 3] : "Screenshot-" + videoaleatorio;
+
     useEffect(() => {
-        console.log("Location changed");
+        // console.log("Location changed");
+
+        // console.log('obteniendo fuente del video ',obtenervideo)
+        const idvideo = obtenervideo[obtenervideo.length - 1]
+        const requestone = axios.get(`http://localhost:8000/api/video/${idvideo}`).then(response => {
+            if (sourcevideo === '') {
+                setSourceVideo(response.data.contenedor_aws);
+                //console.log('la fuente del video es ', response.data.contenedor_aws);
+                setVideoReproduciendo(response.data);
+            }
+        });
+        const requesttwo = axios.get(`http://localhost:8000/api/creditosvideo/${idvideo}`).then(response => {
+            if (creditosvideo === null) {
+                setCreditosVideo(response.data[0]);
+                //console.log('los creditos del video son ', response.data[0])
+            }
+        });
+        const requestthree = axios.get(`http://localhost:8000/api/videos/${categoriareproduciendo}`).then(response => {
+            if (videoscategoria === null) {
+                setVideosCategoria(response.data)
+                //console.log('la longitud de los videos en la categoria es ', response.data);
+                const nuevo_listadovideos = response.data.map((el, indice) => {
+                    return {
+                        name: 'Rare Wind',
+                        description: '#a8edea → #fed6e3',
+                        css: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
+                        image: 'url("' + el.contenedor_img + '")',
+                        url: el.titulo+"|"+obtenervideo[obtenervideo.length-2]+"|"+obtenervideo[obtenervideo.length-1],
+                        height: 200,
+                    }
+                }).slice(0,response.data.length);
+                if (datostransicion === null) {
+                    setDatosTransicion(nuevo_listadovideos)
+                    //console.log('los videos listados en la categoria son después', nuevo_listadovideos);
+                }
+            }
+        });
         items = shuffleArray(items);
         let videoaleatorio = randomBetween10_19();
         ;
-        if(location.search){
-        setVideoAleatorio(videoaleatorio);
+        if (location.search) {
+            setVideoAleatorio(videoaleatorio);
         }
         setMsjesChat({
             chat: msjesChat.chat.filter(a => a.propio == false),
@@ -353,18 +388,20 @@ export const AutoComments = () => {
         let elementotop = document.querySelector('.header-reproduccion-individual');
         elementotop.scrollIntoView({ behavior: 'smooth' });
     }, [location]);
-    console.log('el video aleatorio es ',videoaleatorio);
-    function randomBetween10_19(){
-        
-        let arreglo = [11,12,13,14,15,16,17,18,19]
-        let aleatorio = Math.floor(Math.random()*arreglo.length)
+    // console.log('la fuente del video en el estado es ', sourcevideo)
+    // console.log('el video aleatorio es ', videoaleatorio);
+    console.log('la transición tiene los siguientes elementos ', datostransicion && datostransicion.length);
+    function randomBetween10_19() {
+
+        let arreglo = [11, 12, 13, 14, 15, 16, 17, 18, 19]
+        let aleatorio = Math.floor(Math.random() * arreglo.length)
         //if(aleatorio >= 11 && aleatorio < 20){
-        return ""+arreglo[aleatorio];
+        return "" + arreglo[aleatorio];
         //}
         //else return '11';
-      }
-    
-    const titulo = videoaleatorio === "" ? video : "Screenshot-"+videoaleatorio;
+    }
+
+
     const [elems, setItems] = useState(items);
     const bottomRef = useRef()
     const scrollToBottom = () => {
@@ -373,7 +410,7 @@ export const AutoComments = () => {
             block: "start"
         })
     }
-
+    let listadovideoscategoria = [];
     const [open, set] = useState(false)
     const categoriestitle = open ? "" : "Ver otros videos en esta categoría:";
     const springApi = useSpringRef()
@@ -387,9 +424,9 @@ export const AutoComments = () => {
         },
     })
     const transApi = useSpringRef()
-    const transition = useTransition(open ? catdata : [], {
+    const transition = useTransition(open && datostransicion ? datostransicion : [], {
         ref: transApi,
-        trail: 400 / catdata.length,
+        trail: datostransicion ? 400 / datostransicion.length : 0,
         from: { opacity: 0, scale: 0 },
         enter: { opacity: 1, scale: 1 },
         leave: { opacity: 0, scale: 0 },
@@ -430,7 +467,7 @@ export const AutoComments = () => {
                 items = items.concat(item);
                 setItems(items)
             }
-            else if (active == tabuladores[1] && autobiograficos.length < 100) {
+            else if (active == tabuladores[1] && autobiograficos.lengcatdatath < 100) {
                 let relato = autobiograficos[Math.floor(Math.random() * autobiograficos.length)];
                 autobiograficos = autobiograficos.concat(relato);
                 setRelatos(autobiograficos);
@@ -485,7 +522,7 @@ export const AutoComments = () => {
         setMenuContextual({ focused: enfocado, show: bandera });
     }
     const addMessage = () => {
-        console.log('el texto a agregar es ' + texting.mensaje)
+        //console.log('el texto a agregar es ' + texting.mensaje)
         if (texting.mensaje.length > 0) {
             let fecha = new Date().toLocaleDateString();
             let tiempo = new Date().getHours() + ":" + new Date().getMinutes();
@@ -497,12 +534,14 @@ export const AutoComments = () => {
     }
     const chatRef = useRef();
     const cssBottomChat = (Math.round(texting.mensaje.length / 100) * 20) + 'px';
-    console.log('la altura del bottom es ', cssBottomChat);
+
+    // console.log('la altura del bottom es ', cssBottomChat);
+
     /*
     Eventos
     */
     const [resetevents, setResetEvents] = useState({ resetear: false, aplicar: false });
-    console.log('afectando calendario ', resetevents);
+    //console.log('afectando calendario ', resetevents);
     function Number(numero) {
         const { number } = useSpring({
             from: { number: 0 },
@@ -575,12 +614,12 @@ export const AutoComments = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const [childrenModal, setChildrenModal] = useState(-1);
     const toggleState = (e, indice) => {
-        console.log('estableciendo estado ', modalOpen);
+        //console.log('estableciendo estado ', modalOpen);
         setChildrenModal(indice);
         setModalOpen(!modalOpen);
         let elementoheader = document.querySelector('.box-header');
         elementoheader.scrollIntoView({ behavior: 'smooth' });
-        console.log('estableciendo estado final ', modalOpen);
+        //console.log('estableciendo estado final ', modalOpen);
     };
     const [radioDescarga, setRadioDescarga] = useState(opcionesDescarga);
     const estableceRadiosDescarga = (parametro) => {
@@ -595,7 +634,7 @@ export const AutoComments = () => {
         setRadioDescarga(
             nuevasopciones
         );
-        console.log('el indice del radio es ', radioDescarga, parametro);
+        //console.log('el indice del radio es ', radioDescarga, parametro);
     }
     const [clicked, setClicked] = React.useState([false, false, false, false, false]);
     const handleStarClick = (e, index) => {
@@ -608,8 +647,10 @@ export const AutoComments = () => {
 
         setClicked(clickStates);
     };
-    const [esFavorito, setEsFavorito] = useState({valor:false, cuenta:4056});
-    console.log('estrellas marcadas para calificar', clicked);
+    const [esFavorito, setEsFavorito] = useState({ valor: false, cuenta: 4056 });
+    //console.log('estrellas marcadas para calificar', clicked);
+    //console.log('los videos en la categoría son ', videoscategoria)
+
     return (
         <div className='player-individual' onScroll={handleScroll}>
             {
@@ -621,15 +662,18 @@ export const AutoComments = () => {
                 <NavBar></NavBar>
             </div>
             <h2 className='header-reproduccion-individual' style={{ padding: '1.5em 1.3em' }} onContextMenu={(e) => handleContextMenu(false, false)}>
-                Reproduciendo: {titulo }
+                Reproduciendo: {titulo}
             </h2>
             <div onClick={(e) => resetMyEvents(null, true)} className='player-container' onContextMenu={(e) => handleContextMenu(false, false)}>
-                <div class="player-inner">
-                <Player>
-                    <source src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4"></source>
-                    <ControlBar></ControlBar>
-                    <LoadingSpinner></LoadingSpinner>
-                </Player>
+                <div className="player-inner">
+                    {sourcevideo &&
+                        <Player>
+
+                            <source src={sourcevideo}></source>
+                            <ControlBar disableCompletely={false}></ControlBar>
+                            <LoadingSpinner></LoadingSpinner>
+                        </Player>
+                    }
                 </div>
                 <div className='acciones-reproduccion'>
                     <div className='item-acciones-repro' onClick={(e) => toggleState(e, MODAL_CREDITOS)}>
@@ -647,20 +691,24 @@ export const AutoComments = () => {
                     </div>
                     <div className='item-acciones-repro' onClick={(e) => toggleState(e, MODAL_CALIFICACION)}>
                         {[0].map((el, index) => {
-                                        return <div style={{marginLeft:'.25em'}}>
-                                            <FontAwesomeIcon icon={faStar} className="clickedstar"/>
-                                            <FontAwesomeIcon icon={faStar} className="clickedstar"/>
-                                            <FontAwesomeIcon icon={faStar} className="clickedstar"/>
-                                            <FontAwesomeIcon icon={faStar} className="clickedstar"/>
-                                            <FontAwesomeIcon icon={faStar} className="clickedstar"/>
-                                            <span>(5)</span>
-                                        </div>
-                                    })
-                                    }
+                            return <div style={{ marginLeft: '.25em' }} key={index}>
+                                <FontAwesomeIcon icon={faStar} className="clickedstar" />
+                                <FontAwesomeIcon icon={faStar} className="clickedstar" />
+                                <FontAwesomeIcon icon={faStar} className="clickedstar" />
+                                <FontAwesomeIcon icon={faStar} className="clickedstar" />
+                                <FontAwesomeIcon icon={faStar} className="clickedstar" />
+                                <span>(5)</span>
+                            </div>
+                        })
+                        }
                     </div>
-                    <div className='item-acciones-repro' onClick={(e)=>{setEsFavorito({...esFavorito, valor:!esFavorito.valor,
-                        cuenta:!esFavorito.valor ? ++esFavorito.cuenta : --esFavorito.cuenta})}}>
-                        <FontAwesomeIcon  style={esFavorito.valor ? {color:'red'} : {color:'darkgray'}} icon={faHeart} /><span>Favoritos <span className="cuenta-favoritos-small">{esFavorito.cuenta}</span></span>
+                    <div className='item-acciones-repro' onClick={(e) => {
+                        setEsFavorito({
+                            ...esFavorito, valor: !esFavorito.valor,
+                            cuenta: !esFavorito.valor ? ++esFavorito.cuenta : --esFavorito.cuenta
+                        })
+                    }}>
+                        <FontAwesomeIcon style={esFavorito.valor ? { color: 'red' } : { color: 'darkgray' }} icon={faHeart} /><span>Favoritos <span className="cuenta-favoritos-small">{esFavorito.cuenta}</span></span>
                     </div>
                     <div className='item-acciones-repro'>
                         <FontAwesomeIcon icon={faHeadphones} /><span>Encolar</span>
@@ -697,12 +745,15 @@ export const AutoComments = () => {
                             style={{ ...rest, width: size, height: size }}
                             className="category-container"
                             onClick={() => set(open => !open)}>
-                            {transition((style, item) => (
+                            {transition((style, item) => {
+                                console.log('iterando en transicion ',item)
+                                return(
+                                
                                 <animated.div
                                     className="category-item"
                                     style={{ ...style, background: item.css, backgroundImage: item.image, backgroundPosition: 'center center', backgroundSize: '200px' }}
                                 ><Vinculo to={'/Reproduccion/' + item.url} /></animated.div>
-                            ))}
+                            )})}
                             <p>
                                 <span style={{ color: 'red', display: 'inline-block', margin: 'auto' }}>{open ? "" : <animated.img src="/images/Stills/Categories/PLAY_OVER.png"
                                     style={{ ...opacidad, width: '5em', position: 'absolute', top: '30%', left: '25%' }} />}</span>
@@ -816,18 +867,18 @@ export const AutoComments = () => {
                     }>
                 {childrenModal == MODAL_CREDITOS ?
                     <div>
-                        <dl><dt>Título:</dt><dd>Muerte Mextiza</dd>
-                            <dt>Dirección:</dt><dd>Pablo Martínez</dd>
-                            <dt>Guión:</dt><dd>Pablo Martínez</dd>
-                            <dt>Cámara:</dt><dd>Pablo Martínez</dd>
-                            <dt>Sinopsis:</dt><dd>Carnaval de Huehuentones realizado en la zona mazateca (Sierra de Huautla de Jiménez, Oaxaca), en donde los jóvenes danzantes recorren diversas comunidades para abrir camino a los días de todos los santos o días de muertos. Danzan, conversan, con los hombres y las mujeres de "éste mundo".</dd>
-                            <dt>Tema:</dt><dd>El documental fue realizado en el Taller de Video Popular del Proyecto Transferencia de Medios. Este documental-memoria mira antropológicamente el carnaval en honor al santo de la cosecha en los pueblosdel Valle de México.</dd>
-                            <dt>Colección:</dt><dd>Pueblos Indígenas y Originarios_Fiestas Patronales</dd>
-                            <dt>Año:</dt><dd>1994</dd>
-                            <dt>Producción:</dt><dd>Pablo Martínez</dd>
-                            <dt>Duración:</dt><dd>8 minutos</dd>
-                            <dt>Formato de producción:</dt><dd>8 mm</dd>
-                            <dt>Formatos disponibles:</dt><dd>Betacam SP, VHS, MP4</dd>
+                        <dl><dt>Título:</dt><dd>{titulo}</dd>
+                            <dt>Dirección:</dt><dd>{creditosvideo.direccion_realizacion}</dd>
+                            <dt>Guión:</dt><dd>{creditosvideo.guion}</dd>
+                            <dt>Cámara:</dt><dd>{creditosvideo.camara}</dd>
+                            <dt>Sinopsis:</dt><dd>{creditosvideo.sinopsis}</dd>
+                            <dt>Tema:</dt><dd>Ninguno establecido</dd>
+                            <dt>Colección:</dt><dd>Ninguna establecida</dd>
+                            <dt>Año:</dt><dd>{creditosvideo.anio_produccion}</dd>
+                            <dt>Producción:</dt><dd>{creditosvideo.produccion_ejecutiva}</dd>
+                            <dt>Duración:</dt><dd>{creditosvideo.duracion_mins}</dd>
+                            <dt>Formato de producción:</dt><dd>Ninguno establecido</dd>
+                            <dt>Formatos disponibles:</dt><dd>Ninguno establecido</dd>
                         </dl>
                     </div>
                     : childrenModal == MODAL_REDES ?
@@ -844,7 +895,7 @@ export const AutoComments = () => {
                             <div className='download-reprod-std'>
                                 {
                                     radioDescarga && radioDescarga.map((radio, indice) => {
-                                        console.log('el radio esta activo ', radio.active, radio.index)
+                                        //console.log('el radio esta activo ', radio.active, radio.index)
                                         let claseCssRadio = radio.active ? "radio-button-std-active" : "radio-button-std"
                                         return (
                                             <div key={radio.index} onClick={(e) => estableceRadiosDescarga(radio.index)}>

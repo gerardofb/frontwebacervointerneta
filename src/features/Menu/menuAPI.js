@@ -27,18 +27,18 @@ const sideBarData = [
         icon: "tape",
         subNav: [
           {
-            title: "Generación Transparente",
-            path: '/Categorias/Generación-Transparente/dummy',
+            title: "La Generación Transparente",
+            path: '/Categorias/La-Generación-Transparente/dummy',
             icon: 'video'
           },
           {
-            title: "Arte público",
-            path: '/Categorias/Arte-Urbano/dummy',
+            title: "Arte Público",
+            path: '/Categorias/Arte-Público/dummy',
             icon: 'video'
           },
           {
-            title: "Memoria Urbana Popular",
-            path: '/Categorias/Memoria-Movimientos-Urbanos-y-Populares/dummy',
+            title: "Memoria y Movimiento Urbano Popular",
+            path: '/Categorias/Memoria-y-Movimiento-Urbano-Popular/dummy',
             icon: 'video'
           },
           {
@@ -53,7 +53,7 @@ const sideBarData = [
           },
           {
             title: "Movimientos Sociales y Políticos",
-            path: '/Categorias/Movimientos-Sociales/dummy',
+            path: '/Categorias/Movimientos-Sociales-y-Políticos/dummy',
             icon: 'video'
           },
           {
