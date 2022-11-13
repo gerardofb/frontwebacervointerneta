@@ -24,6 +24,7 @@ import { faBook, faHouse, faTape, faForward, faCommentDots, faVolumeHigh, faCale
 faEnvelope, faCircleExclamation, faHeart, faRadio, faTimeline, faPlay, faShuffle, faFilm, faVideo, faClapperboard , faCheck} from '@fortawesome/free-solid-svg-icons';
 import SideBar from './features/Menu/Sidebar'
 import { useState } from 'react';
+import {getBaseAdressApi} from './features/MainAPI'
 
 library.add(faBook, faHouse, faTape, faForward, faCommentDots, faVolumeHigh, faCalendarDays, faUserCheck, faEnvelope,
   faCircleExclamation, faHeart, faRadio, faTimeline, faPlay, faShuffle, faFilm, faVideo, faClapperboard, faCheck);
@@ -66,20 +67,20 @@ function App() {
     populate_videos_set();
 },[]);
 const populate_videos_set = () => {
-  const requestone= axios.get('http://localhost:8000/api/categorias/');
+  const requestone= axios.get(getBaseAdressApi()+'api/categorias/');
   
-  const requestwo = axios.get('http://localhost:8000/api/videos/');
+  // const requestwo = axios.get('http://localhost:8000/api/videos/');
    
-  const promise = axios.all([requestone,requestwo]).then(axios.spread((...response) => {
+  const promise = axios.all([requestone]).then(axios.spread((...response) => {
      //console.log(response[0].data)
-     let primeracat = [response[0].data[0].titulo, response[0].data[0].contenedor_img, response[1].data.filter(x=> x.id_categoria == 1)];
-     let segundacat = [response[0].data[1].titulo, response[0].data[1].contenedor_img,response[1].data.filter(x=> x.id_categoria == 2)]
-     let terceracat = [response[0].data[2].titulo, response[0].data[2].contenedor_img,response[1].data.filter(x=> x.id_categoria == 4)]
-     let cuartacat = [response[0].data[3].titulo,  response[0].data[3].contenedor_img,response[1].data.filter(x=> x.id_categoria == 5)]
-     let quintacat = [response[0].data[4].titulo, response[0].data[4].contenedor_img,response[1].data.filter(x=> x.id_categoria == 6)]
-     let sextacat = [response[0].data[5].titulo, response[0].data[5].contenedor_img,response[1].data.filter(x=> x.id_categoria == 7)]
+     let primeracat = [response[0].data[0].titulo, response[0].data[0].contenedor_img, response[0].data[0].videos_por_categoria];
+     let segundacat = [response[0].data[1].titulo, response[0].data[1].contenedor_img,response[0].data[1].videos_por_categoria]
+     let terceracat = [response[0].data[2].titulo, response[0].data[2].contenedor_img,response[0].data[2].videos_por_categoria]
+     let cuartacat = [response[0].data[3].titulo,  response[0].data[3].contenedor_img,response[0].data[3].videos_por_categoria]
+     let quintacat = [response[0].data[4].titulo, response[0].data[4].contenedor_img,response[0].data[4].videos_por_categoria]
+     //let sextacat = [response[0].data[5].titulo, response[0].data[5].contenedor_img,response[1].data.filter(x=> x.id_categoria == 7)]
      //console.log('listados de respuesta videos categorizados',primeracat,segundacat,terceracat,cuartacat,quintacat,sextacat)
-     let salida = arrange_videos([primeracat,segundacat,terceracat,cuartacat,quintacat,sextacat]);
+     let salida = arrange_videos([primeracat,segundacat,terceracat,cuartacat,quintacat]);
      //console.log(salida);
      setVideosPopulated(salida);
    }));
@@ -88,12 +89,14 @@ const populate_videos_set = () => {
   function arrange_videos(arreglo) {
     let videosService = {}
     arreglo.forEach(([title, container, pic]) => {
+      console.log('foreach para llave en app ',pic)
       const picsArray = pic.reduce((acc, key) => {
         const name = container//key.replace(/^\.\/|\.png$/g, "").replace(/_/g, "-")
         return acc.concat({
-          id: `${title.replace(' ', '-')}`,
+          id: `${title.replace(/\s/g, '-')}`,
           name,
           Video: name,
+          titulovideo:pic.titulo
         })
       }, [])
       // randomize the icons to show on the index page

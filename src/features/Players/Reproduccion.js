@@ -41,6 +41,7 @@ import NavBar from '../NavBar';
 import ContextMenu from '../ContextMenu';
 import { HomeFooter } from '../HomeFooter';
 import { ThemesContext } from '../../ThemeProvider';
+import { getBaseAdressApi } from '../MainAPI';
 const url = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/SocialNetwork/${name}${wrap ? ')' : ''}`
 
 const Tab = styled.button`
@@ -341,21 +342,22 @@ export const AutoComments = () => {
         // console.log("Location changed");
 
         // console.log('obteniendo fuente del video ',obtenervideo)
-        const idvideo = obtenervideo[obtenervideo.length - 1]
-        const requestone = axios.get(`http://localhost:8000/api/video/${idvideo}`).then(response => {
+        const idvideo = obtenervideo[obtenervideo.length - 2]
+        const requestone = axios.get(`${getBaseAdressApi()}api/video/${idvideo}`).then(response => {
             if (sourcevideo === '') {
+                console.log('el video a cargar como fuente es ',response.data.contenedor_aws)
                 setSourceVideo(response.data.contenedor_aws);
                 //console.log('la fuente del video es ', response.data.contenedor_aws);
                 setVideoReproduciendo(response.data);
             }
         });
-        const requesttwo = axios.get(`http://localhost:8000/api/creditosvideo/${idvideo}`).then(response => {
+        const requesttwo = axios.get(`${getBaseAdressApi()}api/creditosvideo/${idvideo}`).then(response => {
             if (creditosvideo === null) {
                 setCreditosVideo(response.data[0]);
                 //console.log('los creditos del video son ', response.data[0])
             }
         });
-        const requestthree = axios.get(`http://localhost:8000/api/videos/${categoriareproduciendo}`).then(response => {
+        const requestthree = axios.get(`${getBaseAdressApi()}api/videos/${categoriareproduciendo}`).then(response => {
             if (videoscategoria === null) {
                 setVideosCategoria(response.data)
                 //console.log('la longitud de los videos en la categoria es ', response.data);

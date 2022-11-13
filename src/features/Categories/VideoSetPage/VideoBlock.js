@@ -6,6 +6,7 @@ import { Flipped } from "react-flip-toolkit"
 import anime from "animejs"
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { getBaseAdressApi } from "../../MainAPI"
 const StyledTools = styled.div`
 display:flex;
 alignItems:right;
@@ -69,7 +70,7 @@ class VideoBlock extends PureComponent {
   state = { sampleVideo: true, creditos: {} }
   componentDidMount() {
 
-    const requestone = axios.get(`http://localhost:8000/api/creditosvideo/${this.props.identificador}`).then(response => {
+    const requestone = axios.get(`${getBaseAdressApi()}api/creditosvideo/${this.props.identificador}`).then(response => {
       this.setState({
         ...this.state,
         creditos: response.data[0]
@@ -94,6 +95,7 @@ class VideoBlock extends PureComponent {
 
   render() {
     console.log('los creditos son ',this.state.creditos)
+    console.log('el id del video y su categoria son ',this.props.identificador,this.props.id_categoria)
     const { Video, isFocused, id, name, set } = this.props
     // console.log('en tarjeta de los videos');
     // console.log(this.props)
@@ -107,7 +109,7 @@ class VideoBlock extends PureComponent {
             <AnimatedVideoTitle>
               <b>Video:</b>
               &nbsp;
-              {name}
+              {this.props.titulo}
             </AnimatedVideoTitle>
           </Flipped>
         )}
@@ -122,8 +124,8 @@ class VideoBlock extends PureComponent {
             </div>
           </Flipped>
           <StyledParagraph className="video-block-paragraph-white">
-            {this.state.creditos.sinopsis}
-            &nbsp;<Link to={"/Reproduccion/"+TituloVideo+"|"+this.props.identificador+"|"+this.props.id_categoria_video}><FontAwesomeIcon style={{ fontSize: 'large' }} icon={faArrowRight} /></Link>
+            {this.state.creditos && this.state.creditos.sinopsis}
+            &nbsp;<Link to={"/Reproduccion/"+TituloVideo+"|"+this.props.identificador+"|"+this.props.id_categoria}><FontAwesomeIcon style={{ fontSize: 'large' }} icon={faArrowRight} /></Link>
           </StyledParagraph>
           <StyledTools className="video-block-tool-white">
             <span style={{ color: 'black' }}>{generateRandom(5)} calificación <img src={urlsvg("thumbs-up-solid")} style={{ width: '6%', color: 'white' }} /></span>

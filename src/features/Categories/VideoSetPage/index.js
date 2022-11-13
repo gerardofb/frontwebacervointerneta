@@ -14,6 +14,7 @@ import { ThemesContext } from "../../../ThemeProvider"
 import { useParams, useLocation } from "react-router-dom"
 import CanvasVideoSet from "../../CanvasVideoSet"
 import { videos } from "../videosCategorized"
+import { getBaseAdressApi } from "../../MainAPI"
 
 const VideoSetGrid = styled.ul`
   display: grid;
@@ -102,24 +103,26 @@ const VideoSetPage = (
         populate_videos_set();
     }, []);
     const populate_videos_set = () => {
-        const requestone = axios.get('http://localhost:8000/api/categorias/');
+        const requestone = axios.get(getBaseAdressApi()+'api/categorias/');
 
-        const requestwo = axios.get('http://localhost:8000/api/videos/');
+        const requestwo = axios.get(getBaseAdressApi()+'api/videos/');
 
-        const promise = axios.all([requestone, requestwo]).then(axios.spread((...response) => {
-            //console.log('categorias ',response[0].data)
-            let primeracat = [response[0].data[0].titulo, response[0].data[0].contenedor_img, response[1].data.filter(x => x.id_categoria == 1)];
-            let segundacat = [response[0].data[1].titulo, response[0].data[1].contenedor_img, response[1].data.filter(x => x.id_categoria == 2)]
-            let terceracat = [response[0].data[2].titulo, response[0].data[2].contenedor_img, response[1].data.filter(x => x.id_categoria == 4)]
-            let cuartacat = [response[0].data[3].titulo, response[0].data[3].contenedor_img, response[1].data.filter(x => x.id_categoria == 5)]
-            let quintacat = [response[0].data[4].titulo, response[0].data[4].contenedor_img, response[1].data.filter(x => x.id_categoria == 6)]
-            let sextacat = [response[0].data[5].titulo, response[0].data[5].contenedor_img, response[1].data.filter(x => x.id_categoria == 7)]
+        const promise = axios.all([requestone]).then(axios.spread((...response) => {
+            console.log('categorias ',response[0].data)
+            let primeracat = [response[0].data[0].titulo, response[0].data[0].contenedor_img, response[0].data[0].videos_por_categoria];
+            let segundacat = [response[0].data[1].titulo, response[0].data[1].contenedor_img, response[0].data[1].videos_por_categoria]
+            let terceracat = [response[0].data[2].titulo, response[0].data[2].contenedor_img, response[0].data[2].videos_por_categoria]
+            let cuartacat = [response[0].data[3].titulo, response[0].data[3].contenedor_img, response[0].data[3].videos_por_categoria]
+            let quintacat = [response[0].data[4].titulo, response[0].data[4].contenedor_img, response[0].data[4].videos_por_categoria]
+            //let sextacat = [response[0].data[5].titulo, response[0].data[5].contenedor_img, response[1].data.filter(x => x.id_categoria == 7)]
             ////console.log('listados de respuesta videos categorizados',primeracat,segundacat,terceracat,cuartacat,quintacat,sextacat)
-            let salida = arrange_videos([primeracat, segundacat, terceracat, cuartacat, quintacat, sextacat]);
-            ////console.log(salida);
+            let salida = arrange_videos([primeracat, segundacat, terceracat, cuartacat, quintacat]);
+            console.log('los videos enumerados son ',salida)
+            console.log(salida);
             setVideosPopulated(salida);
             response[0].data.map((el,indice)=>{
                 console.log('iterando en categorias de respuesta ',el)
+                el.titulo = el.titulo.replace(/\s/g,'-')
                 if(el.titulo == set){
                 setCategoriaSet(el)
         }
@@ -129,14 +132,17 @@ const VideoSetPage = (
         return;
     }
     function arrange_videos(arreglo) {
+        console.log('antes de foreach para llave ',arreglo)
         let videosService = {}
         arreglo.forEach(([title, container, pic]) => {
+            console.log('foreach para llave ',title,container,pic)
             const picsArray = pic.reduce((acc, key) => {
-                const name = container//key.replace(/^\.\/|\.png$/g, "").replace(/_/g, "-")
-                const elvideo = key.contenedor_img.split('/')
                 console.log('la llave es ',key);
+                const name = container//key.replace(/^\.\/|\.png$/g, "").replace(/_/g, "-")
+                const elvideo = key.contenedor_img ? key.contenedor_img.split('/') :[]
+                
                 return acc.concat({
-                    id: `${title.replace(' ', '-')}`,
+                    id: `${title.replace(/\s/g, '-')}`,
                     name,
                     Video: elvideo[elvideo.length - 1],
                     llave:key.id,
@@ -151,14 +157,14 @@ const VideoSetPage = (
                 .map(a => a.value)
                 .slice(0, 1)
             ////console.log('en función de poblamiento de videos ',highlightedVideos)
-            videosService[title] = picsArray.map(
+            videosService[title.replace(/\s/g,'-')] = picsArray.map(
                 obj =>
                     highlightedVideos.includes(obj) ? { ...obj, highlighted: true } : obj
             )
         })
         return videosService;
     }
-    { ////console.log('el estado de los videos en esta categoría es', videosPopulated, focusedVideo, categoriaSet)
+    { console.log('el estado de los videos en esta categoría es',set, videosPopulated, focusedVideo, categoriaSet)
      }
     return (
 
@@ -200,7 +206,7 @@ const VideoSetPage = (
                                     {videosPopulated && videosPopulated[set] != undefined && videosPopulated[set].map(({ name, Video, id,llave,titulovideo, categoriavideo }) => {
                                         //console.log('iterando en videos ');
                                         //console.log(focusedVideo)
-                                        console.log('en iteracion de llave ',videosPopulated[set])
+                                        console.log('en iteracion de llave ',set,videosPopulated[set],titulovideo)
                                         return (
                                             <VideoBlock
                                                 Video={ruta_aws + Video}
@@ -211,7 +217,7 @@ const VideoSetPage = (
                                                 key={id}
                                                 identificador={llave}
                                                 titulo={titulovideo}
-                                                id_categoria_video={categoriavideo}
+                                                id_categoria={categoriavideo}
                                             />
                                         )
                                     })}

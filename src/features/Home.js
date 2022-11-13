@@ -8,6 +8,7 @@ import { HomeFooter } from './HomeFooter';
 import NavBar from './NavBar';
 import { ThemesContext } from '../ThemeProvider'
 import Canvas from './Canvas';
+import { getBaseAdressApi } from './MainAPI';
 
 const url = (name, wrap = false) => `${wrap ? 'url(' : ''}images/${name}.svg${wrap ? ')' : ''}`
 const urlpng = (name, wrap = false) => `${wrap ? 'url(' : ''}images/Art/inverted/${name}.png${wrap ? ')' : ''}`
@@ -18,9 +19,14 @@ export class Home extends React.Component {
     }
     
     componentDidMount(){
-        axios.get('http://localhost:8000/api/categorias/').then(response=>{
-            this.setState({categoriasService:response.data})
-            console.log('respuesta de api ',response.data)
+        axios.get(getBaseAdressApi()+'api/categorias/').then(response=>{
+            const respuestacategorias = response.data.map((el,i)=>{
+                el.titulo = el.titulo.replace(/\s/g,'-');
+                return el;
+            })
+            console.log('respuesta de api ',response.data, respuestacategorias)
+            this.setState({categoriasService:respuestacategorias})
+            
         });
     }
     render() {

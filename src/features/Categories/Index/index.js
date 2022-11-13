@@ -24,7 +24,7 @@ import { HomeFooter } from "../../HomeFooter"
 import NavBar from "../../NavBar"
 import VideoSetPage from '../VideoSetPage'
 import { ThemesContext } from "../../../ThemeProvider"
-
+import { getBaseAdressApi } from "../../MainAPI"
 const defaultState = {
   filter: "",
   display: "grid",
@@ -38,10 +38,13 @@ const urljpg = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/${name}.jpg
 
 function populate_videos(arreglo){
   let videosService ={}
+  
   arreglo.forEach(([title, container, pic]) => {
     const picsArray = pic.reduce((acc, key) => {
+      console.log('en función de poblamiento de videos ',key,container,title)
       const name = container//key.replace(/^\.\/|\.png$/g, "").replace(/_/g, "-")
-      const elvideo = key.contenedor_img.split('/')
+      const elvideo = key.contenedor_img ? key.contenedor_img.split('/') : [] 
+      
       return acc.concat({
         id: `${title.replace(' ','-')}`,
         name,
@@ -54,7 +57,7 @@ function populate_videos(arreglo){
       .sort((a, b) => a.sort - b.sort)
       .map(a => a.value)
       .slice(0, 1)
-    //console.log('en función de poblamiento de videos ',highlightedVideos)
+    
     videosService[title] = picsArray.map(
       obj =>
       highlightedVideos.includes(obj) ? { ...obj, highlighted: true } : obj
@@ -83,22 +86,23 @@ class IndexPage extends Component {
   state = {videosService : [
   ]}
   componentDidMount() {
-   const requestone= axios.get('http://localhost:8000/api/categorias/');
+   const requestone= axios.get(getBaseAdressApi()+'api/categorias/');
 
-   const requestwo = axios.get('http://localhost:8000/api/videos/');
+   //const requestwo = axios.get('http://localhost:8000/api/videos/');
     
-    axios.all([requestone,requestwo]).then(axios.spread((...response) => {
-      console.log(response[0].data)
-      let primeracat = [response[0].data[0].titulo, response[0].data[0].contenedor_img, response[1].data.filter(x=> x.id_categoria == 1)];
-      let segundacat = [response[0].data[1].titulo, response[0].data[1].contenedor_img,response[1].data.filter(x=> x.id_categoria == 2)]
-      let terceracat = [response[0].data[2].titulo, response[0].data[2].contenedor_img,response[1].data.filter(x=> x.id_categoria == 4)]
-      let cuartacat = [response[0].data[3].titulo,  response[0].data[3].contenedor_img,response[1].data.filter(x=> x.id_categoria == 5)]
-      let quintacat = [response[0].data[4].titulo, response[0].data[4].contenedor_img,response[1].data.filter(x=> x.id_categoria == 6)]
-      let sextacat = [response[0].data[5].titulo, response[0].data[5].contenedor_img,response[1].data.filter(x=> x.id_categoria == 7)]
-      //console.log('listados de respuesta videos categorizados',primeracat,segundacat,terceracat,cuartacat,quintacat,sextacat)
-      let salida = populate_videos([primeracat,segundacat,terceracat,cuartacat,quintacat,sextacat]);
+    axios.all([requestone]).then(axios.spread((...response) => {
+      console.log('respuesta de categorías ',response[0].data[0])
+      let primeracat = [response[0].data[0].titulo, response[0].data[0].contenedor_img, response[0].data[0].videos_por_categoria];
+      let segundacat = [response[0].data[1].titulo, response[0].data[1].contenedor_img, response[0].data[1].videos_por_categoria]
+      let terceracat = [response[0].data[2].titulo, response[0].data[2].contenedor_img, response[0].data[2].videos_por_categoria]
+      let cuartacat = [response[0].data[3].titulo,  response[0].data[3].contenedor_img, response[0].data[3].videos_por_categoria]
+      let quintacat = [response[0].data[4].titulo, response[0].data[4].contenedor_img, response[0].data[4].videos_por_categoria]
+      //let sextacat = [response[0].data[5].titulo, response[0].data[5].contenedor_img, response[0].data.videos_por_categoria]
+      
+      let salida = populate_videos([primeracat,segundacat,terceracat,cuartacat,quintacat]);
       console.log(salida);
       this.setState({videosService :salida})
+      console.log('listados de respuesta videos categorizados',salida)
     }));
   }
   
