@@ -8,7 +8,7 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
 import anime from "animejs"
 import { Contents } from "../BaseComponents"
 import VideoBlock from "./VideoBlock"
-import StaticNavBar from '../StaticNavbar';
+import NavBar from '../../NavBar'
 import { HomeFooter } from "../../HomeFooter"
 import { ThemesContext } from "../../../ThemeProvider"
 import { useParams, useLocation } from "react-router-dom"
@@ -94,7 +94,7 @@ const VideoSetPage = (
     props) => {
     const { set, focusedVideo } = useParams();
     //console.log('el primer estado del video enfocado es ');
-    console.log('el titulo del bloque de videos es ',set);
+    console.log('el titulo del bloque de videos es ', set);
     //console.log(focusedVideo)
     const location = useLocation();
     const [videosPopulated, setVideosPopulated] = useState(null);
@@ -103,12 +103,12 @@ const VideoSetPage = (
         populate_videos_set();
     }, []);
     const populate_videos_set = () => {
-        const requestone = axios.get(getBaseAdressApi()+'api/categorias/');
+        const requestone = axios.get(getBaseAdressApi() + 'api/categorias/');
 
-        const requestwo = axios.get(getBaseAdressApi()+'api/videos/');
+        const requestwo = axios.get(getBaseAdressApi() + 'api/videos/');
 
         const promise = axios.all([requestone]).then(axios.spread((...response) => {
-            console.log('categorias ',response[0].data)
+            console.log('categorias ', response[0].data)
             let primeracat = [response[0].data[0].titulo, response[0].data[0].contenedor_img, response[0].data[0].videos_por_categoria];
             let segundacat = [response[0].data[1].titulo, response[0].data[1].contenedor_img, response[0].data[1].videos_por_categoria]
             let terceracat = [response[0].data[2].titulo, response[0].data[2].contenedor_img, response[0].data[2].videos_por_categoria]
@@ -117,37 +117,37 @@ const VideoSetPage = (
             //let sextacat = [response[0].data[5].titulo, response[0].data[5].contenedor_img, response[1].data.filter(x => x.id_categoria == 7)]
             ////console.log('listados de respuesta videos categorizados',primeracat,segundacat,terceracat,cuartacat,quintacat,sextacat)
             let salida = arrange_videos([primeracat, segundacat, terceracat, cuartacat, quintacat]);
-            console.log('los videos enumerados son ',salida)
+            console.log('los videos enumerados son ', salida)
             console.log(salida);
             setVideosPopulated(salida);
-            response[0].data.map((el,indice)=>{
-                console.log('iterando en categorias de respuesta ',el)
-                el.titulo = el.titulo.replace(/\s/g,'-')
-                if(el.titulo == set){
-                setCategoriaSet(el)
-        }
+            response[0].data.map((el, indice) => {
+                console.log('iterando en categorias de respuesta ', el)
+                el.titulo = el.titulo.replace(/\s/g, '-')
+                if (el.titulo == set) {
+                    setCategoriaSet(el)
+                }
             });
-            
+
         }));
         return;
     }
     function arrange_videos(arreglo) {
-        console.log('antes de foreach para llave ',arreglo)
+        console.log('antes de foreach para llave ', arreglo)
         let videosService = {}
         arreglo.forEach(([title, container, pic]) => {
-            console.log('foreach para llave ',title,container,pic)
+            console.log('foreach para llave ', title, container, pic)
             const picsArray = pic.reduce((acc, key) => {
-                console.log('la llave es ',key);
+                console.log('la llave es ', key);
                 const name = container//key.replace(/^\.\/|\.png$/g, "").replace(/_/g, "-")
-                const elvideo = key.contenedor_img ? key.contenedor_img.split('/') :[]
-                
+                const elvideo = key.contenedor_img ? key.contenedor_img.split('/') : []
+
                 return acc.concat({
                     id: `${title.replace(/\s/g, '-')}`,
                     name,
                     Video: elvideo[elvideo.length - 1],
-                    llave:key.id,
-                    titulovideo:key.titulo,
-                    categoriavideo:key.id_categoria
+                    llave: key.id,
+                    titulovideo: key.titulo,
+                    categoriavideo: key.id_categoria
                 })
             }, [])
             // randomize the icons to show on the index page
@@ -157,20 +157,21 @@ const VideoSetPage = (
                 .map(a => a.value)
                 .slice(0, 1)
             ////console.log('en función de poblamiento de videos ',highlightedVideos)
-            videosService[title.replace(/\s/g,'-')] = picsArray.map(
+            videosService[title.replace(/\s/g, '-')] = picsArray.map(
                 obj =>
                     highlightedVideos.includes(obj) ? { ...obj, highlighted: true } : obj
             )
         })
         return videosService;
     }
-    { console.log('el estado de los videos en esta categoría es',set, videosPopulated, focusedVideo, categoriaSet)
-     }
+    {
+        console.log('el estado de los videos en esta categoría es', set, videosPopulated, focusedVideo, categoriaSet)
+    }
     return (
 
         <div>
-            <div style={{ zIndex: '1', height: '100px', display: 'block' }}>
-                <StaticNavBar style={{ marginRight: '40%' }}></StaticNavBar>
+            <div style={{ backgroundColor: 'black', height: '100px' }}>
+                <NavBar></NavBar>
             </div>
             <Flipped
                 flipId={set}
@@ -203,10 +204,10 @@ const VideoSetPage = (
                                     <p data-fade-in>click para ver video</p>
                                 </SetDescription>
                                 <VideoSetGrid>
-                                    {videosPopulated && videosPopulated[set] != undefined && videosPopulated[set].map(({ name, Video, id,llave,titulovideo, categoriavideo }) => {
+                                    {videosPopulated && videosPopulated[set] != undefined && videosPopulated[set].map(({ name, Video, id, llave, titulovideo, categoriavideo }) => {
                                         //console.log('iterando en videos ');
                                         //console.log(focusedVideo)
-                                        console.log('en iteracion de llave ',set,videosPopulated[set],titulovideo)
+                                        console.log('en iteracion de llave ', set, videosPopulated[set], titulovideo)
                                         return (
                                             <VideoBlock
                                                 Video={ruta_aws + Video}

@@ -50,10 +50,10 @@ const NavBar = (props) => {
             paletas.find(x => x.dark === darkMode && x.title === paletaActiva.title) : paletas.find(x => x.dark === darkMode);
         updateTheme(lapaleta.title)
     }
-    const logotipo = !darkMode ? 'head_blanco' : 'head_negro';
+    const logotipo = !darkMode ? 'logo_nuevo_blanco' : 'logo_nuevo_negro';
     return (
         <>
-            <div className={styles.NavbarPrincipal}><Link to='/'><img src={url(logotipo)} style={{ height: '100px', float: 'left', marginLeft:'1.3em' }} /><h2 style={{ float: 'left', marginTop:'50px' }}>Acervo Audiovisual Interneta</h2></Link>
+            <div className={styles.NavbarPrincipal}><Link to='/' id="logotipo_site"><h2 style={{ float: 'left', marginTop:'50px' }}>Acervo Audiovisual Interneta</h2></Link>
                 <div className='container-tematica'>
                     <div className={!showTemas ? 'tematica-sitio tematica-hidden' : 'tematica-sitio tematica-show'}>
                         <div className='close-tematica'><FontAwesomeIcon icon={faXmark} onClick={(e) => setShowTemas(false)} /></div>

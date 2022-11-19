@@ -144,7 +144,9 @@ const populate_videos_set = () => {
             }}
           />}
           <Route path="/Categorias/:set/:focusedVideo">
+          <ThemeProvider>
             <VideoSetPage videos={videosPopulated}></VideoSetPage>
+            </ThemeProvider>
           </Route>
           <Route path="/Reproduccion/:video" exact>
             <ThemeProvider>

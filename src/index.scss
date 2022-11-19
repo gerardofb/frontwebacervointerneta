@@ -612,25 +612,58 @@ Estilos temáticos
 }
 
 .navbar-principal-basic {
-  background-color: #253237
+  background-color: #253237; 
+}
+.navbar-principal-basic #logotipo_site{
+  background-image:url('/images/logo_nuevo_blanco.png'); background-repeat: no-repeat; 
+  margin-left:1.4em;
+  background-size:70px;
+  & h2{
+  padding-left:10px;
+  }
 }
 
 .navbar-principal-basic-dark {
   background-color: #cde2e3;
+  
+}
+.navbar-principal-basic-dark #logotipo_site{
+  background-image:url('/images/logo_nuevo_negro.png'); background-repeat: no-repeat; 
+  margin-left:1.4em;
+  background-size:70px;
+  & h2{
+  padding-left:10px;
+  }
 }
 
 .navbar-principal-aesthetic-dark {
   background-color: #f9e2da;
 }
+.navbar-principal-aesthetic-dark #logotipo_site{
+  background-image:url('/images/logo_nuevo_negro.png'); background-repeat: no-repeat; 
+  margin-left:1.4em;
+  background-size:70px;
+  & h2{
+  padding-left:10px;
+  }
+}
 
 .navbar-principal-aesthetic {
   background-color: #66545e;
+}
+.navbar-principal-aesthetic #logotipo_site{
+  background-image:url('/images/logo_nuevo_blanco.png'); background-repeat: no-repeat; 
+  margin-left:1.4em;
+  background-size:70px;
+  & h2{
+  padding-left:10px;
+  }
 }
 
 .navbar-principal.navbar-principal-basic h2 {
   position: absolute;
   top: 5px;
-  left: 7rem;
+  left: 6rem;
   height: 100%;
   min-height: 110px;
   color: white;
@@ -639,7 +672,7 @@ Estilos temáticos
 .navbar-principal.navbar-principal-aesthetic h2 {
   position: absolute;
   top: 5px;
-  left: 7rem;
+  left: 6rem;
   height: 100%;
   min-height: 110px;
   color: white;
@@ -648,7 +681,7 @@ Estilos temáticos
 .navbar-principal.navbar-principal-basic-dark h2 {
   position: absolute;
   top: 5px;
-  left: 7rem;
+  left: 6rem;
   height: 100%;
   min-height: 110px;
   color: #1b2f30;
@@ -657,7 +690,7 @@ Estilos temáticos
 .navbar-principal.navbar-principal-aesthetic-dark h2 {
   position: absolute;
   top: 5px;
-  left: 7rem;
+  left: 6rem;
   height: 100%;
   min-height: 110px;
   color: #331308;
