@@ -177,7 +177,12 @@ code {
   border: 1px solid grey;
   grid-column: 2
 }
-
+.categoria-home::-webkit-scrollbar {
+  display: none;
+}
+.categoria-home{
+  scrollbar-width: none;
+}
 /*
 Estilos de la reproducción individual de videos
 */

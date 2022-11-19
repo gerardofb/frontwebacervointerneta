@@ -102,7 +102,7 @@ const HomeCategories = (props) => {
                 {
                     props.categoriasService.map(function (el, index) {
                         return (
-                            <div key={index} style={{ float: 'left', margin: '25px', padding: '25px', display: 'block', maxHeight:'250px', width: '960px', textAlign: 'left', color: 'white', overflowY:'auto'}} className={headercolors[index]}>
+                            <div key={index} style={{ float: 'left', margin: '25px', padding: '25px', display: 'block', maxHeight:'250px', width: '960px', textAlign: 'left', color: 'white', overflowY:'auto'}} className={headercolors[index]+" categoria-home"}>
                                 <h1>{el.titulo}</h1>
                                 <p>{el.descripcion}
                                 </p>
