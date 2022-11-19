@@ -357,11 +357,10 @@ export const AutoComments = () => {
                 //console.log('los creditos del video son ', response.data[0])
             }
         });
-        const requestthree = axios.get(`${getBaseAdressApi()}api/videos/${categoriareproduciendo}`).then(response => {
+        const requestthree = axios.get(`${getBaseAdressApi()}api/categoria/${categoriareproduciendo}`).then(response => {
             if (videoscategoria === null) {
-                setVideosCategoria(response.data)
-                //console.log('la longitud de los videos en la categoria es ', response.data);
-                const nuevo_listadovideos = response.data.map((el, indice) => {
+                setVideosCategoria(response.data.videos_por_categoria)
+                const nuevo_listadovideos = response.data.videos_por_categoria.map((el, indice) => {
                     return {
                         name: 'Rare Wind',
                         description: '#a8edea → #fed6e3',
@@ -370,7 +369,7 @@ export const AutoComments = () => {
                         url: el.titulo+"|"+obtenervideo[obtenervideo.length-2]+"|"+obtenervideo[obtenervideo.length-1],
                         height: 200,
                     }
-                }).slice(0,response.data.length);
+                }).slice(0,response.data.videos_por_categoria.length);
                 if (datostransicion === null) {
                     setDatosTransicion(nuevo_listadovideos)
                     //console.log('los videos listados en la categoria son después', nuevo_listadovideos);
@@ -388,7 +387,7 @@ export const AutoComments = () => {
             show: false
         });
         let elementotop = document.querySelector('.header-reproduccion-individual');
-        elementotop.scrollIntoView({ behavior: 'smooth' });
+        //elementotop.scrollIntoView({ behavior: 'smooth' });
     }, [location]);
     // console.log('la fuente del video en el estado es ', sourcevideo)
     // console.log('el video aleatorio es ', videoaleatorio);
@@ -753,7 +752,7 @@ export const AutoComments = () => {
                                 
                                 <animated.div
                                     className="category-item"
-                                    style={{ ...style, background: item.css, backgroundImage: item.image, backgroundPosition: 'center center', backgroundSize: '200px' }}
+                                    style={{ ...style, background: item.css, backgroundImage: item.image, backgroundPosition: 'center center', backgroundSize: '200px', backgroundRepeat:'no-repeat' }}
                                 ><Vinculo to={'/Reproduccion/' + item.url} /></animated.div>
                             )})}
                             <p>
@@ -867,7 +866,7 @@ export const AutoComments = () => {
                         childrenModal == MODAL_CREDITOS ? "Créditos del vídeo" : childrenModal == MODAL_REDES ? "Compartir por"
                             : childrenModal == MODAL_DESCARGAS ? "Descargar vídeo" : childrenModal == MODAL_CALIFICACION ? "Calificar vídeo" : null
                     }>
-                {childrenModal == MODAL_CREDITOS ?
+                {childrenModal == MODAL_CREDITOS && creditosvideo ?
                     <div>
                         <dl><dt>Título:</dt><dd>{titulo}</dd>
                             <dt>Dirección:</dt><dd>{creditosvideo.direccion_realizacion}</dd>
