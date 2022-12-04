@@ -6,6 +6,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { ThemesContext } from '../ThemeProvider'
 import { useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const SearchBar = (props)=>{
     const historia = useHistory();
@@ -22,7 +23,7 @@ const SearchBar = (props)=>{
             <label className={styles.SearchBarBtn} style={{gridColumn:'1', fontSize:'30px', float:'left'}}><FontAwesomeIcon icon={faSearch}></FontAwesomeIcon></label>&nbsp;
             <input type="text" className='search-bar-principal-input' onChange={(e)=>setBusquedaSimple(e.target.value)} onKeyDown={(e)=>navigateBusqueda(e)} value={busquedaSimple}></input>
         </div>
-        <p>Ir a Búsqueda avanzada&nbsp;<FontAwesomeIcon icon={faArrowRight}></FontAwesomeIcon></p>
+        <p><Link to='/BusquedaEstandar' style={{textDecoration:'none', color:"white"}}>Ir a Búsqueda avanzada&nbsp;<FontAwesomeIcon icon={faArrowRight}></FontAwesomeIcon></Link></p>
         </div>
     )
 }

@@ -3626,7 +3626,7 @@ button.tag-listado-vid{
 estilos de los resultados de búsqueda
 */
 .content-search-site{
-  background-color: #5D5D5D;
+  background-color: #AAA;
   min-height: 100vh;
   max-width: 99%;
   margin: 0 auto 1em auto;
@@ -3635,18 +3635,81 @@ estilos de los resultados de búsqueda
   display:grid;
   grid-template-columns:1;
   grid-template-rows: 3;
-  background-color: #5D5D5D;
+  background-color: #AAA;
   & h2{
     color:white;
   }
+  & a{
+    color:#7291d8
+  }
+  & a:hover{
+    color:dodgerblue
+  }
 }
 .content-advanced-search{
-  height:50vh;
+  min-height:50vh;
+  padding:3em 0 2em 0;
   min-width: 50%;
   background-color: white;
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  & div{
+    display: grid;
+    grid-template-rows: 3;
+    & label{
+      grid-row:1;
+      text-align: left;
+      margin-left:1.2em;
+    }
+    & input[type=text]{
+      height:30px;
+      margin:0 1em;
+    }
+    & select{
+      grid-row-start: 2;
+      grid-row-end: 2;
+      margin:0 1em;
+      height:30px;
+    }
+    & input[type=checkbox]{
+      width:20px;
+    }
+    & a{
+      text-align: right;
+      margin:0 1em;
+      color:darkgreen;
+      text-decoration: none;
+    }
+    & a:hover{
+      color:#009639;
+      text-decoration: underline;
+    }
+    & button{
+      max-height: 40px;
+      max-width: 90px;
+      color:white;
+      background-color: #009639;
+      border-radius: .5em;
+      grid-column: 2;
+      cursor:pointer;
+    }
+  }
+}
+.advanced-search-checkbox-div{
+  display: grid;
+  grid-template-columns:  .1fr 1.9fr;
+  grid-template-rows: 1!important;
+  & input[type=checkbox]{
+    vertical-align: top;
+  }
+  & label{
+    grid-column: 2;
+    padding-top:30px;
+  }
+  margin-left:.5em;
 }
 .results-search{
-  max-width: 85%;
+  max-width: 95%;
   border-radius: 2em;
   margin:.5em auto;
   padding:1em;
@@ -3674,7 +3737,7 @@ estilos de los resultados de búsqueda
 }
 .tabuladores-search {
   grid-row:2;
-  margin: 1em auto;
+  margin: 0 auto 1em auto;
   max-height: 70px;
 
   color: darkslategray;

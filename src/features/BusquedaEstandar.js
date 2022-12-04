@@ -13,13 +13,13 @@ const Tab = styled.button`
   cursor: pointer;
   opacity: 1;
   background: lightgray;
-  color:white;
+  color:#777;
   border: 0;
   outline: 0;
   ${({ active }) =>
         active &&
-    `    
-    background:black;
+        `    
+    background:#666;
     color:white;
     border-bottom: 2px solid white;
     opacity: 1;
@@ -64,6 +64,18 @@ export const BusquedaEstandar = (props) => {
                 })
             });
         }
+        else if(!query){
+            setResultadoBusqueda([]);
+                
+                setPaginasTotal({
+                    ...paginasTotal,
+                    comentarios: 0
+                })
+                setTotalResultados({
+                    ...totalResultados,
+                    comentarios: 0
+                })
+        }
 
     }, [location]);
     const tabuladores = ["Comentarios", "Autobiográficos/Podcasts", "Tags"];
@@ -85,7 +97,49 @@ export const BusquedaEstandar = (props) => {
             </div>
             <div className='content-search-site'>
                 <div className='content-results-search'>
-                    <div className='content-advanced-search'></div>
+                    <div className='content-advanced-search'>
+                        <div>
+                            <label>Contiene obligatoriamente las palabras:</label>
+                            <input type="text"></input>
+                        </div>
+                        <div>
+                            <label>Contiene opcionalmente las palabras:</label>
+                            <input type="text"></input>
+                        </div>
+                        <div>
+                            <label>Contiene palabras que inician con:</label>
+                            <input type="text"></input>
+                        </div>
+                        <div className='advanced-search-checkbox-div'>
+                            <input type="checkbox"></input>
+                            <label>Frase completa (sí/no):</label>
+                        </div>
+                        <div>
+                            <label>Del siguiente autor:</label>
+                            <input type="text"></input>
+                            <a href="#">Buscar autores</a>
+                        </div>
+                        <div>
+                            <label>De la siguiente categoría:</label>
+                            <select name="select_categorias">
+                                <option value="0" selected>
+                                    Todas
+                                </option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Del siguiente vídeo (indicar el título):</label>
+                            <select name="select_videos">
+                                <option value="0" selected>
+                                    Todos
+                                </option>
+                            </select>
+                            <a href="#">Buscar videos</a>
+                        </div>
+                        <div>
+                            <button type="button">Búsqueda</button>
+                        </div>
+                    </div>
                     <div className='tabuladores-search'>
                         <div className='button-group-search'>
                             {
@@ -124,12 +178,12 @@ export const BusquedaEstandar = (props) => {
                         }
                         {
                             paginasTotal.comentarios > 0 && <div className="paginacion-results-search">
-                                {paginaBusqueda.comentarios > 1 && paginaBusqueda < paginasTotal.comentarios ? <><button>Anterior</button><p>Página{1} de {paginasTotal.comentarios}
-                                </p><button>Siguiente</button></> : paginaBusqueda.comentarios <= 1 && paginaBusqueda < paginasTotal.comentarios ?
-                                    <><p>Página{1} de {paginasTotal.comentarios}
-                                    </p><button>Siguiente</button></> : paginaBusqueda.comentarios > 1 && paginaBusqueda >= paginasTotal.comentarios ?
-                                        <><button>Anterior</button><p>Página{1} de {paginasTotal.comentarios}</p>
-                                        </> : <><p>Página{1} de {paginasTotal.comentarios}</p>
+                                {paginaBusqueda.comentarios > 1 && paginaBusqueda < paginasTotal.comentarios ? <><button type="button">Anterior</button><p>Página {paginaBusqueda.comentarios} de {paginasTotal.comentarios}
+                                </p><button type="button">Siguiente</button></> : paginaBusqueda.comentarios <= 1 && paginaBusqueda < paginasTotal.comentarios ?
+                                    <><p>Página {paginaBusqueda.comentarios} de {paginasTotal.comentarios}
+                                    </p><button  type="button">Siguiente</button></> : paginaBusqueda.comentarios > 1 && paginaBusqueda >= paginasTotal.comentarios ?
+                                        <><button type="button">Anterior</button><p>Página {paginaBusqueda.comentarios} de {paginasTotal.comentarios}</p>
+                                        </> : <><p>Página {paginaBusqueda.comentarios} de {paginasTotal.comentarios}</p>
                                         </>}
                             </div>
                         }
