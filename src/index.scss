@@ -3622,4 +3622,67 @@ button.tag-listado-vid{
   margin:.5em 2em;
 }
 
+/*
+estilos de los resultados de búsqueda
+*/
+.content-search-site{
+  background-color: #5D5D5D;
+  min-height: 100vh;
+  max-width: 99%;
+  margin: 0 auto 1em auto;
+}
+.content-results-search{
+  display:grid;
+  grid-template-columns:1;
+  grid-template-rows: 3;
+  background-color: #5D5D5D;
+  & h2{
+    color:white;
+  }
+}
+.content-advanced-search{
+  height:50vh;
+  min-width: 50%;
+  background-color: white;
+}
+.results-search{
+  max-width: 85%;
+  border-radius: 2em;
+  margin:.5em auto;
+  padding:1em;
+  background-color: white;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  grid-template-rows:repeat(2,1fr);
+}
+.paginacion-results-search{
+  max-width: 80%;
+  margin:2em auto;
+  display:grid;
+  grid-template-columns: repeat(3,1fr);
+  & button{
+    border-radius: 10px;
+    background-color: darkgray;
+    border:1px solid gray;
+    margin:0 2em;
+  }
+  & p{
+    grid-column: 2;
+  }
+  color:white;
+  background-color: transparent;
+}
+.tabuladores-search {
+  grid-row:2;
+  margin: 1em auto;
+  max-height: 70px;
+
+  color: darkslategray;
+}
+.button-group-search {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  height: 120;
+}
+
 

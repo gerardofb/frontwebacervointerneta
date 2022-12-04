@@ -12,21 +12,21 @@ import { getBaseAdressApi } from './MainAPI';
 
 const url = (name, wrap = false) => `${wrap ? 'url(' : ''}images/${name}.svg${wrap ? ')' : ''}`
 const urlpng = (name, wrap = false) => `${wrap ? 'url(' : ''}images/Art/inverted/${name}.png${wrap ? ')' : ''}`
-
+const urlvideointro = "/images/VideoIntroInterNeta.mp4";
 export class Home extends React.Component {
     state = {
-        categoriasService:[]
+        categoriasService: []
     }
-    
-    componentDidMount(){
-        axios.get(getBaseAdressApi()+'api/categorias/').then(response=>{
-            const respuestacategorias = response.data.map((el,i)=>{
-                el.titulo = el.titulo.replace(/\s/g,'-');
+
+    componentDidMount() {
+        axios.get(getBaseAdressApi() + 'api/categorias/').then(response => {
+            const respuestacategorias = response.data.map((el, i) => {
+                el.titulo = el.titulo.replace(/\s/g, '-');
                 return el;
             })
-            console.log('respuesta de api ',response.data, respuestacategorias)
-            this.setState({categoriasService:respuestacategorias})
-            
+            console.log('respuesta de api ', response.data, respuestacategorias)
+            this.setState({ categoriasService: respuestacategorias })
+
         });
     }
     render() {
@@ -65,16 +65,22 @@ export class Home extends React.Component {
                         </div>
                     </Parallax.Layer>
                     <Parallax.Layer offset={0.2} speed={0} style={{ display: 'flex', marginBottom: '50px' }}>
-                        <Player autoPlay
-                            ref={player => {
-                                this.player = player;
-                            }}
-                            muted>
-                            <BigPlayButton position={"center"} style={{ display: 'none' }} />
-                            <source src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4"></source>
-                            <ControlBar disableCompletely={false}></ControlBar>
-                            <LoadingSpinner></LoadingSpinner>
-                        </Player>
+                        
+                            <Player autoPlay
+                                muted
+                                ref={player => {
+                                    this.player = player;
+                                }}
+                                fluid={false}
+                                height={'100%'}
+                                width={'100%'}
+                                aspectRatio={'16:9'}>
+                                <BigPlayButton position={"center"} style={{ display: 'none' }} />
+                                <source src={urlvideointro}></source>
+                                <ControlBar disableCompletely={false}></ControlBar>
+                                <LoadingSpinner></LoadingSpinner>
+                            </Player>
+
                     </Parallax.Layer>
                     <Parallax.Layer offset={1.4} speed={0} style={{ display: 'flex' }}>
                         <HomeCategories categoriasService={this.state.categoriasService}></HomeCategories>

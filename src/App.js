@@ -16,6 +16,7 @@ import ListadoEventosProximos from './features/Events/ListadoEventosProximos';
 import EventosMasVisitados from './features/Events/EventosMasVisitados';
 import ListadoVideosFavoritos from './features/Players/ListadoFavoritosVideos';
 import ListadoVideosMasVisitados from './features/Players/ListadoVideosMasVisitados';
+import {BusquedaEstandar} from './features/BusquedaEstandar';
 import { ThemeProvider } from './ThemeProvider';
 import Eventos from './features/Events/Eventos';
 import { useEffect } from 'react';
@@ -186,6 +187,11 @@ const populate_videos_set = () => {
           <Route path="/ListadoReproduccionVisitados/:tipo" exact>
               <ThemeProvider>
                 <ListadoVideosMasVisitados></ListadoVideosMasVisitados>
+              </ThemeProvider>
+          </Route>
+          <Route path="/BusquedaEstandar">
+              <ThemeProvider>
+                <BusquedaEstandar></BusquedaEstandar>
               </ThemeProvider>
           </Route>
         </Switch>
