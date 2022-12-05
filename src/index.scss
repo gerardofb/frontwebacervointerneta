@@ -3728,6 +3728,13 @@ estilos de los resultados de búsqueda
     background-color: darkgray;
     border:1px solid gray;
     margin:0 2em;
+    color:white;
+    border:1px solid white;
+    cursor: pointer;
+  }
+  & button:hover{
+    border:1px solid black;
+    color:black;
   }
   & p{
     grid-column: 2;

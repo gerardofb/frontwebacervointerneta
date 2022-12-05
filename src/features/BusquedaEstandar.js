@@ -31,7 +31,8 @@ export const BusquedaEstandar = (props) => {
     const [paginaBusqueda, setPaginaBusqueda] = useState({ comentarios: 1 })
     const [paginasTotal, setPaginasTotal] = useState({ comentarios: 0 })
     const [totalResultados, setTotalResultados] = useState({ comentarios: 0 })
-    useEffect(() => {
+    const [paginacion,setPaginacion] = useState({comentarios:0})
+     useEffect(() => {
         let query = location.search, consulta = '';
         if (query) {
             query = query.split('=');
@@ -45,15 +46,18 @@ export const BusquedaEstandar = (props) => {
                 "puede": "",
                 "prefijo": "",
                 "video": "",
-                "pagina_inicial": paginaBusqueda.comentarios - 1
+                "pagina_inicial": 0
             };
             const requestSimple = axios.post(`${getBaseAdressApi()}api/searchcomment/`,
                 objetoSearchSimple
             ).then(response => {
                 setResultadoBusqueda(response.data);
                 let totalDeResultados = response.data[0].total;
-                let paginacion = response.data[0].paginacion;
-                let paginasTotalComentarios = parseInt(totalDeResultados / paginacion) + (totalDeResultados % paginacion > 0) ? 1 : 0
+                let paginacion_primera = response.data[0].paginacion;
+                setPaginacion({...paginacion,
+                    comentarios:paginacion_primera});
+                let paginasTotalComentarios = parseInt(totalDeResultados / paginacion_primera) + ((totalDeResultados % paginacion_primera > 0) ? 1 : 0)
+                //console.log('en consulta inicial ',paginasTotalComentarios)
                 setPaginasTotal({
                     ...paginasTotal,
                     comentarios: paginasTotalComentarios
@@ -77,7 +81,7 @@ export const BusquedaEstandar = (props) => {
                 })
         }
 
-    }, [location]);
+    }, [location.search]);
     const tabuladores = ["Comentarios", "Autobiográficos/Podcasts", "Tags"];
     const [active, setActive] = useState(tabuladores[0]);
     const estableceTab = (parameter) => {
@@ -88,6 +92,58 @@ export const BusquedaEstandar = (props) => {
         }
         return { display: "none" };
     }
+    const cambiarPagina =(direccion, tipo)=>{
+        let paginaActual = 0;
+        if(direccion && tipo == tabuladores[0]){
+            paginaActual = (paginaBusqueda.comentarios+1);
+
+            setPaginaBusqueda(
+                {
+                    ...paginaBusqueda,
+                    comentarios:paginaActual
+                });
+        }
+        else if(!direccion && tipo == tabuladores[0]){
+            paginaActual = (paginaBusqueda.comentarios-1);
+            setPaginaBusqueda(
+                {
+                    ...paginaBusqueda,
+                    comentarios:paginaActual
+                });
+        }
+        let query = location.search, consulta = '';
+        if (query) {
+            query = query.split('=');
+            consulta = decodeURI(query[query.length - 1])
+            let objetoSearchPagina = {
+                "query": consulta,
+                "categoria": "",
+                "frase": false,
+                "autor": "",
+                "puede": "",
+                "prefijo": "",
+                "video": "",
+                "pagina_inicial": ((paginacion.comentarios)*(paginaActual-1))
+            };
+            //console.log('en cambio de página ',paginaActual,objetoSearchPagina, paginacion.comentarios)
+            const requestPagina = axios.post(`${getBaseAdressApi()}api/searchcomment/`,
+            objetoSearchPagina
+            ).then(response => {
+                setResultadoBusqueda(response.data);
+                let totalDeResultados = response.data[0].total;
+                let paginasTotalComentarios = parseInt(totalDeResultados / paginacion.comentarios) + ((totalDeResultados % paginacion.comentarios > 0) ? 1 : 0)
+                setPaginasTotal({
+                    ...paginasTotal,
+                    comentarios: paginasTotalComentarios
+                })
+                setTotalResultados({
+                    ...totalResultados,
+                    comentarios: totalDeResultados
+                })
+            });
+        }
+    }
+    console.log('paginas',paginaBusqueda.comentarios,paginasTotal.comentarios,totalResultados.comentarios)
     return (
         <>
             <div>
@@ -178,11 +234,11 @@ export const BusquedaEstandar = (props) => {
                         }
                         {
                             paginasTotal.comentarios > 0 && <div className="paginacion-results-search">
-                                {paginaBusqueda.comentarios > 1 && paginaBusqueda < paginasTotal.comentarios ? <><button type="button">Anterior</button><p>Página {paginaBusqueda.comentarios} de {paginasTotal.comentarios}
-                                </p><button type="button">Siguiente</button></> : paginaBusqueda.comentarios <= 1 && paginaBusqueda < paginasTotal.comentarios ?
+                                {paginaBusqueda.comentarios > 1 && paginaBusqueda < paginasTotal.comentarios ? <><button type="button" onClick={(e)=>{cambiarPagina(false,tabuladores[0])}}>Anterior</button><p>Página {paginaBusqueda.comentarios} de {paginasTotal.comentarios}
+                                </p><button type="button" onClick={(e)=>{cambiarPagina(true,tabuladores[0])}}>Siguiente</button></> : paginaBusqueda.comentarios <= 1 && paginaBusqueda.comentarios < paginasTotal.comentarios ?
                                     <><p>Página {paginaBusqueda.comentarios} de {paginasTotal.comentarios}
-                                    </p><button  type="button">Siguiente</button></> : paginaBusqueda.comentarios > 1 && paginaBusqueda >= paginasTotal.comentarios ?
-                                        <><button type="button">Anterior</button><p>Página {paginaBusqueda.comentarios} de {paginasTotal.comentarios}</p>
+                                    </p><button onClick={(e)=>{cambiarPagina(true,tabuladores[0])}} type="button">Siguiente</button></> : paginaBusqueda.comentarios > 1 && paginaBusqueda.comentarios >= paginasTotal.comentarios ?
+                                        <><button onClick={(e)=>{cambiarPagina(false,tabuladores[0])}} type="button">Anterior</button><p>Página {paginaBusqueda.comentarios} de {paginasTotal.comentarios}</p>
                                         </> : <><p>Página {paginaBusqueda.comentarios} de {paginasTotal.comentarios}</p>
                                         </>}
                             </div>
