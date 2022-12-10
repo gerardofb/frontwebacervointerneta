@@ -42,6 +42,7 @@ import ContextMenu from '../ContextMenu';
 import { HomeFooter } from '../HomeFooter';
 import { ThemesContext } from '../../ThemeProvider';
 import { getBaseAdressApi } from '../MainAPI';
+import { useLayoutEffect } from 'react';
 const url = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/SocialNetwork/${name}${wrap ? ')' : ''}`
 
 const Tab = styled.button`
@@ -332,13 +333,34 @@ export const AutoComments = () => {
         </div>
     );
     const [msjesChat, setMsjesChat] = useState({ chat: mensajes, show: false });
-
+    const [elems, setItems] = useState(items);
     const [videoaleatorio, setVideoAleatorio] = useState('');
+    const [busquedaComentarios,setBusquedaComentarios] = useState(null);
     const obtenervideo = video.split('|')
     const categoriareproduciendo = obtenervideo[obtenervideo.length - 1];
     const titulo = videoaleatorio === "" ? obtenervideo[obtenervideo.length - 3] : "Screenshot-" + videoaleatorio;
-
+    const [comentarios,setComentarios] = useState([]);
     useEffect(() => {
+        let parametros;
+        if(location.search){
+           parametros = new URLSearchParams(window.location.search);
+           if(parametros.get("q") == "true" && parametros.get("cat")=="Comentarios"){
+                let consulta_actual = JSON.parse(localStorage.getItem("queryComentarios"));
+                console.log('consulta de parametros comentarios ',consulta_actual);
+                setBusquedaComentarios(consulta_actual);
+                localStorage.removeItem("queryComentarios");
+            const requestSearchomments = axios.post(`${getBaseAdressApi()}api/searchcomment/`,
+                consulta_actual
+            ).then(response => {
+                let comentarios_search = response.data.map((el,indice)=>{
+                   return {titulo:el.autor, content:el.comentario}
+                });
+                setItems(comentarios_search);
+                console.log('en respuesta de búsqueda comentarios ',comentarios_search)
+            });
+           }
+        }
+        
         // console.log("Location changed");
 
         // console.log('obteniendo fuente del video ',obtenervideo)
@@ -388,6 +410,7 @@ export const AutoComments = () => {
         });
         let elementotop = document.querySelector('.header-reproduccion-individual');
         //elementotop.scrollIntoView({ behavior: 'smooth' });
+    
     }, [location]);
     // console.log('la fuente del video en el estado es ', sourcevideo)
     // console.log('el video aleatorio es ', videoaleatorio);
@@ -403,7 +426,7 @@ export const AutoComments = () => {
     }
 
 
-    const [elems, setItems] = useState(items);
+   
     const bottomRef = useRef()
     const scrollToBottom = () => {
         bottomRef.current.scrollIntoView({
@@ -466,7 +489,7 @@ export const AutoComments = () => {
             if (active == tabuladores[0] && items.length < 350) {
                 let item = items[Math.floor(Math.random() * items.length)];
                 items = items.concat(item);
-                setItems(items)
+                !location.search && setItems(items)
             }
             else if (active == tabuladores[1] && autobiograficos.lengcatdatath < 100) {
                 let relato = autobiograficos[Math.floor(Math.random() * autobiograficos.length)];

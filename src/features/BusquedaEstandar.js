@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useContext } from 'react'
-import { useParams, useLocation } from 'react-router-dom'
+import { useParams, useHistory, useLocation } from 'react-router-dom'
 import NavBar from './NavBar'
 import { HomeFooter } from './HomeFooter'
 import axios from "axios"
@@ -25,13 +25,17 @@ const Tab = styled.button`
     opacity: 1;
   `}
 `;
+const categorias = {COMENTARIOS:0}
 export const BusquedaEstandar = (props) => {
     const location = useLocation()
+    const history = useHistory();
     const [resultadoBusqueda, setResultadoBusqueda] = useState([])
     const [paginaBusqueda, setPaginaBusqueda] = useState({ comentarios: 1 })
     const [paginasTotal, setPaginasTotal] = useState({ comentarios: 0 })
     const [totalResultados, setTotalResultados] = useState({ comentarios: 0 })
     const [paginacion,setPaginacion] = useState({comentarios:0})
+    const [actualQuery,setActualQuery] = useState(null)
+    const [todascategorias,setTodascategorias] = useState(null);
      useEffect(() => {
         let query = location.search, consulta = '';
         if (query) {
@@ -51,6 +55,8 @@ export const BusquedaEstandar = (props) => {
             const requestSimple = axios.post(`${getBaseAdressApi()}api/searchcomment/`,
                 objetoSearchSimple
             ).then(response => {
+                setActualQuery(
+                    JSON.stringify(objetoSearchSimple));
                 setResultadoBusqueda(response.data);
                 let totalDeResultados = response.data[0].total;
                 let paginacion_primera = response.data[0].paginacion;
@@ -67,6 +73,9 @@ export const BusquedaEstandar = (props) => {
                     comentarios: totalDeResultados
                 })
             });
+            let respuesta_cat = axios.get(`${getBaseAdressApi()}api/categorias/`).then(response=>{
+                console.log('dentro de consulta original',response.data);
+                setTodascategorias(response.data);  })
         }
         else if(!query){
             setResultadoBusqueda([]);
@@ -141,6 +150,17 @@ export const BusquedaEstandar = (props) => {
                     comentarios: totalDeResultados
                 })
             });
+        }
+    }
+    const navigateToSearch=(categoria,video)=>{
+        switch(categoria){
+            case categorias.COMENTARIOS:
+            localStorage.setItem("queryComentarios",actualQuery);   
+           
+                let indice_categoria = todascategorias.find(e=> e.titulo == video.categoria);
+                console.log('en navegar ',todascategorias,video.categoria,indice_categoria);
+                history.push("/Reproduccion/"+video.titulo+"|"+video.id_video+"|"+indice_categoria.id+"?q=true&cat=Comentarios");           
+            break;
         }
     }
     console.log('paginas',paginaBusqueda.comentarios,paginasTotal.comentarios,totalResultados.comentarios)
@@ -225,7 +245,7 @@ export const BusquedaEstandar = (props) => {
                                         <h4>Autor</h4>
                                         <h4>Fecha</h4>
                                         <p>{el.titulo_categoria}</p>
-                                        <p><a href="#">{el.titulo_video}</a></p>
+                                        <p><a href="#" onClick={(e)=>navigateToSearch(categorias.COMENTARIOS, {titulo:el.titulo_video,id_video:el.id_video, categoria:el.titulo_categoria})}>{el.titulo_video}</a></p>
                                         <p>{el.autor}</p>
                                         <p>{fecharesult.toLocaleDateString()}</p>
                                     </div>
