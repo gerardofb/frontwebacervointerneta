@@ -30,9 +30,12 @@ export const BusquedaEstandar = (props) => {
     const location = useLocation()
     const history = useHistory();
     const [resultadoBusqueda, setResultadoBusqueda] = useState([])
-    const [paginaBusqueda, setPaginaBusqueda] = useState({ comentarios: 1 })
-    const [paginasTotal, setPaginasTotal] = useState({ comentarios: 0 })
-    const [totalResultados, setTotalResultados] = useState({ comentarios: 0 })
+    const [paginaBusqueda, setPaginaBusqueda] = useState({ comentarios: 1, relatos:1 })
+    const [paginasTotal, setPaginasTotal] = useState({ comentarios: 0, relatos:0 })
+    const [totalResultados, setTotalResultados] = useState({ comentarios: 0, relatos:0 })
+
+    const [resultadoBusquedaRelato, setResultadoBusquedaRelato] = useState([])
+
     const [paginacion,setPaginacion] = useState({comentarios:0})
     const [actualQuery,setActualQuery] = useState(null)
     const [todascategorias,setTodascategorias] = useState(null);
@@ -73,6 +76,27 @@ export const BusquedaEstandar = (props) => {
                     comentarios: totalDeResultados
                 })
             });
+            const requestRelato = axios.post(`${getBaseAdressApi()}api/searchrelato/`,
+                objetoSearchSimple
+            ).then(response => {
+                // setActualQuery(
+                //     JSON.stringify(objetoSearchSimple));
+                setResultadoBusquedaRelato(response.data);
+                let totalDeResultadosRelato = response.data[0].total;
+                let paginacion_primera = response.data[0].paginacion;
+                setPaginacion({...paginacion,
+                    relatos:paginacion_primera});
+                let paginasTotalRelatos = parseInt(totalDeResultadosRelato / paginacion_primera) + ((totalDeResultadosRelato % paginacion_primera > 0) ? 1 : 0)
+                //console.log('en consulta inicial ',paginasTotalComentarios)
+                setPaginasTotal({
+                    ...paginasTotal,
+                    relatos: paginasTotalRelatos
+                })
+                setTotalResultados({
+                    ...totalResultados,
+                    relatos: totalDeResultadosRelato
+                })
+            });
             let respuesta_cat = axios.get(`${getBaseAdressApi()}api/categorias/`).then(response=>{
                 console.log('dentro de consulta original',response.data);
                 setTodascategorias(response.data);  })
@@ -82,11 +106,13 @@ export const BusquedaEstandar = (props) => {
                 
                 setPaginasTotal({
                     ...paginasTotal,
-                    comentarios: 0
+                    comentarios: 0,
+                    relatos:0
                 })
                 setTotalResultados({
                     ...totalResultados,
-                    comentarios: 0
+                    comentarios: 0,
+                    relatos:0
                 })
         }
 
@@ -120,10 +146,28 @@ export const BusquedaEstandar = (props) => {
                     comentarios:paginaActual
                 });
         }
+        else if(direccion && tipo == tabuladores[1]){
+            paginaActual = (paginaBusqueda.relatos+1);
+
+            setPaginaBusqueda(
+                {
+                    ...paginaBusqueda,
+                    relatos:paginaActual
+                });
+        }
+        else if(!direccion && tipo == tabuladores[1]){
+            paginaActual = (paginaBusqueda.comentarios-1);
+            setPaginaBusqueda(
+                {
+                    ...paginaBusqueda,
+                    relatos:paginaActual
+                });
+        }
         let query = location.search, consulta = '';
         if (query) {
             query = query.split('=');
             consulta = decodeURI(query[query.length - 1])
+            if(tipo == tabuladores[0]){
             let objetoSearchPagina = {
                 "query": consulta,
                 "categoria": "",
@@ -150,6 +194,35 @@ export const BusquedaEstandar = (props) => {
                     comentarios: totalDeResultados
                 })
             });
+            }
+            else if(tipo == tabuladores[1]){
+                let objetoSearchPagina = {
+                    "query": consulta,
+                    "categoria": "",
+                    "frase": false,
+                    "autor": "",
+                    "puede": "",
+                    "prefijo": "",
+                    "video": "",
+                    "pagina_inicial": ((paginacion.relatos)*(paginaActual-1))
+                };
+                //console.log('en cambio de página ',paginaActual,objetoSearchPagina, paginacion.comentarios)
+                const requestPagina = axios.post(`${getBaseAdressApi()}api/searchrelato/`,
+                objetoSearchPagina
+                ).then(response => {
+                    setResultadoBusqueda(response.data);
+                    let totalDeResultadosRelato = response.data[0].total;
+                    let paginasTotalRelatos = parseInt(totalDeResultadosRelato / paginacion.relatos) + ((totalDeResultadosRelato % paginacion.relatos > 0) ? 1 : 0)
+                    setPaginasTotal({
+                        ...paginasTotal,
+                        relatos: paginasTotalRelatos
+                    })
+                    setTotalResultados({
+                        ...totalResultados,
+                        relatos: totalDeResultadosRelato
+                    })
+                });
+                }
         }
     }
     const navigateToSearch=(categoria,video)=>{
@@ -260,6 +333,39 @@ export const BusquedaEstandar = (props) => {
                                     </p><button onClick={(e)=>{cambiarPagina(true,tabuladores[0])}} type="button">Siguiente</button></> : paginaBusqueda.comentarios > 1 && paginaBusqueda.comentarios >= paginasTotal.comentarios ?
                                         <><button onClick={(e)=>{cambiarPagina(false,tabuladores[0])}} type="button">Anterior</button><p>Página {paginaBusqueda.comentarios} de {paginasTotal.comentarios}</p>
                                         </> : <><p>Página {paginaBusqueda.comentarios} de {paginasTotal.comentarios}</p>
+                                        </>}
+                            </div>
+                        }
+                    </div>
+                    <div style={estableceTab(tabuladores[1])}>
+                        <h2>Resultados de la búsqueda ({totalResultados.relatos}):</h2>
+
+                        {
+
+                            resultadoBusquedaRelato.map((el, indice) => {
+                                let fecharesult = new Date(el.ultima_fecha)
+                                return (
+                                    <div className="results-search">
+                                        <h4>Categoría</h4>
+                                        <h4>Título</h4>
+                                        <h4>Autor</h4>
+                                        <h4>Fecha</h4>
+                                        <p>{el.titulo_categoria}</p>
+                                        <p><a href="#">{el.titulo_video}</a></p>
+                                        <p>{el.autor}</p>
+                                        <p>{fecharesult.toLocaleDateString()}</p>
+                                    </div>
+                                )
+                            })
+                        }
+                        {
+                            paginasTotal.relatos > 0 && <div className="paginacion-results-search">
+                                {paginaBusqueda.relatos > 1 && paginaBusqueda < paginasTotal.relatos ? <><button type="button" onClick={(e)=>{cambiarPagina(false,tabuladores[1])}}>Anterior</button><p>Página {paginaBusqueda.relatos} de {paginasTotal.relatos}
+                                </p><button type="button" onClick={(e)=>{cambiarPagina(true,tabuladores[1])}}>Siguiente</button></> : paginaBusqueda.relatos <= 1 && paginaBusqueda.relatos < paginasTotal.relatos ?
+                                    <><p>Página {paginaBusqueda.relatos} de {paginasTotal.relatos}
+                                    </p><button onClick={(e)=>{cambiarPagina(true,tabuladores[1])}} type="button">Siguiente</button></> : paginaBusqueda.relatos > 1 && paginaBusqueda.relatos >= paginasTotal.relatos ?
+                                        <><button onClick={(e)=>{cambiarPagina(false,tabuladores[1])}} type="button">Anterior</button><p>Página {paginaBusqueda.relatos} de {paginasTotal.relatos}</p>
+                                        </> : <><p>Página {paginaBusqueda.relatos} de {paginasTotal.relatos}</p>
                                         </>}
                             </div>
                         }
