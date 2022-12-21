@@ -44,7 +44,7 @@ import { ThemesContext } from '../../ThemeProvider';
 import { getBaseAdressApi } from '../MainAPI';
 import { useLayoutEffect } from 'react';
 const url = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/SocialNetwork/${name}${wrap ? ')' : ''}`
-
+const url_loader = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/${name}${wrap ? ')' : ''}`
 const Tab = styled.button`
   font-size: 20px;
   padding: 10px 60px;
@@ -333,41 +333,83 @@ export const AutoComments = () => {
         </div>
     );
     const [msjesChat, setMsjesChat] = useState({ chat: mensajes, show: false });
-    const [elems, setItems] = useState(items);
+    const [elems, setItems] = useState([]);
     const [videoaleatorio, setVideoAleatorio] = useState('');
-    const [busquedaComentarios,setBusquedaComentarios] = useState(null);
+    const [busquedaComentarios, setBusquedaComentarios] = useState(null);
     const obtenervideo = video.split('|')
     const categoriareproduciendo = obtenervideo[obtenervideo.length - 1];
     const titulo = videoaleatorio === "" ? obtenervideo[obtenervideo.length - 3] : "Screenshot-" + videoaleatorio;
-    const [comentarios,setComentarios] = useState([]);
+    const [comentarios, setComentarios] = useState([]);
+    const idvideo = obtenervideo[obtenervideo.length - 2]
+    const [newComment, setNewComment] = useState('');
+    const growers = document.querySelectorAll(".grow-wrap");
+    const [paginacion,setPaginacion] = useState({comentarios:{pagina:0,habilitado:false,total:0,tamanio:0}})
+    growers.forEach((grower) => {
+        const textarea = grower.querySelector("textarea");
+        textarea.addEventListener("input", () => {
+            grower.dataset.replicatedValue = textarea.value;
+        });
+    });
     useEffect(() => {
         let parametros;
-        if(location.search){
-           parametros = new URLSearchParams(window.location.search);
-           if(parametros.get("q") == "true" && parametros.get("cat")=="Comentarios"){
+        if (location.search) {
+            parametros = new URLSearchParams(window.location.search);
+            if (parametros.get("q") == "true" && parametros.get("cat") == "Comentarios") {
                 let consulta_actual = JSON.parse(localStorage.getItem("queryComentarios"));
-                console.log('consulta de parametros comentarios ',consulta_actual);
+                console.log('consulta de parametros comentarios ', consulta_actual);
                 setBusquedaComentarios(consulta_actual);
                 localStorage.removeItem("queryComentarios");
+                const requestSearchomments = axios.post(`${getBaseAdressApi()}api/searchcomment/`,
+                    consulta_actual
+                ).then(response => {
+                    let comentarios_search = response.data.map((el, indice) => {
+                        return { titulo: el.autor, content: el.comentario }
+                    });
+                    setItems(comentarios_search);
+                    console.log('en respuesta de búsqueda comentarios ', comentarios_search)
+                });
+            }
+        }
+        else {
+            let consulta_actual = {
+                "query": "",
+                "categoria": "",
+                "frase": false,
+                "autor": "",
+                "puede": "",
+                "prefijo": "",
+                "video": parseInt(idvideo),
+                "pagina_inicial": 0
+            };
+            setBusquedaComentarios(consulta_actual);
+            console.log('en consulta por defecto ', consulta_actual)
             const requestSearchomments = axios.post(`${getBaseAdressApi()}api/searchcomment/`,
                 consulta_actual
             ).then(response => {
-                let comentarios_search = response.data.map((el,indice)=>{
-                   return {titulo:el.autor, content:el.comentario}
+                let comentarios_search = response.data.map((el, indice) => {
+                    return { titulo: el.autor, content: el.comentario }
                 });
                 setItems(comentarios_search);
-                console.log('en respuesta de búsqueda comentarios ',comentarios_search)
-            });
-           }
+                let numeropaginas = response.data.length > 0 ? response.data[0].paginacion : 0;
+                    let totalpaginas = response.data.length > 0 ? response.data[0].total : 0;
+                    let paginasTotales = 0;
+                    if(totalpaginas > 0){
+                        paginasTotales = parseInt(totalpaginas / numeropaginas) +(totalpaginas%numeropaginas > 0 ? 1 : 0);
+                    }
+                setPaginacion({
+                    ...paginacion,
+                    comentarios:{pagina:0,habilitado:false,total: paginasTotales,tamanio:numeropaginas}})
+                console.log('respuesta de api por defecto', comentarios_search)
+                
+            }).catch(reason => console.log('error en consulta por defecto ', reason));
         }
-        
+
         // console.log("Location changed");
 
         // console.log('obteniendo fuente del video ',obtenervideo)
-        const idvideo = obtenervideo[obtenervideo.length - 2]
         const requestone = axios.get(`${getBaseAdressApi()}api/video/${idvideo}`).then(response => {
             if (sourcevideo === '') {
-                console.log('el video a cargar como fuente es ',response.data.contenedor_aws)
+                console.log('el video a cargar como fuente es ', response.data.contenedor_aws)
                 setSourceVideo(response.data.contenedor_aws);
                 //console.log('la fuente del video es ', response.data.contenedor_aws);
                 setVideoReproduciendo(response.data);
@@ -388,10 +430,10 @@ export const AutoComments = () => {
                         description: '#a8edea → #fed6e3',
                         css: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
                         image: 'url("' + el.contenedor_img + '")',
-                        url: el.titulo+"|"+obtenervideo[obtenervideo.length-2]+"|"+obtenervideo[obtenervideo.length-1],
+                        url: el.titulo + "|" + obtenervideo[obtenervideo.length - 2] + "|" + obtenervideo[obtenervideo.length - 1],
                         height: 200,
                     }
-                }).slice(0,response.data.videos_por_categoria.length);
+                }).slice(0, response.data.videos_por_categoria.length);
                 if (datostransicion === null) {
                     setDatosTransicion(nuevo_listadovideos)
                     //console.log('los videos listados en la categoria son después', nuevo_listadovideos);
@@ -410,7 +452,7 @@ export const AutoComments = () => {
         });
         let elementotop = document.querySelector('.header-reproduccion-individual');
         //elementotop.scrollIntoView({ behavior: 'smooth' });
-    
+
     }, [location]);
     // console.log('la fuente del video en el estado es ', sourcevideo)
     // console.log('el video aleatorio es ', videoaleatorio);
@@ -426,7 +468,7 @@ export const AutoComments = () => {
     }
 
 
-   
+
     const bottomRef = useRef()
     const scrollToBottom = () => {
         bottomRef.current.scrollIntoView({
@@ -486,16 +528,54 @@ export const AutoComments = () => {
         const { innerHeight } = window;
         const bottomOfWindow = Math.round(scrollTop) + innerHeight === offsetHeight;
         if (bottomOfWindow) {
-            if (active == tabuladores[0] && items.length < 350) {
-                let item = items[Math.floor(Math.random() * items.length)];
-                items = items.concat(item);
-                !location.search && setItems(items)
+            if (active == tabuladores[0]) {
+                // let item = items[Math.floor(Math.random() * items.length)];
+                // items = items.concat(item);
+                // !location.search && setItems(items)
+                let numero_pagina = paginacion.comentarios.pagina;
+                numero_pagina+=1;
+                console.log('probando condicion para scroll' ,paginacion)
+                if(paginacion.comentarios.total > numero_pagina){
+                setPaginacion({
+                    ...paginacion,
+                    comentarios:{pagina:numero_pagina,habilitado:true,total:paginacion.comentarios.total,tamanio:paginacion.comentarios.tamanio}});
+                let consulta_actual = {
+                    "query": "",
+                    "categoria": "",
+                    "frase": false,
+                    "autor": "",
+                    "puede": "",
+                    "prefijo": "",
+                    "video": parseInt(idvideo),
+                    "pagina_inicial": numero_pagina*paginacion.comentarios.tamanio
+                };
+                
+                const requestSearchomments = axios.post(`${getBaseAdressApi()}api/searchcomment/`,
+                    consulta_actual
+                ).then(response => {
+                    
+                    
+                    console.log('consulta para paginar ',consulta_actual);
+                    let comentarios_search = response.data.map((el, indice) => {
+                        return { titulo: el.autor, content: el.comentario }
+                    });
+                    let elementos = comentarios_search;
+                    console.log('añadiendo elementos ',elementos)
+                    setItems(
+                        elems.concat(elementos)
+                    );
+                    
+                    setPaginacion({
+                        ...paginacion,
+                        comentarios:{pagina:numero_pagina,habilitado:false,total:paginacion.comentarios.total,tamanio:paginacion.comentarios.tamanio}})
+                }).catch(reason => console.log('error en consulta por defecto paginando', reason));
             }
-            else if (active == tabuladores[1] && autobiograficos.lengcatdatath < 100) {
-                let relato = autobiograficos[Math.floor(Math.random() * autobiograficos.length)];
-                autobiograficos = autobiograficos.concat(relato);
-                setRelatos(autobiograficos);
-            }
+        }
+            // else if (active == tabuladores[1] && autobiograficos.lengcatdatath < 100) {
+            //     let relato = autobiograficos[Math.floor(Math.random() * autobiograficos.length)];
+            //     autobiograficos = autobiograficos.concat(relato);
+            //     setRelatos(autobiograficos);
+            // }
         }
         setHeightChat();
 
@@ -674,7 +754,41 @@ export const AutoComments = () => {
     const [esFavorito, setEsFavorito] = useState({ valor: false, cuenta: 4056 });
     //console.log('estrellas marcadas para calificar', clicked);
     //console.log('los videos en la categoría son ', videoscategoria)
-
+    const sendComment = () => {
+        if (newComment.trim() !== "") {
+            const requesttwo = axios.put(`${getBaseAdressApi()}api/commentvideo/`,
+                {
+                    "id_autor": "usuario_generico",
+                    "id_video": parseInt(idvideo),
+                    "comentario": newComment
+                }
+            ).then(response => {
+                if (response.status == 201) {
+                    setNewComment('')
+                    let consulta_actual = {
+                        "query": "",
+                        "categoria": "",
+                        "frase": false,
+                        "autor": "",
+                        "puede": "",
+                        "prefijo": "",
+                        "video": parseInt(idvideo),
+                        "pagina_inicial": 0
+                    };
+                    console.log('en consulta por defecto ', consulta_actual)
+                    const requestSearchomments = axios.post(`${getBaseAdressApi()}api/searchcomment/`,
+                        consulta_actual
+                    ).then(response => {
+                        let comentarios_search = response.data.map((el, indice) => {
+                            return { titulo: el.autor, content: el.comentario }
+                        });
+                        setItems(comentarios_search);
+                        console.log('respuesta de api por defecto al enviar comentario', comentarios_search)
+                    }).catch(reason => console.log('error en consulta por defecto al enviar comentario ', reason));
+                }
+            });
+        }
+    }
     return (
         <div className='player-individual' onScroll={handleScroll}>
             {
@@ -770,14 +884,15 @@ export const AutoComments = () => {
                             className="category-container"
                             onClick={() => set(open => !open)}>
                             {transition((style, item) => {
-                                console.log('iterando en transicion ',item)
-                                return(
-                                
-                                <animated.div
-                                    className="category-item"
-                                    style={{ ...style, background: item.css, backgroundImage: item.image, backgroundPosition: 'center center', backgroundSize: '200px', backgroundRepeat:'no-repeat' }}
-                                ><Vinculo to={'/Reproduccion/' + item.url} /></animated.div>
-                            )})}
+                                console.log('iterando en transicion ', item)
+                                return (
+
+                                    <animated.div
+                                        className="category-item"
+                                        style={{ ...style, background: item.css, backgroundImage: item.image, backgroundPosition: 'center center', backgroundSize: '200px', backgroundRepeat: 'no-repeat' }}
+                                    ><Vinculo to={'/Reproduccion/' + item.url} /></animated.div>
+                                )
+                            })}
                             <p>
                                 <span style={{ color: 'red', display: 'inline-block', margin: 'auto' }}>{open ? "" : <animated.img src="/images/Stills/Categories/PLAY_OVER.png"
                                     style={{ ...opacidad, width: '5em', position: 'absolute', top: '30%', left: '25%' }} />}</span>
@@ -786,6 +901,14 @@ export const AutoComments = () => {
                     </div>
                 </div>
                 <div className="scroll-list" onContextMenu={(e) => handleContextMenu(false, false)} ref={bottomRef} style={estableceTab(tabuladores[0])}>
+
+                    <label class="caja-expandible-label" for="text_comentario">Comentar:</label>
+                    <div class="grow-wrap">
+                        <textarea maxLength={2000} value={newComment} onChange={(e) => setNewComment(e.target.value)} name="text_comentario" id="text_comentario"></textarea>
+                    </div>
+                    <div className="button-send-expandible-text">
+                        <button type="button" onClick={sendComment}>Enviar</button>
+                    </div>
                     {elems &&
                         elems.map((item, index) => (
                             <div key={index}>
@@ -793,6 +916,9 @@ export const AutoComments = () => {
                                 <p>{`${index + 1}. ${item.content}`}</p>
                             </div>
                         ))}
+                    <div className='default-loader' style={paginacion.comentarios.habilitado ?{display:'block'}: {display:'none'}}>
+                        <img src={url_loader("Reload_generic.gif",false)} />
+                    </div>
                     <div className="list-bottom"></div>
                 </div>
                 <div className='scroll-list' onContextMenu={(e) => handleContextMenu(false, false)} style={estableceTab(tabuladores[1])}>
