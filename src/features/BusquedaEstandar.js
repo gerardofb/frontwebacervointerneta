@@ -155,14 +155,14 @@ export const BusquedaEstandar = (props) => {
                 setActualQuery(
                     JSON.stringify(objetoSearchAvanzado));
                 setResultadoBusqueda(response.data);
-                let totalDeResultados = response.data[0].total;
-                let paginacion_primera = response.data[0].paginacion;
+                let totalDeResultados = response.data.length > 0 ? response.data[0].total : 0;
+                let paginacion_primera = response.data.length > 0 ? response.data[0].paginacion : 1;
                 setPaginacion({
                     ...paginacion,
                     comentarios: paginacion_primera
                 });
                 let paginasTotalComentarios = parseInt(totalDeResultados / paginacion_primera) + ((totalDeResultados % paginacion_primera > 0) ? 1 : 0)
-                //console.log('en consulta inicial ',paginasTotalComentarios)
+                console.log('en consulta avanzada ',paginasTotalComentarios)
                 setPaginasTotal({
                     ...paginasTotal,
                     comentarios: paginasTotalComentarios
@@ -171,6 +171,7 @@ export const BusquedaEstandar = (props) => {
                     ...totalResultados,
                     comentarios: totalDeResultados
                 })
+                
             });
             const requestRelato = axios.post(`${getBaseAdressApi()}api/searchrelato/`,
                 objetoSearchAvanzado
@@ -178,8 +179,8 @@ export const BusquedaEstandar = (props) => {
                 // setActualQuery(
                 //     JSON.stringify(objetoSearchSimple));
                 setResultadoBusquedaRelato(response.data);
-                let totalDeResultadosRelato = response.data[0].total;
-                let paginacion_primera = response.data[0].paginacion;
+                let totalDeResultadosRelato = response.data.length > 0 ? response.data[0].total : 0;
+                let paginacion_primera = response.data.length > 0 ? response.data[0].paginacion : 1;
                 setPaginacion({
                     ...paginacion,
                     relatos: paginacion_primera
