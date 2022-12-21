@@ -564,10 +564,10 @@ export const AutoComments = () => {
                     setItems(
                         elems.concat(elementos)
                     );
-                    
+                    setTimeout(function(){
                     setPaginacion({
                         ...paginacion,
-                        comentarios:{pagina:numero_pagina,habilitado:false,total:paginacion.comentarios.total,tamanio:paginacion.comentarios.tamanio}})
+                        comentarios:{pagina:numero_pagina,habilitado:false,total:paginacion.comentarios.total,tamanio:paginacion.comentarios.tamanio}})},1500);
                 }).catch(reason => console.log('error en consulta por defecto paginando', reason));
             }
         }
