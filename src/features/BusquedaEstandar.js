@@ -424,6 +424,15 @@ export const BusquedaEstandar = (props) => {
                 console.log('en navegar ', todascategorias, video.categoria, indice_categoria);
                 history.push("/Reproduccion/" + video.titulo + "|" + video.id_video + "|" + indice_categoria.id + "?q=true&cat=Comentarios");
                 break;
+                case categorias.RELATOS:
+                    let objetoConsultaRelato = JSON.parse(actualQuery);
+                    objetoConsultaRelato.video = video.id_video;
+    
+                    localStorage.setItem("queryRelatos", JSON.stringify(objetoConsultaRelato));
+    
+                    //let indice_categoria_relato = todascategorias.find(e => e.titulo == video.categoria);
+                    history.push("/Autobiograficos/6006c5d85f7c417f8714496c418d58ec?q=true&cat=Relatos");
+                    break;
         }
     }
     console.log('paginas', paginaBusqueda.comentarios, paginasTotal.comentarios, totalResultados.comentarios)
@@ -546,7 +555,7 @@ export const BusquedaEstandar = (props) => {
                                         <h4>Autor</h4>
                                         <h4>Fecha</h4>
                                         <p>{el.titulo_categoria}</p>
-                                        <p><a href="#">{el.titulo_video}</a></p>
+                                        <p><a href="#"  onClick={(e) => navigateToSearch(categorias.RELATOS, { titulo: el.titulo_video, id_video: el.id_video, categoria: el.titulo_categoria })}>{el.titulo_video}</a></p>
                                         <p>{el.autor}</p>
                                         <p>{fecharesult.toLocaleDateString()}</p>
                                     </div>
