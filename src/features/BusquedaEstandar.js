@@ -73,8 +73,8 @@ export const BusquedaEstandar = (props) => {
                 setActualQuery(
                     JSON.stringify(objetoSearchSimple));
                 setResultadoBusqueda(response.data);
-                let totalDeResultados = response.data[0].total;
-                let paginacion_primera = response.data[0].paginacion;
+                let totalDeResultados = response.data.length > 0 ? response.data[0].total : 0;
+                let paginacion_primera =  response.data.length > 0 ? response.data[0].paginacion : 1;
                 setPaginacion({
                     ...paginacion,
                     comentarios: paginacion_primera
@@ -130,6 +130,10 @@ export const BusquedaEstandar = (props) => {
                 ...totalResultados,
                 comentarios: 0,
                 relatos: 0
+            })
+            let respuesta_cat = axios.get(`${getBaseAdressApi()}api/categorias/`).then(response => {
+                console.log('dentro de consulta original', response.data);
+                setTodascategorias(response.data);
             })
         }
 
@@ -431,7 +435,7 @@ export const BusquedaEstandar = (props) => {
                     localStorage.setItem("queryRelatos", JSON.stringify(objetoConsultaRelato));
     
                     //let indice_categoria_relato = todascategorias.find(e => e.titulo == video.categoria);
-                    history.push("/Autobiograficos/6006c5d85f7c417f8714496c418d58ec?q=true&cat=Relatos");
+                    history.push("/Autobiograficos/add2fafc085d4121a4da88d351cb9e8e?q=true&cat=Relatos");
                     break;
         }
     }
