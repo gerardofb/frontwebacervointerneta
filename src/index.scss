@@ -3821,3 +3821,13 @@ label.caja-expandible-label {
   min-height: 100px;
   width: 100%;
 }
+
+.default-loader-center{
+  text-align: center;
+  min-height: 100px;
+  width: 100px;
+  position:absolute;
+  z-index: 9999;
+  top:calc(50% - 100px);
+  left:calc(50% - 100px);
+}

@@ -37,7 +37,7 @@ export const BusquedaEstandar = (props) => {
 
     const [resultadoBusquedaRelato, setResultadoBusquedaRelato] = useState([])
 
-    const [paginacion, setPaginacion] = useState({ comentarios: 0 })
+    const [paginacion, setPaginacion] = useState({ comentarios: 0, relatos:0 })
     const [actualQuery, setActualQuery] = useState(null)
     const [todascategorias, setTodascategorias] = useState(null);
     const [consultaAvanzada, setConsultaAvanzada] = useState({
