@@ -50,7 +50,7 @@ const NavBar = (props) => {
             paletas.find(x => x.dark === darkMode && x.title === paletaActiva.title) : paletas.find(x => x.dark === darkMode);
         updateTheme(lapaleta.title)
     }
-    const logotipo = !darkMode ? 'logo_nuevo_blanco' : 'logo_nuevo_negro';
+    const logotipo = !darkMode ? 'head_logo_color' : 'head_logo_color';
     return (
         <>
             <div className={styles.NavbarPrincipal}><Link to='/' id="logotipo_site"><h2 style={{ float: 'left', marginTop:'50px' }}>Acervo Audiovisual Interneta</h2></Link>

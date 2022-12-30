@@ -24,7 +24,7 @@ const HomeCategories = (props) => {
     const [distance, setDistance] = useState(0);
     const [distancetext, setDistanceText] = useState(0);
     const [categorias,setCategorias]=useState(props.categoriasService)
-   
+    console.log('longitud de categorias ', props.categoriasService.length);
     const styles = useSpring({
         from: { x: 0 },
         to: { x: distance },
@@ -36,7 +36,7 @@ const HomeCategories = (props) => {
         reverse: flip
     })
     const forward = (distancia) => {
-        if (distance > -(distancia * 5)) {
+        if (distance > -(distancia * props.categoriasService.length-1)) {
             setFlip(false);
             setDistance(distance - distancia);
         }
@@ -46,7 +46,7 @@ const HomeCategories = (props) => {
         }
     }
     const forwardText = (distancia) => {
-        if (distancetext > -(distancia * 5)) {
+        if (distancetext > -(distancia * props.categoriasService.length-1)) {
             setFlipText(false);
             setDistanceText(distancetext - distancia);
         }
@@ -66,9 +66,8 @@ const HomeCategories = (props) => {
         onRest: () => setflipsvg(!flipsvg),
     });
     return (<div>
-        <div style={{ marginTop: '5px' }}>
-            <h1 style={{ color: 'white' }}>Categorías</h1>
-            <div style={{ backgroundColor: 'transparent', color: 'white', minHeight: '30px' }}><Link to='Categorias' style={{ textDecoration: 'none', color: 'white' }}>Explorar...</Link></div>
+        <div style={{ marginTop: '5px',backgroundColor:'white', width:'100%', backgroundImage:"url('/images/categorias.svg')", backgroundRepeat:'no-repeat', backgroundPosition:'top center', minHeight:'60px', backgroundSize:'70%' }}>
+            <div style={{ backgroundColor: 'transparent', paddingTop:'70px' }}><Link to='Categorias' style={{ textDecoration: 'none', color: 'black' }}>Explorar...</Link></div>
             <svg height="30" width="1280">
                 <line x1="50" y1="30" x2="1280" y2="30" strokeDashoffset={x.to(x => (1 - x) * 156)} style={{ stroke: 'rgb(128,128,128)', strokeWidth: '2' }} />
             </svg>
@@ -84,6 +83,7 @@ const HomeCategories = (props) => {
                 {props.categoriasService.map(function (el, index) {
                     return (
                         <div className='category-images-green' key={index} style={{ float: 'left', margin: '25px', padding: '25px', display: 'block' }}>
+                            <div className='inner-hover-categoria'><span>{el.titulo.replace(/[-]/g,' ')}</span></div>
                             <img src={el.contenedor_img} style={{ width: '450px', height: '337px' }}></img>
                         </div>
                     )

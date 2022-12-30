@@ -60,7 +60,7 @@ const HomeFooter = (props)=>{
                 </li>
             </ul>
             <div className='logo-interneta-footer'>
-                <img src={url('logo_nuevo_blanco')} />
+                <img src={url('head_logo_color')} />
             </div>            
         </div>
     )
