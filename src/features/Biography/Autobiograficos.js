@@ -337,17 +337,8 @@ export const Autobiograficos = () => {
     const [tagViewed, setTagViewed] = useState(false);
     const [valueSearchTag, setValueSearchTag] = useState('');
     const { styles } = useContext(ThemesContext);
-    let objetoSearchPagina = {
-        "query": "",
-        "categoria": "",
-        "frase": false,
-        "autor": "",
-        "puede": "",
-        "prefijo": "",
-        "video": "",
-        "pagina_inicial": paginacion.paginaActual
-    };
-    const [queryActual, setQueryActual] = useState(objetoSearchPagina);
+
+    const [queryActual, setQueryActual] = useState(null);
     const handleScroll = (e) => {
         const bottom = Math.round(e.target.scrollHeight - e.target.scrollTop) === e.target.clientHeight;
         console.log('en scroll ', Math.round(e.target.scrollHeight - e.target.scrollTop), e.target.clientHeight);
@@ -400,7 +391,7 @@ export const Autobiograficos = () => {
         let items = tags.concat(tags);
         setTags(items);
     }
-    
+
     useEffect(() => {
         console.log("Location changed");
         if (location.search) {
@@ -409,77 +400,130 @@ export const Autobiograficos = () => {
             if (parametros.get("q") == "true" && parametros.get("cat") == "Relatos") {
                 let consulta_actual = JSON.parse(localStorage.getItem("queryRelatos"));
                 console.log('consulta de parametros relatos ', consulta_actual);
-                // setBusquedaComentarios(consulta_actual);
-                localStorage.removeItem("queryRelatos");
-                const requestSearchomments = axios.post(`${getBaseAdressApi()}api/searchrelato/`,
-                    consulta_actual
-                ).then(response => {
-                    let biografias = response.data.map((elemento, indice) => {
-                        return { content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: false, guid: '', tags: arreglotags.slice(0, 30) };
+                //localStorage.removeItem("queryRelatos");
+                setQueryActual(consulta_actual)
+
+
+                const requestCategoriesVideos = axios.get(`${getBaseAdressApi()}api/categorias/`).then(response => {
+
+                    let respuestacategories = response.data.map((el, ind) => {
+                        let title = el.titulo.replace(/\s/g, '-');
+                        let videos = el.videos_por_categoria !== undefined ? el.videos_por_categoria.map((vid, idx) => {
+                            return { titulo: vid.titulo, id: vid.id, video: vid.contenedor_aws, imagen: vid.contenedor_img }
+                        }) : []
+                        return { description: el.titulo, link: '/Categorias/' + title + "/dummy", image: el.contenedor_img, listadoVideos: videos }
                     });
-                    biografias = biografias.map((relato, index) => {
-                        relato.image = categorias[Math.floor(Math.random() * categorias.length)].image;
-                        return relato;
-                    })
-                    setBiographies(biografias);
+                    let videosimagenes = [];
+                    respuestacategories.map((cat, ind) => {
+                        videosimagenes = videosimagenes.concat(cat.listadoVideos)
+                    });
+                    console.log('estableciendo categorías ', respuestacategories)
+                    setCategories(respuestacategories);
+                    const requestSearchomments = axios.post(`${getBaseAdressApi()}api/searchrelato/`,
+                        consulta_actual
+                    ).then(response => {
+                        console.log('respuesta desde server ',response);
+                            let biografias = response.data.map((elemento, indice) => {
+                                return { id_video: elemento.id_video, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: false, guid: '', tags: arreglotags.slice((indice + 1) * 10, (indice + 2) * 10) };
+                            });
+                            
+                            biografias = biografias.map((relato, index) => {
+
+                                console.log('encontrando la imagen ', videosimagenes, relato);
+                                let imagen = videosimagenes.find(x => x.id == relato.id_video);
+                                relato.image = imagen ? imagen.imagen : '';
+                                //categorias[Math.floor(Math.random() * categorias.length)].image;
+                                return relato;
+                            })
+                            setBiographies(biografias);
+
+                    }).catch(e=>{
+                        console.log('error en server', e.response.status);
+                    });
                 });
+                let nuevostags = arreglotags.map((tag, indice) => {
+                    if (tag.popular) {
+                        tag.color = random_color();
+                    }
+                    else {
+                        tag.color = '';
+                    }
+                    return tag;
+                });
+                setTags(nuevostags);
+                setSolopodcats('');
             }
             else {
-                /*
-                let item = biographies.filter(x => x.guid == actualRelato);
-                let rest = biographies.filter(x => x.guid != actualRelato);
-                let biografias = item.concat(rest);
-                biografias = biografias.map((relato, index) => {
-                    relato.image = categorias[Math.floor(Math.random() * categorias.length)].image;
-                    return relato;
-                })
-                setBiographies(biografias);
                 
-    
-                */
+                let objetoSearchPagina = {
+                    "query": "",
+                    "categoria": "",
+                    "frase": false,
+                    "autor": "",
+                    "puede": "",
+                    "prefijo": "",
+                    "video": "",
+                    "pagina_inicial": paginacion.paginaActual
+                };
+                setQueryActual(objetoSearchPagina);
 
-                const requestSearchomments = axios.post(`${getBaseAdressApi()}api/searchrelato/`,
-                    queryActual
-                ).then(response => {
-                    let biografias = response.data.map((elemento, indice) => {
-                        return { content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: false, guid: '', tags: arreglotags.slice(0, 30) };
+                const requestCategoriesVideos = axios.get(`${getBaseAdressApi()}api/categorias/`).then(response => {
+
+
+                    let respuestacategories = response.data.map((el, ind) => {
+                        let title = el.titulo.replace(/\s/g, '-');
+                        let videos = el.videos_por_categoria !== undefined ? el.videos_por_categoria.map((vid, idx) => {
+                            return { titulo: vid.titulo, id: vid.id, video: vid.contenedor_aws, imagen: vid.contenedor_img }
+                        }) : []
+                        return { description: el.titulo, link: '/Categorias/' + title + "/dummy", image: el.contenedor_img, listadoVideos: videos }
                     });
-                    biografias = biografias.map((relato, index) => {
-                        relato.image = categorias[Math.floor(Math.random() * categorias.length)].image;
-                        return relato;
-                    })
-                    setBiographies(biografias);
+                    let videosimagenes = [];
+                    respuestacategories.map((cat, ind) => {
+                        videosimagenes = videosimagenes.concat(cat.listadoVideos)
+                    });
+                    console.log('encontrando la imagen primero', videosimagenes);
+                    //setImagesVideos(videosimagenes);
+                    console.log('estableciendo categorías ', respuestacategories)
+                    setCategories(respuestacategories);
+                    const requestSearchomments = axios.post(`${getBaseAdressApi()}api/searchrelato/`,
+                        objetoSearchPagina
+                    ).then(response => {
+                        console.log('respuesta desde server ',response);
+                        let biografias = response.data.map((elemento, indice) => {
+                            return { id_video: elemento.id_video, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: false, guid: '', tags: arreglotags.slice((indice + 1) * 10, (indice + 2) * 10) };
+                        });
+
+                        biografias = biografias.map((relato, index) => {
+
+                            console.log('encontrando la imagen ', videosimagenes, relato);
+                            let imagen = videosimagenes.find(x => x.id == relato.id_video);
+                            relato.image = imagen ? imagen.imagen : '';
+                            //categorias[Math.floor(Math.random() * categorias.length)].image;
+                            return relato;
+                        })
+                        setBiographies(biografias);
+                    });
                 });
+                let nuevostags = arreglotags.map((tag, indice) => {
+                    if (tag.popular) {
+                        tag.color = random_color();
+                    }
+                    else {
+                        tag.color = '';
+                    }
+                    return tag;
+                });
+                setTags(nuevostags);
+                setSolopodcats('');
             }
-            let nuevostags = arreglotags.map((tag, indice) => {
-                if (tag.popular) {
-                    tag.color = random_color();
-                }
-                else {
-                    tag.color = '';
-                }
-                return tag;
-            });
-            setTags(tags);
-            setSolopodcats('');
-            const requestCategoriesVideos = axios.get(`${getBaseAdressApi()}api/categorias/`).then(response => {
-                let respuestacategories = response.data.map((el, ind) => {
-                    let title = el.titulo.replace(/\s/g, '-');
-                    let videos = el.videos_por_categoria !== undefined ? el.videos_por_categoria.map((vid, idx) => {
-                        return { titulo: vid.titulo, id: vid.id, video: vid.contenedor_aws }
-                    }) : []
-                    return { description: el.titulo, link: '/Categorias/' + title+"/dummy", image: el.contenedor_img, listadoVideos: videos }
-                });
-                console.log('estableciendo categorías ', respuestacategories)
-                setCategories(respuestacategories);
-            });
+            
+
         }
-    }, [location, queryActual, tags]);
+    }, [location]);
     const estableceTags = (parametro) => {
         if (parametro) {
-            let arreglo = autobiograficos.filter(x => x.guid == parametro);
-            let tagsvalidos = arreglo[0].tags;
-            setTags(tagsvalidos);
+            let arreglo = parametro.tags
+            setTags(arreglo);
             setTagViewed(true);
         }
         else {
@@ -488,14 +532,34 @@ export const Autobiograficos = () => {
         }
     }
     const filterAutobiografico = (parametro) => {
-        let arreglo = autobiograficos.filter(x => x.tags.includes(parametro));
+        let arreglo = biographies.filter(x => x.tags.includes(parametro));
         setBiographies(arreglo);
     }
     const resetAutobiograficos = () => {
-        let item = autobiograficos.filter(x => x.guid == actualRelato);
-        let rest = autobiograficos.filter(x => x.guid != actualRelato);
-        let biografias = item.concat(rest);
-        setBiographies(biografias);
+        let objetoSearchPagina = {
+            "query": "",
+            "categoria": "",
+            "frase": false,
+            "autor": "",
+            "puede": "",
+            "prefijo": "",
+            "video": "",
+            "pagina_inicial": paginacion.paginaActual
+        };
+        setQueryActual(objetoSearchPagina);
+
+        const requestSearchRelatos = axios.post(`${getBaseAdressApi()}api/searchrelato/`,
+            objetoSearchPagina
+        ).then(response => {
+            let biografias = response.data.map((elemento, indice) => {
+                return { content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: false, guid: '', tags: arreglotags.slice(0, 30) };
+            });
+            biografias = biografias.map((relato, index) => {
+                relato.image = categorias[Math.floor(Math.random() * categorias.length)].image;
+                return relato;
+            })
+            setBiographies(biografias);
+        });
     }
     const [recordState, setRecordState] = useState("NONE");
     const [blobURL, setblobURL] = useState("");
@@ -563,49 +627,111 @@ export const Autobiograficos = () => {
                     });
                 }
             });
-        }
-        return (
-            <div>
-                <div style={{ backgroundColor: 'black', height: '100px' }}>
-                    <NavBar></NavBar>
-                </div>
+    }
+    return (
+        <div>
+            <div style={{ backgroundColor: 'black', height: '100px' }}>
+                <NavBar></NavBar>
+            </div>
 
-                <div className={styles.AutoBiograficoMain}>
-                <div className='default-loader-center' style={habilitarLoader ?{display:'block'}: {display:'none'}}>
-                        <img src={url_loader("Reload-transparent.gif",false)} />
+            <div className={styles.AutoBiograficoMain}>
+                <div className='default-loader-center' style={habilitarLoader ? { display: 'block' } : { display: 'none' }}>
+                    <img src={url_loader("Reload-transparent.gif", false)} />
+                </div>
+                <div className='autobiografico-main-category'>
+                    <div className='autobiografico-menu-collapsible'>
+                        <span onClick={(e) => setCollapsed(!collapsed)} title="Colapsar categorías">{
+                            collapsed ? <FontAwesomeIcon icon={faAngleDown} />
+                                : <FontAwesomeIcon icon={faAngleUp} />
+                        }</span>
                     </div>
-                    <div className='autobiografico-main-category'>
-                        <div className='autobiografico-menu-collapsible'>
-                            <span onClick={(e) => setCollapsed(!collapsed)} title="Colapsar categorías">{
-                                collapsed ? <FontAwesomeIcon icon={faAngleDown} />
-                                    : <FontAwesomeIcon icon={faAngleUp} />
-                            }</span>
-                        </div>
-                        {!editing.editando ?
-                            <>
+                    {!editing.editando ?
+                        <>
+                            <div className='autobiografico-main-menu-edit'>
+                                <div className='autobiografico-main-menu-header'>
+                                    <div className='autobiografico-main-menu'>
+                                        {!editing.editando ?
+                                            <div>
+                                                <div className={`${styles.AutoBiograficoMainMenuEntry} active`} onClick={(e) => estableceModoEdicion(false)}>
+                                                    <span className='content-header-main-menu-entry'>Ver y escuchar</span>
+                                                    <button className='btn-autobiografico-menu-white' onClick={(e) => { btnTipoAutobiograficoClick('RELATOS') }} title='Relatos autobiográficos'><span><FontAwesomeIcon icon={faAlignCenter}></FontAwesomeIcon></span>&nbsp;</button>
+                                                    <button className='btn-autobiografico-menu-white' onClick={(e) => { btnTipoAutobiograficoClick('PODCASTS') }} title='Podcasts'><span><FontAwesomeIcon icon={faVolumeHigh}></FontAwesomeIcon></span>&nbsp;</button>
+                                                </div>
+                                                <div className={`${styles.AutoBiograficoMainMenuEntry} inactive`} onClick={(e) => estableceModoEdicion(true)}>
+                                                    <span className='content-header-main-menu-entry'>Editar</span>
+                                                    <button className='btn-autobiografico-menu-white'><span><FontAwesomeIcon icon={faAlignCenter}></FontAwesomeIcon></span>&nbsp;</button>
+                                                    <button className='btn-autobiografico-menu-white'><span><FontAwesomeIcon icon={faVolumeHigh}></FontAwesomeIcon></span>&nbsp;</button>
+                                                </div>
+                                            </div> :
+                                            <div>
+                                                <div className={`${styles.AutoBiograficoMainMenuEntry} inactive`} onClick={(e) => estableceModoEdicion(false)}>
+                                                    <span className='content-header-main-menu-entry'>Ver y escuchar</span>
+                                                    <button className='btn-autobiografico-menu-white'><span><FontAwesomeIcon icon={faAlignCenter}></FontAwesomeIcon></span>&nbsp;</button>
+                                                    <button className='btn-autobiografico-menu-white'><span><FontAwesomeIcon icon={faVolumeHigh}></FontAwesomeIcon></span>&nbsp;</button>
+                                                </div>
+                                                <div className={`${styles.AutoBiograficoMainMenuEntry} active`} onClick={(e) => estableceModoEdicion(true)}>
+                                                    <span className='content-header-main-menu-entry'>Editar</span>
+                                                    <button className='btn-autobiografico-menu-white' onClick={(e) => { btnTipoAutobiograficoClick('RELATOS') }} title='Relatos autobiográficos'><span><FontAwesomeIcon icon={faAlignCenter}></FontAwesomeIcon></span>&nbsp;</button>
+                                                    <button className='btn-autobiografico-menu-white' onClick={(e) => { btnTipoAutobiograficoClick('PODCASTS') }} title='Podcasts'><span><FontAwesomeIcon icon={faVolumeHigh}></FontAwesomeIcon></span>&nbsp;</button>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <div className={clasecolapsed[0]} onMouseEnter={(e) => estableceTags(false)}>
+                                {
+                                    categories && categories.map((cat, index) => {
+                                        return <div key={index} className="autobiografico-list-cat-entry">
+                                            <Link className='white' to={cat.link}>{cat.description}</Link>
+                                            <Link className='white cat-miniature' to={cat.link}><img src={cat.image} align='right' /></Link>
+                                        </div>
+                                    })
+                                }
+                            </div>
+                            <div className={clasecolapsed[1]}>
+                                <div className='autobiografico-main-list-tags-header'><h3>{tagViewed ? "Tags relacionados: " : "Todos los tags: "}</h3>
+                                    <div className='form-input'><input type='text' onKeyUp={(e) => setSearchTag(e.target.value)}></input><span><FontAwesomeIcon icon={faSearch} onClick={(e) => filterTagsSearch()}></FontAwesomeIcon></span></div></div>
+                                {
+                                    tags && tags.map((tag, index) => {
+                                        return tag.popular ?
+                                            <button key={index} onClick={(e) => { filterAutobiografico(tag) }} className='tag-autobiografico-search' style={{ backgroundColor: tag.color }}>
+                                                {tag.content}
+                                            </button>
+                                            : <button key={index} onClick={(e) => { filterAutobiografico(tag) }} className='tag-autobiografico-search' style={{ backgroundColor: 'lightgrey', color: 'black' }}>
+                                                {tag.content}
+                                            </button>
+                                    })
+                                }
+
+                                <button className='tag-autobiografico-more' onClick={(e) => { viewMoreTags(e) }}>Ver más</button>
+                            </div>
+                        </>
+                        : <>
+                            <div className='autobiografico-main-editing'>
                                 <div className='autobiografico-main-menu-edit'>
                                     <div className='autobiografico-main-menu-header'>
                                         <div className='autobiografico-main-menu'>
                                             {!editing.editando ?
                                                 <div>
-                                                    <div className={`${styles.AutoBiograficoMainMenuEntry} active`} onClick={(e) => estableceModoEdicion(false)}>
+                                                    <div className={`${styles.AutoBiograficoMainMenuEntry} active`} onClick={(e) => setModeEdit({ podcast: editing.podcast, editando: false })}>
                                                         <span className='content-header-main-menu-entry'>Ver y escuchar</span>
                                                         <button className='btn-autobiografico-menu-white' onClick={(e) => { btnTipoAutobiograficoClick('RELATOS') }} title='Relatos autobiográficos'><span><FontAwesomeIcon icon={faAlignCenter}></FontAwesomeIcon></span>&nbsp;</button>
                                                         <button className='btn-autobiografico-menu-white' onClick={(e) => { btnTipoAutobiograficoClick('PODCASTS') }} title='Podcasts'><span><FontAwesomeIcon icon={faVolumeHigh}></FontAwesomeIcon></span>&nbsp;</button>
                                                     </div>
-                                                    <div className={`${styles.AutoBiograficoMainMenuEntry} inactive`} onClick={(e) => estableceModoEdicion(true)}>
+                                                    <div className={`${styles.AutoBiograficoMainMenuEntry} inactive`} onClick={(e) => setModeEdit({ podcast: editing.podcast, editando: true })}>
                                                         <span className='content-header-main-menu-entry'>Editar</span>
                                                         <button className='btn-autobiografico-menu-white'><span><FontAwesomeIcon icon={faAlignCenter}></FontAwesomeIcon></span>&nbsp;</button>
                                                         <button className='btn-autobiografico-menu-white'><span><FontAwesomeIcon icon={faVolumeHigh}></FontAwesomeIcon></span>&nbsp;</button>
                                                     </div>
                                                 </div> :
                                                 <div>
-                                                    <div className={`${styles.AutoBiograficoMainMenuEntry} inactive`} onClick={(e) => estableceModoEdicion(false)}>
+                                                    <div className={`${styles.AutoBiograficoMainMenuEntry} inactive`} onClick={(e) => setModeEdit({ podcast: editing.podcast, editando: false })}>
                                                         <span className='content-header-main-menu-entry'>Ver y escuchar</span>
                                                         <button className='btn-autobiografico-menu-white'><span><FontAwesomeIcon icon={faAlignCenter}></FontAwesomeIcon></span>&nbsp;</button>
                                                         <button className='btn-autobiografico-menu-white'><span><FontAwesomeIcon icon={faVolumeHigh}></FontAwesomeIcon></span>&nbsp;</button>
                                                     </div>
-                                                    <div className={`${styles.AutoBiograficoMainMenuEntry} active`} onClick={(e) => estableceModoEdicion(true)}>
+                                                    <div className={`${styles.AutoBiograficoMainMenuEntry} active`} onClick={(e) => setModeEdit({ podcast: editing.podcast, editando: true })}>
                                                         <span className='content-header-main-menu-entry'>Editar</span>
                                                         <button className='btn-autobiografico-menu-white' onClick={(e) => { btnTipoAutobiograficoClick('RELATOS') }} title='Relatos autobiográficos'><span><FontAwesomeIcon icon={faAlignCenter}></FontAwesomeIcon></span>&nbsp;</button>
                                                         <button className='btn-autobiografico-menu-white' onClick={(e) => { btnTipoAutobiograficoClick('PODCASTS') }} title='Podcasts'><span><FontAwesomeIcon icon={faVolumeHigh}></FontAwesomeIcon></span>&nbsp;</button>
@@ -615,176 +741,115 @@ export const Autobiograficos = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className={clasecolapsed[0]} onMouseEnter={(e) => estableceTags(false)}>
-                                    {
-                                        categories && categories.map((cat, index) => {
-                                            return <div key={index} className="autobiografico-list-cat-entry">
-                                                <Link className='white' to={cat.link}>{cat.description}</Link>
-                                                <Link className='white cat-miniature' to={cat.link}><img src={cat.image} align='right' /></Link>
+
+                                {solopodcasts === "PODCASTS" ?
+                                    <>
+                                        <h4 style={{ margin: '.5em 1em' }}>Escriba una descripción e inicie la grabación del podcast, relacionado al vídeo elegido en la siguiente columna</h4>
+                                        <div className='capture-relato'>
+                                            <textarea rows="12" cols="60"></textarea>
+                                            <button>Enviar</button>
+                                        </div>
+                                        <div className='podcast-record'>
+                                            <AudioReactRecorder state={recordState} onStop={onStop} />
+                                            <div className='podcast-controls-record'>
+                                                <ReactAudioPlayer src={blobURL} controls />
+                                                <button title="Iniciar grabación" className='start-podcast-record' onClick={start}><FontAwesomeIcon icon={faMicrophone} /></button>
+                                                <button title="Detener grabación" className='end-podcast-record' onClick={stop}><FontAwesomeIcon icon={faStop} /></button>
                                             </div>
-                                        })
-                                    }
-                                </div>
-                                <div className={clasecolapsed[1]}>
-                                    <div className='autobiografico-main-list-tags-header'><h3>{tagViewed ? "Tags relacionados: " : "Todos los tags: "}</h3>
-                                        <div className='form-input'><input type='text' onKeyUp={(e) => setSearchTag(e.target.value)}></input><span><FontAwesomeIcon icon={faSearch} onClick={(e) => filterTagsSearch()}></FontAwesomeIcon></span></div></div>
-                                    {
-                                        tags && tags.map((tag, index) => {
-                                            return tag.popular ?
-                                                <button key={index} onClick={(e) => { filterAutobiografico(tag) }} className='tag-autobiografico-search' style={{ backgroundColor: tag.color }}>
-                                                    {tag.content}
-                                                </button>
-                                                : <button key={index} onClick={(e) => { filterAutobiografico(tag) }} className='tag-autobiografico-search' style={{ backgroundColor: 'lightgrey', color: 'black' }}>
-                                                    {tag.content}
-                                                </button>
-                                        })
-                                    }
+                                        </div></>
+                                    : <>
+                                        <h4 style={{ margin: '.5em 1em' }}>Escriba una descripción de su relato, relacionado al vídeo elegido en la siguiente columna {activeVideo && 'Relato acerca del clip ' + activeVideo.titulo}</h4>
+                                        <div className='capture-relato'>
+                                            <textarea rows="34" cols="60" maxLength={8000} onChange={(e) => setRelatoEditing(e.target.value)}>{relatoEditing}</textarea>
+                                            {activeVideo && <button onClick={postRelato}>Enviar</button>}
+                                        </div></>
+                                }
 
-                                    <button className='tag-autobiografico-more' onClick={(e) => { viewMoreTags(e) }}>Ver más</button>
-                                </div>
-                            </>
-                            : <>
-                                <div className='autobiografico-main-editing'>
-                                    <div className='autobiografico-main-menu-edit'>
-                                        <div className='autobiografico-main-menu-header'>
-                                            <div className='autobiografico-main-menu'>
-                                                {!editing.editando ?
-                                                    <div>
-                                                        <div className={`${styles.AutoBiograficoMainMenuEntry} active`} onClick={(e) => setModeEdit({ podcast: editing.podcast, editando: false })}>
-                                                            <span className='content-header-main-menu-entry'>Ver y escuchar</span>
-                                                            <button className='btn-autobiografico-menu-white' onClick={(e) => { btnTipoAutobiograficoClick('RELATOS') }} title='Relatos autobiográficos'><span><FontAwesomeIcon icon={faAlignCenter}></FontAwesomeIcon></span>&nbsp;</button>
-                                                            <button className='btn-autobiografico-menu-white' onClick={(e) => { btnTipoAutobiograficoClick('PODCASTS') }} title='Podcasts'><span><FontAwesomeIcon icon={faVolumeHigh}></FontAwesomeIcon></span>&nbsp;</button>
-                                                        </div>
-                                                        <div className={`${styles.AutoBiograficoMainMenuEntry} inactive`} onClick={(e) => setModeEdit({ podcast: editing.podcast, editando: true })}>
-                                                            <span className='content-header-main-menu-entry'>Editar</span>
-                                                            <button className='btn-autobiografico-menu-white'><span><FontAwesomeIcon icon={faAlignCenter}></FontAwesomeIcon></span>&nbsp;</button>
-                                                            <button className='btn-autobiografico-menu-white'><span><FontAwesomeIcon icon={faVolumeHigh}></FontAwesomeIcon></span>&nbsp;</button>
-                                                        </div>
-                                                    </div> :
-                                                    <div>
-                                                        <div className={`${styles.AutoBiograficoMainMenuEntry} inactive`} onClick={(e) => setModeEdit({ podcast: editing.podcast, editando: false })}>
-                                                            <span className='content-header-main-menu-entry'>Ver y escuchar</span>
-                                                            <button className='btn-autobiografico-menu-white'><span><FontAwesomeIcon icon={faAlignCenter}></FontAwesomeIcon></span>&nbsp;</button>
-                                                            <button className='btn-autobiografico-menu-white'><span><FontAwesomeIcon icon={faVolumeHigh}></FontAwesomeIcon></span>&nbsp;</button>
-                                                        </div>
-                                                        <div className={`${styles.AutoBiograficoMainMenuEntry} active`} onClick={(e) => setModeEdit({ podcast: editing.podcast, editando: true })}>
-                                                            <span className='content-header-main-menu-entry'>Editar</span>
-                                                            <button className='btn-autobiografico-menu-white' onClick={(e) => { btnTipoAutobiograficoClick('RELATOS') }} title='Relatos autobiográficos'><span><FontAwesomeIcon icon={faAlignCenter}></FontAwesomeIcon></span>&nbsp;</button>
-                                                            <button className='btn-autobiografico-menu-white' onClick={(e) => { btnTipoAutobiograficoClick('PODCASTS') }} title='Podcasts'><span><FontAwesomeIcon icon={faVolumeHigh}></FontAwesomeIcon></span>&nbsp;</button>
-                                                        </div>
-                                                    </div>
-                                                }
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {solopodcasts === "PODCASTS" ?
-                                        <>
-                                            <h4 style={{ margin: '.5em 1em' }}>Escriba una descripción e inicie la grabación del podcast, relacionado al vídeo elegido en la siguiente columna</h4>
-                                            <div className='capture-relato'>
-                                                <textarea rows="12" cols="60"></textarea>
-                                                <button>Enviar</button>
-                                            </div>
-                                            <div className='podcast-record'>
-                                                <AudioReactRecorder state={recordState} onStop={onStop} />
-                                                <div className='podcast-controls-record'>
-                                                    <ReactAudioPlayer src={blobURL} controls />
-                                                    <button title="Iniciar grabación" className='start-podcast-record' onClick={start}><FontAwesomeIcon icon={faMicrophone} /></button>
-                                                    <button title="Detener grabación" className='end-podcast-record' onClick={stop}><FontAwesomeIcon icon={faStop} /></button>
-                                                </div>
-                                            </div></>
-                                        : <>
-                                            <h4 style={{ margin: '.5em 1em' }}>Escriba una descripción de su relato, relacionado al vídeo elegido en la siguiente columna {activeVideo && 'Relato acerca del clip ' + activeVideo.titulo}</h4>
-                                            <div className='capture-relato'>
-                                                <textarea rows="34" cols="60" maxLength={8000} onChange={(e) => setRelatoEditing(e.target.value)}>{relatoEditing}</textarea>
-                                                {activeVideo && <button onClick={postRelato}>Enviar</button>}
-                                            </div></>
-                                    }
-
-                                </div>
-                            </>
-                        }
-                    </div>
-                    <div className='autobiografico-main-list'>
-                        {!editing.editando ?
-                            <div className='autobiografico-main-list-entries'>
-                                <button className='autobiografico-main-list-entries-header' onClick={(e => { resetAutobiograficos() })}>
-                                    Ver todos
-                                </button>
-                            </div> : null
-                        }
-                        {
-                            !editing.editando ? biographies && biographies.map((relato, index) => {
-                                return <div className='autobiografico-entry' key={index} onMouseEnter={(e) => estableceTags(relato.guid)}>
-                                    <p>Creado el {relato.fecha}</p>
-                                    <div className='autobiografico-entry-header'>
-                                        <div className='autobiografico-header-icon'>
-                                            {relato.podcast ? <FontAwesomeIcon icon={faVolumeHigh} />
-                                                : <FontAwesomeIcon icon={faBook} />}
-                                        </div>
-                                        <div className='autobiografico-header-autor'>
-                                            {relato.autor}
-                                        </div>
-                                        <div className='autobiografico-header-related'>
-                                            <span>Relacionado con: </span><img src={relato.image} align='right' />
-                                        </div>
-                                    </div>
-                                    {
-                                        relato.podcast ?
-                                            <ReactAudioPlayer src='/sound/sample-audio.mp3'
-                                                controls></ReactAudioPlayer> : null
-                                    }
-                                    <div className='autobiografico-entry-content'>
-                                        {relato.content}
-                                    </div>
-
-                                </div>
-                            }) :
-                                <>
-                                    {sourceActiveVideo && <Player
-                                        ref={player => {
-                                            setPlayer(player);
-                                        }}>
-                                        <source src={sourceActiveVideo}></source>
-                                        <ControlBar></ControlBar>
-                                        <LoadingSpinner></LoadingSpinner>
-                                    </Player>
-                                    }
-                                    <div className='listado-acordeon'>
-                                        <h3>
-                                            {activeVideo && activeVideo.titulo}
-                                        </h3>
-                                        <Accordion activeEventKey={activeEventKey} onToggle={setActiveEventKey}>
-                                            {
-                                                categories.map(({ description, listadoVideos }, i) => {
-                                                    console.log('categorias en acordeon ', description, listadoVideos);
-                                                    return (<Card key={i}>
-                                                        <Accordion.Toggle element={Card.Header} eventKey={i}>
-                                                            {description}
-                                                            {activeEventKey !== i && <span><FontAwesomeIcon icon={faAngleDown} /></span>}
-                                                            {activeEventKey === i && <span><FontAwesomeIcon icon={faAngleUp} /></span>}
-                                                        </Accordion.Toggle>
-                                                        <Accordion.Collapse eventKey={i} element={Card.Body}>
-
-                                                            <ul className='accordion-list'>
-                                                                {
-                                                                    listadoVideos.map((el, indicevideo) => {
-                                                                        return <li key={indicevideo} onClick={(e) => reloadVideo(el)}>{el.titulo}</li>
-                                                                    })
-                                                                }
-                                                            </ul>
-
-                                                        </Accordion.Collapse>
-                                                    </Card>)
-                                                })
-                                            }
-                                        </Accordion>
-                                    </div>
-                                </>
-                        }
-                    </div>
+                            </div>
+                        </>
+                    }
                 </div>
-                <HomeFooter></HomeFooter>
+                <div className='autobiografico-main-list'>
+                    {!editing.editando ?
+                        <div className='autobiografico-main-list-entries'>
+                            <button className='autobiografico-main-list-entries-header' onClick={(e => { resetAutobiograficos() })}>
+                                Ver todos
+                            </button>
+                        </div> : null
+                    }
+                    {
+                        !editing.editando ? biographies && biographies.map((relato, index) => {
+                            console.log('relato encontrado ',relato)
+                            return <div className='autobiografico-entry' key={index} onMouseEnter={(e) => estableceTags(relato)}>
+                                <p>Creado el {relato.fecha}</p>
+                                <div className='autobiografico-entry-header'>
+                                    <div className='autobiografico-header-icon'>
+                                        {relato.podcast ? <FontAwesomeIcon icon={faVolumeHigh} />
+                                            : <FontAwesomeIcon icon={faBook} />}
+                                    </div>
+                                    <div className='autobiografico-header-autor'>
+                                        {relato.autor}
+                                    </div>
+                                    <div className='autobiografico-header-related'>
+                                        <span>Relacionado con: </span><img src={relato.image} align='right' />
+                                    </div>
+                                </div>
+                                {
+                                    relato.podcast ?
+                                        <ReactAudioPlayer src='/sound/sample-audio.mp3'
+                                            controls></ReactAudioPlayer> : null
+                                }
+                                <div className='autobiografico-entry-content'>
+                                    {relato.content}
+                                </div>
+
+                            </div>
+                        }) :
+                            <>
+                                {sourceActiveVideo && <Player
+                                    ref={player => {
+                                        setPlayer(player);
+                                    }}>
+                                    <source src={sourceActiveVideo}></source>
+                                    <ControlBar></ControlBar>
+                                    <LoadingSpinner></LoadingSpinner>
+                                </Player>
+                                }
+                                <div className='listado-acordeon'>
+                                    <h3>
+                                        {activeVideo && activeVideo.titulo}
+                                    </h3>
+                                    <Accordion activeEventKey={activeEventKey} onToggle={setActiveEventKey}>
+                                        {
+                                            categories.map(({ description, listadoVideos }, i) => {
+                                                console.log('categorias en acordeon ', description, listadoVideos);
+                                                return (<Card key={i}>
+                                                    <Accordion.Toggle element={Card.Header} eventKey={i}>
+                                                        {description}
+                                                        {activeEventKey !== i && <span><FontAwesomeIcon icon={faAngleDown} /></span>}
+                                                        {activeEventKey === i && <span><FontAwesomeIcon icon={faAngleUp} /></span>}
+                                                    </Accordion.Toggle>
+                                                    <Accordion.Collapse eventKey={i} element={Card.Body}>
+
+                                                        <ul className='accordion-list'>
+                                                            {
+                                                                listadoVideos.map((el, indicevideo) => {
+                                                                    return <li key={indicevideo} onClick={(e) => reloadVideo(el)}>{el.titulo}</li>
+                                                                })
+                                                            }
+                                                        </ul>
+
+                                                    </Accordion.Collapse>
+                                                </Card>)
+                                            })
+                                        }
+                                    </Accordion>
+                                </div>
+                            </>
+                    }
+                </div>
             </div>
-        )
-    }
+            <HomeFooter></HomeFooter>
+        </div>
+    )
+}
