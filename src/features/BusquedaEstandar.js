@@ -5,7 +5,9 @@ import { HomeFooter } from './HomeFooter'
 import axios from "axios"
 import { getBaseAdressApi } from './MainAPI'
 import styled from "styled-components";
-
+import ModalAlt from './ModalAlt';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const Tab = styled.button`
   font-size: 20px;
@@ -27,6 +29,8 @@ const Tab = styled.button`
 `;
 const categorias = { COMENTARIOS: 0, RELATOS: 1 }
 const tiposBusqueda = { QUERY: 0, CATEGORIA: 1, FRASE: 2, AUTOR: 3, OPCIONAL: 4, PREFIJO: 5, VIDEO: 6 }
+const MODAL_SEARCH_USERS = 0;
+const MODAL_SEARCH_VIDEOS = 1;
 export const BusquedaEstandar = (props) => {
     const location = useLocation()
     const history = useHistory();
@@ -34,12 +38,15 @@ export const BusquedaEstandar = (props) => {
     const [paginaBusqueda, setPaginaBusqueda] = useState({ comentarios: 1, relatos: 1 })
     const [paginasTotal, setPaginasTotal] = useState({ comentarios: 0, relatos: 0 })
     const [totalResultados, setTotalResultados] = useState({ comentarios: 0, relatos: 0 })
-
+    const [modalOpen, setModalOpen] = useState(false);
+    const [childrenModal, setChildrenModal] = useState(-1);
     const [resultadoBusquedaRelato, setResultadoBusquedaRelato] = useState([])
 
     const [paginacion, setPaginacion] = useState({ comentarios: 0, relatos:0 })
     const [actualQuery, setActualQuery] = useState(null)
     const [todascategorias, setTodascategorias] = useState(null);
+    const [videoslistado,setVideosListado] = useState([]);
+    const [valorVideoSearch,setValorVideoSearch] = useState(0);
     const [consultaAvanzada, setConsultaAvanzada] = useState({
         "query": "",
         "categoria": "",
@@ -51,6 +58,20 @@ export const BusquedaEstandar = (props) => {
         "pagina_inicial": 0
     })
     const [esBusquedaAvanzada, setEsBusquedaAvanzada] = useState(null);
+    const refModalUsuario = useRef(null);
+    const refModalVideos = useRef(null);
+    const toggleState = (e, indice) => {
+        e.preventDefault();
+        setUsuariosSearch([])
+        setVideosSearch([])
+        setValueUserSearch('')
+        setValueVideoSearch('')
+        console.log('levantando modal con ',indice);
+        setChildrenModal(indice);
+        refModalUsuario.current && refModalUsuario.current.focus()
+        refModalVideos.current && refModalVideos.current.focus()
+        setModalOpen(!modalOpen);
+    };
     useEffect(() => {
         let query = location.search, consulta = '';
         if (query) {
@@ -67,6 +88,12 @@ export const BusquedaEstandar = (props) => {
                 "video": "",
                 "pagina_inicial": 0
             };
+            const requestVideos = axios.get(`${getBaseAdressApi()}api/shortlistvideos/`).then(response=>{
+                let videos = response.data.results.map((el,indice)=>{
+                    return {id:el.id,titulo:el.titulo}
+                })
+                setVideosListado(videos);
+            })
             const requestSimple = axios.post(`${getBaseAdressApi()}api/searchcomment/`,
                 objetoSearchSimple
             ).then(response => {
@@ -135,6 +162,12 @@ export const BusquedaEstandar = (props) => {
                 console.log('dentro de consulta original', response.data);
                 setTodascategorias(response.data);
             })
+            const requestVideos = axios.get(`${getBaseAdressApi()}api/shortlistvideos/`).then(response=>{
+                let videos = response.data.results.map((el,indice)=>{
+                    return {id:el.id,titulo:el.titulo}
+                })
+                setVideosListado(videos);
+            })
         }
 
     }, [location.search]);
@@ -149,7 +182,7 @@ export const BusquedaEstandar = (props) => {
                 "autor": consultaAvanzada.autor,
                 "puede": consultaAvanzada.puede,
                 "prefijo": consultaAvanzada.prefijo,
-                "video": consultaAvanzada.video,
+                "video": valorVideoSearch == 0 ? "" : parseInt(valorVideoSearch),
                 "pagina_inicial": 0
             };
             console.log('el objeto búsqueda es ',objetoSearchAvanzado)
@@ -174,6 +207,10 @@ export const BusquedaEstandar = (props) => {
                 setTotalResultados({
                     ...totalResultados,
                     comentarios: totalDeResultados
+                });
+                setPaginaBusqueda({
+                    comentarios:1,
+                    relatos:1
                 })
                 
             });
@@ -198,6 +235,10 @@ export const BusquedaEstandar = (props) => {
                 setTotalResultados({
                     ...totalResultados,
                     relatos: totalDeResultadosRelato
+                });
+                setPaginaBusqueda({
+                    comentarios:1,
+                    relatos:1
                 })
             });
         }
@@ -366,7 +407,7 @@ export const BusquedaEstandar = (props) => {
                     "autor": consultaAvanzada.autor,
                     "puede": consultaAvanzada.puede,
                     "prefijo": consultaAvanzada.prefijo,
-                    "video": consultaAvanzada.video,
+                    "video": valorVideoSearch == 0 ? "" : parseInt(valorVideoSearch),
                     "pagina_inicial": 0
                 };
                 //console.log('en cambio de página ',paginaActual,objetoSearchPagina, paginacion.comentarios)
@@ -394,7 +435,7 @@ export const BusquedaEstandar = (props) => {
                     "autor": consultaAvanzada.autor,
                     "puede": consultaAvanzada.puede,
                     "prefijo": consultaAvanzada.prefijo,
-                    "video": consultaAvanzada.video,
+                    "video": valorVideoSearch== 0 ? "" : parseInt(valorVideoSearch),
                     "pagina_inicial": 0
                 };
                 //console.log('en cambio de página ',paginaActual,objetoSearchPagina, paginacion.comentarios)
@@ -439,9 +480,34 @@ export const BusquedaEstandar = (props) => {
                     break;
         }
     }
+    const [usuariosSearch,setUsuariosSearch] = useState([]);
+    const [valueUserSearch,setValueUserSearch] = useState('')
+    const searchUsuario = ()=>{
+        const requestSearchUser = axios.get(`${getBaseAdressApi()}api/users/`+valueUserSearch).then(response=>{
+            setUsuariosSearch(response.data.results);
+        })
+    }
+    const [videosSearch,setVideosSearch] = useState([]);
+    const [valueVideoSearch,setValueVideoSearch] = useState('')
+    const searchVideo = ()=>{
+        const requestSearchUser = axios.get(`${getBaseAdressApi()}api/videos/`+valueVideoSearch).then(response=>{
+            setVideosSearch(response.data.results);
+        })
+    }
     console.log('paginas', paginaBusqueda.comentarios, paginasTotal.comentarios, totalResultados.comentarios)
+    const [valueAutorSearch,setValueAutorSearch] = useState('')
+    const setUserSearch = (e,usuario)=>{
+        setValueAutorSearch(usuario);
+        setBuscarAvanzado(usuario,tiposBusqueda.AUTOR);
+        toggleState(e,MODAL_SEARCH_USERS);
+    }
+    const setVideoSearch = (e,video)=>{
+        setValorVideoSearch(video);
+        setBuscarAvanzado(video,tiposBusqueda.VIDEO);
+        toggleState(e,MODAL_SEARCH_VIDEOS);
+    }
     return (
-        <>
+        <div>
             <div>
                 <div style={{ backgroundColor: 'black', height: '100px' }}>
                     <NavBar></NavBar>
@@ -468,30 +534,33 @@ export const BusquedaEstandar = (props) => {
                         </div>
                         <div>
                             <label>Del siguiente autor:</label>
-                            <input type="text" onChange={(e) => setBuscarAvanzado(e.target.value, tiposBusqueda.AUTOR)}></input>
-                            <a href="#">Buscar autores</a>
+                            <input type="text" value={valueAutorSearch} onChange={(e) => {setBuscarAvanzado(e.target.value, tiposBusqueda.AUTOR);setValueAutorSearch(e.target.value)}}></input>
+                            <a href="#" onClick={(e) => toggleState(e, MODAL_SEARCH_USERS)}>Buscar autores</a>
                         </div>
                         <div>
                             <label>De la siguiente categoría:</label>
-                            <select name="select_categorias" onChange={(e) => setBuscarAvanzado(e.target.options[e.target.selectedIndex].text, tiposBusqueda.CATEGORIA)}>
-                                <option value="0" selected>
+                            <select name="select_categorias" defaultValue={0} onChange={(e) => setBuscarAvanzado(e.target.options[e.target.selectedIndex].text, tiposBusqueda.CATEGORIA)}>
+                                <option value="0">
                                     Todas
                                 </option>
                                 {
                                     todascategorias && todascategorias.map((cat, indice) => {
-                                        return <option value={cat.id}>{cat.titulo}</option>
+                                        return <option key={indice} value={cat.id}>{cat.titulo}</option>
                                     })
                                 }
                             </select>
                         </div>
                         <div>
                             <label>Del siguiente vídeo (indicar el título):</label>
-                            <select name="select_videos" onChange={(e) => setBuscarAvanzado(e.target.selected.value, tiposBusqueda.VIDEO)}>
-                                <option value="0" selected>
+                            <select name="select_videos" value={valorVideoSearch} onChange={(e) => {setValorVideoSearch(e.target.value);}}>
+                                <option value="0">
                                     Todos
                                 </option>
+                                {videoslistado.map((el,indice)=>{
+                                    return <option key={indice} value={el.id}>{el.titulo}</option>
+                                })}
                             </select>
-                            <a href="#">Buscar videos</a>
+                            <a href="#"onClick={(e) => toggleState(e, MODAL_SEARCH_VIDEOS)}>Buscar videos</a>
                         </div>
                         <div>
                             <button type="button" onClick={(e)=>searchAvanzado()}>Búsqueda</button>
@@ -579,8 +648,27 @@ export const BusquedaEstandar = (props) => {
                         }
                     </div>
                 </div>
+                
             </div>
             <HomeFooter></HomeFooter>
-        </>
+            <ModalAlt id="modal-search" isOpen={modalOpen} modalSize="lg" onClose={toggleState} title={
+                        childrenModal == MODAL_SEARCH_USERS ? "Búsqueda de usuarios" : 
+                        childrenModal == MODAL_SEARCH_VIDEOS ? "Búsqueda de videos" : null}>{childrenModal == MODAL_SEARCH_USERS
+                            ? <div className='search-list-container'><div className='search-list-advanced'><input ref={refModalUsuario} autoFocus type="text" value={valueUserSearch} onChange={(e)=>setValueUserSearch(e.target.value)}></input>
+                            <button type="button" onClick={searchUsuario}><FontAwesomeIcon icon={faSearch}></FontAwesomeIcon></button></div>
+                            <div className='results-search-list-advanced'>
+                                {usuariosSearch.map((el,index)=>{
+                                    return <button type="button" onClick={(e) => setUserSearch(e,el.username)}>{el.username}</button>
+                                })}
+                            </div>
+                            </div>: childrenModal == MODAL_SEARCH_VIDEOS?
+                            <div className='search-list-container'><div className='search-list-advanced'><input ref={refModalVideos} autoFocus type="text" value={valueVideoSearch} onChange={(e)=>setValueVideoSearch(e.target.value)}></input>
+                            <button type="button" onClick={searchVideo}><FontAwesomeIcon icon={faSearch}></FontAwesomeIcon></button></div>
+                            <div className='results-search-list-advanced'>
+                                {videosSearch.map((el,index)=>{
+                                    return <button type="button" onClick={(e) => setVideoSearch(e,el.id)}>{el.titulo}</button>
+                                })}
+                            </div></div> : null}</ModalAlt>
+        </div>
     )
 }

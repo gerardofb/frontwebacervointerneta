@@ -3978,3 +3978,54 @@ label.caja-expandible-label {
   top: calc(50% - 100px);
   left: calc(50% - 100px);
 }
+
+/*
+Estilos para modal de búsqueda en búsqueda avanada
+*/
+.search-list-container{
+  display: grid;
+  grid-template-rows: 2;
+  row-gap: 10px;
+  align-items: left;
+}
+.search-list-advanced{
+  grid-row:1;
+  width:95%;
+  padding:5px;
+  text-align: center;
+  & input {
+    height:30px;
+    border-radius: .5em;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    width:80%
+  }
+  & button {
+  max-height: 40px;
+  max-width: 90px;
+  color: white;
+  background-color: #009639;
+  border-radius: .5em;
+  grid-column: 2;
+  cursor: pointer;
+  width:10%;
+  height: 35px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+}
+.results-search-list-advanced{
+  margin:2%;
+  grid-row: 2;
+  justify-content: left;
+  width:98%;
+  & button{
+    min-width:80px;
+    background-color: dodgerblue;
+    color:white;
+    cursor:pointer;
+    height:25px;
+    border-radius:.25em;
+    margin:.5em
+  }
+}
