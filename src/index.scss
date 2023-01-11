@@ -591,11 +591,9 @@ Estilos temáticos
 }
 
 .navbar-principal {
-  width: '40%';
-  float: 'left';
   display: grid;
   position: relative;
-  grid-template-columns: .5fr .4fr .25fr .5fr;
+  grid-template-columns: .6fr .2fr .25fr .5fr;
   min-height: 115px;
   padding-bottom: .3em;
 }
@@ -620,63 +618,68 @@ Estilos temáticos
 
 .navbar-principal-basic {
   background-color: #253237;
+  background-image: url('/images/head_claro.svg');
+  background-repeat: no-repeat;
 }
 
 .navbar-principal-basic #logotipo_site {
-  background-image: url('/images/logo_nuevo_blanco.png');
-  background-repeat: no-repeat;
   margin-left: 1.4em;
-  background-size: 70px;
-
+  min-width:550px;
+  background-size: 80%;
   & h2 {
     padding-left: 10px;
   }
+  min-height: 100px;
 }
 
 .navbar-principal-basic-dark {
   background-color: #cde2e3;
-
+  background-image: url('/images/head_.svg');
+  background-repeat: no-repeat;
 }
 
 .navbar-principal-basic-dark #logotipo_site {
-  background-image: url('/images/logo_nuevo_negro.png');
-  background-repeat: no-repeat;
   margin-left: 1.4em;
-  background-size: 70px;
+  min-width: 550px;
 
   & h2 {
     padding-left: 10px;
   }
+  min-height: 100px;
 }
 
 .navbar-principal-aesthetic-dark {
   background-color: #f9e2da;
+  background-image: url('/images/head_.svg');
+  background-repeat: no-repeat;
 }
 
 .navbar-principal-aesthetic-dark #logotipo_site {
-  background-image: url('/images/logo_nuevo_negro.png');
-  background-repeat: no-repeat;
+  
   margin-left: 1.4em;
-  background-size: 70px;
+  min-width: 550px;
 
   & h2 {
     padding-left: 10px;
   }
+  min-height: 100px;
 }
 
 .navbar-principal-aesthetic {
   background-color: #66545e;
+  background-image: url('/images/head_claro.svg');
+  background-repeat: no-repeat;
 }
 
 .navbar-principal-aesthetic #logotipo_site {
-  background-image: url('/images/logo_nuevo_blanco.png');
-  background-repeat: no-repeat;
+  
   margin-left: 1.4em;
-  background-size: 70px;
+  min-width: 550px;
 
   & h2 {
     padding-left: 10px;
   }
+  min-height: 100px;
 }
 
 .navbar-principal.navbar-principal-basic h2 {
@@ -728,7 +731,10 @@ Estilos temáticos
   right: 5px;
 }
 
-.search-bar-main-basic p {
+.search-bar-main-basic p a {
+  color: white;
+}
+.search-bar-main-aesthetic p a {
   color: white;
 }
 
@@ -740,7 +746,10 @@ Estilos temáticos
   right: 5px;
 }
 
-.search-bar-main-basic-dark p {
+.search-bar-main-basic-dark p a {
+  color: #1b2f30;
+}
+.search-bar-main-aesthetic-dark p a {
   color: #1b2f30;
 }
 
@@ -1136,7 +1145,8 @@ Estilo de footer
 
 .container-tematica {
   grid-column: 2;
-  max-width: 280px;
+  max-width: 120px;
+  margin-top:1em;
 }
 
 .control-temas-claros-oscuros {
@@ -1637,9 +1647,9 @@ Estilo de footer
 }
 
 .tematica-sitio {
-  min-width: 200px;
+  min-width: 130px;
   margin-left: 20%;
-  min-height: 118px;
+  min-height: 90px;
   background-color: white;
   color: black;
   font-size: small;
@@ -1654,20 +1664,20 @@ Estilo de footer
   display: block;
   z-index: 99999;
   background-color: white;
-  height: 120px;
-  width: 250px;
+  height: 90px;
+  width: 135px;
 }
 
 .close-tematica {
   width: 12px;
   height: 12px;
   text-align: right;
-  margin-left: 232px;
+  margin-left: 115px;
 }
 
 .content-tematica-sitio {
   display: grid;
-  grid-template-columns: .2fr 1fr .2fr;
+  grid-template-columns: .2fr .6fr .2fr;
 }
 
 .control-paletas {
@@ -1678,25 +1688,25 @@ Estilo de footer
 .control-paletas.left-control {
   text-align: left;
   padding: 2px;
-  margin-top: 30px;
+  margin-top: 18px;
 }
 
 .control-paletas.right-control {
   text-align: right;
   padding: 2px;
-  margin-top: 30px;
+  margin-top: 18px;
 }
 
 .color-paleta {
-  width: 40px;
+  width: 20px;
   height: 100%;
 }
 
 .contenedor-colores-paleta {
   margin: 0 0 0 0;
-  min-height: 75px;
+  min-height: 55px;
   display: grid;
-  grid-template-columns: .20fr .20fr .20fr .20fr .20fr;
+  grid-template-columns: .10fr .10fr .10fr .10fr .10fr;
 }
 
 /*

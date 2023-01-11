@@ -36,7 +36,7 @@ const SearchBar = (props) => {
                     <input type="text" className='search-bar-principal-input' onChange={(e) => setBusquedaSimple(e.target.value)} onKeyDown={(e) => navigateBusqueda(e)} value={busquedaSimple}></input>:
                     <input type="text" disabled className='search-bar-principal-input' onChange={(e) => setBusquedaSimple(e.target.value)} onKeyDown={(e) => navigateBusqueda(e)} value={busquedaSimple}></input>}
             </div>
-            <p><Link to='/BusquedaEstandar' style={{ textDecoration: 'none', color: "white" }}>Ir a Búsqueda avanzada&nbsp;<FontAwesomeIcon icon={faArrowRight}></FontAwesomeIcon></Link></p>
+            <p><Link to='/BusquedaEstandar' style={{ textDecoration: 'none' }}>Ir a Búsqueda avanzada&nbsp;<FontAwesomeIcon icon={faArrowRight}></FontAwesomeIcon></Link></p>
         </div>
     )
 }

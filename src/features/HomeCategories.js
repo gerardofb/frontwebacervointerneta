@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useSpring, animated } from 'react-spring'
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-
+import CanvasTitleCategorie from './CanvasTitleCategorie';
 const url = (name, wrap = false) => `${wrap ? 'url(' : ''}images/Stills/${name}.png${wrap ? ')' : ''}`;
 const imagenes = ['Categoria_uno', 'Categoria_dos', 'Categoria_tres', 'Categoria_cuatro', 'Categoria_cinco', 'Categoria_seis', 'Categoria_siete'];
 const headerscategories = ['Pueblos indígenas y originarios cultura', 'Pueblos indígenas y originarios cultura y producción',
@@ -66,11 +66,9 @@ const HomeCategories = (props) => {
         onRest: () => setflipsvg(!flipsvg),
     });
     return (<div>
-        <div style={{ marginTop: '5px',backgroundColor:'white', width:'100%', backgroundImage:"url('/images/categorias.svg')", backgroundRepeat:'no-repeat', backgroundPosition:'top center', minHeight:'60px', backgroundSize:'70%' }}>
-            <div style={{ backgroundColor: 'transparent', paddingTop:'70px' }}><Link to='Categorias' style={{ textDecoration: 'none', color: 'black' }}>Explorar...</Link></div>
-            <svg height="30" width="1280">
-                <line x1="50" y1="30" x2="1280" y2="30" strokeDashoffset={x.to(x => (1 - x) * 156)} style={{ stroke: 'rgb(128,128,128)', strokeWidth: '2' }} />
-            </svg>
+        <div style={{ marginTop: '-15px',backgroundColor:'white', width:'100%'}}>
+        <Link to='Categorias' style={{ textDecoration: 'none', color: 'black' }}><CanvasTitleCategorie></CanvasTitleCategorie>
+            </Link>
         </div>
         <div
             onClick={(e => { forward(550); forwardText(1060) })}
