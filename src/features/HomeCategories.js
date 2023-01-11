@@ -80,7 +80,7 @@ const HomeCategories = (props) => {
             }}>
                 {props.categoriasService.map(function (el, index) {
                     return (
-                        <div className='category-images-green' key={index} style={{ float: 'left', margin: '25px', padding: '25px', display: 'block' }}>
+                        <div className='category-images-green' key={index} style={{ float: 'left', margin: '25px', padding: '10px', display: 'block' }}>
                             <div className='inner-hover-categoria'><span>{el.titulo.replace(/[-]/g,' ')}</span></div>
                             <img src={el.contenedor_img} style={{ width: '450px', height: '337px' }}></img>
                         </div>

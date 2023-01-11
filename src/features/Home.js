@@ -74,7 +74,8 @@ export class Home extends React.Component {
                                 fluid={false}
                                 height={'100%'}
                                 width={'100%'}
-                                aspectRatio={'16:9'}>
+                                aspectRatio={'16:9'}
+                                loop={true}>
                                 <BigPlayButton position={"center"} style={{ display: 'none' }} />
                                 <source src={urlvideointro}></source>
                                 <ControlBar disableCompletely={false}></ControlBar>

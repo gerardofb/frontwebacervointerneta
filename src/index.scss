@@ -889,7 +889,7 @@ Estilo de footer
 }
 
 .category-images-green {
-  background-color: #abffd2;
+  background-color: #2B9230;
   position: relative;
 }
 
@@ -974,11 +974,17 @@ Estilo de footer
 }
 
 .main-body-categories-basic {
-  background-color: #274546;
+  background-color: #3f7072;
+  background-image: url('/images/stars.svg');
+  background-size: cover;
 }
-
+.contents-index-categories{
+  padding-bottom: 5em;
+}
 .main-body-categories-aesthetic {
-  background-color: #66545e;
+  background-color: #937c89;
+  background-image: url('/images/stars.svg');
+  background-size: cover;
 }
 
 .first-layer-category-basic {
@@ -1673,6 +1679,7 @@ Estilo de footer
   height: 12px;
   text-align: right;
   margin-left: 115px;
+  cursor: pointer;
 }
 
 .content-tematica-sitio {
@@ -1689,12 +1696,14 @@ Estilo de footer
   text-align: left;
   padding: 2px;
   margin-top: 18px;
+  cursor: pointer;
 }
 
 .control-paletas.right-control {
   text-align: right;
   padding: 2px;
   margin-top: 18px;
+  cursor:pointer
 }
 
 .color-paleta {

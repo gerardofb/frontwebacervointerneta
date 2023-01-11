@@ -13,9 +13,13 @@ const SearchBar = (props) => {
     const ruta = useLocation();
     const { styles } = useContext(ThemesContext);
     const navigateBusqueda = (evento) => {
-        if (evento.keyCode == 13) {
+        if (evento.keyCode == 13 && busquedaSimple.trim() != '') {
             historia.push('/BusquedaEstandar?q=' + encodeURIComponent(busquedaSimple))
         }
+    }
+    const navigateAlternoBusqueda = () => {
+        if (busquedaSimple.trim() != '')
+            historia.push('/BusquedaEstandar?q=' + encodeURIComponent(busquedaSimple));
     }
     const [busquedaSimple, setBusquedaSimple] = useState('');
     const [deshabilitar, setDeshabilitar] = useState(false);
@@ -31,9 +35,9 @@ const SearchBar = (props) => {
     return (
         <div className={styles.SearchBarMain}>
             <div style={{ display: 'flex', textAlign: 'left', verticalAlign: 'center', maxWidth: '100%' }}>
-                <label className={styles.SearchBarBtn} style={{ gridColumn: '1', fontSize: '30px', float: 'left' }}><FontAwesomeIcon icon={faSearch}></FontAwesomeIcon></label>&nbsp;
+                <label className={styles.SearchBarBtn} style={{ gridColumn: '1', fontSize: '30px', float: 'left', cursor: 'pointer' }} title="Buscar"><FontAwesomeIcon onClick={navigateAlternoBusqueda} icon={faSearch}></FontAwesomeIcon></label>&nbsp;
                 {!deshabilitar ?
-                    <input type="text" className='search-bar-principal-input' onChange={(e) => setBusquedaSimple(e.target.value)} onKeyDown={(e) => navigateBusqueda(e)} value={busquedaSimple}></input>:
+                    <input type="text" className='search-bar-principal-input' onChange={(e) => setBusquedaSimple(e.target.value)} onKeyDown={(e) => navigateBusqueda(e)} value={busquedaSimple}></input> :
                     <input type="text" disabled className='search-bar-principal-input' onChange={(e) => setBusquedaSimple(e.target.value)} onKeyDown={(e) => navigateBusqueda(e)} value={busquedaSimple}></input>}
             </div>
             <p><Link to='/BusquedaEstandar' style={{ textDecoration: 'none' }}>Ir a Búsqueda avanzada&nbsp;<FontAwesomeIcon icon={faArrowRight}></FontAwesomeIcon></Link></p>

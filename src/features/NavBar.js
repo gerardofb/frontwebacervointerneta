@@ -56,7 +56,7 @@ const NavBar = (props) => {
             <div className={styles.NavbarPrincipal}><Link to='/' id="logotipo_site"></Link>
                 <div className='container-tematica'>
                     <div className={!showTemas ? 'tematica-sitio tematica-hidden' : 'tematica-sitio tematica-show'}>
-                        <div className='close-tematica'><FontAwesomeIcon icon={faXmark} onClick={(e) => setShowTemas(false)} /></div>
+                        <div className='close-tematica'><FontAwesomeIcon icon={faXmark} title="cerrar control temático" onClick={(e) => setShowTemas(false)} /></div>
                         <div className='control-temas-claros-oscuros'>
                             <span title='cambiar entre tema claro y oscuro'>
                                 {
@@ -66,7 +66,7 @@ const NavBar = (props) => {
                             </span>
                         </div>
                         <div className='content-tematica-sitio'>
-                            <div className='control-paletas left-control' onClick={(e) => switchPaleta(false)}><FontAwesomeIcon icon={faAngleLeft} /></div>
+                            <div className='control-paletas left-control' title="hacia atrás" onClick={(e) => switchPaleta(false)}><FontAwesomeIcon icon={faAngleLeft} /></div>
 
                             <div className='contenedor-colores-paleta' onClick={(e) => estableceTemaAdecuado()}>
                                 {
@@ -78,7 +78,7 @@ const NavBar = (props) => {
                                 }
                             </div>
 
-                            <div className='control-paletas right-control' onClick={(e) => switchPaleta(true)}><FontAwesomeIcon icon={faAngleRight} /></div>
+                            <div className='control-paletas right-control' title="hacia adelante" onClick={(e) => switchPaleta(true)}><FontAwesomeIcon icon={faAngleRight} /></div>
                         </div>
                     </div>
                 </div>
