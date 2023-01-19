@@ -20,13 +20,16 @@ export class Home extends React.Component {
 
     componentDidMount() {
         axios.get(getBaseAdressApi() + 'api/categorias/').then(response => {
-            const respuestacategorias = response.data.map((el, i) => {
+            console.log('respuesta previa de api',response)
+            const respuestacategorias = response.data.results.map((el, i) => {
                 el.titulo = el.titulo.replace(/\s/g, '-');
                 return el;
             })
             console.log('respuesta de api ', response.data, respuestacategorias)
             this.setState({ categoriasService: respuestacategorias })
 
+        }).catch(err=>{
+            console.log('error de api',err)
         });
     }
     render() {

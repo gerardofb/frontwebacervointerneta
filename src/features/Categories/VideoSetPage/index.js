@@ -109,11 +109,11 @@ const VideoSetPage = (
 
         const promise = axios.all([requestone]).then(axios.spread((...response) => {
             console.log('categorias ', response[0].data)
-            let primeracat = [response[0].data[0].titulo, response[0].data[0].contenedor_img, response[0].data[0].videos_por_categoria];
-            let segundacat = [response[0].data[1].titulo, response[0].data[1].contenedor_img, response[0].data[1].videos_por_categoria]
-            let terceracat = [response[0].data[2].titulo, response[0].data[2].contenedor_img, response[0].data[2].videos_por_categoria]
-            let cuartacat = [response[0].data[3].titulo, response[0].data[3].contenedor_img, response[0].data[3].videos_por_categoria]
-            let quintacat = [response[0].data[4].titulo, response[0].data[4].contenedor_img, response[0].data[4].videos_por_categoria]
+            let primeracat = [response[0].data.results[0].titulo, response[0].data.results[0].contenedor_img, response[0].data.results[0].videos_por_categoria];
+            let segundacat = [response[0].data.results[1].titulo, response[0].data.results[1].contenedor_img, response[0].data.results[1].videos_por_categoria]
+            let terceracat = [response[0].data.results[2].titulo, response[0].data.results[2].contenedor_img, response[0].data.results[2].videos_por_categoria]
+            let cuartacat = [response[0].data.results[3].titulo, response[0].data.results[3].contenedor_img, response[0].data.results[3].videos_por_categoria]
+            let quintacat = [response[0].data.results[4].titulo, response[0].data.results[4].contenedor_img, response[0].data.results[4].videos_por_categoria]
             //let sextacat = [response[0].data[5].titulo, response[0].data[5].contenedor_img, response[1].data.filter(x => x.id_categoria == 7)]
             ////console.log('listados de respuesta videos categorizados',primeracat,segundacat,terceracat,cuartacat,quintacat,sextacat)
             let salida = arrange_videos([primeracat, segundacat, terceracat, cuartacat, quintacat]);

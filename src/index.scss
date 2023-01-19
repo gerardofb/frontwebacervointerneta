@@ -4048,3 +4048,107 @@ Estilos para modal de búsqueda en búsqueda avanada
     margin:.5em
   }
 }
+/*
+Estilos del registro
+*/
+.error-summary{
+  background-color: #A32020;
+  color:white;
+  width:800px;
+  max-height: 400px;
+  position:absolute;
+  top:200px;
+  display: flex;
+  align-items: left;
+  margin: auto;
+  justify-content: left;
+  left:calc(50% - 400px);
+  & ul li{
+    list-style-type:none;
+    text-align: left;
+  }
+}
+.register-success{
+  background-color: greenyellow;
+  color:black;
+  width:800px;
+  max-height: 400px;
+  position:absolute;
+  top:200px;
+  display: flex;
+  align-items: center;
+  margin: auto;
+  justify-content: center;
+  padding: .5em;
+  left:calc(50% - 400px);
+  & p{
+    text-align: center;
+  }
+}
+.card-register{
+  width:800px;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  height:40vh;
+  border:#253237 1px solid;
+  box-shadow: 10px 10px #5D5D5D;
+  margin:auto;
+  top:300px;
+  bottom: 0;
+  left:calc(50% - 400px);
+  position: absolute;
+  & .grid-address{
+    position: relative;
+    padding: 1em;
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(2,.5fr);
+    & div.item-grid-address.password-validate{
+      display:grid;
+      margin:.5em 0;
+      grid-template-columns: .3fr .6fr .1fr;
+      & span{
+        font-size: small;
+      }
+      & input{
+        width: 220px;
+      }
+    }
+    & div.item-grid-address{
+      display:grid;
+      margin:.5em 0;
+      grid-template-columns: .4fr .6fr;
+      & input{
+        height: 25px;
+        width: 235px;
+        border:none;
+        border-bottom: 1px solid darkslategray;
+        outline: none;
+      }
+      & label{
+        font-size: small;
+        width:140px;
+        text-align: right;
+        padding-right: 1em;
+      }
+    }
+    .send-registro{
+       grid-column: 2;
+       display: flex;
+       justify-content: right;
+       margin:.5em 0;
+       & button{
+        background-color: #009639;
+        color:white;
+        border: 1px solid #15171c;
+        border-radius: 4px;
+        padding: .4em;
+        cursor: pointer;
+       }
+       & button:hover{
+        background-color: darkgreen
+      }
+    }
+  }
+}

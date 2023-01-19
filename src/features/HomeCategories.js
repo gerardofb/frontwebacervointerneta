@@ -79,6 +79,7 @@ const HomeCategories = (props) => {
                 ...styles
             }}>
                 {props.categoriasService.map(function (el, index) {
+                    console.log('en categorías revisión fallo',el);
                     return (
                         <div className='category-images-green' key={index} style={{ float: 'left', margin: '25px', padding: '10px', display: 'block' }}>
                             <div className='inner-hover-categoria'><span>{el.titulo.replace(/[-]/g,' ')}</span></div>
@@ -99,6 +100,7 @@ const HomeCategories = (props) => {
             }}>
                 {
                     props.categoriasService.map(function (el, index) {
+                        
                         return (
                             <div key={index} style={{ float: 'left', margin: '25px', padding: '25px', display: 'block', maxHeight:'250px', width: '960px', textAlign: 'left', color: 'white', overflowY:'auto'}} className={headercolors[index]+" categoria-home"}>
                                 <h1>{el.titulo}</h1>

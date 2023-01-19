@@ -141,8 +141,8 @@ export const BusquedaEstandar = (props) => {
                 })
             });
             let respuesta_cat = axios.get(`${getBaseAdressApi()}api/categorias/`).then(response => {
-                console.log('dentro de consulta original', response.data);
-                setTodascategorias(response.data);
+                console.log('dentro de consulta original', response.data.results);
+                setTodascategorias(response.data.results);
             })
         }
         else if (!query) {
@@ -159,8 +159,8 @@ export const BusquedaEstandar = (props) => {
                 relatos: 0
             })
             let respuesta_cat = axios.get(`${getBaseAdressApi()}api/categorias/`).then(response => {
-                console.log('dentro de consulta original', response.data);
-                setTodascategorias(response.data);
+                console.log('dentro de consulta original', response.data.results);
+                setTodascategorias(response.data.results);
             })
             const requestVideos = axios.get(`${getBaseAdressApi()}api/shortlistvideos/`).then(response=>{
                 let videos = response.data.results.map((el,indice)=>{

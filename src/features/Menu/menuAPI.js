@@ -22,6 +22,17 @@ const sideBarData = [
         icon: "house",
       },
       {
+        title: "Mi cuenta",
+        path: "#",
+        icon: "user-check",
+        subNav: [
+          {
+            title: "Registro",
+            path: '/Registro',
+            icon: 'address-card'
+          }]
+      },
+      {
         title: "Categorias",
         path: "#",
         icon: "tape",
@@ -140,11 +151,6 @@ const sideBarData = [
         title: "Colaboraciones",
         path: "#",
         icon: "clapperboard",
-      },
-      {
-        title: "Mi cuenta",
-        path: "#",
-        icon: "user-check",
       },
       {
         title: "Contacto",

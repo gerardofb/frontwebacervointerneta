@@ -408,7 +408,7 @@ export const Autobiograficos = () => {
 
                 const requestCategoriesVideos = axios.get(`${getBaseAdressApi()}api/categorias/`).then(response => {
 
-                    let respuestacategories = response.data.map((el, ind) => {
+                    let respuestacategories = response.data.results.map((el, ind) => {
                         let title = el.titulo.replace(/\s/g, '-');
                         let videos = el.videos_por_categoria !== undefined ? el.videos_por_categoria.map((vid, idx) => {
                             return { titulo: vid.titulo, id: vid.id, video: vid.contenedor_aws, imagen: vid.contenedor_img }
@@ -472,7 +472,7 @@ export const Autobiograficos = () => {
                 const requestCategoriesVideos = axios.get(`${getBaseAdressApi()}api/categorias/`).then(response => {
 
 
-                    let respuestacategories = response.data.map((el, ind) => {
+                    let respuestacategories = response.data.results.map((el, ind) => {
                         let title = el.titulo.replace(/\s/g, '-');
                         let videos = el.videos_por_categoria !== undefined ? el.videos_por_categoria.map((vid, idx) => {
                             return { titulo: vid.titulo, id: vid.id, video: vid.contenedor_aws, imagen: vid.contenedor_img }
