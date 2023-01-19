@@ -7,6 +7,7 @@ import { HomeFooter } from '../HomeFooter';
 import { ThemesContext } from '../../ThemeProvider';
 import axios from 'axios';
 import { getBaseAdressApi } from '../MainAPI';
+import { faClose } from '@fortawesome/free-solid-svg-icons';
 
 const ENUM_REGISTRO = {
     EMAIL: 1,
@@ -138,10 +139,18 @@ const Register = (props) => {
         <NavBar></NavBar>
         {
             formValidate.exitoso && <div className='register-success'>
+                <div className='standard-close-register' onClick={(e)=>setFormValidate({
+                    ...formValidate,
+                    exitoso:false
+                })}><FontAwesomeIcon icon={faClose}></FontAwesomeIcon></div>
                 <p>!Felicidades! Su registro ha sido exitoso, en breve recibirá un correo electrónico para verificar el registro en el sitio.</p>
             </div>
         }
         {formValidate.invalido && <div className='error-summary'>
+            <div className='standard-close-register'onClick={(e)=>setFormValidate({
+                    ...formValidate,
+                    invalido:false
+                })}><FontAwesomeIcon icon={faClose}></FontAwesomeIcon></div>
             <ul>
                 <li>Se encontraron errores en el registro:</li>
                 {validateErrors().map((e, i) => {
@@ -180,6 +189,9 @@ const Register = (props) => {
                 </div>
             </div>
 
-        </div ></>)
+        </div >
+        <div class="footer-registro">
+        <HomeFooter></HomeFooter>
+        </div></>)
 }
 export default Register

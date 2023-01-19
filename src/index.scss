@@ -4067,6 +4067,12 @@ Estilos del registro
     list-style-type:none;
     text-align: left;
   }
+  & .standard-close-register{
+    position: absolute;
+    right: 5px;
+    top:0px;
+    cursor: pointer;
+  }
 }
 .register-success{
   background-color: greenyellow;
@@ -4083,8 +4089,16 @@ Estilos del registro
   left:calc(50% - 400px);
   & p{
     text-align: center;
+    margin:2em;
+  }
+  & .standard-close-register{
+    position: absolute;
+    right: 5px;
+    top:0px;
+    cursor: pointer;
   }
 }
+
 .card-register{
   width:800px;
   display: flex;
@@ -4151,4 +4165,10 @@ Estilos del registro
       }
     }
   }
+}
+.footer-registro{
+  width: 100%;
+  position: absolute;
+  bottom:0;
+  top:130vh;
 }
