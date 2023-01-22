@@ -69,6 +69,7 @@ const MODAL_CREDITOS = 0;
 const MODAL_REDES = 1;
 const MODAL_DESCARGAS = 2;
 const MODAL_CALIFICACION = 3;
+const MODAL_USUARIO_NO_AUTORIZADO = 4;
 
 let items = [
     { titulo: "Gerardo Flores Barrie", content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sit amet suscipit mi. Integer lacinia nisl sit amet sapien porta, nec posuere ante dictum. Aliquam erat volutpat. Pellentesque sem purus, laoreet at quam eget, ullamcorper efficitur mi. Integer pretium fringilla placerat. Suspendisse bibendum, neque quis vestibulum interdum, tortor metus scelerisque." },
@@ -220,7 +221,11 @@ let catdata = [
         height: 200,
     },
 ]
-
+const configuracion = {
+    headers: {
+    "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
+    },
+    }
 function shuffleArray(array) {
     for (var i = array.length - 1; i > 0; i--) {
         var j = Math.floor(Math.random() * (i + 1));
@@ -343,7 +348,7 @@ export const AutoComments = () => {
     const idvideo = obtenervideo[obtenervideo.length - 2]
     const [newComment, setNewComment] = useState('');
     const growers = document.querySelectorAll(".grow-wrap");
-    const [paginacion,setPaginacion] = useState({comentarios:{pagina:0,habilitado:false,total:0,tamanio:0}})
+    const [paginacion, setPaginacion] = useState({ comentarios: { pagina: 0, habilitado: false, total: 0, tamanio: 0 } })
     growers.forEach((grower) => {
         const textarea = grower.querySelector("textarea");
         textarea.addEventListener("input", () => {
@@ -391,16 +396,17 @@ export const AutoComments = () => {
                 });
                 setItems(comentarios_search);
                 let numeropaginas = response.data.length > 0 ? response.data[0].paginacion : 0;
-                    let totalpaginas = response.data.length > 0 ? response.data[0].total : 0;
-                    let paginasTotales = 0;
-                    if(totalpaginas > 0){
-                        paginasTotales = parseInt(totalpaginas / numeropaginas) +(totalpaginas%numeropaginas > 0 ? 1 : 0);
-                    }
+                let totalpaginas = response.data.length > 0 ? response.data[0].total : 0;
+                let paginasTotales = 0;
+                if (totalpaginas > 0) {
+                    paginasTotales = parseInt(totalpaginas / numeropaginas) + (totalpaginas % numeropaginas > 0 ? 1 : 0);
+                }
                 setPaginacion({
                     ...paginacion,
-                    comentarios:{pagina:0,habilitado:false,total: paginasTotales,tamanio:numeropaginas}})
+                    comentarios: { pagina: 0, habilitado: false, total: paginasTotales, tamanio: numeropaginas }
+                })
                 console.log('respuesta de api por defecto', comentarios_search)
-                
+
             }).catch(reason => console.log('error en consulta por defecto ', reason));
         }
 
@@ -533,44 +539,47 @@ export const AutoComments = () => {
                 // items = items.concat(item);
                 // !location.search && setItems(items)
                 let numero_pagina = paginacion.comentarios.pagina;
-                numero_pagina+=1;
-                console.log('probando condicion para scroll' ,paginacion)
-                if(paginacion.comentarios.total > numero_pagina){
-                setPaginacion({
-                    ...paginacion,
-                    comentarios:{pagina:numero_pagina,habilitado:true,total:paginacion.comentarios.total,tamanio:paginacion.comentarios.tamanio}});
-                let consulta_actual = {
-                    "query": "",
-                    "categoria": "",
-                    "frase": false,
-                    "autor": "",
-                    "puede": "",
-                    "prefijo": "",
-                    "video": parseInt(idvideo),
-                    "pagina_inicial": numero_pagina*paginacion.comentarios.tamanio
-                };
-                
-                const requestSearchomments = axios.post(`${getBaseAdressApi()}api/searchcomment/`,
-                    consulta_actual
-                ).then(response => {
-                    
-                    
-                    console.log('consulta para paginar ',consulta_actual);
-                    let comentarios_search = response.data.map((el, indice) => {
-                        return { titulo: el.autor, content: el.comentario }
-                    });
-                    let elementos = comentarios_search;
-                    console.log('añadiendo elementos ',elementos)
-                    setItems(
-                        elems.concat(elementos)
-                    );
-                    setTimeout(function(){
+                numero_pagina += 1;
+                console.log('probando condicion para scroll', paginacion)
+                if (paginacion.comentarios.total > numero_pagina) {
                     setPaginacion({
                         ...paginacion,
-                        comentarios:{pagina:numero_pagina,habilitado:false,total:paginacion.comentarios.total,tamanio:paginacion.comentarios.tamanio}})},1500);
-                }).catch(reason => console.log('error en consulta por defecto paginando', reason));
+                        comentarios: { pagina: numero_pagina, habilitado: true, total: paginacion.comentarios.total, tamanio: paginacion.comentarios.tamanio }
+                    });
+                    let consulta_actual = {
+                        "query": "",
+                        "categoria": "",
+                        "frase": false,
+                        "autor": "",
+                        "puede": "",
+                        "prefijo": "",
+                        "video": parseInt(idvideo),
+                        "pagina_inicial": numero_pagina * paginacion.comentarios.tamanio
+                    };
+
+                    const requestSearchomments = axios.post(`${getBaseAdressApi()}api/searchcomment/`,
+                        consulta_actual
+                    ).then(response => {
+
+
+                        console.log('consulta para paginar ', consulta_actual);
+                        let comentarios_search = response.data.map((el, indice) => {
+                            return { titulo: el.autor, content: el.comentario }
+                        });
+                        let elementos = comentarios_search;
+                        console.log('añadiendo elementos ', elementos)
+                        setItems(
+                            elems.concat(elementos)
+                        );
+                        setTimeout(function () {
+                            setPaginacion({
+                                ...paginacion,
+                                comentarios: { pagina: numero_pagina, habilitado: false, total: paginacion.comentarios.total, tamanio: paginacion.comentarios.tamanio }
+                            })
+                        }, 1500);
+                    }).catch(reason => console.log('error en consulta por defecto paginando', reason));
+                }
             }
-        }
             // else if (active == tabuladores[1] && autobiograficos.lengcatdatath < 100) {
             //     let relato = autobiograficos[Math.floor(Math.random() * autobiograficos.length)];
             //     autobiograficos = autobiograficos.concat(relato);
@@ -752,16 +761,17 @@ export const AutoComments = () => {
         setClicked(clickStates);
     };
     const [esFavorito, setEsFavorito] = useState({ valor: false, cuenta: 4056 });
+    const [publicarAnonimo, setEsPublicarAnonimo] = useState({ intento: false, publicar: false });
     //console.log('estrellas marcadas para calificar', clicked);
     //console.log('los videos en la categoría son ', videoscategoria)
     const sendComment = () => {
         if (newComment.trim() !== "") {
-            const requesttwo = axios.put(`${getBaseAdressApi()}api/commentvideo/`,
+            const requesttwo = axios.put(`${getBaseAdressApi()}api/commentvideoauth/`,
                 {
                     "id_autor": "usuario_generico",
                     "id_video": parseInt(idvideo),
                     "comentario": newComment
-                }
+                },configuracion
             ).then(response => {
                 if (response.status == 201) {
                     setNewComment('')
@@ -786,6 +796,53 @@ export const AutoComments = () => {
                         console.log('respuesta de api por defecto al enviar comentario', comentarios_search)
                     }).catch(reason => console.log('error en consulta por defecto al enviar comentario ', reason));
                 }
+            }).catch(err => {
+                if (!publicarAnonimo.publicar) {
+                    setEsPublicarAnonimo({
+                        ...publicarAnonimo,
+                        intento: true,
+                        publicar: false
+                    });
+                }
+                else {
+                    const requestanonimo = axios.put(`${getBaseAdressApi()}api/commentvideo/`,
+                        {
+                            "id_autor": "usuario_generico",
+                            "id_video": parseInt(idvideo),
+                            "comentario": newComment
+                        }
+                    ).then(response => {
+                        if (response.status == 201) {
+                            setNewComment('')
+                            let consulta_actual = {
+                                "query": "",
+                                "categoria": "",
+                                "frase": false,
+                                "autor": "",
+                                "puede": "",
+                                "prefijo": "",
+                                "video": parseInt(idvideo),
+                                "pagina_inicial": 0
+                            };
+                            console.log('en consulta por defecto ', consulta_actual)
+                            const requestSearchomments = axios.post(`${getBaseAdressApi()}api/searchcomment/`,
+                                consulta_actual
+                            ).then(response => {
+                                let comentarios_search = response.data.map((el, indice) => {
+                                    return { titulo: el.autor, content: el.comentario }
+                                });
+                                setItems(comentarios_search);
+                                setEsPublicarAnonimo({
+                                    ...publicarAnonimo,
+                                    intento: false,
+                                    publicar: false
+                                })
+                                console.log('respuesta de api por defecto al enviar comentario', comentarios_search)
+                            }).catch(reason => console.log('error en consulta por defecto al enviar comentario ', reason));
+                        }
+                    });
+                }
+
             });
         }
     }
@@ -908,7 +965,16 @@ export const AutoComments = () => {
                     </div>
                     <div className="button-send-expandible-text">
                         <button type="button" onClick={sendComment}>Enviar</button>
-                    </div>
+                    </div>{
+                        publicarAnonimo.intento &&
+                        <div className='usuario-desautorizado'>
+                            <div className="contenido-usuario-desautorizado">
+                                <p>Atención, debido a que no ha iniciado sesión en el sitio, el comentario se publicará como anónimo.</p>
+                                <p>De click en el botón "Aceptar" para continuar y vuelva a intentarlo por favor.</p><p>O bien, <Link to="/Login">inicie sesión</Link> en el sitio.</p>
+                                <button type="button" onClick={(e) => { setEsPublicarAnonimo({...publicarAnonimo,intento:false,publicar:true}); }}>Aceptar</button>
+                            </div>
+                        </div>
+                    }
                     {elems &&
                         elems.map((item, index) => (
                             <div key={index}>
@@ -916,8 +982,8 @@ export const AutoComments = () => {
                                 <p>{`${index + 1}. ${item.content}`}</p>
                             </div>
                         ))}
-                    <div className='default-loader' style={paginacion.comentarios.habilitado ?{display:'block'}: {display:'none'}}>
-                        <img src={url_loader("Reload_generic.gif",false)} />
+                    <div className='default-loader' style={paginacion.comentarios.habilitado ? { display: 'block' } : { display: 'none' }}>
+                        <img src={url_loader("Reload_generic.gif", false)} />
                     </div>
                     <div className="list-bottom"></div>
                 </div>

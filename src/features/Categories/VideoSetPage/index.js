@@ -120,7 +120,7 @@ const VideoSetPage = (
             console.log('los videos enumerados son ', salida)
             console.log(salida);
             setVideosPopulated(salida);
-            response[0].data.map((el, indice) => {
+            response[0].data.results.map((el, indice) => {
                 console.log('iterando en categorias de respuesta ', el)
                 el.titulo = el.titulo.replace(/\s/g, '-')
                 if (el.titulo == set) {

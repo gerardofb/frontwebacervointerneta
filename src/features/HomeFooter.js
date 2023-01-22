@@ -3,7 +3,7 @@ const url = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/${name}.png${w
 
 const HomeFooter = (props)=>{
     return (
-        <div className='footer-site footer-site-black' style={{WebkitBorderTopRightRadius:'20px', width:'99%', margin:'auto', borderTopLeftRadius:'20px', opacity:'65%'}}>
+        <div className='footer-site footer-site-black' style={{WebkitBorderTopRightRadius:'20px', width:'100%', margin:'auto', borderTopLeftRadius:'20px', opacity:'100%'}}>
             <div style={{textAlign:'left',float:'none', color:'white', marginLeft:'5%', fontSize:'large'}}>
                 <h2>
                     Acervo Audiovisual Interneta

@@ -30,6 +30,11 @@ const sideBarData = [
             title: "Registro",
             path: '/Registro',
             icon: 'address-card'
+          },
+          {
+            title: "Iniciar sesión",
+            path: '/Login',
+            icon: 'address-card'
           }]
       },
       {

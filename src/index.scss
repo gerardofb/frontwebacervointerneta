@@ -9,6 +9,14 @@
   --eventColor3: #e2f8ff;
   --eventColor4: #d1ffe6;
 }
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300&display=swap');
+body {
+  margin: 0;
+  font-family: 'Roboto Condensed', sans-serif;
+  /** COMIENZA CÓDIGO RESET*/
+  overflow-x: hidden;
+  overflow-y: auto;
+}
 
 /* -- usable codes start -- 
 
@@ -127,17 +135,7 @@ body {
 }*/
 
 /*----- finaliza reset CSS*/
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  /** COMIENZA CÓDIGO RESET*/
-  overflow-x: hidden;
-  overflow-y: auto;
-}
+
 
 .container-menu-main {
   position: absolute;
@@ -596,6 +594,15 @@ Estilos temáticos
   grid-template-columns: .6fr .2fr .25fr .5fr;
   min-height: 115px;
   padding-bottom: .3em;
+
+}
+.cuenta-usuario-show {
+  height: 50px;
+  position: absolute;
+  top: 5px;
+  right:10px;
+  font-size: x-small;
+  color:white;
 }
 
 .with-menu {
@@ -624,11 +631,13 @@ Estilos temáticos
 
 .navbar-principal-basic #logotipo_site {
   margin-left: 1.4em;
-  min-width:550px;
+  min-width: 550px;
   background-size: 80%;
+
   & h2 {
     padding-left: 10px;
   }
+
   min-height: 100px;
 }
 
@@ -645,6 +654,7 @@ Estilos temáticos
   & h2 {
     padding-left: 10px;
   }
+
   min-height: 100px;
 }
 
@@ -655,13 +665,14 @@ Estilos temáticos
 }
 
 .navbar-principal-aesthetic-dark #logotipo_site {
-  
+
   margin-left: 1.4em;
   min-width: 550px;
 
   & h2 {
     padding-left: 10px;
   }
+
   min-height: 100px;
 }
 
@@ -672,13 +683,14 @@ Estilos temáticos
 }
 
 .navbar-principal-aesthetic #logotipo_site {
-  
+
   margin-left: 1.4em;
   min-width: 550px;
 
   & h2 {
     padding-left: 10px;
   }
+
   min-height: 100px;
 }
 
@@ -734,6 +746,7 @@ Estilos temáticos
 .search-bar-main-basic p a {
   color: white;
 }
+
 .search-bar-main-aesthetic p a {
   color: white;
 }
@@ -749,6 +762,7 @@ Estilos temáticos
 .search-bar-main-basic-dark p a {
   color: #1b2f30;
 }
+
 .search-bar-main-aesthetic-dark p a {
   color: #1b2f30;
 }
@@ -902,14 +916,15 @@ Estilo de footer
   z-index: 9999;
   background-color: white;
   opacity: .5;
-  & span{
-  display: inline-block;
-  vertical-align: middle;
-  padding-top: 32%;
-  font-weight: bold;
-  font-size: xx-large;
-  display: inline-block;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+  & span {
+    display: inline-block;
+    vertical-align: middle;
+    padding-top: 32%;
+    font-weight: bold;
+    font-size: xx-large;
+    display: inline-block;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   }
 }
 
@@ -978,9 +993,11 @@ Estilo de footer
   background-image: url('/images/stars.svg');
   background-size: cover;
 }
-.contents-index-categories{
+
+.contents-index-categories {
   padding-bottom: 5em;
 }
+
 .main-body-categories-aesthetic {
   background-color: #937c89;
   background-image: url('/images/stars.svg');
@@ -1152,7 +1169,7 @@ Estilo de footer
 .container-tematica {
   grid-column: 2;
   max-width: 120px;
-  margin-top:1em;
+  margin-top: 1em;
 }
 
 .control-temas-claros-oscuros {
@@ -1703,7 +1720,7 @@ Estilo de footer
   text-align: right;
   padding: 2px;
   margin-top: 18px;
-  cursor:pointer
+  cursor: pointer
 }
 
 .color-paleta {
@@ -2247,8 +2264,16 @@ Pagina autobiograficos
 }
 
 .autobiografico-main-editing {
-  min-height: 640px;
+  height: 640px;
+  overflow: hidden;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
+
+.autobiografico-main-editing::-webkit-scrollbar {
+  display: none;
+}
+
 
 .autobiografico-main-menu .autobiografico-main-menu-entry-basic span {
   margin-right: 3rem;
@@ -4001,174 +4026,384 @@ label.caja-expandible-label {
 /*
 Estilos para modal de búsqueda en búsqueda avanada
 */
-.search-list-container{
+.search-list-container {
   display: grid;
   grid-template-rows: 2;
   row-gap: 10px;
   align-items: left;
 }
-.search-list-advanced{
-  grid-row:1;
-  width:95%;
-  padding:5px;
+
+.search-list-advanced {
+  grid-row: 1;
+  width: 95%;
+  padding: 5px;
   text-align: center;
+
   & input {
-    height:30px;
+    height: 30px;
     border-radius: .5em;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
-    width:80%
+    width: 80%
   }
+
   & button {
-  max-height: 40px;
-  max-width: 90px;
-  color: white;
-  background-color: #009639;
-  border-radius: .5em;
-  grid-column: 2;
-  cursor: pointer;
-  width:10%;
-  height: 35px;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
+    max-height: 40px;
+    max-width: 90px;
+    color: white;
+    background-color: #009639;
+    border-radius: .5em;
+    grid-column: 2;
+    cursor: pointer;
+    width: 10%;
+    height: 35px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
 }
-}
-.results-search-list-advanced{
-  margin:2%;
+
+.results-search-list-advanced {
+  margin: 2%;
   grid-row: 2;
   justify-content: left;
-  width:98%;
-  & button{
-    min-width:80px;
+  width: 98%;
+
+  & button {
+    min-width: 80px;
     background-color: dodgerblue;
-    color:white;
-    cursor:pointer;
-    height:25px;
-    border-radius:.25em;
-    margin:.5em
+    color: white;
+    cursor: pointer;
+    height: 25px;
+    border-radius: .25em;
+    margin: .5em
   }
 }
+
 /*
 Estilos del registro
 */
-.error-summary{
+.error-summary {
   background-color: #A32020;
-  color:white;
-  width:800px;
+  color: white;
+  width: 800px;
   max-height: 400px;
-  position:absolute;
-  top:200px;
+  position: absolute;
+  top: 200px;
   display: flex;
   align-items: left;
   margin: auto;
   justify-content: left;
-  left:calc(50% - 400px);
-  & ul li{
-    list-style-type:none;
+  left: calc(50% - 400px);
+
+  & ul li {
+    list-style-type: none;
     text-align: left;
   }
-  & .standard-close-register{
+
+  & .standard-close-register {
     position: absolute;
     right: 5px;
-    top:0px;
+    top: 0px;
     cursor: pointer;
   }
 }
-.register-success{
+
+.register-success {
   background-color: greenyellow;
-  color:black;
-  width:800px;
+  color: black;
+  width: 800px;
   max-height: 400px;
-  position:absolute;
-  top:200px;
+  position: absolute;
+  top: 200px;
   display: flex;
   align-items: center;
   margin: auto;
   justify-content: center;
   padding: .5em;
-  left:calc(50% - 400px);
-  & p{
+  left: calc(50% - 400px);
+
+  & p {
     text-align: center;
-    margin:2em;
+    margin: 2em;
   }
-  & .standard-close-register{
+
+  & .standard-close-register {
     position: absolute;
     right: 5px;
-    top:0px;
+    top: 0px;
     cursor: pointer;
   }
 }
 
-.card-register{
-  width:800px;
+.card-register {
+  width: 800px;
   display: flex;
   align-items: center;
   justify-content: right;
-  height:40vh;
-  border:#253237 1px solid;
+  height: 40vh;
+  border: #253237 1px solid;
   box-shadow: 10px 10px #5D5D5D;
-  margin:auto;
-  top:300px;
+  margin: auto;
+  top: 300px;
   bottom: 0;
-  left:calc(50% - 400px);
+  left: calc(50% - 400px);
   position: absolute;
-  & .grid-address{
+
+  & .grid-address {
     position: relative;
     padding: 1em;
     display: grid;
     width: 100%;
-    grid-template-columns: repeat(2,.5fr);
-    & div.item-grid-address.password-validate{
-      display:grid;
-      margin:.5em 0;
+    grid-template-columns: repeat(2, .5fr);
+
+    & div.item-grid-address.password-validate {
+      display: grid;
+      margin: .5em 0;
       grid-template-columns: .3fr .6fr .1fr;
-      & span{
+
+      & span {
         font-size: small;
       }
-      & input{
+
+      & input {
         width: 220px;
       }
     }
-    & div.item-grid-address{
-      display:grid;
-      margin:.5em 0;
+
+    & div.item-grid-address {
+      display: grid;
+      margin: .5em 0;
       grid-template-columns: .4fr .6fr;
-      & input{
+
+      & input {
         height: 25px;
         width: 235px;
-        border:none;
+        border: none;
         border-bottom: 1px solid darkslategray;
         outline: none;
       }
-      & label{
+
+      & label {
         font-size: small;
-        width:140px;
+        width: 140px;
         text-align: right;
         padding-right: 1em;
       }
     }
-    .send-registro{
-       grid-column: 2;
-       display: flex;
-       justify-content: right;
-       margin:.5em 0;
-       & button{
+
+    .send-registro {
+      grid-column: 2;
+      display: flex;
+      justify-content: right;
+      margin: .5em 0;
+
+      & button {
         background-color: #009639;
-        color:white;
+        color: white;
         border: 1px solid #15171c;
         border-radius: 4px;
         padding: .4em;
         cursor: pointer;
-       }
-       & button:hover{
+      }
+
+      & button:hover {
         background-color: darkgreen
       }
     }
   }
 }
-.footer-registro{
+
+.footer-registro {
   width: 100%;
   position: absolute;
-  bottom:0;
-  top:130vh;
+  bottom: 0;
+  top: 130vh;
+}
+
+/*
+Estilos del listado de videos en página home
+*/
+.list-videos-home {
+  max-height: 430px;
+  overflow-y: scroll;
+  width: 100%;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  display: grid;
+  grid-template-columns: repeat(5, .19fr);
+  color: white;
+  padding: 0em;
+}
+
+.titulo-listado-home {
+  color: white;
+  width: 100%;
+
+  & h2 {
+    padding: 2em 0;
+  }
+}
+
+.list-videos-home::-webkit-scrollbar {
+  display: none;
+}
+
+.item-list-videos-home {
+  height: 300px;
+
+  & img {
+    height: 150px;
+  }
+
+  ;
+  text-align: right;
+}
+
+/*
+estilos del login
+*/
+
+.login-success {
+  background-color: greenyellow;
+  color: black;
+  width: 800px;
+  max-height: 400px;
+  position: absolute;
+  top: 200px;
+  display: flex;
+  align-items: center;
+  margin: auto;
+  justify-content: center;
+  padding: .5em;
+  left: calc(50% - 400px);
+
+  & p {
+    text-align: center;
+    margin: 2em;
+  }
+
+  & .standard-close-login {
+    position: absolute;
+    right: 5px;
+    top: 0px;
+    cursor: pointer;
+  }
+}
+
+.card-login {
+  width: 800px;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  height: 40vh;
+  border: #253237 1px solid;
+  box-shadow: 10px 10px #5D5D5D;
+  margin: auto;
+  top: 300px;
+  bottom: 0;
+  left: calc(50% - 400px);
+  position: absolute;
+
+  & .grid-address {
+    position: relative;
+    padding: 1em;
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(2, .5fr);
+
+    & div.item-grid-address.password-validate {
+      display: grid;
+      margin: .5em 0;
+      grid-template-columns: .3fr .6fr .1fr;
+
+      & span {
+        font-size: small;
+      }
+
+      & input {
+        width: 220px;
+      }
+    }
+
+    & div.item-grid-address {
+      display: grid;
+      margin: .5em 0;
+      grid-template-columns: .4fr .6fr;
+
+      & input {
+        height: 25px;
+        width: 235px;
+        border: none;
+        border-bottom: 1px solid darkslategray;
+        outline: none;
+      }
+
+      & label {
+        font-size: small;
+        width: 140px;
+        text-align: right;
+        padding-right: 1em;
+      }
+    }
+
+    .send-login {
+      grid-column: 2;
+      display: flex;
+      justify-content: right;
+      margin: .5em 0;
+
+      & button {
+        background-color: #009639;
+        color: white;
+        border: 1px solid #15171c;
+        border-radius: 4px;
+        padding: .4em;
+        cursor: pointer;
+      }
+
+      & button:hover {
+        background-color: darkgreen
+      }
+    }
+  }
+}
+
+.footer-login {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  top: 130vh;
+}
+
+/*
+Estilos del modal de advertencia al usuario de publicación anónima
+*/
+.usuario-desautorizado{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 250px;
+  & button{
+    color:white;
+    padding:1em;
+    background-color: #009639;
+    border-radius: 10px;
+    border-color: white;
+    width:100px;
+    margin:auto;
+  }
+  margin: auto;
+}
+.contenido-usuario-desautorizado
+{
+  display: grid;
+  grid-template-rows: repeat(.5fr);
+  text-align: center;
+  padding:3em;
+  & a{
+    color:#3498DB;
+  }
+  & a:visited{
+    color:#3498DB;
+  }
 }

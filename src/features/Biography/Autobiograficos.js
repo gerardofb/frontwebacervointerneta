@@ -321,7 +321,11 @@ const categorias = [
     { description: "Pueblos Originarios", link: '/Categorias/Pueblos-Originarios-e-Indígenas/dummy', image: '/images/Art/BiograficosArt/pueblos-originarios.jpg', listadoVideos: PueblosOriginarios },
     { description: "Generación Transparente", link: '/Categorias/Generación-Transparente/dummy', image: '/images/Art/BiograficosArt/generacion-transparente.jpg', listadoVideos: GeneracionTransparente }
 ]
-
+const configuracion = {
+    headers: {
+        "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
+    },
+}
 export const Autobiograficos = () => {
     const { relato } = useParams();
     const [paginacion, setPaginacion] = useState({ paginaActual: 0, tamanio: 0 })
@@ -338,7 +342,7 @@ export const Autobiograficos = () => {
     const [tagViewed, setTagViewed] = useState(false);
     const [valueSearchTag, setValueSearchTag] = useState('');
     const { styles } = useContext(ThemesContext);
-    
+
     const [queryActual, setQueryActual] = useState(null);
     const handleScroll = (e) => {
         const bottom = Math.round(e.target.scrollHeight - e.target.scrollTop) === e.target.clientHeight;
@@ -350,7 +354,7 @@ export const Autobiograficos = () => {
         }
 
     }
-    
+
     const btnTipoAutobiograficoClick = (parametro) => {
         setSolopodcats(parametro);
         if (parametro === 'PODCASTS') {
@@ -603,32 +607,71 @@ export const Autobiograficos = () => {
     }
     const [relatoEditing, setRelatoEditing] = useState('');
     const [habilitarLoader, setHabilitarLoader] = useState(null);
+    const [publicarAnonimo, setEsPublicarAnonimo] = useState({ intento: false, publicar: false });
     const postRelato = () => {
         let nuevoRelato = {
             "id_autor": "usuario_generico",
             "id_video": activeVideo.id,
             "relato": relatoEditing
         };
-        setHabilitarLoader(true);
-        const requestPutRelato = axios.put(`${getBaseAdressApi()}api/relatevideo/`,
-            nuevoRelato).then(response => {
-                if (response.status == 201) {
-                    const requestSearchommentsAgain = axios.post(`${getBaseAdressApi()}api/searchrelato/`,
-                        queryActual
-                    ).then(response => {
-                        let biografias = response.data.map((elemento, indice) => {
-                            return { content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: false, guid: '', tags: arreglotags.slice(0, 30) };
+        if (relatoEditing.trim() != "") {
+            setHabilitarLoader(true);
+            const requestPutRelato = axios.put(`${getBaseAdressApi()}api/relatevideoauth/`,
+                nuevoRelato, configuracion).then(response => {
+                    if (response.status == 201) {
+                        const requestSearchommentsAgain = axios.post(`${getBaseAdressApi()}api/searchrelato/`,
+                            queryActual
+                        ).then(response => {
+                            let biografias = response.data.map((elemento, indice) => {
+                                return { content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: false, guid: '', tags: arreglotags.slice(0, 30) };
+                            });
+                            biografias = biografias.map((relato, index) => {
+                                relato.image = categorias[Math.floor(Math.random() * categorias.length)].image;
+                                return relato;
+                            })
+                            setBiographies(biografias);
+                            setModeEdit({ podcast: editing.podcast, editando: false });
+                            setHabilitarLoader(false)
                         });
-                        biografias = biografias.map((relato, index) => {
-                            relato.image = categorias[Math.floor(Math.random() * categorias.length)].image;
-                            return relato;
-                        })
-                        setBiographies(biografias);
-                        setModeEdit({ podcast: editing.podcast, editando: false });
-                        setHabilitarLoader(false)
-                    });
-                }
-            });
+                    }
+                }).catch(err => {
+                    if (!publicarAnonimo.publicar) {
+                        setHabilitarLoader(false);
+                        setEsPublicarAnonimo({
+                            ...publicarAnonimo,
+                            intento: true,
+                            publicar: false
+                        });
+                    }
+                    else {
+                        setHabilitarLoader(true);
+                        const requestPutRelatoAnonimo = axios.put(`${getBaseAdressApi()}api/relatevideo/`,
+                            nuevoRelato).then(response => {
+                                if (response.status == 201) {
+                                    const requestSearchommentsAgain = axios.post(`${getBaseAdressApi()}api/searchrelato/`,
+                                        queryActual
+                                    ).then(response => {
+                                        let biografias = response.data.map((elemento, indice) => {
+                                            return { content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: false, guid: '', tags: arreglotags.slice(0, 30) };
+                                        });
+                                        biografias = biografias.map((relato, index) => {
+                                            relato.image = categorias[Math.floor(Math.random() * categorias.length)].image;
+                                            return relato;
+                                        })
+                                        setEsPublicarAnonimo({
+                                            ...publicarAnonimo,
+                                            intento: false,
+                                            publicar: false
+                                        })
+                                        setBiographies(biografias);
+                                        setModeEdit({ podcast: editing.podcast, editando: false });
+                                        setHabilitarLoader(false)
+                                    });
+                                }
+                            })
+                    }
+                });
+        }
     }
     return (
         <div>
@@ -761,6 +804,16 @@ export const Autobiograficos = () => {
                                         </div></>
                                     : <>
                                         <h4 style={{ margin: '.5em 1em' }}>Escriba una descripción de su relato, relacionado al vídeo elegido en la siguiente columna {activeVideo && 'Relato acerca del clip ' + activeVideo.titulo}</h4>
+                                        {
+                                            publicarAnonimo.intento &&
+                                            <div className='usuario-desautorizado'>
+                                                <div className="contenido-usuario-desautorizado">
+                                                    <p>Atención, debido a que no ha iniciado sesión en el sitio, el comentario se publicará como anónimo.</p>
+                                                    <p>De click en el botón "Aceptar" para continuar y vuelva a intentarlo por favor.</p><p>O bien, <Link to="/Login">inicie sesión</Link> en el sitio.</p>
+                                                    <button type="button" onClick={(e) => { setEsPublicarAnonimo({ ...publicarAnonimo, intento: false, publicar: true }); }}>Aceptar</button>
+                                                </div>
+                                            </div>
+                                        }
                                         <div className='capture-relato'>
                                             <textarea rows="34" cols="60" maxLength={8000} onChange={(e) => setRelatoEditing(e.target.value)}>{relatoEditing}</textarea>
                                             {activeVideo && <button onClick={postRelato}>Enviar</button>}
@@ -850,7 +903,7 @@ export const Autobiograficos = () => {
                             </>
                     }
                 </div>
-               
+
             </div>
             <HomeFooter></HomeFooter>
         </div>

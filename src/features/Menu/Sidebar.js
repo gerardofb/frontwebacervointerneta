@@ -1,11 +1,12 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import SubMenu from './Submenu';
 import {getMenuData} from './menuAPI'
-
+import axios from 'axios';
+import { getBaseAdressApi } from '../MainAPI';
 
 const Nav = styled.div`
   background: #15171c;
@@ -46,15 +47,34 @@ const SidebarWrap = styled.div`
 `;
 
 
-
+const config = {
+    headers: {
+    "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
+    },
+    }
 const SideBar = ()=>{
     const [sidebar, setSidebar] = useState(false);
     const showSidebar = ()=> setSidebar(!sidebar);
     const sideBarData = getMenuData();
+    const [cuentaUsuario,setCuentaUsuario] = useState('');
+    useEffect(() => {
+        const post_validate = axios.get(`${getBaseAdressApi()}api/userprofile/`,config)
+        .then(response=>{
+            console.log('respuesta del userprofile ',response);
+            setCuentaUsuario(response.data["email"])
+        }).catch(err=>{
+            setCuentaUsuario('')
+        })
+    },[cuentaUsuario, sidebar]);
     return (
         <div style={{background: '#15171c'}}>  
         <FontAwesomeIcon title='menú principal' icon={faBars} style={{ color: 'white', float: 'left', cursor: 'pointer', padding: '0 .25em' }} onClick={(e) => { e.preventDefault(); setSidebar(!sidebar) }} />              
         <SidebarNav onMouseLeave={(e)=>setSidebar(false)} sidebar={sidebar} id="sidebar">
+        <div className='cuenta-usuario-show'>
+                        {
+                            cuentaUsuario != ""  && <span>Bienvenido, {cuentaUsuario}</span>
+                        }
+                    </div>
                 <div className="">
                     <div className="">
                         <div className="">

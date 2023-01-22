@@ -20,6 +20,7 @@ import {BusquedaEstandar} from './features/BusquedaEstandar';
 import { ThemeProvider } from './ThemeProvider';
 import Eventos from './features/Events/Eventos';
 import Register from './features/Account/Register';
+import Login from './features/Account/Login';
 import { useEffect } from 'react';
 import {library} from '@fortawesome/fontawesome-svg-core';
 import { faBook, faHouse, faTape, faForward, faCommentDots, faVolumeHigh, faCalendarDays, faUserCheck, faUser,
@@ -150,7 +151,7 @@ const populate_videos_set = () => {
             <VideoSetPage videos={videosPopulated}></VideoSetPage>
             </ThemeProvider>
           </Route>
-          <Route path="/Reproduccion/:video" exact>
+          <Route path="/Reproduccion/:video/" exact>
             <ThemeProvider>
               <AutoComments></AutoComments>
             </ThemeProvider>
@@ -198,6 +199,11 @@ const populate_videos_set = () => {
           <Route path="/Registro" exact>
             <ThemeProvider>
               <Register></Register>
+            </ThemeProvider>
+          </Route>
+          <Route path="/Login" exact>
+            <ThemeProvider>
+              <Login></Login>
             </ThemeProvider>
           </Route>
         </Switch>

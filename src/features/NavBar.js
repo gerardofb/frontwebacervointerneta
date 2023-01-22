@@ -8,6 +8,8 @@ import SideBar from './Menu/Sidebar';
 import styled from 'styled-components';
 import SubMenu from './Menu/Submenu';
 import { getMenuData } from './Menu/menuAPI'
+import { useEffect } from 'react';
+
 const url = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/${name}.png${wrap ? ')' : ''}`
 
 const paletas = [
@@ -22,6 +24,7 @@ const NavBar = (props) => {
     const [showTemas, setShowTemas] = useState(false);
     const [paletaActiva, setPaletaActiva] = useState(paletas[0]);
     const [darkMode, setDarkMode] = useState(false);
+   
     const switchDarkMode = (bandera) => {
         setDarkMode(bandera);
         let lapaleta = paletas.filter(x => x.dark == bandera)[0]
@@ -83,7 +86,9 @@ const NavBar = (props) => {
                     </div>
                 </div>
                 <div className={styles.ControlTematicoBtn}><button onClick={(e => setShowTemas(true))}
-                    title='control temático del sitio'><FontAwesomeIcon icon={faGamepad} /></button></div><SearchBar></SearchBar></div>
+                    title='control temático del sitio'><FontAwesomeIcon icon={faGamepad} /></button></div><SearchBar></SearchBar>
+                    </div>
+                    
 
         </>
     )
