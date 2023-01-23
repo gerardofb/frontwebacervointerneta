@@ -790,6 +790,16 @@ export const Autobiograficos = () => {
                                 {solopodcasts === "PODCASTS" ?
                                     <>
                                         <h4 style={{ margin: '.5em 1em' }}>Escriba una descripción e inicie la grabación del podcast, relacionado al vídeo elegido en la siguiente columna</h4>
+                                        
+                                        {publicarAnonimo.intento &&
+                                            <div className='usuario-desautorizado'>
+                                                <div className="contenido-usuario-desautorizado">
+                                                    <p>Atención, debido a que no ha iniciado sesión en el sitio, el relato se publicará como anónimo.</p>
+                                                    <p>De click en el botón "Aceptar" para continuar y vuelva a intentarlo por favor.</p><p>O bien, <Link to="/Login">inicie sesión</Link> en el sitio.</p>
+                                                    <button type="button" onClick={(e) => { setEsPublicarAnonimo({ ...publicarAnonimo, intento: false, publicar: true }); }}>Aceptar</button>
+                                                </div>
+                                            </div>
+                                        }
                                         <div className='capture-relato'>
                                             <textarea rows="12" cols="60"></textarea>
                                             <button>Enviar</button>
