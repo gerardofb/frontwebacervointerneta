@@ -4471,15 +4471,25 @@ Estilos del modal de advertencia al usuario de publicación anónima
     position: absolute;
     top:50%;
     height: 100px;
-    width:60%;
+    width:65%;
     font-size: xx-large;
     left:1em;
+    & a{
+      font-size: large;
+      color:cyan
+    }
+    & a:visited{
+      color:blueviolet
+    }
    }
     & img{
       position:absolute;
       top:50%;
       left:50%;
       display: none;
+    }
+    & strong{
+      color:greenyellow
     }
 }
 .contenedor-pagina-vacia{

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import NavBar from './NavBar'
 import { HomeFooter } from './HomeFooter';
+import { useHistory } from 'react-router-dom';
 const devuelve_aleatorio=()=>{
     return Math.random()*500
 }
 const Pagina_404 = () => {
+    const historia = useHistory();
     const [estadoAnimado, setEstadoAnimado] = useState(true);
     const [imagenaleatoria,setImagenAleatoria] = useState("/images/clock-countdown.gif?v=");
     useEffect(() => {
@@ -22,7 +24,7 @@ const Pagina_404 = () => {
         <div className={claseCss}>
             <img src={imagenaleatoria} />
             <p>
-                Parece que aquí no hay nada... Favor de no quedarse mirando.
+                <strong>Http 404.</strong> Parece que aquí no hay nada... Favor de no quedarse mirando. <a href="#" onClick={(e)=>historia.goBack()}>Regresar</a>
             </p>
         </div>
         <HomeFooter></HomeFooter>
