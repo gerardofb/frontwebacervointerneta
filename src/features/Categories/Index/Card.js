@@ -15,15 +15,18 @@ const IndexGrid = styled(BaseGridList)`
   grid-auto-rows: 5rem;
   ${CardGrid + '[display="grid"]'} & {
     grid-template-columns: 2 repeat(2, 5rem);
-    grid-gap: 2rem;
+    grid-gap: 0rem;
     margin-bottom: 1.5rem;
-    img{
-      height:10rem;
+    video{
+      
     }
   }
   ${CardGrid + '[display="list"]'} & {
     grid-template-columns: repeat(2, 10rem);
     grid-gap: 3rem;
+    & video{
+      display:none;
+    }
   }
 `
 
@@ -39,9 +42,6 @@ const Card = styled.li`
   overflow: hidden;
   position: relative;
   will-change: transform;
-  img {
-    will-change: transform;
-  }
 `
 const Description = styled.div`
   min-width: 280px;
@@ -201,7 +201,9 @@ class IconSetCard extends PureComponent {
                       return (
                         <IndexListItem key={id}>
                           <Flipped flipId={id} shouldFlip={this.shouldFlip}>
-                            <img src={name} />
+                          <video style={{marginRight:'1em'}} width={340} height={254} autoPlay loop type="video/mp4" muted>
+                                <source src={name}></source>
+                            </video>
                           </Flipped>
                         </IndexListItem>
                       )

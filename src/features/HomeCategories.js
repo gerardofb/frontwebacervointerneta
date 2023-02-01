@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useSpring, animated } from 'react-spring'
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { BigPlayButton, Player, ControlBar, PlayToggle } from 'video-react'
 import CanvasTitleCategorie from './CanvasTitleCategorie';
 const url = (name, wrap = false) => `${wrap ? 'url(' : ''}images/Stills/${name}.png${wrap ? ')' : ''}`;
 const imagenes = ['Categoria_uno', 'Categoria_dos', 'Categoria_tres', 'Categoria_cuatro', 'Categoria_cinco', 'Categoria_seis', 'Categoria_siete'];
@@ -24,6 +25,7 @@ const HomeCategories = (props) => {
     const [distance, setDistance] = useState(0);
     const [distancetext, setDistanceText] = useState(0);
     const [categorias,setCategorias]=useState(props.categoriasService)
+    
     console.log('longitud de categorias ', props.categoriasService.length);
     const styles = useSpring({
         from: { x: 0 },
@@ -65,6 +67,18 @@ const HomeCategories = (props) => {
         delay: 200,
         onRest: () => setflipsvg(!flipsvg),
     });
+    // const [player1, setPlayer1] = useState(null);
+    // const [player2, setPlayer2] = useState(null);
+    // const [player3, setPlayer3] = useState(null);
+    // const [player4, setPlayer4] = useState(null);
+    // const [player5, setPlayer5] = useState(null);
+    // const [player6, setPlayer6] = useState(null);
+    // const [player7, setPlayer7] = useState(null);
+    // useEffect(()=>{
+    //     player1 && player1.play();
+    //     player2 && player2.play();
+    //     player3 && player3.play();
+    // },[player1,player2,player3])
     return (<div>
         <div style={{ marginTop: '-15px',backgroundColor:'white', width:'100%'}}>
         <Link to='Categorias' style={{ textDecoration: 'none', color: 'black' }}><CanvasTitleCategorie></CanvasTitleCategorie>
@@ -83,7 +97,9 @@ const HomeCategories = (props) => {
                     return (
                         <div className='category-images-green' key={index} style={{ float: 'left', margin: '25px', padding: '10px', display: 'block' }}>
                             <div className='inner-hover-categoria'><span>{el.titulo.replace(/[-]/g,' ')}</span></div>
-                            <img src={el.contenedor_img} style={{ width: '450px', height: '337px' }}></img>
+                            <video width={450} height={337} autoPlay loop type="video/mp4" muted>
+                                <source src={el.contenedor_img}></source>
+                            </video>
                         </div>
                     )
                 })}

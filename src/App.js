@@ -21,6 +21,7 @@ import { ThemeProvider } from './ThemeProvider';
 import Eventos from './features/Events/Eventos';
 import Register from './features/Account/Register';
 import Login from './features/Account/Login';
+import Pagina_404 from './features/Pagina_404';
 import { useEffect } from 'react';
 import {library} from '@fortawesome/fontawesome-svg-core';
 import { faBook, faHouse, faTape, faForward, faCommentDots, faVolumeHigh, faCalendarDays, faUserCheck, faUser,
@@ -204,6 +205,11 @@ const populate_videos_set = () => {
           <Route path="/Login" exact>
             <ThemeProvider>
               <Login></Login>
+            </ThemeProvider>
+          </Route>
+          <Route path="*">
+          <ThemeProvider>
+            <Pagina_404></Pagina_404>
             </ThemeProvider>
           </Route>
         </Switch>

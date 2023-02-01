@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useContext } from 'react'
-import { ControlBar, LoadingSpinner, Player } from 'video-react'
+import { ControlBar, LoadingSpinner, BigPlayButton, Player } from 'video-react'
 import axios from "axios"
 import { useParams } from 'react-router-dom'
 import {
@@ -866,6 +866,7 @@ export const AutoComments = () => {
 
                             <source src={sourcevideo}></source>
                             <ControlBar disableCompletely={false}></ControlBar>
+                            <BigPlayButton position='center' />
                             <LoadingSpinner></LoadingSpinner>
                         </Player>
                     }

@@ -4,11 +4,7 @@ const url = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/${name}.png${w
 const HomeFooter = (props)=>{
     return (
         <div className='footer-site footer-site-black' style={{WebkitBorderTopRightRadius:'20px', width:'100%', margin:'auto', borderTopLeftRadius:'20px', opacity:'100%'}}>
-            <div style={{textAlign:'left',float:'none', color:'white', marginLeft:'5%', fontSize:'large'}}>
-                <h2>
-                    Acervo Audiovisual Interneta
-                </h2>
-            </div>
+            <div className='container-list-red'>
             <ul className='footer-list-red'>
                 <li>
                 <h3 style={{borderBottom:'2px red solid'}}>
@@ -59,9 +55,18 @@ const HomeFooter = (props)=>{
                 </h3>
                 </li>
             </ul>
-            <div className='logo-interneta-footer'>
-                <img src={url('head_logo_color')} />
-            </div>            
+            </div>
+            <div className='logos-patrocinadores-footer'>
+                <div className='logo-imcine'>
+
+                </div>
+                <div className='logo-focine'>
+                    
+                </div>
+                <div className='logo-sec-cultura'>
+                    
+                </div>
+            </div>    
         </div>
     )
 }
