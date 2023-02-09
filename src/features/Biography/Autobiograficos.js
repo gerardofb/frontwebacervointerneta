@@ -10,7 +10,8 @@ import {
     faBook,
     faSearch,
     faStop,
-    faL
+    faL,
+    faMultiply
 } from "@fortawesome/free-solid-svg-icons"
 import { Link, useLocation } from "react-router-dom";
 import NavBar from '../NavBar';
@@ -23,6 +24,7 @@ import Accordion from './Accordion';
 import Card from './Card';
 import axios from 'axios';
 import { getBaseAdressApi } from '../MainAPI';
+import { v4 as uuidv4 } from 'uuid'
 
 const url_loader = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/${name}${wrap ? ')' : ''}`
 
@@ -326,6 +328,13 @@ const configuracion = {
         "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
     },
 }
+const configuracionMultipart = {
+    headers: {
+        "Accept": "application/json",
+        "Content-Type": "multipart/form-data",
+        "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
+    },
+}
 export const Autobiograficos = () => {
     const { relato } = useParams();
     const [paginacion, setPaginacion] = useState({ paginaActual: 0, tamanio: 0 })
@@ -336,7 +345,7 @@ export const Autobiograficos = () => {
     const [editing, setEditing] = useState({ podcast: esPodcast, editando: false });
     const [collapsed, setCollapsed] = useState(false);
     const [tags, setTags] = useState(arreglotags);
-    const [biographies, setBiographies] = useState(autobiograficos);
+    const [biographies, setBiographies] = useState(null);
     const [solopodcasts, setSolopodcats] = useState('');
     const referenciaScroll = useRef();
     const [tagViewed, setTagViewed] = useState(false);
@@ -358,21 +367,93 @@ export const Autobiograficos = () => {
     const btnTipoAutobiograficoClick = (parametro) => {
         setSolopodcats(parametro);
         if (parametro === 'PODCASTS') {
-            let nuevospodcasts = autobiograficos.filter(x => x.podcast === true);
-            console.log('estableciendo filtro relatos ', nuevospodcasts);
-            setBiographies(nuevospodcasts);
-            setEditing({
-                ...editing,
-                podcast: true,
+            const requestCategoriesVideos = axios.get(`${getBaseAdressApi()}api/categorias/`).then(response => {
+
+                let respuestacategories = response.data.results.map((el, ind) => {
+                    let title = el.titulo.replace(/\s/g, '-');
+                    let videos = el.videos_por_categoria !== undefined ? el.videos_por_categoria.map((vid, idx) => {
+                        return { titulo: vid.titulo, id: vid.id, video: vid.contenedor_aws, imagen: vid.contenedor_img }
+                    }) : []
+                    return { description: el.titulo, link: '/Categorias/' + title + "/dummy", image: el.contenedor_img, listadoVideos: videos }
+                });
+                let videosimagenes = [];
+                respuestacategories.map((cat, ind) => {
+                    videosimagenes = videosimagenes.concat(cat.listadoVideos)
+                });
+                console.log('estableciendo categorías ', respuestacategories)
+                setCategories(respuestacategories);
+                const requestSearchomments = axios.post(`${getBaseAdressApi()}api/searchrelato/`,
+                    queryActual
+                ).then(response => {
+                    console.log('respuesta desde server ', response);
+                    let biografias = response.data.map((elemento, indice) => {
+                        return { id_video: elemento.id_video, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice((indice + 1) * 10, (indice + 2) * 10) };
+                    });
+
+                    biografias = biografias.map((relato, index) => {
+
+                        console.log('encontrando la imagen ', videosimagenes, relato);
+                        let imagen = videosimagenes.find(x => x.id == relato.id_video);
+                        relato.image = imagen ? imagen.imagen : '';
+                        //categorias[Math.floor(Math.random() * categorias.length)].image;
+                        return relato;
+                    })
+                    setBiographies(biografias.filter(x => x.podcast == true));
+                    // let nuevospodcasts = biographies.filter(x => x.podcast == true);
+                    // console.log('estableciendo filtro relatos ', nuevospodcasts);
+                    // setBiographies(nuevospodcasts);
+                    setEditing({
+                        ...editing,
+                        podcast: true,
+                    });
+                }).catch(e => {
+                    console.log('error en server', e.response.status);
+                });
             });
         }
         else if (parametro === 'RELATOS') {
-            let nuevosrelatos = autobiograficos.filter(x => !x.podcast);
-            console.log('estableciendo filtro relatos ', nuevosrelatos);
-            setBiographies(nuevosrelatos);
-            setEditing({
-                ...editing,
-                podcast: false,
+            const requestCategoriesVideos = axios.get(`${getBaseAdressApi()}api/categorias/`).then(response => {
+
+                let respuestacategories = response.data.results.map((el, ind) => {
+                    let title = el.titulo.replace(/\s/g, '-');
+                    let videos = el.videos_por_categoria !== undefined ? el.videos_por_categoria.map((vid, idx) => {
+                        return { titulo: vid.titulo, id: vid.id, video: vid.contenedor_aws, imagen: vid.contenedor_img }
+                    }) : []
+                    return { description: el.titulo, link: '/Categorias/' + title + "/dummy", image: el.contenedor_img, listadoVideos: videos }
+                });
+                let videosimagenes = [];
+                respuestacategories.map((cat, ind) => {
+                    videosimagenes = videosimagenes.concat(cat.listadoVideos)
+                });
+                console.log('estableciendo categorías ', respuestacategories)
+                setCategories(respuestacategories);
+                const requestSearchomments = axios.post(`${getBaseAdressApi()}api/searchrelato/`,
+                    queryActual
+                ).then(response => {
+                    console.log('respuesta desde server ', response);
+                    let biografias = response.data.map((elemento, indice) => {
+                        return { id_video: elemento.id_video, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice((indice + 1) * 10, (indice + 2) * 10) };
+                    });
+
+                    biografias = biografias.map((relato, index) => {
+
+                        console.log('encontrando la imagen ', videosimagenes, relato);
+                        let imagen = videosimagenes.find(x => x.id == relato.id_video);
+                        relato.image = imagen ? imagen.imagen : '';
+                        //categorias[Math.floor(Math.random() * categorias.length)].image;
+                        return relato;
+                    })
+                    setBiographies(biografias.filter(x => x.podcast == false));
+                    // let nuevosrelatos = biographies;
+                    // console.log('estableciendo filtro relatos ', nuevosrelatos);
+                    //setBiographies(nuevosrelatos);
+                    setEditing({
+                        ...editing,
+                        podcast: false,
+                    });
+                }).catch(e => {
+                    console.log('error en server', e.response.status);
+                });
             });
         }
         console.log('estado editando ', editing);
@@ -430,7 +511,7 @@ export const Autobiograficos = () => {
                     ).then(response => {
                         console.log('respuesta desde server ', response);
                         let biografias = response.data.map((elemento, indice) => {
-                            return { id_video: elemento.id_video, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: false, guid: '', tags: arreglotags.slice((indice + 1) * 10, (indice + 2) * 10) };
+                            return { id_video: elemento.id_video, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice((indice + 1) * 10, (indice + 2) * 10) };
                         });
 
                         biografias = biografias.map((relato, index) => {
@@ -496,7 +577,7 @@ export const Autobiograficos = () => {
                     ).then(response => {
                         console.log('respuesta desde server ', response);
                         let biografias = response.data.map((elemento, indice) => {
-                            return { id_video: elemento.id_video, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: false, guid: '', tags: arreglotags.slice((indice + 1) * 10, (indice + 2) * 10) };
+                            return { id_video: elemento.id_video, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice((indice + 1) * 10, (indice + 2) * 10) };
                         });
 
                         biografias = biografias.map((relato, index) => {
@@ -508,8 +589,10 @@ export const Autobiograficos = () => {
                             return relato;
                         })
                         setBiographies(biografias);
+                    }).catch(err => {
+                        console.log('error en respuesta desde server ', err);
                     });
-                });
+                })
                 let nuevostags = arreglotags.map((tag, indice) => {
                     if (tag.popular) {
                         tag.color = random_color();
@@ -558,7 +641,7 @@ export const Autobiograficos = () => {
             objetoSearchPagina
         ).then(response => {
             let biografias = response.data.map((elemento, indice) => {
-                return { content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: false, guid: '', tags: arreglotags.slice(0, 30) };
+                return { content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice(0, 30) };
             });
             biografias = biografias.map((relato, index) => {
                 relato.image = categorias[Math.floor(Math.random() * categorias.length)].image;
@@ -568,7 +651,7 @@ export const Autobiograficos = () => {
         });
     }
     const [recordState, setRecordState] = useState("NONE");
-    const [blobURL, setblobURL] = useState("");
+    const [blobURL, setblobURL] = useState({ url: "", blob: null });
 
     const start = () => {
         console.log(recordState);
@@ -582,9 +665,9 @@ export const Autobiograficos = () => {
         try {
             console.log("stop")
             // GFB COMENTAR PARA DESPLIEGUES EN PRUEBAS (SIN DOMINIO)
-            /*setRecordState(
-                 RecordState.STOP
-             )*/
+            setRecordState(
+                RecordState.STOP
+            )
         }
         catch (ex) {
             console.log(ex);
@@ -593,8 +676,8 @@ export const Autobiograficos = () => {
 
     //audioData contains blob and blobUrl
     const onStop = (audioData) => {
-        console.log('audioData', audioData);
-        setblobURL(audioData.url);
+        console.log('audioData', audioData, audioData.blob.size + " bytes");
+        setblobURL({ url: audioData.url, blob: audioData.blob });
     }
     const [activeEventKey, setActiveEventKey] = useState(0);
     const [activeVideo, setActiveVideo] = useState(null);
@@ -609,68 +692,138 @@ export const Autobiograficos = () => {
     const [habilitarLoader, setHabilitarLoader] = useState(null);
     const [publicarAnonimo, setEsPublicarAnonimo] = useState({ intento: false, publicar: false });
     const postRelato = () => {
-        let nuevoRelato = {
-            "id_autor": "usuario_generico",
-            "id_video": activeVideo.id,
-            "relato": relatoEditing
-        };
+
         if (relatoEditing.trim() != "") {
+            let nuevoRelato = {
+                "id_autor": "usuario_generico",
+                "id_video": activeVideo.id,
+                "relato": relatoEditing,
+                "espodcast": false
+            };
+            const datos = new FormData();
+            datos.append("id_autor", 0);
+            datos.append("id_video", nuevoRelato.id_video);
+            datos.append("relato", nuevoRelato.relato);
+            datos.append("espodcast", false);
+            setHabilitarLoader(true);
+            const requestPutRelato = axios.put(`${getBaseAdressApi()}api/relatetextvideoauth/`,
+                datos, {
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "multipart/form-data",
+                    "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
+                },
+            }).then(response => {
+                if (response.status == 201) {
+                    const requestSearchommentsAgain = axios.post(`${getBaseAdressApi()}api/searchrelato/`,
+                        queryActual
+                    ).then(response => {
+                        let biografias = response.data.map((elemento, indice) => {
+                            return { content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice(0, 30) };
+                        });
+                        biografias = biografias.map((relato, index) => {
+                            relato.image = categorias[Math.floor(Math.random() * categorias.length)].image;
+                            return relato;
+                        })
+                        setBiographies(biografias);
+                        setModeEdit({ podcast: editing.podcast, editando: false });
+                        setHabilitarLoader(false)
+                    });
+                }
+            }).catch(err => {
+                if (!publicarAnonimo.publicar) {
+                    setHabilitarLoader(false);
+                    setEsPublicarAnonimo({
+                        ...publicarAnonimo,
+                        intento: true,
+                        publicar: false
+                    });
+                    console.log('error previsto en publicación ',err);
+                }
+                else {
+                    setHabilitarLoader(true);
+                    const requestPutRelatoAnonimo = axios.put(`${getBaseAdressApi()}api/relatevideo/`,
+                        nuevoRelato).then(response => {
+                            if (response.status == 201) {
+                                const requestSearchommentsAgain = axios.post(`${getBaseAdressApi()}api/searchrelato/`,
+                                    queryActual
+                                ).then(response => {
+                                    let biografias = response.data.map((elemento, indice) => {
+                                        return { content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice(0, 30) };
+                                    });
+                                    biografias = biografias.map((relato, index) => {
+                                        relato.image = categorias[Math.floor(Math.random() * categorias.length)].image;
+                                        return relato;
+                                    })
+                                    setEsPublicarAnonimo({
+                                        ...publicarAnonimo,
+                                        intento: false,
+                                        publicar: false
+                                    })
+                                    setBiographies(biografias);
+                                    setModeEdit({ podcast: editing.podcast, editando: false });
+                                    setHabilitarLoader(false)
+                                });
+                            }
+                        }).catch(err => {
+                            console.log('envío de relato textual falló por segunda vez ', err);
+                        });
+                }
+            })
+        }
+    }
+
+    const postRelatoPodcast = () => {
+
+        if (relatoEditing.trim() != "") {
+            let nuevoRelato = {
+                "id_autor": "usuario_generico",
+                "id_video": activeVideo.id,
+                "relato": relatoEditing,
+                "espodcast": true
+            };
+            const datos = new FormData();
+            datos.append("id_autor", nuevoRelato.id_autor);
+            datos.append("id_video", nuevoRelato.id_video);
+            datos.append("relato", nuevoRelato.relato);
+            datos.append("espodcast", nuevoRelato.espodcast);
+            datos.append("filefield", blobURL.blob)
+            console.log('enviando los siguientes datos del podcast ', datos.get('relato'), datos)
             setHabilitarLoader(true);
             const requestPutRelato = axios.put(`${getBaseAdressApi()}api/relatevideoauth/`,
-                nuevoRelato, configuracion).then(response => {
-                    if (response.status == 201) {
-                        const requestSearchommentsAgain = axios.post(`${getBaseAdressApi()}api/searchrelato/`,
-                            queryActual
-                        ).then(response => {
-                            let biografias = response.data.map((elemento, indice) => {
-                                return { content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: false, guid: '', tags: arreglotags.slice(0, 30) };
-                            });
-                            biografias = biografias.map((relato, index) => {
-                                relato.image = categorias[Math.floor(Math.random() * categorias.length)].image;
-                                return relato;
-                            })
-                            setBiographies(biografias);
-                            setModeEdit({ podcast: editing.podcast, editando: false });
-                            setHabilitarLoader(false)
+                datos, {
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "multipart/form-data",
+                    "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
+                },
+            }).then(response => {
+                if (response.status == 201) {
+                    const requestSearchommentsAgain = axios.post(`${getBaseAdressApi()}api/searchrelato/`,
+                        queryActual
+                    ).then(response => {
+                        let biografias = response.data.map((elemento, indice) => {
+                            return { content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice(0, 30) };
                         });
-                    }
-                }).catch(err => {
-                    if (!publicarAnonimo.publicar) {
-                        setHabilitarLoader(false);
-                        setEsPublicarAnonimo({
-                            ...publicarAnonimo,
-                            intento: true,
-                            publicar: false
-                        });
-                    }
-                    else {
-                        setHabilitarLoader(true);
-                        const requestPutRelatoAnonimo = axios.put(`${getBaseAdressApi()}api/relatevideo/`,
-                            nuevoRelato).then(response => {
-                                if (response.status == 201) {
-                                    const requestSearchommentsAgain = axios.post(`${getBaseAdressApi()}api/searchrelato/`,
-                                        queryActual
-                                    ).then(response => {
-                                        let biografias = response.data.map((elemento, indice) => {
-                                            return { content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: false, guid: '', tags: arreglotags.slice(0, 30) };
-                                        });
-                                        biografias = biografias.map((relato, index) => {
-                                            relato.image = categorias[Math.floor(Math.random() * categorias.length)].image;
-                                            return relato;
-                                        })
-                                        setEsPublicarAnonimo({
-                                            ...publicarAnonimo,
-                                            intento: false,
-                                            publicar: false
-                                        })
-                                        setBiographies(biografias);
-                                        setModeEdit({ podcast: editing.podcast, editando: false });
-                                        setHabilitarLoader(false)
-                                    });
-                                }
-                            })
-                    }
+                        biografias = biografias.map((relato, index) => {
+                            relato.image = categorias[Math.floor(Math.random() * categorias.length)].image;
+                            return relato;
+                        })
+                        setBiographies(biografias);
+                        setModeEdit({ podcast: editing.podcast, editando: false });
+                        setHabilitarLoader(false)
+                    });
+                }
+            }).catch(err => {
+                console.log('error enviando el podcast ', err)
+                setHabilitarLoader(false);
+                setEsPublicarAnonimo({
+                    ...publicarAnonimo,
+                    intento: true,
+                    publicar: false
                 });
+            });
+
         }
     }
     return (
@@ -731,7 +884,7 @@ export const Autobiograficos = () => {
                                             <Link className='white' to={cat.link}>{cat.description}</Link>
                                             <Link className='white cat-miniature' to={cat.link}>
                                                 {/* <img src={cat.image} align='right' /> */}
-                                                </Link>
+                                            </Link>
                                         </div>
                                     })
                                 }
@@ -791,25 +944,24 @@ export const Autobiograficos = () => {
 
                                 {solopodcasts === "PODCASTS" ?
                                     <>
-                                        <h4 style={{ margin: '.5em 1em' }}>Escriba una descripción e inicie la grabación del podcast, relacionado al vídeo elegido en la siguiente columna</h4>
-                                        
+                                        <h4 style={{ margin: '.5em 1em' }}>Escriba una descripción e inicie la grabación del podcast, relacionado al vídeo elegido en la siguiente columna {activeVideo && 'Relato acerca del clip ' + activeVideo.titulo}</h4>
+
                                         {publicarAnonimo.intento &&
                                             <div className='usuario-desautorizado'>
                                                 <div className="contenido-usuario-desautorizado">
-                                                    <p>Atención, debido a que no ha iniciado sesión en el sitio, el relato se publicará como anónimo.</p>
-                                                    <p>De click en el botón "Aceptar" para continuar y vuelva a intentarlo por favor.</p><p>O bien, <Link to="/Login">inicie sesión</Link> en el sitio.</p>
-                                                    <button type="button" onClick={(e) => { setEsPublicarAnonimo({ ...publicarAnonimo, intento: false, publicar: true }); }}>Aceptar</button>
+                                                    <p>Atención, no es posible publicar podcasts anónimos en el sitio, es necesario estar registrado en el sitio e iniciar sesión.</p>
+                                                    <p><Link to="/Login">inicie sesión</Link> en el sitio.</p>
                                                 </div>
                                             </div>
                                         }
                                         <div className='capture-relato'>
-                                            <textarea rows="12" cols="60"></textarea>
-                                            <button>Enviar</button>
+                                            <textarea rows="12" cols="60" onChange={(e) => setRelatoEditing(e.target.value)}>{relatoEditing}</textarea>
+                                            {activeVideo && relatoEditing.trim() != "" && blobURL.url != "" && <button onClick={postRelatoPodcast}>Enviar</button>}
                                         </div>
                                         <div className='podcast-record'>
-                                            <AudioReactRecorder state={recordState} onStop={onStop} />
+                                            <AudioReactRecorder state={recordState} onStop={onStop} canvasWidth={410} canvasHeight={150} />
                                             <div className='podcast-controls-record'>
-                                                <ReactAudioPlayer src={blobURL} controls />
+                                                <ReactAudioPlayer src={blobURL.url} controls />
                                                 <button title="Iniciar grabación" className='start-podcast-record' onClick={start}><FontAwesomeIcon icon={faMicrophone} /></button>
                                                 <button title="Detener grabación" className='end-podcast-record' onClick={stop}><FontAwesomeIcon icon={faStop} /></button>
                                             </div>
@@ -863,7 +1015,7 @@ export const Autobiograficos = () => {
                                 </div>
                                 {
                                     relato.podcast ?
-                                        <ReactAudioPlayer src='/sound/sample-audio.mp3'
+                                        <ReactAudioPlayer src={relato.contenedor_aws}
                                             controls></ReactAudioPlayer> : null
                                 }
                                 <div className='autobiografico-entry-content'>

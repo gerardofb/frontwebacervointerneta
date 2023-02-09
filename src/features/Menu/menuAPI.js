@@ -34,8 +34,15 @@ const sideBarData = [
           {
             title: "Iniciar sesión",
             path: '/Login',
-            icon: 'address-card'
-          }]
+            icon: 'fa-right-from-bracket',
+            sesion_no_iniciada:true
+          },
+          {
+            title: "Cerrar sesión",
+            path: '/CerrarSesion',
+            icon: 'fa-up-right-and-down-left-from-center',
+            sesion_no_iniciada:false
+          },]
       },
       {
         title: "Categorias",

@@ -223,9 +223,9 @@ let catdata = [
 ]
 const configuracion = {
     headers: {
-    "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
+        "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
     },
-    }
+}
 function shuffleArray(array) {
     for (var i = array.length - 1; i > 0; i--) {
         var j = Math.floor(Math.random() * (i + 1));
@@ -771,7 +771,11 @@ export const AutoComments = () => {
                     "id_autor": "usuario_generico",
                     "id_video": parseInt(idvideo),
                     "comentario": newComment
-                },configuracion
+                }, {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
+                },
+            }
             ).then(response => {
                 if (response.status == 201) {
                     setNewComment('')
@@ -862,8 +866,7 @@ export const AutoComments = () => {
             <div onClick={(e) => resetMyEvents(null, true)} className='player-container' onContextMenu={(e) => handleContextMenu(false, false)}>
                 <div className="player-inner">
                     {sourcevideo &&
-                        <Player>
-
+                        <Player aspectRatio='16:9'>
                             <source src={sourcevideo}></source>
                             <ControlBar disableCompletely={false}></ControlBar>
                             <BigPlayButton position='center' />
@@ -947,7 +950,7 @@ export const AutoComments = () => {
 
                                     <animated.div
                                         className="category-item"
-                                        style={{ ...style, background: item.css, backgroundImage: item.image, backgroundPosition: 'center center', backgroundSize: '200px', backgroundRepeat: 'no-repeat' }}
+                                        style={{ ...style, background: item.css, backgroundImage: item.image, backgroundPosition: 'center center', backgroundSize: '100px', backgroundRepeat: 'no-repeat' }}
                                     ><Vinculo to={'/Reproduccion/' + item.url} /></animated.div>
                                 )
                             })}
@@ -972,7 +975,7 @@ export const AutoComments = () => {
                             <div className="contenido-usuario-desautorizado">
                                 <p>Atención, debido a que no ha iniciado sesión en el sitio, el comentario se publicará como anónimo.</p>
                                 <p>De click en el botón "Aceptar" para continuar y vuelva a intentarlo por favor.</p><p>O bien, <Link to="/Login">inicie sesión</Link> en el sitio.</p>
-                                <button type="button" onClick={(e) => { setEsPublicarAnonimo({...publicarAnonimo,intento:false,publicar:true}); }}>Aceptar</button>
+                                <button type="button" onClick={(e) => { setEsPublicarAnonimo({ ...publicarAnonimo, intento: false, publicar: true }); }}>Aceptar</button>
                             </div>
                         </div>
                     }
@@ -1075,7 +1078,9 @@ export const AutoComments = () => {
                     </div>
                 </div>
             </div>
-            <HomeFooter></HomeFooter>
+            <div style={{ marginTop: '100px' }}>
+                <HomeFooter></HomeFooter>
+            </div>
             <Modal id="modal" isOpen={modalOpen} modalSize="lg" onClose={toggleState} modalClass={
                 childrenModal == MODAL_CREDITOS ?
                     "darkmodal" : ""} title={

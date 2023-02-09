@@ -10,9 +10,14 @@
   --eventColor4: #d1ffe6;
 }
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300&display=swap');
+@font-face {
+  font-family: 'Albany';
+  src:url('fuentes/AlbanyStd.ttf') format('truetype')
+  }
 body {
   margin: 0;
-  font-family: 'Roboto Condensed', sans-serif;
+  // font-family: 'Roboto Condensed', sans-serif;
+  font-family: 'Albany', sans-serif;
   /** COMIENZA CÓDIGO RESET*/
   overflow-x: hidden;
   overflow-y: auto;
@@ -461,7 +466,7 @@ Estilos de las categorías en el reproductor individual de video
   grid-column: 1;
   margin: 0 2em;
   min-height: 640px;
-  max-height: 640px;
+  max-height: 800px;
 }
 
 .category-wrapper {
@@ -479,8 +484,8 @@ Estilos de las categorías en el reproductor individual de video
   position: relative;
   display: grid;
   grid-template-columns: repeat(4, minmax(100px, 1fr));
-  grid-gap: 25px;
-  padding: 25px;
+  grid-gap: 15px;
+  padding: 15px;
   background: white;
   border-radius: 5px;
   cursor: pointer;
@@ -625,7 +630,8 @@ Estilos temáticos
 
 .navbar-principal-basic {
   background-color: #253237;
-  background-image: url('/images/head_claro.svg');
+  background-image: url('/images/logo_cabeza_white.png');
+  background-size: 40%;
   background-repeat: no-repeat;
 }
 
@@ -643,8 +649,9 @@ Estilos temáticos
 
 .navbar-principal-basic-dark {
   background-color: #cde2e3;
-  background-image: url('/images/head_.svg');
+  background-image: url('/images/logo_cabeza_negro.png');
   background-repeat: no-repeat;
+  background-size: 40%;
 }
 
 .navbar-principal-basic-dark #logotipo_site {
@@ -660,8 +667,9 @@ Estilos temáticos
 
 .navbar-principal-aesthetic-dark {
   background-color: #f9e2da;
-  background-image: url('/images/head_.svg');
+  background-image: url('/images/logo_cabeza_negro.png');
   background-repeat: no-repeat;
+  background-size: 40%;
 }
 
 .navbar-principal-aesthetic-dark #logotipo_site {
@@ -678,8 +686,9 @@ Estilos temáticos
 
 .navbar-principal-aesthetic {
   background-color: #66545e;
-  background-image: url('/images/head_claro.svg');
+  background-image: url('/images/logo_cabeza_white.png');
   background-repeat: no-repeat;
+  background-size: 40%;
 }
 
 .navbar-principal-aesthetic #logotipo_site {

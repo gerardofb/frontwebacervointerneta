@@ -22,16 +22,19 @@ import Eventos from './features/Events/Eventos';
 import Register from './features/Account/Register';
 import Login from './features/Account/Login';
 import Pagina_404 from './features/Pagina_404';
+import Logout from './features/Account/Logout';
 import { useEffect } from 'react';
 import {library} from '@fortawesome/fontawesome-svg-core';
 import { faBook, faHouse, faTape, faForward, faCommentDots, faVolumeHigh, faCalendarDays, faUserCheck, faUser,
-faEnvelope, faCircleExclamation, faHeart, faRadio, faTimeline, faPlay, faShuffle, faFilm, faVideo, faClapperboard, faAddressCard, faCheck} from '@fortawesome/free-solid-svg-icons';
+faEnvelope, faCircleExclamation, faHeart, faRadio, faTimeline, faPlay, faShuffle, faFilm, faVideo, faClapperboard, 
+faAddressCard, faCheck, faRightFromBracket, faUpRightAndDownLeftFromCenter } from '@fortawesome/free-solid-svg-icons';
 import SideBar from './features/Menu/Sidebar'
 import { useState } from 'react';
 import {getBaseAdressApi} from './features/MainAPI'
 
 library.add(faBook, faHouse, faTape, faForward, faCommentDots, faVolumeHigh, faCalendarDays, faUserCheck, faEnvelope,
-  faCircleExclamation, faHeart, faRadio, faTimeline, faPlay, faShuffle, faFilm, faVideo, faClapperboard, faCheck, faAddressCard);
+  faCircleExclamation, faHeart, faRadio, faTimeline, faPlay, faShuffle, faFilm, faVideo, faClapperboard, faCheck,
+  faRightFromBracket,faUpRightAndDownLeftFromCenter, faAddressCard);
 const FlexContents = styled(Contents)`
   display: flex;
   justify-content: space-between;
@@ -205,6 +208,11 @@ const populate_videos_set = () => {
           <Route path="/Login" exact>
             <ThemeProvider>
               <Login></Login>
+            </ThemeProvider>
+          </Route>
+          <Route path="/CerrarSesion">
+          <ThemeProvider>
+            <Logout></Logout>
             </ThemeProvider>
           </Route>
           <Route path="*">

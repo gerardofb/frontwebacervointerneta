@@ -1,10 +1,10 @@
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import SubMenu from './Submenu';
-import {getMenuData} from './menuAPI'
+import { getMenuData } from './menuAPI'
 import axios from 'axios';
 import { getBaseAdressApi } from '../MainAPI';
 
@@ -15,7 +15,7 @@ const Nav = styled.div`
   justify-content: flex-start;
   align-items: center;
 `;
-  
+
 const NavIcon = styled(Link)`
   margin-left: 2rem;
   font-size: 2rem;
@@ -24,7 +24,7 @@ const NavIcon = styled(Link)`
   justify-content: flex-start;
   align-items: center;
 `;
-  
+
 const SidebarNav = styled.nav`
   background: #15171c;
   width: 370px;
@@ -41,49 +41,48 @@ const SidebarNav = styled.nav`
   scrollbar-width: none;
  
 `;
-  
+
 const SidebarWrap = styled.div`
   width: 100%;
 `;
 
 
-const config = {
-    headers: {
-    "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
-    },
-    }
-const SideBar = ()=>{
+
+const SideBar = () => {
     const [sidebar, setSidebar] = useState(false);
-    const showSidebar = ()=> setSidebar(!sidebar);
+    const showSidebar = () => setSidebar(!sidebar);
     const sideBarData = getMenuData();
-    const [cuentaUsuario,setCuentaUsuario] = useState('');
+    const [cuentaUsuario, setCuentaUsuario] = useState('');
     useEffect(() => {
-        const post_validate = axios.get(`${getBaseAdressApi()}api/userprofile/`,config)
-        .then(response=>{
-            console.log('respuesta del userprofile ',response);
-            setCuentaUsuario(response.data["email"])
-        }).catch(err=>{
-            setCuentaUsuario('')
-        })
-    },[cuentaUsuario, sidebar]);
+        const post_validate = axios.get(`${getBaseAdressApi()}api/userprofile/`, {headers: {
+            "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
+        }})
+            .then(response => {
+                console.log('respuesta del userprofile ', response);
+                setCuentaUsuario(response.data["email"])
+            }).catch(err => {
+                setCuentaUsuario('')
+            })
+    }, [cuentaUsuario, sidebar]);
     return (
-        <div style={{background: '#15171c'}}>  
-        <FontAwesomeIcon title='menú principal' icon={faBars} style={{ color: 'white', float: 'left', cursor: 'pointer', padding: '0 .25em' }} onClick={(e) => { e.preventDefault(); setSidebar(!sidebar) }} />              
-        <SidebarNav onMouseLeave={(e)=>setSidebar(false)} sidebar={sidebar} id="sidebar">
-        <div className='cuenta-usuario-show'>
-                        {
-                            cuentaUsuario != ""  && <span>Bienvenido, {cuentaUsuario}</span>
-                        }
-                    </div>
+        <div style={{ background: '#15171c' }}>
+            <FontAwesomeIcon title='menú principal' icon={faBars} style={{ color: 'white', float: 'left', cursor: 'pointer', padding: '0 .25em' }} onClick={(e) => { e.preventDefault(); setSidebar(!sidebar) }} />
+            <SidebarNav onMouseLeave={(e) => setSidebar(false)} sidebar={sidebar} id="sidebar">
+                <div className='cuenta-usuario-show'>
+                    {
+                        cuentaUsuario != "" && <span>Bienvenido, {cuentaUsuario}</span>
+                    }
+                </div>
                 <div className="">
                     <div className="">
                         <div className="">
                             <SidebarWrap>
                                 <ul className="menu-main-list">
                                     <li>
-                                    {sideBarData.map((item, index) => {
-                                        return <SubMenu item={item} key={index}></SubMenu>
-                                    })}
+                                        {sideBarData.map((item, index) => {
+
+                                            return <SubMenu item={item} key={index}></SubMenu>
+                                        })}
                                     </li>
                                 </ul>
                             </SidebarWrap>

@@ -98,12 +98,22 @@ const SubMenu = ({ item }, { key }) => {
                                     {
                                         subnav && elem.subNav ?
                                             elem.subNav.map((el, indice) => {
+                                                console.log(!localStorage.getItem("credencial"), el)
                                                 let claseinner = innerSubnav == elem.title?"inner-menu-list":"inner-menu-list-hidden";
+                                                if(localStorage.getItem("credencial") && (el.sesion_no_iniciada=== false || el.sesion_no_iniciada === undefined)){
                                                 return <ul key={indice} className={claseinner}><li>
                                                 <DropdownLink to={el.title !== "Reproducción aleatoria" ? el.path : "/Reproduccion/SGFja2VhbWU=?aleatorio=true"}>
                                                     <span style={{ paggingRight: "10px" }}><FontAwesomeIcon icon={el.icon} /></span>
                                                     <SidebarLabel>{el.title}</SidebarLabel>
                                                 </DropdownLink></li></ul>
+                                                }
+                                                else if(!localStorage.getItem("credencial") && (el.sesion_no_iniciada === undefined || el.sesion_no_iniciada === true)){
+                                                    return <ul key={indice} className={claseinner}><li>
+                                                <DropdownLink to={el.title !== "Reproducción aleatoria" ? el.path : "/Reproduccion/SGFja2VhbWU=?aleatorio=true"}>
+                                                    <span style={{ paggingRight: "10px" }}><FontAwesomeIcon icon={el.icon} /></span>
+                                                    <SidebarLabel>{el.title}</SidebarLabel>
+                                                </DropdownLink></li></ul>
+                                                }
                                             }) : null
                                     }
                                     
