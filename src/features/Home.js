@@ -21,7 +21,15 @@ export class Home extends React.Component {
         categoriasService: [],
         videosList: []
     }
-
+    filterActiveCatVideos = (arreglo)=>{
+        const videosCatActivos = arreglo.map((vid,i)=>{
+            if(this.state.categoriasService.find(x=> x.id == vid.id_categoria)){
+                return vid;
+            }
+        })
+        console.log('videos activos por categoría para listado inicial de todos los videos',videosCatActivos.filter(x=> x !== undefined));
+        return videosCatActivos.filter(x=> x !== undefined);
+    }
     componentDidMount() {
         axios.get(getBaseAdressApi() + 'api/categorias/').then(response => {
             console.log('respuesta previa de api', response)
@@ -108,7 +116,7 @@ export class Home extends React.Component {
                                 <h2>Enlaces directos al acervo audiovisual ({this.state.videosList.length} videos):</h2>
                             </div>
                             <div className='list-videos-home'>
-                                {this.state.videosList.map((video, index) => {
+                                {this.filterActiveCatVideos(this.state.videosList).map((video, index) => {
                                     let vinculo = "/Reproduccion/" + video.titulo + "|" + video.id + "|" + video.id_categoria;
                                     return <div className='item-list-videos-home'>
                                         <Link style={{ textDecoration: 'none', color: 'transparent' }} to={vinculo}><img src={video.contenedor_img} alt={video.titulo} /></Link>

@@ -86,7 +86,8 @@ class IndexPage extends Component {
   static propTypes = {}
   state = {
     videosService: [
-    ]
+    ],
+    categoriasService:[]
   }
   componentDidMount() {
     const requestone = axios.get(getBaseAdressApi() + 'api/categorias/');
@@ -102,11 +103,15 @@ class IndexPage extends Component {
       let quintacat = response[0].data.results[4] !== undefined ? [response[0].data.results[4].titulo, response[0].data.results[4].contenedor_img, response[0].data.results[4].videos_por_categoria] : [];
       let sextacat = response[0].data.results[5] !== undefined ? [response[0].data.results[5].titulo, response[0].data.results[5].contenedor_img, response[0].data.results[5].videos_por_categoria] : []
       let salida = populate_videos([primeracat, segundacat, terceracat, cuartacat, quintacat, sextacat]);
-      this.setState({ videosService: salida })
-
+      this.setState({ ...this.state,videosService: salida })
+      this.setState({...this.state,categoriasService:response[0].data.results})
     }));
   }
-
+  getTitulo=(valor)=>{
+    let titulo_img = this.state.categoriasService.find(a => a.titulo ==valor) !== undefined
+    ? this.state.categoriasService.find(a => a.titulo == valor).contenedor_img :"";
+    return titulo_img;
+  }
 
   updateQueryParam = obj => {
     this.props.history.push({
@@ -143,6 +148,7 @@ class IndexPage extends Component {
         ? set.match(new RegExp("^" + queryParamState.filter))
         : true
     )
+    
     return (
 
       <div className={styles.MainBodyCategory}>
@@ -194,6 +200,8 @@ class IndexPage extends Component {
                 ref={el => (this.cardGrid = el)}
               >
                 {visibleVideoSets.map(set => {
+                  let imagen_alterna = this.state.videosService[set].length <= 0 ? 
+                  this.getTitulo(set):''
                   if (set === focusedSet) return <li key={set} />
                   return (
                     <Card
@@ -202,6 +210,7 @@ class IndexPage extends Component {
                       videos={this.state.videosService[set]}
                       videoCount={this.state.videosService[set].length}
                       navigate={this.navigate}
+                      imagenAlterna={imagen_alterna}
                     />
                   )
                 })}

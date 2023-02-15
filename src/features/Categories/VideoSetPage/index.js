@@ -136,11 +136,11 @@ const VideoSetPage = (
         let videosService = {}
         arreglo.forEach(([title, container, pic]) => {
             console.log('foreach para llave ', title, container, pic)
-            const picsArray = pic.reduce((acc, key) => {
+            const picsArray = pic.filter(a=> a.activo).reduce((acc, key) => {
                 console.log('la llave es ', key);
                 const name = container//key.replace(/^\.\/|\.png$/g, "").replace(/_/g, "-")
                 const elvideo = key.contenedor_img ? key.contenedor_img.split('/') : []
-
+                
                 return acc.concat({
                     id: `${title.replace(/\s/g, '-')}`,
                     name,
