@@ -261,7 +261,22 @@ Estilos de la reproducción individual de videos
   margin-left: 2em;
   padding-right: 1.5em;
 }
-
+span.responses-comments{
+  & svg{
+    color:blue;
+  }
+  font-size:small;
+  cursor: pointer;
+}
+.respuesta-comentario-std{
+  margin-left:2.5em;
+  font-size: small;
+}
+.reply-comment{
+  color:#3f7072;
+  font-size:small;
+  cursor: pointer;
+}
 .tabuladores-repro {
   grid-column: 2;
   margin: 1em 2em;
@@ -1631,6 +1646,7 @@ Estilo de footer
   .scroll-list {
     margin-top: 140px;
   }
+ 
 
   .switch-week {
     display: grid;
@@ -4044,6 +4060,9 @@ label.caja-expandible-label {
     background-color: black;
     color: white;
     cursor: pointer;
+  }
+  & .send-answer-comment{
+    background-color: darkgreen;
   }
 }
 

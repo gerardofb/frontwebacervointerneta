@@ -51,19 +51,25 @@ const SidebarWrap = styled.div`
 const SideBar = () => {
     const [sidebar, setSidebar] = useState(false);
     const showSidebar = () => setSidebar(!sidebar);
-    const sideBarData = getMenuData();
+    const [sideBarData, setSideBarData] = useState([]);
     const [cuentaUsuario, setCuentaUsuario] = useState('');
     useEffect(() => {
-        const post_validate = axios.get(`${getBaseAdressApi()}api/userprofile/`, {headers: {
-            "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
-        }})
+        const post_validate = axios.get(`${getBaseAdressApi()}api/userprofile/`, {
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
+            }
+        })
             .then(response => {
                 console.log('respuesta del userprofile ', response);
                 setCuentaUsuario(response.data["email"])
             }).catch(err => {
                 setCuentaUsuario('')
-            })
-    }, [cuentaUsuario, sidebar]);
+            });
+    getMenuData().then(datos=>{
+        console.log('en promesa sidebar',datos);
+        setSideBarData(datos);
+    })
+    }, [cuentaUsuario, sidebar, sideBarData]);
     return (
         <div style={{ background: '#15171c' }}>
             <FontAwesomeIcon title='menú principal' icon={faBars} style={{ color: 'white', float: 'left', cursor: 'pointer', padding: '0 .25em' }} onClick={(e) => { e.preventDefault(); setSidebar(!sidebar) }} />

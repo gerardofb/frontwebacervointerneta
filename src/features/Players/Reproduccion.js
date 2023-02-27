@@ -33,7 +33,9 @@ import {
     faToggleOff,
     faToggleOn,
     faStar,
-    faHeadphones
+    faHeadphones,
+    faArrowsRotate,
+    faReplyAll
 } from "@fortawesome/free-solid-svg-icons"
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
@@ -347,8 +349,11 @@ export const AutoComments = () => {
     const [comentarios, setComentarios] = useState([]);
     const idvideo = obtenervideo[obtenervideo.length - 2]
     const [newComment, setNewComment] = useState('');
+    const [answeringComment,setAnsweringComment] = useState({habilitado:false,uid:''});
+    const [newAnswerComment, setNewAnswerComment] = useState('');
     const growers = document.querySelectorAll(".grow-wrap");
     const [paginacion, setPaginacion] = useState({ comentarios: { pagina: 0, habilitado: false, total: 0, tamanio: 0 } })
+    const [respuestaComentarioActual,setRespuestaComentarioActual] = useState({habilitado:false,respuestas:[],comentario:''});
     growers.forEach((grower) => {
         const textarea = grower.querySelector("textarea");
         textarea.addEventListener("input", () => {
@@ -368,7 +373,7 @@ export const AutoComments = () => {
                     consulta_actual
                 ).then(response => {
                     let comentarios_search = response.data.map((el, indice) => {
-                        return { titulo: el.autor, content: el.comentario }
+                        return { titulo: el.autor, content: el.comentario, respuestas:el.respuestas, uid:el.document_id }
                     });
                     setItems(comentarios_search);
                     console.log('en respuesta de búsqueda comentarios ', comentarios_search)
@@ -392,7 +397,7 @@ export const AutoComments = () => {
                 consulta_actual
             ).then(response => {
                 let comentarios_search = response.data.map((el, indice) => {
-                    return { titulo: el.autor, content: el.comentario }
+                    return { titulo: el.autor, content: el.comentario,respuestas:el.respuestas, uid:el.document_id }
                 });
                 setItems(comentarios_search);
                 let numeropaginas = response.data.length > 0 ? response.data[0].paginacion : 0;
@@ -564,7 +569,7 @@ export const AutoComments = () => {
 
                         console.log('consulta para paginar ', consulta_actual);
                         let comentarios_search = response.data.map((el, indice) => {
-                            return { titulo: el.autor, content: el.comentario }
+                            return { titulo: el.autor, content: el.comentario, respuestas:el.respuestas, uid:el.document_id }
                         });
                         let elementos = comentarios_search;
                         console.log('añadiendo elementos ', elementos)
@@ -764,6 +769,23 @@ export const AutoComments = () => {
     const [publicarAnonimo, setEsPublicarAnonimo] = useState({ intento: false, publicar: false });
     //console.log('estrellas marcadas para calificar', clicked);
     //console.log('los videos en la categoría son ', videoscategoria)
+    const obtenerRespuestasComment = (uid)=>{
+        const requestrespuestacomm = axios.post(`${getBaseAdressApi()}api/searchanswercomment/`,{
+            "parent_document":uid
+        }).then(response=>{
+            console.log('respuestas de comentario ',response)
+            setRespuestaComentarioActual({
+                ...respuestaComentarioActual,
+                habilitado:!respuestaComentarioActual.habilitado,
+                respuestas:response.data.map((resp,ix)=>{
+                    return {comentario:resp.comentario,autor:resp.autor}
+                }),
+                comentario:uid
+            })
+        }).catch(err=>{
+            console.log('error obteniendo respuestas de comentario ',uid,err);
+        })
+    }
     const sendComment = () => {
         if (newComment.trim() !== "") {
             const requesttwo = axios.put(`${getBaseAdressApi()}api/commentvideoauth/`,
@@ -794,7 +816,7 @@ export const AutoComments = () => {
                         consulta_actual
                     ).then(response => {
                         let comentarios_search = response.data.map((el, indice) => {
-                            return { titulo: el.autor, content: el.comentario }
+                            return { titulo: el.autor, content: el.comentario, respuestas:el.respuestas, uid:el.document_id }
                         });
                         setItems(comentarios_search);
                         console.log('respuesta de api por defecto al enviar comentario', comentarios_search)
@@ -833,7 +855,7 @@ export const AutoComments = () => {
                                 consulta_actual
                             ).then(response => {
                                 let comentarios_search = response.data.map((el, indice) => {
-                                    return { titulo: el.autor, content: el.comentario }
+                                    return { titulo: el.autor, content: el.comentario, respuestas:el.respuestas, uid:el.document_id }
                                 });
                                 setItems(comentarios_search);
                                 setEsPublicarAnonimo({
@@ -984,6 +1006,33 @@ export const AutoComments = () => {
                             <div key={index}>
                                 <h4>{item.titulo}</h4>
                                 <p>{`${index + 1}. ${item.content}`}</p>
+                                <p><span className="reply-comment">Responder <FontAwesomeIcon icon={faReplyAll} onClick={(e)=>setAnsweringComment({...answeringComment,habilitado:!answeringComment.habilitado,uid:item.uid})}></FontAwesomeIcon></span></p>
+                                {
+                                    answeringComment.habilitado && answeringComment.uid == item.uid &&
+                                    <>
+                                    <label class="caja-expandible-label" for="text_comentario">Escriba su respuesta:</label>
+                                    <div class="grow-wrap">
+                                        <textarea maxLength={2000} value={newAnswerComment} onChange={(e) => setNewAnswerComment(e.target.value)} name="text_anwsercomment" id="text_answercomment"></textarea>
+                                    </div>
+                                    <div className="button-send-expandible-text">
+                                        <button type="button" className='send-answer-comment'>Responder</button>
+                                    </div>
+                                    </>
+                                }
+                                {item.respuestas> 0 && <div>
+                                    <span className="responses-comments" onClick={(e)=>obtenerRespuestasComment(item.uid)}><FontAwesomeIcon icon={faArrowsRotate}></FontAwesomeIcon> {item.respuestas} respuestas</span>
+                                    </div>}
+                                {respuestaComentarioActual.comentario == item.uid && respuestaComentarioActual.respuestas.length > 0 && respuestaComentarioActual.habilitado &&
+                                <div className='respuesta-comentario-std'>
+                                    {
+                                        respuestaComentarioActual.respuestas.map((resp,ind)=>{
+                                            return <div key={ind}>
+                                                <h4>{resp.autor}</h4>
+                                                <p>{`${ind + 1}. ${resp.comentario}`}</p>
+                                            </div>
+                                        })
+                                    }
+                                    </div>}
                             </div>
                         ))}
                     <div className='default-loader' style={paginacion.comentarios.habilitado ? { display: 'block' } : { display: 'none' }}>

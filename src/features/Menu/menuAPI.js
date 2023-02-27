@@ -1,10 +1,36 @@
-export function getMenuData(user = {}) {
+import axios from 'axios';
+import { getBaseAdressApi } from '../MainAPI';
+async function getActualCategories() {
+  let arregloCategorias = [];
+  await axios.get(getBaseAdressApi() + 'api/categorias/').then(response => {
+    console.log('respuesta previa de api', response)
+    const respuestacategorias = response.data.results.map((el, i) => {
+      return { title: el.titulo, path: '/Categorias/' + el.titulo.replace(/\s+/g, " ", "-") + "/dummy", icon: 'video' }
+    })
+    console.log('respuesta de api ', response.data, respuestacategorias)
+    arregloCategorias = respuestacategorias;
+  }).catch(err => {
+    console.log('error de api', err)
+  });
+  console.log('las categorias recuperadas son adentro ',arregloCategorias)
+  return arregloCategorias;
+}
+export async function getMenuData(user = {}) {
+  console.log('las categorias recuperadas son ',getActualCategories());
+  const promesa = getActualCategories();
+  await promesa.then(data=>{
+    sideBarData[0].subNav[2].subNav= data;
+    console.log('sidebar datos adentro ',sideBarData);
+    
+  })
+  console.log('sidebar datos afuera',sideBarData);
+  //sideBarData[0].subNav[2].subNav= 
   return sideBarData;
 }
-function randomBetween10_19(){
-  let aleatorio = Math.floor(Math.random()*19);
-  if(aleatorio > 11 && aleatorio < 20){
-  return ""+aleatorio;
+function randomBetween10_19() {
+  let aleatorio = Math.floor(Math.random() * 19);
+  if (aleatorio > 11 && aleatorio < 20) {
+    return "" + aleatorio;
   }
   else return '11';
 }
@@ -35,13 +61,13 @@ const sideBarData = [
             title: "Iniciar sesión",
             path: '/Login',
             icon: 'fa-right-from-bracket',
-            sesion_no_iniciada:true
+            sesion_no_iniciada: true
           },
           {
             title: "Cerrar sesión",
             path: '/CerrarSesion',
             icon: 'fa-up-right-and-down-left-from-center',
-            sesion_no_iniciada:false
+            sesion_no_iniciada: false
           },]
       },
       {
@@ -175,5 +201,5 @@ const sideBarData = [
         icon: "circle-exclamation",
       },
     ]
-    }
+  }
 ];
