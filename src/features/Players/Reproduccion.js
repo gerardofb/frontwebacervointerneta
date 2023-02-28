@@ -349,11 +349,11 @@ export const AutoComments = () => {
     const [comentarios, setComentarios] = useState([]);
     const idvideo = obtenervideo[obtenervideo.length - 2]
     const [newComment, setNewComment] = useState('');
-    const [answeringComment,setAnsweringComment] = useState({habilitado:false,uid:''});
+    const [answeringComment, setAnsweringComment] = useState({ habilitado: false, uid: '', intento: false });
     const [newAnswerComment, setNewAnswerComment] = useState('');
     const growers = document.querySelectorAll(".grow-wrap");
-    const [paginacion, setPaginacion] = useState({ comentarios: { pagina: 0, habilitado: false, total: 0, tamanio: 0 } })
-    const [respuestaComentarioActual,setRespuestaComentarioActual] = useState({habilitado:false,respuestas:[],comentario:''});
+    const [paginacion, setPaginacion] = useState({ comentarios: { pagina: 0, habilitado: false, total: 0, tamanio: 0 }, responsecomentarios: { habilitado: false } })
+    const [respuestaComentarioActual, setRespuestaComentarioActual] = useState({ habilitado: false, respuestas: [], numero_respuestas:0, comentario: '' });
     growers.forEach((grower) => {
         const textarea = grower.querySelector("textarea");
         textarea.addEventListener("input", () => {
@@ -373,7 +373,7 @@ export const AutoComments = () => {
                     consulta_actual
                 ).then(response => {
                     let comentarios_search = response.data.map((el, indice) => {
-                        return { titulo: el.autor, content: el.comentario, respuestas:el.respuestas, uid:el.document_id }
+                        return { titulo: el.autor, content: el.comentario, respuestas: el.respuestas, uid: el.document_id }
                     });
                     setItems(comentarios_search);
                     console.log('en respuesta de búsqueda comentarios ', comentarios_search)
@@ -397,7 +397,7 @@ export const AutoComments = () => {
                 consulta_actual
             ).then(response => {
                 let comentarios_search = response.data.map((el, indice) => {
-                    return { titulo: el.autor, content: el.comentario,respuestas:el.respuestas, uid:el.document_id }
+                    return { titulo: el.autor, content: el.comentario, respuestas: el.respuestas, uid: el.document_id }
                 });
                 setItems(comentarios_search);
                 let numeropaginas = response.data.length > 0 ? response.data[0].paginacion : 0;
@@ -465,6 +465,7 @@ export const AutoComments = () => {
         //elementotop.scrollIntoView({ behavior: 'smooth' });
 
     }, [location]);
+
     // console.log('la fuente del video en el estado es ', sourcevideo)
     // console.log('el video aleatorio es ', videoaleatorio);
     console.log('la transición tiene los siguientes elementos ', datostransicion && datostransicion.length);
@@ -569,7 +570,7 @@ export const AutoComments = () => {
 
                         console.log('consulta para paginar ', consulta_actual);
                         let comentarios_search = response.data.map((el, indice) => {
-                            return { titulo: el.autor, content: el.comentario, respuestas:el.respuestas, uid:el.document_id }
+                            return { titulo: el.autor, content: el.comentario, respuestas: el.respuestas, uid: el.document_id }
                         });
                         let elementos = comentarios_search;
                         console.log('añadiendo elementos ', elementos)
@@ -769,21 +770,79 @@ export const AutoComments = () => {
     const [publicarAnonimo, setEsPublicarAnonimo] = useState({ intento: false, publicar: false });
     //console.log('estrellas marcadas para calificar', clicked);
     //console.log('los videos en la categoría son ', videoscategoria)
-    const obtenerRespuestasComment = (uid)=>{
-        const requestrespuestacomm = axios.post(`${getBaseAdressApi()}api/searchanswercomment/`,{
-            "parent_document":uid
-        }).then(response=>{
-            console.log('respuestas de comentario ',response)
+    const obtenerRespuestasComment = (uid,parametro) => {
+        const requestrespuestacomm = axios.post(`${getBaseAdressApi()}api/searchanswercomment/`, {
+            "parent_document": uid
+        }).then(response => {
+            console.log('respuestas de comentario ', response)
             setRespuestaComentarioActual({
                 ...respuestaComentarioActual,
-                habilitado:!respuestaComentarioActual.habilitado,
-                respuestas:response.data.map((resp,ix)=>{
-                    return {comentario:resp.comentario,autor:resp.autor}
-                }),
-                comentario:uid
+                habilitado: !respuestaComentarioActual.habilitado,
+                respuestas: parametro ? response.data.map((resp, ix) => {
+                    return { comentario: resp.comentario, autor: resp.autor }
+                }) : [],
+                comentario: uid,
+                numero_respuestas:response.data.length
             })
-        }).catch(err=>{
-            console.log('error obteniendo respuestas de comentario ',uid,err);
+        }).catch(err => {
+            console.log('error obteniendo respuestas de comentario ', uid, err);
+        })
+    }
+    const postResponseComment = (uid) => {
+        let answer = newAnswerComment;
+        setPaginacion({
+            ...paginacion,
+            responsecomentarios: { habilitado: true }
+        })
+        const envioRespuestaComment = axios.put(`${getBaseAdressApi()}api/answercommentauth/`,
+            {
+                "comentario": answer,
+                "parent_document_id": uid,
+                "id_video": parseInt(idvideo)
+            }, {
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
+            }
+        }).then(response => {
+            setAnsweringComment({
+                ...answeringComment,
+                intento: false,
+                habilitado: false
+            });
+            if (response.status == 201) {
+                const requestSingleComment = axios.post(`${getBaseAdressApi()}api/singlecomment/`, {
+                    "identificador": uid
+                });
+                setPaginacion({
+                    ...paginacion,
+                    responsecomentarios: { habilitado: false }
+                })
+                requestSingleComment.then(response => {
+                    let arreglo = response.data.map((el, ind) => {
+                        return { titulo: el.autor, content: el.comentario, respuestas: el.respuestas, uid: el.document_id }
+                    })
+                    let indicelemento = elems.findIndex(x => x.uid == uid);
+                    let primeroselementos = elems.slice(0, indicelemento);
+                    let ultimoselementos = elems.slice(indicelemento + 1, elems.length);
+                    let salida = primeroselementos.concat(arreglo).concat(ultimoselementos);
+                    console.log('salida de búsqueda de un sólo comentario ',response.data, arreglo, indicelemento, salida);
+                    setItems(salida);
+                }).catch(err => {
+                    console.log('error mostrando respuesta de comentario único', err);
+                })
+
+            }
+        }).catch(err => {
+            if (err.response.status == 401) {
+                setAnsweringComment({
+                    ...answeringComment,
+                    intento: true
+                });
+                setPaginacion({
+                    ...paginacion,
+                    responsecomentarios: { habilitado: false }
+                })
+            }
         })
     }
     const sendComment = () => {
@@ -816,7 +875,7 @@ export const AutoComments = () => {
                         consulta_actual
                     ).then(response => {
                         let comentarios_search = response.data.map((el, indice) => {
-                            return { titulo: el.autor, content: el.comentario, respuestas:el.respuestas, uid:el.document_id }
+                            return { titulo: el.autor, content: el.comentario, respuestas: el.respuestas, uid: el.document_id }
                         });
                         setItems(comentarios_search);
                         console.log('respuesta de api por defecto al enviar comentario', comentarios_search)
@@ -855,7 +914,7 @@ export const AutoComments = () => {
                                 consulta_actual
                             ).then(response => {
                                 let comentarios_search = response.data.map((el, indice) => {
-                                    return { titulo: el.autor, content: el.comentario, respuestas:el.respuestas, uid:el.document_id }
+                                    return { titulo: el.autor, content: el.comentario, respuestas: el.respuestas, uid: el.document_id }
                                 });
                                 setItems(comentarios_search);
                                 setEsPublicarAnonimo({
@@ -1006,32 +1065,39 @@ export const AutoComments = () => {
                             <div key={index}>
                                 <h4>{item.titulo}</h4>
                                 <p>{`${index + 1}. ${item.content}`}</p>
-                                <p><span className="reply-comment">Responder <FontAwesomeIcon icon={faReplyAll} onClick={(e)=>setAnsweringComment({...answeringComment,habilitado:!answeringComment.habilitado,uid:item.uid})}></FontAwesomeIcon></span></p>
+                                {localStorage.getItem("credencial") && <p><span className="reply-comment">Responder <FontAwesomeIcon icon={faReplyAll} onClick={(e) => { setAnsweringComment({ ...answeringComment, habilitado: !answeringComment.habilitado, uid: item.uid }); setNewAnswerComment('') }}></FontAwesomeIcon></span></p>}
                                 {
                                     answeringComment.habilitado && answeringComment.uid == item.uid &&
                                     <>
-                                    <label class="caja-expandible-label" for="text_comentario">Escriba su respuesta:</label>
-                                    <div class="grow-wrap">
-                                        <textarea maxLength={2000} value={newAnswerComment} onChange={(e) => setNewAnswerComment(e.target.value)} name="text_anwsercomment" id="text_answercomment"></textarea>
-                                    </div>
-                                    <div className="button-send-expandible-text">
-                                        <button type="button" className='send-answer-comment'>Responder</button>
-                                    </div>
+                                        <label class="caja-expandible-label" for="text_comentario">Escriba su respuesta:</label>
+                                        <div class="grow-wrap">
+                                            <textarea maxLength={2000} value={newAnswerComment} onChange={(e) => setNewAnswerComment(e.target.value)} name="text_anwsercomment" id="text_answercomment"></textarea>
+                                        </div>
+                                        <div className="button-send-expandible-text">
+                                            <button type="button" className='send-answer-comment' onClick={(e) => postResponseComment(item.uid)}>Responder</button>
+                                        </div>
+                                        <div className='default-loader' style={paginacion.responsecomentarios.habilitado ? { display: 'block' } : { display: 'none' }}>
+                                            <img src={url_loader("Reload_generic.gif", false)} />
+                                        </div>
                                     </>
                                 }
-                                {item.respuestas> 0 && <div>
-                                    <span className="responses-comments" onClick={(e)=>obtenerRespuestasComment(item.uid)}><FontAwesomeIcon icon={faArrowsRotate}></FontAwesomeIcon> {item.respuestas} respuestas</span>
-                                    </div>}
+                                {
+                                    respuestaComentarioActual.comentario == item.uid && respuestaComentarioActual.numero_respuestas > 0 && respuestaComentarioActual.habilitado ?
+                                    <div>
+                                    <span className="responses-comments" onMouseOver={(e) => obtenerRespuestasComment(item.uid,false)} onClick={(e) => obtenerRespuestasComment(item.uid,true)}><FontAwesomeIcon icon={faArrowsRotate}></FontAwesomeIcon> ver respuestas al comentario ({respuestaComentarioActual.numero_respuestas})</span>
+                                </div>: <div>
+                                    <span className="responses-comments" onMouseOver={(e) => obtenerRespuestasComment(item.uid,false)} onClick={(e) => obtenerRespuestasComment(item.uid,true)}><FontAwesomeIcon icon={faArrowsRotate}></FontAwesomeIcon> ver respuestas al comentario</span>
+                                </div>}
                                 {respuestaComentarioActual.comentario == item.uid && respuestaComentarioActual.respuestas.length > 0 && respuestaComentarioActual.habilitado &&
-                                <div className='respuesta-comentario-std'>
-                                    {
-                                        respuestaComentarioActual.respuestas.map((resp,ind)=>{
-                                            return <div key={ind}>
-                                                <h4>{resp.autor}</h4>
-                                                <p>{`${ind + 1}. ${resp.comentario}`}</p>
-                                            </div>
-                                        })
-                                    }
+                                    <div className='respuesta-comentario-std'>
+                                        {
+                                            respuestaComentarioActual.respuestas.map((resp, ind) => {
+                                                return <div key={ind}>
+                                                    <h4>{resp.autor}</h4>
+                                                    <p>{`${ind + 1}. ${resp.comentario}`}</p>
+                                                </div>
+                                            })
+                                        }
                                     </div>}
                             </div>
                         ))}
