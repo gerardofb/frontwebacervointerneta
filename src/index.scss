@@ -4090,6 +4090,17 @@ label.caja-expandible-label {
   min-height: 100px;
   width: 100%;
 }
+.default-loader-full{
+  text-align: center;
+  min-height: 100px;
+  width: 98%;
+  grid-column-start: 1;
+  grid-column-end: 2;
+  margin-left:.7em;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  background-color: white;
+}
 
 .default-loader-center {
   text-align: center;

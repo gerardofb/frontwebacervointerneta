@@ -120,7 +120,8 @@ const sideBarData = [
           {
             title: "Favoritos",
             path: '/ListadoReproduccion/Favoritos',
-            icon: 'heart'
+            icon: 'heart',
+            sesion_no_iniciada: false
           },
           {
             title: "Más visitados",
@@ -154,7 +155,8 @@ const sideBarData = [
           {
             title: "Favoritos",
             path: '#',
-            icon: 'heart'
+            icon: 'heart',
+            sesion_no_iniciada: false
           },
           {
             title: "Más visitados",
@@ -171,7 +173,8 @@ const sideBarData = [
           {
             title: "Favoritos",
             path: '/Eventos/ListadoEventos/Favoritos',
-            icon: 'heart'
+            icon: 'heart',
+            sesion_no_iniciada: false
           },
           {
             title: "Más visitados",
