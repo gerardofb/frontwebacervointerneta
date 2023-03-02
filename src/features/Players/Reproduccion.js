@@ -21,6 +21,7 @@ import {
     faMicrophoneLines,
     faClone,
     faReply,
+    faHeartBroken,
     faBan,
     faHeart,
     faCalendarDays,
@@ -35,7 +36,8 @@ import {
     faStar,
     faHeadphones,
     faArrowsRotate,
-    faReplyAll
+    faReplyAll,
+    faHeartbeat
 } from "@fortawesome/free-solid-svg-icons"
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
@@ -353,13 +355,15 @@ export const AutoComments = () => {
     const [newAnswerComment, setNewAnswerComment] = useState('');
     const growers = document.querySelectorAll(".grow-wrap");
     const [paginacion, setPaginacion] = useState({ comentarios: { pagina: 0, habilitado: false, total: 0, tamanio: 0 }, responsecomentarios: { habilitado: false } })
-    const [respuestaComentarioActual, setRespuestaComentarioActual] = useState({ habilitado: false, respuestas: [], numero_respuestas:0, comentario: '' });
+    const [respuestaComentarioActual, setRespuestaComentarioActual] = useState({ habilitado: false, respuestas: [], numero_respuestas: 0, comentario: '' });
     growers.forEach((grower) => {
         const textarea = grower.querySelector("textarea");
         textarea.addEventListener("input", () => {
             grower.dataset.replicatedValue = textarea.value;
         });
     });
+    const [esFavorito, setEsFavorito] = useState({ valor: true, cuenta: 0 });
+    const [cuentaUsuario, setCuentaUsuario] = useState('');
     useEffect(() => {
         let parametros;
         if (location.search) {
@@ -416,7 +420,17 @@ export const AutoComments = () => {
         }
 
         // console.log("Location changed");
-
+        const post_validate = axios.get(`${getBaseAdressApi()}api/userprofile/`, {
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
+            }
+        })
+            .then(response => {
+                console.log('respuesta del userprofile ', response);
+                setCuentaUsuario(response.data["email"])
+            }).catch(err => {
+                setCuentaUsuario('')
+            });
         // console.log('obteniendo fuente del video ',obtenervideo)
         const requestone = axios.get(`${getBaseAdressApi()}api/video/${idvideo}`).then(response => {
             if (sourcevideo === '') {
@@ -425,6 +439,14 @@ export const AutoComments = () => {
                 //console.log('la fuente del video es ', response.data.contenedor_aws);
                 setVideoReproduciendo(response.data);
             }
+        });
+        const requestfavs = axios.get(`${getBaseAdressApi()}api/detailfavoritesvideo/${idvideo}`).then(response => {
+            let cantidad = response.data[0].favoritos_por_video.length;
+            console.log('obteniendo cuenta de favoritos ', cantidad, response)
+            setEsFavorito({
+                ...esFavorito,
+                cuenta: cantidad
+            })
         });
         const requesttwo = axios.get(`${getBaseAdressApi()}api/creditosvideo/${idvideo}`).then(response => {
             if (creditosvideo === null) {
@@ -462,10 +484,62 @@ export const AutoComments = () => {
             show: false
         });
         let elementotop = document.querySelector('.header-reproduccion-individual');
-        //elementotop.scrollIntoView({ behavior: 'smooth' });
+        //elementotop.scrollIntoView({ behavior: 'smooth' });localStorage.getItem
 
     }, [location]);
-
+    const changeFavorite = (valor) => {
+        if (esFavorito.valor && valor) {
+            const addfav = axios.put(`${getBaseAdressApi()}api/addfavoritevideo/`, {
+                "id_video": parseInt(idvideo)
+            }, {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
+                }
+            }).then(response => {
+                const requestmorefavs = axios.get(`${getBaseAdressApi()}api/detailfavoritesvideo/${idvideo}`).then(response => {
+                    let cantidad = response.data[0].favoritos_por_video.length;
+                    console.log('obteniendo cuenta de favoritos ', cantidad, response)
+                    setEsFavorito({
+                        ...esFavorito,
+                        valor: !esFavorito.valor,
+                        cuenta: cantidad
+                    })
+                })
+            }).catch(err=>{
+                if(err.response.status == 404){
+                    setEsFavorito({
+                        ...esFavorito,
+                        valor: !esFavorito.valor,
+                    })
+                }
+            });
+        }
+        else if (valor) {
+            const addfav = axios.delete(`${getBaseAdressApi()}api/addfavoritevideo/`, {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
+                }, data:{
+                "id_video": parseInt(idvideo)
+            }}).then(response => {
+                const requestmorefavs = axios.get(`${getBaseAdressApi()}api/detailfavoritesvideo/${idvideo}`).then(response => {
+                    let cantidad = response.data[0].favoritos_por_video.length;
+                    console.log('obteniendo cuenta de favoritos ', cantidad, response)
+                    setEsFavorito({
+                        ...esFavorito,
+                        valor: !esFavorito.valor,
+                        cuenta: cantidad
+                    })
+                })
+            }).catch(err=>{
+                if(err.response.status == 404){
+                    setEsFavorito({
+                        ...esFavorito,
+                        valor: !esFavorito.valor,
+                    })
+                }
+            });
+        }
+    }
     // console.log('la fuente del video en el estado es ', sourcevideo)
     // console.log('el video aleatorio es ', videoaleatorio);
     console.log('la transición tiene los siguientes elementos ', datostransicion && datostransicion.length);
@@ -766,11 +840,11 @@ export const AutoComments = () => {
 
         setClicked(clickStates);
     };
-    const [esFavorito, setEsFavorito] = useState({ valor: false, cuenta: 4056 });
+
     const [publicarAnonimo, setEsPublicarAnonimo] = useState({ intento: false, publicar: false });
     //console.log('estrellas marcadas para calificar', clicked);
     //console.log('los videos en la categoría son ', videoscategoria)
-    const obtenerRespuestasComment = (uid,parametro) => {
+    const obtenerRespuestasComment = (uid, parametro) => {
         const requestrespuestacomm = axios.post(`${getBaseAdressApi()}api/searchanswercomment/`, {
             "parent_document": uid
         }).then(response => {
@@ -782,7 +856,7 @@ export const AutoComments = () => {
                     return { comentario: resp.comentario, autor: resp.autor }
                 }) : [],
                 comentario: uid,
-                numero_respuestas:response.data.length
+                numero_respuestas: response.data.length
             })
         }).catch(err => {
             console.log('error obteniendo respuestas de comentario ', uid, err);
@@ -825,7 +899,7 @@ export const AutoComments = () => {
                     let primeroselementos = elems.slice(0, indicelemento);
                     let ultimoselementos = elems.slice(indicelemento + 1, elems.length);
                     let salida = primeroselementos.concat(arreglo).concat(ultimoselementos);
-                    console.log('salida de búsqueda de un sólo comentario ',response.data, arreglo, indicelemento, salida);
+                    console.log('salida de búsqueda de un sólo comentario ', response.data, arreglo, indicelemento, salida);
                     setItems(salida);
                 }).catch(err => {
                     console.log('error mostrando respuesta de comentario único', err);
@@ -982,13 +1056,13 @@ export const AutoComments = () => {
                         })
                         }
                     </div>
-                    <div className='item-acciones-repro' onClick={(e) => {
-                        setEsFavorito({
-                            ...esFavorito, valor: !esFavorito.valor,
-                            cuenta: !esFavorito.valor ? ++esFavorito.cuenta : --esFavorito.cuenta
-                        })
+                    <div className={localStorage.getItem('credencial') && cuentaUsuario !== '' ? 'item-acciones-repro' : 'item-acciones-repro-disabled'} onClick={(e) => {
+                        localStorage.getItem('credencial') ?
+                            changeFavorite(true) : changeFavorite(false)
                     }}>
-                        <FontAwesomeIcon style={esFavorito.valor ? { color: 'red' } : { color: 'darkgray' }} icon={faHeart} /><span>Favoritos <span className="cuenta-favoritos-small">{esFavorito.cuenta}</span></span>
+                        {esFavorito.valor ? <FontAwesomeIcon style={{ color: 'red' }} icon={faHeart} />
+                            : <FontAwesomeIcon style={{ color: 'darkgray' }} icon={faHeartBroken} />}
+                        <span>Favoritos <span className="cuenta-favoritos-small">{esFavorito.cuenta}</span></span>
                     </div>
                     <div className='item-acciones-repro'>
                         <FontAwesomeIcon icon={faHeadphones} /><span>Encolar</span>
@@ -1083,11 +1157,11 @@ export const AutoComments = () => {
                                 }
                                 {
                                     respuestaComentarioActual.comentario == item.uid && respuestaComentarioActual.numero_respuestas > 0 && respuestaComentarioActual.habilitado ?
-                                    <div>
-                                    <span className="responses-comments" onMouseOver={(e) => obtenerRespuestasComment(item.uid,false)} onClick={(e) => obtenerRespuestasComment(item.uid,true)}><FontAwesomeIcon icon={faArrowsRotate}></FontAwesomeIcon> ver respuestas al comentario ({respuestaComentarioActual.numero_respuestas})</span>
-                                </div>: <div>
-                                    <span className="responses-comments" onMouseOver={(e) => obtenerRespuestasComment(item.uid,false)} onClick={(e) => obtenerRespuestasComment(item.uid,true)}><FontAwesomeIcon icon={faArrowsRotate}></FontAwesomeIcon> ver respuestas al comentario</span>
-                                </div>}
+                                        <div>
+                                            <span className="responses-comments" onMouseOver={(e) => obtenerRespuestasComment(item.uid, false)} onClick={(e) => obtenerRespuestasComment(item.uid, true)}><FontAwesomeIcon icon={faArrowsRotate}></FontAwesomeIcon> ver respuestas al comentario ({respuestaComentarioActual.numero_respuestas})</span>
+                                        </div> : <div>
+                                            <span className="responses-comments" onMouseOver={(e) => obtenerRespuestasComment(item.uid, false)} onClick={(e) => obtenerRespuestasComment(item.uid, true)}><FontAwesomeIcon icon={faArrowsRotate}></FontAwesomeIcon> ver respuestas al comentario</span>
+                                        </div>}
                                 {respuestaComentarioActual.comentario == item.uid && respuestaComentarioActual.respuestas.length > 0 && respuestaComentarioActual.habilitado &&
                                     <div className='respuesta-comentario-std'>
                                         {

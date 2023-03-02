@@ -208,7 +208,6 @@ Estilos de la reproducción individual de videos
 
 .acciones-reproduccion {
   min-height: 35px;
-  cursor: pointer;
   margin: 20px 0;
   display: grid;
   grid-template-columns: 15% 15% 15% 15% 18.5% 10% 9%;
@@ -233,6 +232,24 @@ Estilos de la reproducción individual de videos
 }
 
 .item-acciones-repro:nth-child(6) svg {
+  color: red;
+}
+
+.item-acciones-repro-disabled {
+  border-left: 1px solid gray;
+  padding: 0 1em;
+}
+
+.item-acciones-repro-disabled span {
+  padding-left: 1em;
+}
+
+.item-acciones-repro-disabled:nth-child(7) {
+  border-right: 1px solid gray;
+  padding-right: 0;
+
+}
+.item-acciones-repro-disabled:nth-child(6) svg {
   color: red;
 }
 

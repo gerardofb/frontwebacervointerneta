@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import NavBar from '../NavBar';
 import { HomeFooter } from "../HomeFooter";
 import { useParams } from "react-router-dom";
@@ -8,6 +8,8 @@ import {
     faArrowDown, faArrowUp, faSearch, faPlay, faTag, faBook, faBullseye, faHeadphones
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "axios";
+import { getBaseAdressApi } from "../MainAPI";
 const videosMin = [
     { Categoria: "Movimientos Sociales", Video: "Screenshot_5", Calificacion: 4.5, ListaReproduccion: {}, Comentario: [], Tags: ["rock"], Relato: "6006c5d85f7c417f8714496c418d58ec" },
     { Categoria: "Movimientos Sociales", Video: "Screenshot_6", Calificacion: 3.5, ListaReproduccion: { Usuario: "Gabriela Romo", Titulo: "Smoothy" }, Comentario: [], Tags: ["rock", "vida"], Relato: "a4d52f71f1ec429db2e8da542ec6f3d4" },
@@ -274,7 +276,7 @@ const ListadoOpcionesVideo = [
 
     },
     {
-        indice:3, title:'Encolar', icono:faHeadphones
+        indice: 3, title: 'Encolar', icono: faHeadphones
     }
 ]
 const ListadoOpcionesVideoVisitados = [
@@ -284,7 +286,7 @@ const ListadoOpcionesVideoVisitados = [
     },
     ,
     {
-        indice:3, title:'Encolar', icono:faHeadphones
+        indice: 3, title: 'Encolar', icono: faHeadphones
     }
 ]
 const tipoBusquedaPagina = {
@@ -325,18 +327,41 @@ const ListadoVideosFavoritos = (props) => {
     const rutaTipoListado = useParams();
     const tipoListado = rutaTipoListado.tipo === "MasVisitados" ? seleccionaTipoVideo.MAS_VISITADOS : rutaTipoListado.tipo === "Favoritos" ?
         seleccionaTipoVideo.FAVORITOS : seleccionaTipoVideo.MAS_VISITADOS;
-    const [listado, setListado] = useState(getVideosListado(tipoListado));
+    const [listado, setListado] = useState([]);
     let listadoruta = getVideosListado(tipoListado);
     const [searchBy, setSearchBy] = useState([-1]);
     const [ordenarPor, setOrdenarPor] = useState({ orden: ordenBusquedaPredeterminado.Nombre, descendiente: false });
     const [ordenamientoDesc, setOrdenamientoDesc] = useState(false);
     console.log('tipo listado ', rutaTipoListado, tipoListado, listado)
+    useEffect(() => {
+        const peticionCategorias = axios.get(`${getBaseAdressApi()}api/categorias/`).then(respuesta => {
+            let categories = respuesta.data.results.map((cat, idx) => {
+                return { titulo: cat.titulo, id_cat: cat.id }
+            });
+            const peticionFavoritos = axios.get(`${getBaseAdressApi()}api/detailfavoritesvideobyuser/`,
+                {
+                    headers: {
+                        "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
+                    }
+                }).then(response => {
+                    let videosfavoritos = response.data.map((vid, ind) => {
+                        let sliceIndex = Math.floor(Math.random() * arreglotags.length);
+                        let relatovideohightlight = vid.relatos_por_video.lenght > 0 ? vid.relatos_por_video[0] : "";
+                        let tagsselected = arreglotags.slice(sliceIndex, sliceIndex + 2).map((tag,i)=>{
+                            return tag.content
+                        })
+                        return { Categoria: categories.find(x => x.id_cat == vid.id_categoria).titulo, Video: vid.titulo, Id: vid.id, Calificacion: Math.ceil(Math.random() * 5), ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight }
+                    });
+                    setListado(videosfavoritos)
+                });
+        })
+    }, [])
     const estableceDescendienteAscendiente = (valor, orden) => {
 
         if (orden != ordenBusquedaPredeterminado.ListaReproduccion && orden != ordenBusquedaPredeterminado.Relato) {
             setOrdenamientoDesc(valor);
             setOrdenarPor({ orden: orden, descendiente: valor });
-            let salida = orderBy(listado, orden, valor);
+            let salida = orderBy(listado.slice(0), orden, valor);
             setListado(salida);
             console.log('descendiente ', valor, orden)
         }
@@ -344,7 +369,7 @@ const ListadoVideosFavoritos = (props) => {
     const estableceOrdenamiento = (orden) => {
         setVisibleOpciones(-1);
         setOrdenarPor({ orden: orden.indice, descendiente: ordenamientoDesc });
-        let salida = orderBy(listado, orden.indice, ordenamientoDesc);
+        let salida = orderBy(listado.slice(0), orden.indice, ordenamientoDesc);
         setListado(salida);
     }
     const [opcionesSetVisible, setVisibleOpciones] = useState(-1);
@@ -354,7 +379,7 @@ const ListadoVideosFavoritos = (props) => {
         setVisibleOpciones(-1);
         setOrdenamientoDesc(ordenamientoDesc);
         setOrdenarPor({ orden: ordenarPor, descendiente: ordenamientoDesc });
-        let salida = orderBy(listado, ordenarPor.orden, ordenamientoDesc);
+        let salida = orderBy(listado.slice(0), ordenarPor.orden, ordenamientoDesc);
 
         if (textoSearch.trim() != '') {
             let salidaTitulo = [];
@@ -371,14 +396,13 @@ const ListadoVideosFavoritos = (props) => {
                         salidaCategoria = salidaCategoria.concat(salida.filter(x => x.Categoria.toLowerCase().indexOf(textoSearch.toLowerCase()) != -1));
                         break;
                     case tipoBusquedaPagina.USUARIO:
-                        salidaUsuario = salidaUsuario.concat(salida.filter(x => x.Relato != "" && autobiograficos.find(a => a.guid == x.Relato && a.autor.toLowerCase() == textoSearch.toLowerCase())));
+                        salidaUsuario = salidaUsuario.concat(salida.filter(x => x.Relato != "" && x.Relato.username.toLowerCase() == textoSearch.toLowerCase()));
                         break;
                     case tipoBusquedaPagina.LISTAREPRODUCCION:
                         salidaListaRepro = salidaListaRepro.concat(salida.filter(x => x.ListaReproduccion.Titulo != undefined &&
                             x.ListaReproduccion.Titulo.toLowerCase().indexOf(textoSearch.toLowerCase()) != -1));
                         break;
                     case tipoBusquedaPagina.TAG:
-
                         salidaTags = salidaTags.concat(salida.filter(x => x.Tags.length > 0 && x.Tags.find(a => a.toLowerCase().indexOf(textoSearch.toLowerCase()) != -1)));
                         break;
                 }
@@ -388,11 +412,29 @@ const ListadoVideosFavoritos = (props) => {
             salida = salidaTitulo.concat(salidaCategoria).concat(salidaUsuario).concat(salidaListaRepro).concat(salidaTags);
             setListado(salida);
         }
-        else {
-            listadoruta = getVideosListado(tipoListado);
-            setListado(listadoruta);
+        else{
+            const peticionCategorias = axios.get(`${getBaseAdressApi()}api/categorias/`).then(respuesta => {
+                let categories = respuesta.data.results.map((cat, idx) => {
+                    return { titulo: cat.titulo, id_cat: cat.id }
+                });
+                const peticionFavoritos = axios.get(`${getBaseAdressApi()}api/detailfavoritesvideobyuser/`,
+                    {
+                        headers: {
+                            "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
+                        }
+                    }).then(response => {
+                        let videosfavoritos = response.data.map((vid, ind) => {
+                            let sliceIndex = Math.floor(Math.random() * arreglotags.length);
+                            let relatovideohightlight = vid.relatos_por_video.lenght > 0 ? vid.relatos_por_video[0] : "";
+                            let tagsselected = arreglotags.slice(sliceIndex, sliceIndex + 2).map((tag,i)=>{
+                                return tag.content
+                            })
+                            return { Categoria: categories.find(x => x.id_cat == vid.id_categoria).titulo, Video: vid.titulo, Id: vid.id, Calificacion: Math.ceil(Math.random() * 5), ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight }
+                        });
+                        setListado(videosfavoritos)
+                    });
+            })
         }
-
     }
     const estableceTipoBusqueda = (tipo, checado) => {
         let listado = searchBy;

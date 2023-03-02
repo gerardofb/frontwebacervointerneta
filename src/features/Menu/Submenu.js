@@ -2,6 +2,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { getBaseAdressApi } from "../MainAPI";
+import axios from "axios";
 
 const SidebarLink = styled.button`
   color: #e1e9fc;
@@ -62,8 +64,20 @@ const SubMenu = ({ item }, { key }) => {
         //}
         //else return '11';
       }
-    
-    
+    const [cuentaUsuario,setCuentaUsuario] = useState('')
+    useEffect(()=>{
+        const post_validate = axios.get(`${getBaseAdressApi()}api/userprofile/`, {
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
+            }
+        })
+            .then(response => {
+                console.log('respuesta del userprofile ', response);
+                setCuentaUsuario(response.data["email"])
+            }).catch(err => {
+                setCuentaUsuario('')
+            });
+    },[])
     
     const [subnav, setSubnav] = useState(true);
     const showSubnav = () => setSubnav(!subnav);
@@ -100,14 +114,14 @@ const SubMenu = ({ item }, { key }) => {
                                             elem.subNav.map((el, indice) => {
                                                 console.log(!localStorage.getItem("credencial"), el)
                                                 let claseinner = innerSubnav == elem.title?"inner-menu-list":"inner-menu-list-hidden";
-                                                if(localStorage.getItem("credencial") && (el.sesion_no_iniciada=== false || el.sesion_no_iniciada === undefined)){
+                                                if(localStorage.getItem("credencial") && cuentaUsuario && (el.sesion_no_iniciada=== false || el.sesion_no_iniciada === undefined)){
                                                 return <ul key={indice} className={claseinner}><li>
                                                 <DropdownLink to={el.title !== "Reproducción aleatoria" ? el.path : "/Reproduccion/SGFja2VhbWU=?aleatorio=true"}>
                                                     <span style={{ paggingRight: "10px" }}><FontAwesomeIcon icon={el.icon} /></span>
                                                     <SidebarLabel>{el.title}</SidebarLabel>
                                                 </DropdownLink></li></ul>
                                                 }
-                                                else if(!localStorage.getItem("credencial") && (el.sesion_no_iniciada === undefined || el.sesion_no_iniciada === true)){
+                                                else if(!localStorage.getItem("credencial") && cuentaUsuario && (el.sesion_no_iniciada === undefined || el.sesion_no_iniciada === true)){
                                                     return <ul key={indice} className={claseinner}><li>
                                                 <DropdownLink to={el.title !== "Reproducción aleatoria" ? el.path : "/Reproduccion/SGFja2VhbWU=?aleatorio=true"}>
                                                     <span style={{ paggingRight: "10px" }}><FontAwesomeIcon icon={el.icon} /></span>
