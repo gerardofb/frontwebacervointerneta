@@ -72,7 +72,7 @@ function App() {
       
     });
     populate_videos_set();
-},[]);
+},[videosPopulated]);
 const populate_videos_set = () => {
   const requestone= axios.get(getBaseAdressApi()+'api/categorias/');
   
@@ -88,6 +88,7 @@ const populate_videos_set = () => {
       let sextacat = response[0].data.results[5] !== undefined ?[response[0].data.results[5].titulo, response[0].data.results[5].contenedor_img, response[0].data.results[5].videos_por_categoria] :[]
       
       let salida = arrange_videos([primeracat,segundacat,terceracat,cuartacat,quintacat,sextacat]);
+      
       setVideosPopulated(salida);
    }));
   return;
@@ -114,13 +115,14 @@ const populate_videos_set = () => {
         .map(a => a.value)
         .slice(0, 1)
       //console.log('en función de poblamiento de videos ',highlightedVideos)
-      videosService[title] = picsArray.map(
+      videosService[title.replace(/\s/g, '-')] = picsArray.map(
         obj =>
           highlightedVideos.includes(obj) ? { ...obj, highlighted: true } : obj
       )
     })
     return videosService;
   }
+  console.log('los videos categorizados en app ',videosPopulated);
   return (
     <BrowserRouter>
       <div className="App">

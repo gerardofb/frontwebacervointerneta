@@ -5,7 +5,7 @@ async function getActualCategories() {
   await axios.get(getBaseAdressApi() + 'api/categorias/').then(response => {
     console.log('respuesta previa de api', response)
     const respuestacategorias = response.data.results.map((el, i) => {
-      return { title: el.titulo, path: '/Categorias/' + el.titulo.replace(/\s+/g, " ", "-") + "/dummy", icon: 'video' }
+      return { title: el.titulo.replace(/\s/g,"-"), path: '/Categorias/' + el.titulo.replace(/\s/g,"-") + "/dummy", icon: 'video' }
     })
     console.log('respuesta de api ', response.data, respuestacategorias)
     arregloCategorias = respuestacategorias;

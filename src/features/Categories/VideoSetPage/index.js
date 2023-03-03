@@ -93,6 +93,7 @@ const ruta_aws = "https://deploy-videos-acervo-interneta.s3.amazonaws.com/"
 const VideoSetPage = (
     props) => {
     const { set, focusedVideo } = useParams();
+    
     //console.log('el primer estado del video enfocado es ');
     console.log('el titulo del bloque de videos es ', set);
     //console.log(focusedVideo)
@@ -101,7 +102,8 @@ const VideoSetPage = (
     const [categoriaSet, setCategoriaSet] = useState({})
     useEffect(() => {
         populate_videos_set();
-    }, []);
+
+    }, [videosPopulated]);
     const populate_videos_set = () => {
         const requestone = axios.get(getBaseAdressApi() + 'api/categorias/');
 
@@ -189,9 +191,6 @@ const VideoSetPage = (
                                             to={{
                                                 pathname: "/Categorias",
                                                 search: location.search,
-                                                //   state: {
-                                                //     animate: () => onExit(elementRef.current)
-                                                //   }
                                             }}
                                         >
                                             <FontAwesomeIcon icon={faArrowLeft} /> Atrás

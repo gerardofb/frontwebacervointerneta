@@ -193,12 +193,11 @@ code {
 Estilos de la reproducción individual de videos
 */
 .player-container {
-  margin: 0 2em;
+  margin: 0;
 }
 
 .player-inner {
-  max-width: 1250px;
-  margin: auto;
+  width:100%;
 }
 
 .cuenta-favoritos-small {

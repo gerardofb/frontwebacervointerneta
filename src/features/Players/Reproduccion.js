@@ -267,12 +267,21 @@ function isInViewportFooter(element) {
     // );
 }
 
-function isInViewportMenu(element) {
-    const rect = element.getBoundingClientRect();
+function isInViewportMenu() {
+    const menusuperior = document.querySelector('.container-menu-main')
+    const barranav = document.querySelector('.navbar-principal');
+    const rect = menusuperior.getBoundingClientRect();
     const { scrollTop, offsetHeight } = document.documentElement;
-    // console.log('datos de video encabezado', rect.top, rect.left, rect.bottom, rect.right)
-    // console.log('limite datos de video encabezado ', Math.round(scrollTop - rect.top))
-    return Math.round(scrollTop - rect.top) > 0;
+    console.log('datos de video encabezado', rect.top, rect.left, rect.bottom, rect.right)
+    console.log('limite datos de video encabezado ', Math.round(scrollTop - rect.top))
+    if(Math.round(scrollTop - rect.top) > 0){
+        menusuperior.style.display='block'
+        
+    }
+    else{
+        menusuperior.style.display='none'
+    }
+    
 }
 const mensajes = [
     { autor: "Gerardo Flores", fecha: "02/06/2022 2:27PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam fermentum.", propio: false },
@@ -669,7 +678,7 @@ export const AutoComments = () => {
             // }
         }
         setHeightChat();
-
+        isInViewportMenu();
     }
     const estableceTab = (parameter) => {
 
