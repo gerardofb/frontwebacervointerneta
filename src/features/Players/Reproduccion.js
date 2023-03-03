@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState, useContext } from 'react'
 import { ControlBar, LoadingSpinner, BigPlayButton, Player } from 'video-react'
 import axios from "axios"
+import { useHistory } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import {
     useTransition,
@@ -324,9 +325,9 @@ const opcionesDescarga = [
 export const AutoComments = () => {
 
     const { video } = useParams();
+    const history = useHistory();
     const [sourcevideo, setSourceVideo] = useState('');
     const [datostransicion, setDatosTransicion] = useState(null);
-    const [videoreproduciendo, setVideoReproduciendo] = useState(null);
     const [videoscategoria, setVideosCategoria] = useState(null);
     const [creditosvideo, setCreditosVideo] = useState(null);
     const location = useLocation();
@@ -364,6 +365,7 @@ export const AutoComments = () => {
     });
     const [esFavorito, setEsFavorito] = useState({ valor: true, cuenta: 0 });
     const [cuentaUsuario, setCuentaUsuario] = useState('');
+    const [player,setPlayer] = useState(null);
     useEffect(() => {
         let parametros;
         if (location.search) {
@@ -433,12 +435,10 @@ export const AutoComments = () => {
             });
         // console.log('obteniendo fuente del video ',obtenervideo)
         const requestone = axios.get(`${getBaseAdressApi()}api/video/${idvideo}`).then(response => {
-            if (sourcevideo === '') {
+            
                 console.log('el video a cargar como fuente es ', response.data.contenedor_aws)
                 setSourceVideo(response.data.contenedor_aws);
-                //console.log('la fuente del video es ', response.data.contenedor_aws);
-                setVideoReproduciendo(response.data);
-            }
+                //console.log('la fuente del video es ', response.data.contenedor_aws);            
         });
         const requestfavs = axios.get(`${getBaseAdressApi()}api/detailfavoritesvideo/${idvideo}`).then(response => {
             let cantidad = response.data[0].favoritos_por_video.length;
@@ -458,12 +458,13 @@ export const AutoComments = () => {
             if (videoscategoria === null) {
                 setVideosCategoria(response.data.videos_por_categoria)
                 const nuevo_listadovideos = response.data.videos_por_categoria.map((el, indice) => {
+                    console.log('video en cateogrias de datos de transición ',el);
                     return {
                         name: 'Rare Wind',
                         description: '#a8edea → #fed6e3',
                         css: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
                         image: 'url("' + el.contenedor_img + '")',
-                        url: el.titulo + "|" + obtenervideo[obtenervideo.length - 2] + "|" + obtenervideo[obtenervideo.length - 1],
+                        url: el.titulo + "|" + el.id + "|" + el.id_categoria,
                         height: 200,
                     }
                 }).slice(0, response.data.videos_por_categoria.length);
@@ -485,8 +486,9 @@ export const AutoComments = () => {
         });
         let elementotop = document.querySelector('.header-reproduccion-individual');
         //elementotop.scrollIntoView({ behavior: 'smooth' });localStorage.getItem
-
-    }, [location]);
+        player && player.load();
+        console.log('El video cargado es ',idvideo,sourcevideo);
+    }, [location,sourcevideo]);
     const changeFavorite = (valor) => {
         if (esFavorito.valor && valor) {
             const addfav = axios.put(`${getBaseAdressApi()}api/addfavoritevideo/`, {
@@ -1005,6 +1007,10 @@ export const AutoComments = () => {
             });
         }
     }
+    const resetSourceVideo = (url) => {
+        console.log('navegando a desde transición',url);
+        history.push(url);
+    }
     return (
         <div className='player-individual' onScroll={handleScroll}>
             {
@@ -1021,7 +1027,9 @@ export const AutoComments = () => {
             <div onClick={(e) => resetMyEvents(null, true)} className='player-container' onContextMenu={(e) => handleContextMenu(false, false)}>
                 <div className="player-inner">
                     {sourcevideo &&
-                        <Player aspectRatio='16:9'>
+                        <Player aspectRatio='16:9' ref={player => {
+                            setPlayer(player);
+                        }}>
                             <source src={sourcevideo}></source>
                             <ControlBar disableCompletely={false}></ControlBar>
                             <BigPlayButton position='center' />
@@ -1062,7 +1070,7 @@ export const AutoComments = () => {
                     }}>
                         {esFavorito.valor ? <FontAwesomeIcon style={{ color: 'red' }} icon={faHeart} />
                             : <FontAwesomeIcon style={{ color: 'darkgray' }} icon={faHeartBroken} />}
-                        <span>Favoritos <span className="cuenta-favoritos-small">{esFavorito.cuenta}</span></span>
+                        <span>Favoritos <span className="cuenta-favoritos-small">{esFavorito.cuenta > 0 ? esFavorito.cuenta: 'sin favoritos'}</span></span>
                     </div>
                     <div className='item-acciones-repro'>
                         <FontAwesomeIcon icon={faHeadphones} /><span>Encolar</span>
@@ -1106,7 +1114,7 @@ export const AutoComments = () => {
                                     <animated.div
                                         className="category-item"
                                         style={{ ...style, background: item.css, backgroundImage: item.image, backgroundPosition: 'center center', backgroundSize: '100px', backgroundRepeat: 'no-repeat' }}
-                                    ><Vinculo to={'/Reproduccion/' + item.url} /></animated.div>
+                                    ><Vinculo to={"/Reproduccion/"+item.url} /></animated.div>
                                 )
                             })}
                             <p>
