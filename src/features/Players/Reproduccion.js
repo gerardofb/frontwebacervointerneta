@@ -447,6 +447,25 @@ export const AutoComments = () => {
             
                 console.log('el video a cargar como fuente es ', response.data.contenedor_aws)
                 setSourceVideo(response.data.contenedor_aws);
+                if(response.data.contenedor_aws){
+                    const requestVisita = axios.post(`${getBaseAdressApi()}api/addvisitvideoauth/`, {
+                        "id_video": parseInt(idvideo)
+                    }, {
+                        headers: {
+                            "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
+                        }
+                    }).then(response=>{
+
+                    }).catch(err=>{
+                        const requestVisitaAnon = axios.post(`${getBaseAdressApi()}api/addvisitvideo/`, {
+                            "id_video": parseInt(idvideo)
+                        }).then(response=>{
+
+                        }).catch(err=>{
+                            
+                        })
+                    })
+                }
                 //console.log('la fuente del video es ', response.data.contenedor_aws);            
         });
         const requestfavs = axios.get(`${getBaseAdressApi()}api/detailfavoritesvideo/${idvideo}`).then(response => {
