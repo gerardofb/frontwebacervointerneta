@@ -2438,10 +2438,96 @@ Página de eventos
 .eventos-main-calendar-content {
   display: grid;
   grid-template-columns: 3em 3em 3em 3em 3em 3em 3em;
-  width: 25%;
-
+  width: 100%;
+  padding-top:50px;
+  position:relative;
+  & .button-publish-event-user{
+    position: absolute;
+    top:0;
+    width:100px;
+    height:30px;
+    outline: none;
+    border:gray;
+    color:white;
+    background-color: slateblue;
+    cursor:pointer;
+    border-radius: .4em;
+    left:calc(100% - 90px);
+  }
+  & .button-publish-event-user.cancel{
+    position: absolute;
+    top:0;
+    width:100px;
+    height:30px;
+    outline: none;
+    border:gray;
+    color:white;
+    background-color: crimson;
+    cursor:pointer;
+    border-radius: .4em;
+    left:calc(100% - 90px);
+  }
 }
 
+.form-send-evento-user{
+  display:grid;
+  width: 95%;
+  margin:auto;
+  grid-gap:1em;
+  grid-template-columns: repeat(2,1fr);
+  
+  & .buttons-form-send-evento-user{
+     display: block;
+     text-align: right;
+     & button{
+      margin: 0 0 0 1em;
+     }
+  }
+  
+  & div{
+    display: grid;
+    grid-gap: 1em;
+    grid-template-columns: .8fr 1.2fr;
+    margin:1em 0;
+    & label{
+      text-align: right;
+      padding:0 .5em;
+    }
+    & input{
+      outline: none;
+      border:0;
+      border-bottom: 1px solid black;
+      background-color: transparent;
+      height: 40px;
+    }
+    & input[type="file"]{
+      border-bottom: 0;
+    }
+    & textarea{
+      background-color: transparent;
+    }
+    & .button-publish-event-user{
+      width:100px;
+      height:30px;
+      outline: none;
+      border:gray;
+      color:white;
+      background-color: slateblue;
+      cursor:pointer;
+      border-radius: .4em;
+    }
+    & .button-publish-event-user.cancel{
+      width:100px;
+      height:30px;
+      outline: none;
+      border:gray;
+      color:white;
+      background-color: crimson;
+      cursor:pointer;
+      border-radius: .4em;
+    }
+  }
+}
 .calendario-eventos-principal {
   background-color: white;
   min-width: 21em;
@@ -2582,6 +2668,14 @@ Página de eventos
   position: relative;
   top: 50%;
   left: 30%;
+  & .full-title-send-evento-user{
+    grid-column-start: 1;
+    grid-column-end: 6;
+  }
+  & .form-send-evento-user{
+    grid-column-start: 1;
+    grid-column-end: 6;
+  }
 }
 
 @media screen and (max-width:1190px) {

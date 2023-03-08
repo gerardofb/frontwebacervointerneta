@@ -428,7 +428,7 @@ const Eventos = () => {
     const patrocinado = backlink.get('acervo');
     const eventoacervo = patrocinado === "true";
     const anioinicial = new Date().getFullYear();
-    const [daysInitial, setDaysInitial] = useState({ numerodias: fillInDaysMonth(0, anioinicial), titulo: estableceTituloCalendario(0, anioinicial) });
+    const [daysInitial, setDaysInitial] = useState({ mesactual: 1, numerodias: fillInDaysMonth(0, anioinicial), titulo: estableceTituloCalendario(0, anioinicial) });
     const [clasesCalendario, setClasesCalendario] = useState({ titulocalendario: 'Enero 2022' });
     const [reset, setReset] = useState(false);
     const [hoverMoreEvent, setHoverMoreEvent] = useState(false);
@@ -484,6 +484,7 @@ const Eventos = () => {
     }, [location]);
     const valor = eventosMin.find(x => x.index == evento);
     const [eventdetail, setEventDetail] = useState(eventosMin.find(x => x.fecha.getMonth() == detalleEvento));
+    const [monthSelectedPublish, setMonthSelectedPublish] = useState({ mes:-1,titulo: '', publish: false, dateInitial: null, dateFinal: null });
     const handleEnter = (indice) => {
 
         let clases = [
@@ -495,10 +496,16 @@ const Eventos = () => {
         let numerodefecto = fillInDaysMonth(indice, anioinicial);
         setDaysInitial({ numerodias: numerodefecto, titulo: estableceTituloCalendario(indice, anioinicial) });
         setDiaEvento(0);
+        setMonthSelectedPublish({
+            ...monthSelectedPublish,
+            titulo: estableceTituloCalendario(indice, anioinicial),
+            mes:indice
+        })
     }
     const estableceDiaEvento = (dia) => {
         setReset(false);
         setDiaEvento(dia);
+
     }
     const referencia = useRef();
     const referenciaEventAcervo = useRef();
@@ -652,6 +659,13 @@ const Eventos = () => {
     }
     const [banderaacervo, setBanderaAcervo] = useState(false);
     const [timeCodeTitle, setTimeCodeTitle] = useState(false);
+    const establecePublicacion = (valor) => {
+        setMonthSelectedPublish({
+            ...monthSelectedPublish,
+            publish: valor,
+        });
+    }
+    console.log('el título del mes a publicar es ', monthSelectedPublish.titulo);
     return (
         detalleEvento == -1 && !eventoacervo ?
             <div>
@@ -663,25 +677,27 @@ const Eventos = () => {
                     </ParallaxLayer>
                     <ParallaxLayer offset={0.16} speed={1}>
                         <div ref={referencia} className="main-content-this-event">
-                            {<>
-                                <Link title="Regresar a reproducción" to={`/Reproduccion/${regresar}`} className="vinculo-atras-generico"><FontAwesomeIcon icon={faArrowLeft} /></Link>
-                                <div className="main-eventos-link-acervo-eventos-editor">
-                                    <Link title="Ver eventos del editor de la página" onMouseEnter={(e) => setEventosEditor(true)}
-                                        onMouseLeave={(e) => setEventosEditor(false)}
-                                        to={"/Eventos/" + evento + "?previous=" + regresar + "&acervo=true"}>Quizás prefiera... <span>{
-                                            eventoseditor ?
-                                                "ver los eventos del editor del sitio." : null}</span></Link>
-                                </div>
-                                <h1>
-                                    {valor && valor.title + " (" + valor.fecha.getFullYear() + "/" +
-                                        (valor.fecha.getMonth() + 1) + "/" + valor.fecha.getDate() + " a las " + valor.fecha.getHours() + "  horas)"
-                                    }
-                                </h1>
-                                <img src={valor.imagen} />
-                                <p>
-                                    {valor && valor.descripcion}
-                                </p>
-                            </>
+                            {
+                                <>
+                                    <Link title="Regresar a reproducción" to={`/Reproduccion/${regresar}`} className="vinculo-atras-generico"><FontAwesomeIcon icon={faArrowLeft} /></Link>
+                                    <div className="main-eventos-link-acervo-eventos-editor">
+                                        <Link title="Ver eventos del editor de la página" onMouseEnter={(e) => setEventosEditor(true)}
+                                            onMouseLeave={(e) => setEventosEditor(false)}
+                                            to={"/Eventos/" + evento + "?previous=" + regresar + "&acervo=true"}>Quizás prefiera... <span>{
+                                                eventoseditor ?
+                                                    "ver los eventos del editor del sitio." : null}</span></Link>
+                                    </div>
+                                    <h1>
+                                        {valor && valor.title + " (" + valor.fecha.getFullYear() + "/" +
+                                            (valor.fecha.getMonth() + 1) + "/" + valor.fecha.getDate() + " a las " + valor.fecha.getHours() + "  horas)"
+                                        }
+                                    </h1>
+                                    <img src={valor.imagen} />
+                                    <p>
+                                        {valor && valor.descripcion}
+                                    </p>
+                                </>
+
                             }
 
                         </div>
@@ -702,6 +718,7 @@ const Eventos = () => {
 
                             </div>
                             <div className="eventos-main-calendar-content">
+                                <button className="button-publish-event-user" onClick={(e) => establecePublicacion(true)}>Publicar</button>
                                 {
                                     daysInitial.numerodias.map((dia, indice) => {
                                         let clasedia = diaevento === dia ? "day active" : "day";
@@ -731,7 +748,7 @@ const Eventos = () => {
                                     <FontAwesomeIcon className="icon-ver-detail-event" icon={!hoverMoreEvent ? faArrowRight : faCalendarDays} />{mes}</h1>
 
                                 <div className="listado-min-eventos">
-                                    {
+                                    {!monthSelectedPublish.publish || monthSelectedPublish.mes != index ?
                                         eventosmes.map((event, idx) => {
                                             let idLink = '/Eventos/' + event.index + "?previous=" + regresar;
                                             return (
@@ -746,6 +763,21 @@ const Eventos = () => {
 
                                             )
                                         })
+
+                                        : monthSelectedPublish.publish && monthSelectedPublish.mes == index ?<>
+                                            <div className="full-title-send-evento-user"><h2>Publicar evento para el mes de {monthSelectedPublish.titulo}:</h2></div>
+                                            <div className="form-send-evento-user">
+
+                                                <div><label>Título del evento:</label><input type="text"></input></div>
+                                                <div><label>Descripción del evento:</label><textarea rows="20" cols="60"></textarea></div>
+                                                <div><label>Fecha y hora de inicio:</label><input type="text"></input></div>
+                                                <div><label>Fecha y hora de finalización:</label><input type="text"></input></div>
+                                                <div><label>Agregar una imagen (opcional):</label><input type="file"></input></div>
+                                                <div className="buttons-form-send-evento-user"><button className="button-publish-event-user">Publicar</button>
+                                                    <button className="button-publish-event-user cancel" onClick={(e) => establecePublicacion(false)}>Cancelar</button></div>
+                                            </div>
+                                        </> : 
+                                        null
                                     }
                                 </div>
                             </div>
