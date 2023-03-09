@@ -8,6 +8,12 @@ import { useLocation, useParams } from "react-router-dom";
 import { faCalendarDays, faArrowRight, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AnimatedComponent } from "react-spring";
+import DateTimePicker from "react-datetime-picker";
+import 'react-datetime-picker/dist/DateTimePicker.css';
+import 'react-calendar/dist/Calendar.css';
+import 'react-clock/dist/Clock.css';
+import axios from "axios";
+import { getBaseAdressApi } from "../MainAPI";
 const yearsacervo = [
     2019,
     2020,
@@ -420,9 +426,13 @@ var mesesAcervoChosen = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", 
 var diasAcervoChosen = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
 const anioactualacervo = 2034//new Date().getFullYear();
 const urlpng = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/${name}.png${wrap ? ')' : ''}`
+const url_loader = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/${name}${wrap ? ')' : ''}`
+
 const Eventos = () => {
     const { evento } = useParams();
     const location = useLocation();
+    const refFechaIni = useRef();
+    const refFechaFin = useRef();
     const backlink = new URLSearchParams(location.search);
     const regresar = backlink.get('previous');
     const patrocinado = backlink.get('acervo');
@@ -439,13 +449,14 @@ const Eventos = () => {
     const [anioseventos, setAniosEventos] = useState(anioactualacervo);
     const [eventosTemporalesAcervo, setEventosTemporalesAcervo] = useState(getEventosAcervoTemp())
     const history = useHistory();
-    const styles = useSpring({
-        from: { width: '0', opacity: .3 },
-        to: { width: '100%', opacity: 1 },
-        delay: 200,
-        reset: reset,
-        config: config.slow
-    });
+    const [valueFini, setValueFini] = useState(new Date())
+    const [valueFfin, setValueFfin] = useState(new Date())
+    const [monthSelectedPublish, setMonthSelectedPublish] = useState({ mes: 0, titulo: '', publish: false, dateInitial: null, dateFinal: null });
+    const [fechasMaximasMinimas, setFechasMaximasMinimas] = useState([]);
+    const [valoresEventUserForm, setValoresEventUserForm] = useState({ enviando: false, tituloEvento: '', descripcionEvento: '' })
+    const [erroresEventUserForm, setErroresEventUserForm] = useState({ mensaje: '' });
+    const [cuentaUsuario,setCuentaUsuario] = useState('');
+    const refArchivoEventoUser = useRef();
     const goToTop = () => {
         try {
             referencia.current ? referencia.current.scrollIntoView({ behavior: 'smooth' }) : referencia.current = createRef();
@@ -462,6 +473,135 @@ const Eventos = () => {
             fillCalendarAcervo(anioseventos);
         }
     }
+    useEffect(() => {
+        const post_validate = axios.get(`${getBaseAdressApi()}api/userprofile/`, {
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
+            }
+        }).then(response => {
+            console.log('respuesta del userprofile ', response);
+            setCuentaUsuario(response.data["email"])
+        }).catch(err => {
+            setCuentaUsuario('')
+        });
+        console.log("Location changed");
+        goToTop();
+        centerYear();
+
+    }, [location]);
+    const sendEventUserForm = () => {
+        let ff = valueFfin;
+        let fi = valueFini;
+        let diff = ff - fi;
+        // if(refArchivoEventoUser.current.files.length==0){
+        //     setErroresEventUserForm({
+        //         ...erroresEventUserForm,
+        //         mensaje: 'Es necesario enviar un archivo de imagen'
+        //     })
+        //     return false;
+        // }
+        if (diff < 0) {
+            console.log('la fecha de fin es menor a la fecha de inicio');
+            setErroresEventUserForm({
+                ...erroresEventUserForm,
+                mensaje: 'La fecha de finalización no puede ser menor a la fecha de inicio del evento'
+            })
+            return false;
+        }
+        else {
+            let minutes = Math.ceil(diff / 1000 / 60);
+            console.log('la duración de la fecha es ', minutes);
+            if (valoresEventUserForm.tituloEvento.trim() == '' || valoresEventUserForm.descripcionEvento.trim() == '') {
+                setErroresEventUserForm({
+                    ...erroresEventUserForm,
+                    mensaje: 'Los campos título y descripción del evento son obligatorios'
+                })
+                return false;
+            }
+            const datos = new FormData();
+            datos.append("titulo", valoresEventUserForm.tituloEvento);
+            datos.append("descripcion", valoresEventUserForm.descripcionEvento);
+            datos.append("fechainicio", valueFini.toISOString());
+            datos.append("fechafin", valueFfin.toISOString());
+            datos.append("duracion",minutes);
+            if(refArchivoEventoUser.current.files.length > 0){
+                datos.append("filefield", refArchivoEventoUser.current.files[0]);
+            }
+            console.log('fechas convertidas en envío de evento ',valueFfin.toISOString(),valueFini.toISOString())
+            setValoresEventUserForm({
+                ...valoresEventUserForm,
+                enviando:true
+            });
+            const requestPutRelato = axios.put(`${getBaseAdressApi()}api/addeventousuario/`,
+                datos, {
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "multipart/form-data",
+                    "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
+                },
+            }).then(response => {
+                setErroresEventUserForm({
+                    ...erroresEventUserForm,
+                    mensaje: ''
+                });
+                setValoresEventUserForm({
+                    ...valoresEventUserForm,
+                    enviando:false
+                });
+            }).catch(err => {
+                console.log('error en el envío del evento ',err);
+                if (err.response.status == 404 && err.response.data.detail == undefined) {
+                    setErroresEventUserForm({
+                        ...erroresEventUserForm,
+                        mensaje: 'Existe un evento publicado en la fecha y horario elegido, no es posible publicar el evento'
+                    })
+                }
+                setValoresEventUserForm({
+                    ...valoresEventUserForm,
+                    enviando:false
+                });
+            })
+        }
+        console.log('los valores del formulario son ', valoresEventUserForm);
+    }
+    const onBlurFechaIni = () => {
+        refFechaIni.current && setValueFini(refFechaIni.current.props.value);
+        console.log('la fecha inicial en blur del evento es ', valueFini, valueFfin, refFechaIni.current);
+    }
+    const onBlurFechaFin = () => {
+        refFechaFin.current && setValueFfin(refFechaFin.current.props.value);
+        console.log('la fecha final en blur del evento es ', valueFfin, valueFini);
+    }
+    const onChangeFechaIni = (value) => {
+        if (value && value.getMinutes() > 0 && value.getMinutes() <= 30) {
+            value.setMinutes(30);
+        }
+        else if (value && value.getMinutes() > 30 && value.getMinutes() <= 59) {
+            value.setHours(value.getHours() + 1);
+        }
+        value && value.setSeconds(0);
+        setValueFini(value);
+        console.log('la fecha inicial del evento es ', valueFini, valueFfin);
+    }
+    const onChangeFechaFin = (value) => {
+        if (value && value.getMinutes() > 0 && value.getMinutes() <= 30) {
+            value.setMinutes(30);
+        }
+        else if (value && value.getMinutes() > 30 && value.getMinutes() <= 59) {
+            value.setHours(value.getHours() + 1);
+        }
+        value && value.setSeconds(0);
+        setValueFfin(value);
+        console.log('la fecha final del evento es ', valueFfin, valueFini);
+    }
+    const styles = useSpring({
+        from: { width: '0', opacity: .3 },
+        to: { width: '100%', opacity: 1 },
+        delay: 200,
+        reset: reset,
+        config: config.slow
+    });
+    
     const enfocaSemana = (clasecss) => {
         let elemento = document.querySelector(clasecss);
         elemento.scrollIntoView({ behavior: 'smooth' });
@@ -476,15 +616,10 @@ const Eventos = () => {
         }
         return "week";
     }
-    useEffect(() => {
-        console.log("Location changed");
-        goToTop();
-        centerYear();
-
-    }, [location]);
+   
     const valor = eventosMin.find(x => x.index == evento);
     const [eventdetail, setEventDetail] = useState(eventosMin.find(x => x.fecha.getMonth() == detalleEvento));
-    const [monthSelectedPublish, setMonthSelectedPublish] = useState({ mes:-1,titulo: '', publish: false, dateInitial: null, dateFinal: null });
+
     const handleEnter = (indice) => {
 
         let clases = [
@@ -499,9 +634,19 @@ const Eventos = () => {
         setMonthSelectedPublish({
             ...monthSelectedPublish,
             titulo: estableceTituloCalendario(indice, anioinicial),
-            mes:indice
+            mes: indice
+        });
+        setValueFfin(null);
+        setValueFini(null);
+        setValoresEventUserForm({
+            ...valoresEventUserForm,
+            tituloEvento: '',
+            descripcionEvento: '',
+            enviando: false
         })
+        //estableceFechasMaxMin();
     }
+
     const estableceDiaEvento = (dia) => {
         setReset(false);
         setDiaEvento(dia);
@@ -718,7 +863,7 @@ const Eventos = () => {
 
                             </div>
                             <div className="eventos-main-calendar-content">
-                                <button className="button-publish-event-user" onClick={(e) => establecePublicacion(true)}>Publicar</button>
+                                {cuentaUsuario && <button className="button-publish-event-user" onClick={(e) => establecePublicacion(true)}>Publicar</button>}
                                 {
                                     daysInitial.numerodias.map((dia, indice) => {
                                         let clasedia = diaevento === dia ? "day active" : "day";
@@ -736,9 +881,12 @@ const Eventos = () => {
                     </ParallaxLayer>
                     {meses && meses.length > 0 ? meses.map((mes, index) => {
                         let eventosmes = eventosMin.filter(x => x.fecha.getMonth() == index);
-
+                        let inicial = new Date(anioinicial, index, 1);
+                        let final = new Date(anioinicial, index, new Date(anioinicial, index, 0).getDate());
                         return <ParallaxLayer onMouseEnter={(e) => { setReset(true); handleEnter(index); }} onMouseLeave={(e) => setReset(false)}
                             offset={index + 1} key={index} speed={1}>
+                            <div className='default-loader-full-eventos' style={valoresEventUserForm.enviando ===true ? { display: 'block' } : { display: 'none' }}>  <img src={url_loader("Reload-transparent.gif", false)} />
+                            </div>
                             <div className={"mes-evento-main " + cssMeses[index]} id={"mes_event_" + (index + 1)}>
 
                                 <h1 onMouseEnter=
@@ -764,20 +912,52 @@ const Eventos = () => {
                                             )
                                         })
 
-                                        : monthSelectedPublish.publish && monthSelectedPublish.mes == index ?<>
-                                            <div className="full-title-send-evento-user"><h2>Publicar evento para el mes de {monthSelectedPublish.titulo}:</h2></div>
-                                            <div className="form-send-evento-user">
-
-                                                <div><label>Título del evento:</label><input type="text"></input></div>
-                                                <div><label>Descripción del evento:</label><textarea rows="20" cols="60"></textarea></div>
-                                                <div><label>Fecha y hora de inicio:</label><input type="text"></input></div>
-                                                <div><label>Fecha y hora de finalización:</label><input type="text"></input></div>
-                                                <div><label>Agregar una imagen (opcional):</label><input type="file"></input></div>
-                                                <div className="buttons-form-send-evento-user"><button className="button-publish-event-user">Publicar</button>
-                                                    <button className="button-publish-event-user cancel" onClick={(e) => establecePublicacion(false)}>Cancelar</button></div>
+                                        : monthSelectedPublish.publish && monthSelectedPublish.mes == index ? <>
+                                            <div className="full-title-send-evento-user">
+                                                <h2>Publicar evento para el mes de {monthSelectedPublish.titulo}:</h2></div>
+                                            <div className="errores-form-send-evento-user"
+                                                style={erroresEventUserForm.mensaje == '' ? { display: 'none' } : { display: 'block' }}>
+                                                {erroresEventUserForm.mensaje}
                                             </div>
-                                        </> : 
-                                        null
+                                            <div className="fechas-user-event">
+                                                <div onBlur={onBlurFechaIni}><label>Fecha y hora de inicio:</label><DateTimePicker
+                                                    minDetail="year"
+                                                    ocale="es-ES"
+                                                    ref={refFechaIni}
+                                                    minDate={inicial}
+                                                    maxDate={final}
+                                                    format="y-MM-dd HH:mm"
+                                                    onChange={onChangeFechaIni} value={valueFini}></DateTimePicker></div>
+                                                <div onBlur={onBlurFechaFin}>
+                                                    <label>Fecha y hora de finalización:</label><DateTimePicker
+                                                        minDetail="year"
+                                                        locale="es-ES"
+                                                        ref={refFechaFin}
+                                                        minDate={inicial}
+                                                        maxDate={final}
+                                                        format="y-MM-dd HH:mm"
+                                                        onChange={onChangeFechaFin} value={valueFfin}></DateTimePicker></div>
+                                            </div>
+                                            <div className="form-send-evento-user">
+                                                <div><label>Título del evento:</label><input type="text" value={valoresEventUserForm.tituloEvento}
+                                                    onChange={(e) => setValoresEventUserForm({
+                                                        ...valoresEventUserForm,
+                                                        tituloEvento: e.target.value
+                                                    })}></input></div>
+                                                <div><label>Descripción del evento:</label><textarea rows="20" cols="60"
+                                                    value={valoresEventUserForm.descripcionEvento} onChange={(e) => setValoresEventUserForm({
+                                                        ...valoresEventUserForm,
+                                                        descripcionEvento: e.target.value
+                                                    })}></textarea></div>
+                                                <div><label>Agregar una imagen (opcional):</label><input ref={refArchivoEventoUser} type="file"></input></div>
+                                                <div></div>
+                                                <div className="buttons-form-send-evento-user">
+                                                    <button className="button-publish-event-user" onClick={sendEventUserForm}>Publicar</button>
+                                                    <button className="button-publish-event-user cancel" onClick={(e) => establecePublicacion(false)}>Cancelar</button>
+                                                </div>
+                                            </div>
+                                        </> :
+                                            null
                                     }
                                 </div>
                             </div>

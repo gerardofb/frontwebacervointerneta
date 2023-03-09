@@ -171,12 +171,6 @@ const sideBarData = [
         icon: "calendar-days",
         subNav: [
           {
-            title: "Favoritos",
-            path: '/Eventos/ListadoEventos/Favoritos',
-            icon: 'heart',
-            sesion_no_iniciada: false
-          },
-          {
             title: "Más visitados",
             path: '/Eventos/EventosMasVisitados/MasVisitados',
             icon: 'check'

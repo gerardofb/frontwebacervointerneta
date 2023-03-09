@@ -2468,7 +2468,13 @@ Página de eventos
     left:calc(100% - 90px);
   }
 }
-
+.fechas-user-event{
+  display:grid;
+  width:95%;
+  margin:auto;
+  grid-gap:1em;
+  grid-template-columns: repeat(4,1fr);
+}
 .form-send-evento-user{
   display:grid;
   width: 95%;
@@ -2477,13 +2483,14 @@ Página de eventos
   grid-template-columns: repeat(2,1fr);
   
   & .buttons-form-send-evento-user{
-     display: block;
-     text-align: right;
+     display: grid;
+     grid-template-columns: repeat(2,1fr);
+     grid-column-start: 2;
+     grid-column-end: 2;
      & button{
-      margin: 0 0 0 1em;
+      margin-left:11em;
      }
   }
-  
   & div{
     display: grid;
     grid-gap: 1em;
@@ -2666,13 +2673,22 @@ Página de eventos
   grid-gap: 2.5rem;
   min-width: 640px;
   position: relative;
-  top: 50%;
+  top: 20%;
   left: 30%;
   & .full-title-send-evento-user{
     grid-column-start: 1;
     grid-column-end: 6;
   }
+  & .errores-form-send-evento-user{
+    grid-column-start: 1;
+    grid-column-end: 6;
+    color:crimson;
+  }
   & .form-send-evento-user{
+    grid-column-start: 1;
+    grid-column-end: 6;
+  }
+  & .fechas-user-event{
     grid-column-start: 1;
     grid-column-end: 6;
   }
@@ -4193,6 +4209,21 @@ label.caja-expandible-label {
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   background-color: white;
+}
+.default-loader-full-eventos{
+  text-align: center;
+  min-height: 100px;
+  width: 98%;
+  grid-column-start: 1;
+  grid-column-end: 2;
+  margin-left:.7em;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  background-color: transparent;
+  position: absolute;
+  top:50%;
+  left:0%;
+  z-index: 99999;
 }
 
 .default-loader-center {
