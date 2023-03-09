@@ -448,6 +448,8 @@ const Eventos = () => {
     const [eventoPatrocinado, setEventoPatrocinado] = useState(eventoacervo);
     const [anioseventos, setAniosEventos] = useState(anioactualacervo);
     const [eventosTemporalesAcervo, setEventosTemporalesAcervo] = useState(getEventosAcervoTemp())
+    const [banderaacervo, setBanderaAcervo] = useState(false);
+    const [timeCodeTitle, setTimeCodeTitle] = useState(false);
     const history = useHistory();
     const [valueFini, setValueFini] = useState(new Date())
     const [valueFfin, setValueFfin] = useState(new Date())
@@ -489,6 +491,13 @@ const Eventos = () => {
         centerYear();
 
     }, [location]);
+    
+    const establecePublicacion = (valor) => {
+        setMonthSelectedPublish({
+            ...monthSelectedPublish,
+            publish: valor,
+        });
+    }
     const sendEventUserForm = () => {
         let ff = valueFfin;
         let fi = valueFini;
@@ -802,14 +811,7 @@ const Eventos = () => {
 
         }
     }
-    const [banderaacervo, setBanderaAcervo] = useState(false);
-    const [timeCodeTitle, setTimeCodeTitle] = useState(false);
-    const establecePublicacion = (valor) => {
-        setMonthSelectedPublish({
-            ...monthSelectedPublish,
-            publish: valor,
-        });
-    }
+    
     console.log('el título del mes a publicar es ', monthSelectedPublish.titulo);
     return (
         detalleEvento == -1 && !eventoacervo ?
