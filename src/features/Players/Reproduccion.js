@@ -274,14 +274,14 @@ function isInViewportMenu() {
     const { scrollTop, offsetHeight } = document.documentElement;
     console.log('datos de video encabezado', rect.top, rect.left, rect.bottom, rect.right)
     console.log('limite datos de video encabezado ', Math.round(scrollTop - rect.top))
-    if(Math.round(scrollTop - rect.top) > 0){
-        menusuperior.style.display='block'
-        
+    if (Math.round(scrollTop - rect.top) > 0) {
+        menusuperior.style.display = 'block'
+
     }
-    else{
-        menusuperior.style.display='none'
+    else {
+        menusuperior.style.display = 'none'
     }
-    
+
 }
 const mensajes = [
     { autor: "Gerardo Flores", fecha: "02/06/2022 2:27PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam fermentum.", propio: false },
@@ -374,7 +374,7 @@ export const AutoComments = () => {
     });
     const [esFavorito, setEsFavorito] = useState({ valor: true, cuenta: 0 });
     const [cuentaUsuario, setCuentaUsuario] = useState('');
-    const [player,setPlayer] = useState(null);
+    const [player, setPlayer] = useState(null);
     useEffect(() => {
         let parametros;
         if (location.search) {
@@ -444,29 +444,34 @@ export const AutoComments = () => {
             });
         // console.log('obteniendo fuente del video ',obtenervideo)
         const requestone = axios.get(`${getBaseAdressApi()}api/video/${idvideo}`).then(response => {
-            
-                console.log('el video a cargar como fuente es ', response.data.contenedor_aws)
-                setSourceVideo(response.data.contenedor_aws);
-                if(response.data.contenedor_aws){
+
+            console.log('el video a cargar como fuente es ', response.data.contenedor_aws)
+
+            if (response.data.contenedor_aws) {
+                if (sourcevideo == '' || response.data.contenedor_aws != sourcevideo) {
+                    setSourceVideo(response.data.contenedor_aws);
                     const requestVisita = axios.post(`${getBaseAdressApi()}api/addvisitvideoauth/`, {
                         "id_video": parseInt(idvideo)
                     }, {
                         headers: {
                             "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
                         }
-                    }).then(response=>{
+                    }).then(response => {
 
-                    }).catch(err=>{
+                    }).catch(err => {
                         const requestVisitaAnon = axios.post(`${getBaseAdressApi()}api/addvisitvideo/`, {
                             "id_video": parseInt(idvideo)
-                        }).then(response=>{
+                        }).then(response => {
 
-                        }).catch(err=>{
-                            
+                        }).catch(err => {
+
                         })
                     })
                 }
-                //console.log('la fuente del video es ', response.data.contenedor_aws);            
+                
+            }
+            
+            //console.log('la fuente del video es ', response.data.contenedor_aws);            
         });
         const requestfavs = axios.get(`${getBaseAdressApi()}api/detailfavoritesvideo/${idvideo}`).then(response => {
             let cantidad = response.data[0].favoritos_por_video.length;
@@ -486,7 +491,7 @@ export const AutoComments = () => {
             if (videoscategoria === null) {
                 setVideosCategoria(response.data.videos_por_categoria)
                 const nuevo_listadovideos = response.data.videos_por_categoria.map((el, indice) => {
-                    console.log('video en cateogrias de datos de transición ',el);
+                    console.log('video en cateogrias de datos de transición ', el);
                     return {
                         name: 'Rare Wind',
                         description: '#a8edea → #fed6e3',
@@ -494,6 +499,7 @@ export const AutoComments = () => {
                         image: 'url("' + el.contenedor_img + '")',
                         url: el.titulo + "|" + el.id + "|" + el.id_categoria,
                         height: 200,
+                        id_video:el.id
                     }
                 }).slice(0, response.data.videos_por_categoria.length);
                 if (datostransicion === null) {
@@ -515,8 +521,27 @@ export const AutoComments = () => {
         let elementotop = document.querySelector('.header-reproduccion-individual');
         //elementotop.scrollIntoView({ behavior: 'smooth' });localStorage.getItem
         player && player.load();
-        console.log('El video cargado es ',idvideo,sourcevideo);
-    }, [location,sourcevideo]);
+        console.log('El video cargado es ', idvideo, sourcevideo);
+    }, [location, location.pathname, sourcevideo]);
+    const sendVisitFrameVideo =(id_del_video)=>{
+        const requestVisita = axios.post(`${getBaseAdressApi()}api/addvisitvideoauth/`, {
+            "id_video":id_del_video
+        }, {
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
+            }
+        }).then(response => {
+
+        }).catch(err => {
+            const requestVisitaAnon = axios.post(`${getBaseAdressApi()}api/addvisitvideo/`, {
+                "id_video": id_del_video
+            }).then(response => {
+
+            }).catch(err => {
+
+            })
+        })
+    }
     const changeFavorite = (valor) => {
         if (esFavorito.valor && valor) {
             const addfav = axios.put(`${getBaseAdressApi()}api/addfavoritevideo/`, {
@@ -535,8 +560,8 @@ export const AutoComments = () => {
                         cuenta: cantidad
                     })
                 })
-            }).catch(err=>{
-                if(err.response.status == 404){
+            }).catch(err => {
+                if (err.response.status == 404) {
                     setEsFavorito({
                         ...esFavorito,
                         valor: !esFavorito.valor,
@@ -548,9 +573,10 @@ export const AutoComments = () => {
             const addfav = axios.delete(`${getBaseAdressApi()}api/addfavoritevideo/`, {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
-                }, data:{
-                "id_video": parseInt(idvideo)
-            }}).then(response => {
+                }, data: {
+                    "id_video": parseInt(idvideo)
+                }
+            }).then(response => {
                 const requestmorefavs = axios.get(`${getBaseAdressApi()}api/detailfavoritesvideo/${idvideo}`).then(response => {
                     let cantidad = response.data[0].favoritos_por_video.length;
                     console.log('obteniendo cuenta de favoritos ', cantidad, response)
@@ -560,8 +586,8 @@ export const AutoComments = () => {
                         cuenta: cantidad
                     })
                 })
-            }).catch(err=>{
-                if(err.response.status == 404){
+            }).catch(err => {
+                if (err.response.status == 404) {
                     setEsFavorito({
                         ...esFavorito,
                         valor: !esFavorito.valor,
@@ -1036,7 +1062,7 @@ export const AutoComments = () => {
         }
     }
     const resetSourceVideo = (url) => {
-        console.log('navegando a desde transición',url);
+        console.log('navegando a desde transición', url);
         history.push(url);
     }
     return (
@@ -1098,7 +1124,7 @@ export const AutoComments = () => {
                     }}>
                         {esFavorito.valor ? <FontAwesomeIcon style={{ color: 'red' }} icon={faHeart} />
                             : <FontAwesomeIcon style={{ color: 'darkgray' }} icon={faHeartBroken} />}
-                        <span>Favoritos <span className="cuenta-favoritos-small">{esFavorito.cuenta > 0 ? esFavorito.cuenta: 'sin favoritos'}</span></span>
+                        <span>Favoritos <span className="cuenta-favoritos-small">{esFavorito.cuenta > 0 ? esFavorito.cuenta : 'sin favoritos'}</span></span>
                     </div>
                     <div className='item-acciones-repro'>
                         <FontAwesomeIcon icon={faHeadphones} /><span>Encolar</span>
@@ -1142,7 +1168,7 @@ export const AutoComments = () => {
                                     <animated.div
                                         className="category-item"
                                         style={{ ...style, background: item.css, backgroundImage: item.image, backgroundPosition: 'center center', backgroundSize: '100px', backgroundRepeat: 'no-repeat' }}
-                                    ><Vinculo to={"/Reproduccion/"+item.url} /></animated.div>
+                                    ><Vinculo to={"/Reproduccion/" + item.url} /></animated.div>
                                 )
                             })}
                             <p>

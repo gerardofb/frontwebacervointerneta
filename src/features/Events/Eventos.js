@@ -438,6 +438,7 @@ const Eventos = () => {
     const patrocinado = backlink.get('acervo');
     const eventoacervo = patrocinado === "true";
     const anioinicial = new Date().getFullYear();
+    const [eventosMonth, setEventosMonth] = useState({ cuentaMes: 0, listadoEventosMes: [] });
     const [daysInitial, setDaysInitial] = useState({ mesactual: 1, numerodias: fillInDaysMonth(0, anioinicial), titulo: estableceTituloCalendario(0, anioinicial) });
     const [clasesCalendario, setClasesCalendario] = useState({ titulocalendario: 'Enero 2022' });
     const [reset, setReset] = useState(false);
@@ -457,7 +458,8 @@ const Eventos = () => {
     const [fechasMaximasMinimas, setFechasMaximasMinimas] = useState([]);
     const [valoresEventUserForm, setValoresEventUserForm] = useState({ enviando: false, tituloEvento: '', descripcionEvento: '' })
     const [erroresEventUserForm, setErroresEventUserForm] = useState({ mensaje: '' });
-    const [cuentaUsuario,setCuentaUsuario] = useState('');
+    const [cuentaUsuario, setCuentaUsuario] = useState('');
+    const [valor, setValor] = useState(null);
     const refArchivoEventoUser = useRef();
     const goToTop = () => {
         try {
@@ -487,11 +489,34 @@ const Eventos = () => {
             setCuentaUsuario('')
         });
         console.log("Location changed");
+        // const get_eventosmonth = axios.get(`${getBaseAdressApi()}api/eventosuser/1?limit=15&offset=0`).then(response => {
+        //     let eventosfirst = response.data.results.map((el, idx) => {
+        //         return {
+        //             index: el.id, selected: false, title: el.titulo, descripcion: el.descripcion,
+        //             fecha: new Date(el.fechainicio), duracion: el.duracion, imagen: el.contenedor_img
+        //         }
+        //     });
+        //     console.log('la respuesta del servicio de eventos por mes es ', response.data, eventosfirst);
+        //     setEventosMonth({
+        //         ...eventosMonth,
+        //         cuentaMes: response.data.count,
+        //         listadoEventosMes: eventosfirst
+        //     });
+        //     let eventoselected = eventosMonth.listadoEventosMes.find(x => x.index == evento)
+        //     if (eventoselected) {
+        //         setValor(eventoselected)
+        //     }
+        //     else if (eventosMonth.listadoEventosMes.length > 0) {
+        //         setValor(eventosMonth.listadoEventosMes[0]);
+        //     }
+        // }).catch(err => {
+
+        // })
         goToTop();
         centerYear();
 
     }, [location]);
-    
+
     const establecePublicacion = (valor) => {
         setMonthSelectedPublish({
             ...monthSelectedPublish,
@@ -502,13 +527,6 @@ const Eventos = () => {
         let ff = valueFfin;
         let fi = valueFini;
         let diff = ff - fi;
-        // if(refArchivoEventoUser.current.files.length==0){
-        //     setErroresEventUserForm({
-        //         ...erroresEventUserForm,
-        //         mensaje: 'Es necesario enviar un archivo de imagen'
-        //     })
-        //     return false;
-        // }
         if (diff < 0) {
             console.log('la fecha de fin es menor a la fecha de inicio');
             setErroresEventUserForm({
@@ -532,14 +550,14 @@ const Eventos = () => {
             datos.append("descripcion", valoresEventUserForm.descripcionEvento);
             datos.append("fechainicio", valueFini.toISOString());
             datos.append("fechafin", valueFfin.toISOString());
-            datos.append("duracion",minutes);
-            if(refArchivoEventoUser.current.files.length > 0){
+            datos.append("duracion", minutes);
+            if (refArchivoEventoUser.current.files.length > 0) {
                 datos.append("filefield", refArchivoEventoUser.current.files[0]);
             }
-            console.log('fechas convertidas en envío de evento ',valueFfin.toISOString(),valueFini.toISOString())
+            console.log('fechas convertidas en envío de evento ', valueFfin.toISOString(), valueFini.toISOString())
             setValoresEventUserForm({
                 ...valoresEventUserForm,
-                enviando:true
+                enviando: true
             });
             const requestPutRelato = axios.put(`${getBaseAdressApi()}api/addeventousuario/`,
                 datos, {
@@ -553,12 +571,43 @@ const Eventos = () => {
                     ...erroresEventUserForm,
                     mensaje: ''
                 });
-                setValoresEventUserForm({
-                    ...valoresEventUserForm,
-                    enviando:false
-                });
+                
+                const get_eventosmonth = axios.get(`${getBaseAdressApi()}api/eventosuser/${(monthSelectedPublish.mes)+1}?limit=15&offset=0`).then(response => {
+                    let eventosfirst = response.data.results.map((el, idx) => {
+                        return {
+                            index: el.id, selected: false, title: el.titulo, descripcion: el.descripcion,
+                            fecha: new Date(el.fechainicio), duracion: el.duracion, imagen: el.contenedor_img
+                        }
+                    });
+                    console.log('la respuesta del servicio de eventos por mes es ', response.data, eventosfirst);
+                    setEventosMonth({
+                        ...eventosMonth,
+                        cuentaMes: response.data.count,
+                        listadoEventosMes: eventosfirst
+                    });
+                    let eventoselected = eventosMonth.listadoEventosMes.find(x => x.index == evento)
+                    if (eventoselected) {
+                        setValor(eventoselected)
+                    }
+                    else if (eventosMonth.listadoEventosMes.length > 0) {
+                        setValor(eventosMonth.listadoEventosMes[0]);
+                    }
+                    setValoresEventUserForm({
+                        ...valoresEventUserForm,
+                        enviando: false
+                    });
+                    setMonthSelectedPublish({
+                        ...monthSelectedPublish,
+                        publish:false,
+                    });
+                }).catch(err => {
+                    setValoresEventUserForm({
+                        ...valoresEventUserForm,
+                        enviando: false
+                    });
+                })                
             }).catch(err => {
-                console.log('error en el envío del evento ',err);
+                console.log('error en el envío del evento ', err);
                 if (err.response.status == 404 && err.response.data.detail == undefined) {
                     setErroresEventUserForm({
                         ...erroresEventUserForm,
@@ -567,8 +616,9 @@ const Eventos = () => {
                 }
                 setValoresEventUserForm({
                     ...valoresEventUserForm,
-                    enviando:false
+                    enviando: false
                 });
+                
             })
         }
         console.log('los valores del formulario son ', valoresEventUserForm);
@@ -610,7 +660,7 @@ const Eventos = () => {
         reset: reset,
         config: config.slow
     });
-    
+
     const enfocaSemana = (clasecss) => {
         let elemento = document.querySelector(clasecss);
         elemento.scrollIntoView({ behavior: 'smooth' });
@@ -625,12 +675,38 @@ const Eventos = () => {
         }
         return "week";
     }
-   
-    const valor = eventosMin.find(x => x.index == evento);
-    const [eventdetail, setEventDetail] = useState(eventosMin.find(x => x.fecha.getMonth() == detalleEvento));
+
+
+    const [eventdetail, setEventDetail] = useState(eventosMonth.listadoEventosMes.find(x => x.fecha.getMonth() == detalleEvento));
 
     const handleEnter = (indice) => {
+        setEventosMonth({
+            ...eventosMonth,
+            listadoEventosMes:[]
+        })
+        const get_eventosmonth = axios.get(`${getBaseAdressApi()}api/eventosuser/${(indice + 1)}?limit=15&offset=0`).then(response => {
+            let eventosfirst = response.data.results.map((el, idx) => {
+                return {
+                    index: el.id, selected: false, title: el.titulo, descripcion: el.descripcion,
+                    fecha: new Date(el.fechainicio), duracion: el.duracion, imagen: el.contenedor_img
+                }
+            });
+            console.log('la respuesta del servicio de eventos por mes es ', response.data, eventosfirst);
+            setEventosMonth({
+                ...eventosMonth,
+                cuentaMes: response.data.count,
+                listadoEventosMes: eventosfirst
+            });
+            let eventoselected = eventosMonth.listadoEventosMes.find(x => x.index == evento)
+            if (eventoselected) {
+                setValor(eventoselected)
+            }
+            else if (eventosMonth.listadoEventosMes.length > 0) {
+                setValor(eventosMonth.listadoEventosMes[0]);
+            }
+        }).catch(err => {
 
+        })
         let clases = [
             { titulocalendario: 'Enero 2022' },
             { titulocalendario: 'Febrero 2022' }
@@ -674,7 +750,7 @@ const Eventos = () => {
             quintasemana.push('');
         }
     }
-    const eventosdetallados = detalleEvento != -1 ? eventosMin.filter(x => x.fecha.getMonth() == detalleEvento) : [];
+    const eventosdetallados = detalleEvento != -1 ? eventosMonth.listadoEventosMes.filter(x => x.fecha.getMonth() == detalleEvento) : [];
     const [flip, setFlip] = useState(false);
     const [distance, setDistance] = useState(0);
     const stylesacervo = useSpring({
@@ -811,7 +887,7 @@ const Eventos = () => {
 
         }
     }
-    
+
     console.log('el título del mes a publicar es ', monthSelectedPublish.titulo);
     return (
         detalleEvento == -1 && !eventoacervo ?
@@ -839,7 +915,7 @@ const Eventos = () => {
                                             (valor.fecha.getMonth() + 1) + "/" + valor.fecha.getDate() + " a las " + valor.fecha.getHours() + "  horas)"
                                         }
                                     </h1>
-                                    <img src={valor.imagen} />
+                                    <img src={valor && valor.imagen} />
                                     <p>
                                         {valor && valor.descripcion}
                                     </p>
@@ -882,12 +958,12 @@ const Eventos = () => {
                         </div>
                     </ParallaxLayer>
                     {meses && meses.length > 0 ? meses.map((mes, index) => {
-                        let eventosmes = eventosMin.filter(x => x.fecha.getMonth() == index);
+                        //let eventosmes = eventosMonth.filter(x => x.fecha.getMonth() == index);
                         let inicial = new Date(anioinicial, index, 1);
                         let final = new Date(anioinicial, index, new Date(anioinicial, index, 0).getDate());
                         return <ParallaxLayer onMouseEnter={(e) => { setReset(true); handleEnter(index); }} onMouseLeave={(e) => setReset(false)}
                             offset={index + 1} key={index} speed={1}>
-                            <div className='default-loader-full-eventos' style={valoresEventUserForm.enviando ===true ? { display: 'block' } : { display: 'none' }}>  <img src={url_loader("Reload-transparent.gif", false)} />
+                            <div className='default-loader-full-eventos' style={valoresEventUserForm.enviando === true ? { display: 'block' } : { display: 'none' }}>  <img src={url_loader("Reload-transparent.gif", false)} />
                             </div>
                             <div className={"mes-evento-main " + cssMeses[index]} id={"mes_event_" + (index + 1)}>
 
@@ -899,7 +975,7 @@ const Eventos = () => {
 
                                 <div className="listado-min-eventos">
                                     {!monthSelectedPublish.publish || monthSelectedPublish.mes != index ?
-                                        eventosmes.map((event, idx) => {
+                                        eventosMonth.listadoEventosMes.map((event, idx) => {
                                             let idLink = '/Eventos/' + event.index + "?previous=" + regresar;
                                             return (
                                                 <Link to={idLink} style={{ textDecoration: 'none', color: 'gray' }} key={idx}>
