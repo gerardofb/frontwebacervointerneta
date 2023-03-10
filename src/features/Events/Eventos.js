@@ -526,6 +526,13 @@ const Eventos = () => {
     const sendEventUserForm = () => {
         let ff = valueFfin;
         let fi = valueFini;
+        if(ff == null || fi == null){
+            setErroresEventUserForm({
+                ...erroresEventUserForm,
+                mensaje: 'La fecha de finalización y la fecha de inicio son obligatorias'
+            })
+            return false;
+        }
         let diff = ff - fi;
         if (diff < 0) {
             console.log('la fecha de fin es menor a la fecha de inicio');
@@ -594,8 +601,12 @@ const Eventos = () => {
                     }
                     setValoresEventUserForm({
                         ...valoresEventUserForm,
-                        enviando: false
+                        enviando: false,
+                        descripcionEvento:'',
+                        tituloEvento:''
                     });
+                    setValueFfin(null);
+                    setValueFini(null);
                     setMonthSelectedPublish({
                         ...monthSelectedPublish,
                         publish:false,
@@ -612,6 +623,22 @@ const Eventos = () => {
                     setErroresEventUserForm({
                         ...erroresEventUserForm,
                         mensaje: 'Existe un evento publicado en la fecha y horario elegido, no es posible publicar el evento'
+                    })
+                }
+                else if(err.response.data.detail !== undefined){
+                    setErroresEventUserForm({
+                        ...erroresEventUserForm,
+                        mensaje: err.resonse.data.detail
+                    })
+                }
+                else if(err.response.data !==undefined && err.response.data.detail == undefined){
+                    let mensaje_salida = 'Ocurrieron algunos errores: ';
+                    mensaje_salida+= Object.keys(err.response.data).reduce(function (previous, key) {
+                        return key + ": "+ err.response.data[key].join('; ')+"\r\n";
+                    }, 0)
+                    setErroresEventUserForm({
+                        ...erroresEventUserForm,
+                        mensaje:mensaje_salida
                     })
                 }
                 setValoresEventUserForm({
@@ -725,11 +752,10 @@ const Eventos = () => {
         setValueFini(null);
         setValoresEventUserForm({
             ...valoresEventUserForm,
-            tituloEvento: '',
-            descripcionEvento: '',
+            // tituloEvento: '',
+            // descripcionEvento: '',
             enviando: false
         })
-        //estableceFechasMaxMin();
     }
 
     const estableceDiaEvento = (dia) => {
@@ -963,7 +989,7 @@ const Eventos = () => {
                         let final = new Date(anioinicial, index, new Date(anioinicial, index, 0).getDate());
                         return <ParallaxLayer onMouseEnter={(e) => { setReset(true); handleEnter(index); }} onMouseLeave={(e) => setReset(false)}
                             offset={index + 1} key={index} speed={1}>
-                            <div className='default-loader-full-eventos' style={valoresEventUserForm.enviando === true ? { display: 'block' } : { display: 'none' }}>  <img src={url_loader("Reload-transparent.gif", false)} />
+                            <div className='default-loader-full-eventos' style={valoresEventUserForm.enviando === true ? { display: 'block' } : { display: 'none' }}>  <img src={url_loader("Reload-transparent.gif", false)} width="100px" />
                             </div>
                             <div className={"mes-evento-main " + cssMeses[index]} id={"mes_event_" + (index + 1)}>
 
@@ -980,7 +1006,7 @@ const Eventos = () => {
                                             return (
                                                 <Link to={idLink} style={{ textDecoration: 'none', color: 'gray' }} key={idx}>
                                                     <div className="miniatura-evento" onMouseEnter={(e) => { estableceDiaEvento(parseInt(event.fecha.getDate())) }}>
-                                                        {event.imagen !== "" ? <animated.img style={{ ...styles }} src={event.imagen} alt={event.title} /> : null}
+                                                        {event.imagen ? <img src={event.imagen} alt={event.title} /> : null}
                                                         <br />
                                                         <p>{event.title}&nbsp;<br /><strong>({event.fecha.getFullYear() + "/" +
                                                             (event.fecha.getMonth() + 1) + "/" + event.fecha.getDate() + " a las " + event.fecha.getHours() + "  horas"})</strong></p>

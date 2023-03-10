@@ -31,7 +31,7 @@ const defaultState = {
   sort: "ascending"
 }
 
-
+const url_loader = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/${name}${wrap ? ')' : ''}`
 const url = (name, wrap = false) => `${wrap ? 'url(' : ''}images/${name}.svg${wrap ? ')' : ''}`
 const urlpng = (name, wrap = false) => `${wrap ? 'url(' : ''}images/Art/inverted/${name}.png${wrap ? ')' : ''}`
 const urljpg = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/${name}.jpg${wrap ? ')' : ''}`
@@ -87,11 +87,12 @@ class IndexPage extends Component {
   state = {
     videosService: [
     ],
-    categoriasService:[]
+    categoriasService: [],
+    consultandominiaturas:false
   }
   componentDidMount() {
     const requestone = axios.get(getBaseAdressApi() + 'api/categorias/');
-
+    this.setState({...this.state,consultandominiaturas:true});
     //const requestwo = axios.get('http://localhost:8000/api/videos/');
 
     axios.all([requestone]).then(axios.spread((...response) => {
@@ -103,13 +104,14 @@ class IndexPage extends Component {
       let quintacat = response[0].data.results[4] !== undefined ? [response[0].data.results[4].titulo, response[0].data.results[4].contenedor_img, response[0].data.results[4].videos_por_categoria] : [];
       //let sextacat = response[0].data.results[5] !== undefined ? [response[0].data.results[5].titulo, response[0].data.results[5].contenedor_img, response[0].data.results[5].videos_por_categoria] : []
       let salida = populate_videos([primeracat, segundacat, terceracat, cuartacat, quintacat]);
-      this.setState({ ...this.state,videosService: salida })
-      this.setState({...this.state,categoriasService:response[0].data.results})
+      this.setState({ ...this.state, videosService: salida })
+      this.setState({ ...this.state, categoriasService: response[0].data.results })
+      this.setState({...this.state,consultandominiaturas:false});
     }));
   }
-  getTitulo=(valor)=>{
-    let titulo_img = this.state.categoriasService.find(a => a.titulo ==valor) !== undefined
-    ? this.state.categoriasService.find(a => a.titulo == valor).contenedor_img :"";
+  getTitulo = (valor) => {
+    let titulo_img = this.state.categoriasService.find(a => a.titulo == valor) !== undefined
+      ? this.state.categoriasService.find(a => a.titulo == valor).contenedor_img : "";
     return titulo_img;
   }
 
@@ -148,7 +150,7 @@ class IndexPage extends Component {
         ? set.match(new RegExp("^" + queryParamState.filter))
         : true
     )
-    
+
     return (
 
       <div className={styles.MainBodyCategory}>
@@ -158,6 +160,8 @@ class IndexPage extends Component {
             <NavBar></NavBar>
           </div>
         </div>
+        <div className='default-loader-full-categories' style={this.state.consultandominiaturas === true ? { display: 'block' } : { display: 'none' }}>  <img src={url_loader("Reload-transparent.gif", false)}  width="100px" />
+          </div>
         <div className="contents-index-categories">
           <Contents>
             <Controls>
@@ -200,8 +204,8 @@ class IndexPage extends Component {
                 ref={el => (this.cardGrid = el)}
               >
                 {visibleVideoSets.map(set => {
-                  let imagen_alterna = this.state.videosService[set].length <= 0 ? 
-                  this.getTitulo(set):''
+                  let imagen_alterna = this.state.videosService[set].length <= 0 ?
+                    this.getTitulo(set) : ''
                   if (set === focusedSet) return <li key={set} />
                   return (
                     <Card

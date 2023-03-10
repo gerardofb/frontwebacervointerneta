@@ -57,6 +57,7 @@ const StyledLink = styled(Link)`
     text-decoration: underline;
   }
 `
+const url_loader = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/${name}${wrap ? ')' : ''}`
 
 const onComplete = el => {
     // prevent scroll weirdness
@@ -93,18 +94,20 @@ const ruta_aws = "https://deploy-videos-acervo-interneta.s3.amazonaws.com/"
 const VideoSetPage = (
     props) => {
     const { set, focusedVideo } = useParams();
-    
+
     //console.log('el primer estado del video enfocado es ');
     console.log('el titulo del bloque de videos es ', set);
     //console.log(focusedVideo)
     const location = useLocation();
     const [videosPopulated, setVideosPopulated] = useState(null);
     const [categoriaSet, setCategoriaSet] = useState({})
+    const [consultandominiaturas, setConsultandoMiniautras] = useState(false);
     useEffect(() => {
         populate_videos_set();
 
     }, [videosPopulated]);
     const populate_videos_set = () => {
+        setConsultandoMiniautras(true);
         const requestone = axios.get(getBaseAdressApi() + 'api/categorias/');
 
         const requestwo = axios.get(getBaseAdressApi() + 'api/videos/');
@@ -129,7 +132,7 @@ const VideoSetPage = (
                     setCategoriaSet(el)
                 }
             });
-
+            setConsultandoMiniautras(false);
         }));
         return;
     }
@@ -138,11 +141,11 @@ const VideoSetPage = (
         let videosService = {}
         arreglo.forEach(([title, container, pic]) => {
             console.log('foreach para llave ', title, container, pic)
-            const picsArray = pic.filter(a=> a.activo).reduce((acc, key) => {
+            const picsArray = pic.filter(a => a.activo).reduce((acc, key) => {
                 console.log('la llave es ', key);
                 const name = container//key.replace(/^\.\/|\.png$/g, "").replace(/_/g, "-")
                 const elvideo = key.contenedor_img ? key.contenedor_img.split('/') : []
-                
+
                 return acc.concat({
                     id: `${title.replace(/\s/g, '-')}`,
                     name,
@@ -174,6 +177,8 @@ const VideoSetPage = (
         <div>
             <div style={{ backgroundColor: 'black', height: '100px' }}>
                 <NavBar></NavBar>
+            </div>
+            <div className='default-loader-full-generic' style={consultandominiaturas === true ? { display: 'block' } : { display: 'none' }}>  <img src={url_loader("Reload-transparent.gif", false)} width="100px" />
             </div>
             <Flipped
                 flipId={set}
@@ -214,7 +219,7 @@ const VideoSetPage = (
                                                 id={id}
                                                 name={Video}
                                                 set={set}
-                                                key={id+Video}
+                                                key={id + Video}
                                                 identificador={llave}
                                                 titulo={titulovideo}
                                                 id_categoria={categoriavideo}

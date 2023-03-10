@@ -2659,6 +2659,7 @@ Página de eventos
 .mes-evento-main .listado-min-eventos .miniatura-evento img {
   width: 100%;
   max-width: 180px;
+  min-width: 180px;
 }
 
 .mes-evento-main .listado-min-eventos .miniatura-evento p {
@@ -4221,8 +4222,40 @@ label.caja-expandible-label {
   border-bottom-right-radius: 5px;
   background-color: transparent;
   position: absolute;
+  top:70%;
+  left:0%;
+  z-index: 99999;
+}
+
+.default-loader-full-generic{
+  text-align: center;
+  min-height: 100px;
+  width: 98%;
+  grid-column-start: 1;
+  grid-column-end: 2;
+  margin-left:.7em;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  background-color: transparent;
+  position: absolute;
   top:50%;
   left:0%;
+  z-index: 99999;
+}
+
+.default-loader-full-categories{
+  text-align: center;
+  min-height: 100px;
+  width: 98%;
+  grid-column-start: 1;
+  grid-column-end: 2;
+  margin-left:.7em;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  background-color: transparent;
+  position: absolute;
+  top:50%;
+  left:0;
   z-index: 99999;
 }
 
