@@ -11,7 +11,9 @@ import {
     faSearch,
     faStop,
     faL,
-    faMultiply
+    faMultiply,
+    faHeartBroken,
+    faHeart
 } from "@fortawesome/free-solid-svg-icons"
 import { Link, useLocation } from "react-router-dom";
 import NavBar from '../NavBar';
@@ -351,8 +353,9 @@ export const Autobiograficos = () => {
     const [tagViewed, setTagViewed] = useState(false);
     const [valueSearchTag, setValueSearchTag] = useState('');
     const { styles } = useContext(ThemesContext);
-
+    const [cuentaUsuario, setCuentaUsuario] = useState('');
     const [queryActual, setQueryActual] = useState(null);
+    const [esFavorito, setEsFavorito] = useState({ guid:'',valor: true, cuenta: 0 });
     const handleScroll = (e) => {
         const bottom = Math.round(e.target.scrollHeight - e.target.scrollTop) === e.target.clientHeight;
         console.log('en scroll ', Math.round(e.target.scrollHeight - e.target.scrollTop), e.target.clientHeight);
@@ -387,7 +390,7 @@ export const Autobiograficos = () => {
                 ).then(response => {
                     console.log('respuesta desde server ', response);
                     let biografias = response.data.map((elemento, indice) => {
-                        return { id_video: elemento.id_video, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice((indice + 1) * 10, (indice + 2) * 10) };
+                        return { document_id: elemento.document_id, id_video: elemento.id_video, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice((indice + 1) * 10, (indice + 2) * 10) };
                     });
 
                     biografias = biografias.map((relato, index) => {
@@ -432,7 +435,7 @@ export const Autobiograficos = () => {
                 ).then(response => {
                     console.log('respuesta desde server ', response);
                     let biografias = response.data.map((elemento, indice) => {
-                        return { id_video: elemento.id_video, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice((indice + 1) * 10, (indice + 2) * 10) };
+                        return { document_id: elemento.document_id, id_video: elemento.id_video, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice((indice + 1) * 10, (indice + 2) * 10) };
                     });
 
                     biografias = biografias.map((relato, index) => {
@@ -511,7 +514,7 @@ export const Autobiograficos = () => {
                     ).then(response => {
                         console.log('respuesta desde server ', response);
                         let biografias = response.data.map((elemento, indice) => {
-                            return { id_video: elemento.id_video, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice((indice + 1) * 10, (indice + 2) * 10) };
+                            return { document_id: elemento.document_id, id_video: elemento.id_video, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice((indice + 1) * 10, (indice + 2) * 10) };
                         });
 
                         biografias = biografias.map((relato, index) => {
@@ -577,7 +580,7 @@ export const Autobiograficos = () => {
                     ).then(response => {
                         console.log('respuesta desde server ', response);
                         let biografias = response.data.map((elemento, indice) => {
-                            return { id_video: elemento.id_video, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice((indice + 1) * 10, (indice + 2) * 10) };
+                            return { document_id: elemento.document_id, id_video: elemento.id_video, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice((indice + 1) * 10, (indice + 2) * 10) };
                         });
 
                         biografias = biografias.map((relato, index) => {
@@ -606,9 +609,93 @@ export const Autobiograficos = () => {
                 setSolopodcats('');
             }
 
-
+            const consultaProfile = axios.get(`${getBaseAdressApi()}api/userprofile/`, {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
+                }
+            })
+                .then(response => {
+                    console.log('respuesta del userprofile en relatos', response);
+                    setCuentaUsuario(response.data["email"])
+                }).catch(err => {
+                    setCuentaUsuario('')
+                });
         }
-    }, [location]);
+    }, [location, cuentaUsuario]);
+    const changeFavorite = (valor) => {
+        if (esFavorito.valor && valor) {
+            const addfav = axios.put(`${getBaseAdressApi()}api/addfavoriterelato/`, {
+                "document_id": esFavorito.guid
+            }, {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
+                }
+            }).then(response => {
+                const requestmorefavs = axios.get(`${getBaseAdressApi()}api/detailfavoritesrelato/${esFavorito.guid}`).then(response => {
+                    let cantidad = response.data[0].favoritos_por_relato.length;
+                    console.log('obteniendo cuenta de favoritos ', cantidad, response)
+                    setEsFavorito({
+                        ...esFavorito,
+                        valor: !esFavorito.valor,
+                        cuenta: cantidad
+                    })
+                })
+            }).catch(err => {
+                if (err.response.status == 404) {
+                    setEsFavorito({
+                        ...esFavorito,
+                        valor: !esFavorito.valor,
+                    })
+                }
+            });
+        }
+        else if (valor) {
+            const addfav = axios.delete(`${getBaseAdressApi()}api/addfavoriterelato/`, {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
+                }, data: {
+                    "document_id": esFavorito.guid
+                }
+            }).then(response => {
+                const requestmorefavs = axios.get(`${getBaseAdressApi()}api/detailfavoritesrelato/${esFavorito.guid}`).then(response => {
+                    let cantidad = response.data[0].favoritos_por_relato.length;
+                    console.log('obteniendo cuenta de favoritos ', cantidad, response)
+                    setEsFavorito({
+                        ...esFavorito,
+                        valor: !esFavorito.valor,
+                        cuenta: cantidad
+                    })
+                })
+            }).catch(err => {
+                if (err.response.status == 404) {
+                    setEsFavorito({
+                        ...esFavorito,
+                        valor: !esFavorito.valor,
+                    })
+                }
+            });
+        }
+    }
+    const estableceAccionesRelato = (parametro) => {
+        let documento = parametro.document_id;
+        console.log('el relato es ', documento, parametro);
+        setEsFavorito({...esFavorito,
+        guid:documento,
+        cuenta:0,
+        valor:true
+        });
+        const requestmorefavs = axios.get(`${getBaseAdressApi()}api/detailfavoritesrelato/${documento}`).then(response => {
+            let cantidad = response.data[0].favoritos_por_relato.length;
+            console.log('obteniendo cuenta de favoritos ', cantidad, response)
+            setEsFavorito({
+                ...esFavorito,
+                valor: true,
+                cuenta: cantidad,
+                guid:response.data[0].document_id
+            })
+        })
+
+    }
     const estableceTags = (parametro) => {
         if (parametro) {
             let arreglo = parametro.tags
@@ -641,7 +728,7 @@ export const Autobiograficos = () => {
             objetoSearchPagina
         ).then(response => {
             let biografias = response.data.map((elemento, indice) => {
-                return { content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice(0, 30) };
+                return { document_id: elemento.document_id, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice(0, 30) };
             });
             biografias = biografias.map((relato, index) => {
                 relato.image = categorias[Math.floor(Math.random() * categorias.length)].image;
@@ -719,7 +806,7 @@ export const Autobiograficos = () => {
                         queryActual
                     ).then(response => {
                         let biografias = response.data.map((elemento, indice) => {
-                            return { content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice(0, 30) };
+                            return { document_id: elemento.document_id, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice(0, 30) };
                         });
                         biografias = biografias.map((relato, index) => {
                             relato.image = categorias[Math.floor(Math.random() * categorias.length)].image;
@@ -738,7 +825,7 @@ export const Autobiograficos = () => {
                         intento: true,
                         publicar: false
                     });
-                    console.log('error previsto en publicación ',err);
+                    console.log('error previsto en publicación ', err);
                 }
                 else {
                     setHabilitarLoader(true);
@@ -749,7 +836,7 @@ export const Autobiograficos = () => {
                                     queryActual
                                 ).then(response => {
                                     let biografias = response.data.map((elemento, indice) => {
-                                        return { content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice(0, 30) };
+                                        return { document_id: elemento.document_id, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice(0, 30) };
                                     });
                                     biografias = biografias.map((relato, index) => {
                                         relato.image = categorias[Math.floor(Math.random() * categorias.length)].image;
@@ -803,7 +890,7 @@ export const Autobiograficos = () => {
                         queryActual
                     ).then(response => {
                         let biografias = response.data.map((elemento, indice) => {
-                            return { content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice(0, 30) };
+                            return { document_id: elemento.document_id, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice(0, 30) };
                         });
                         biografias = biografias.map((relato, index) => {
                             relato.image = categorias[Math.floor(Math.random() * categorias.length)].image;
@@ -999,12 +1086,23 @@ export const Autobiograficos = () => {
                     {
                         !editing.editando ? biographies && biographies.map((relato, index) => {
                             console.log('relato encontrado ', relato)
-                            return <div className='autobiografico-entry' key={index} onMouseEnter={(e) => estableceTags(relato)}>
+                            return <div className='autobiografico-entry' key={index} onMouseEnter={(e) => {
+                                estableceTags(relato);
+                                estableceAccionesRelato(relato);
+                            }}>
                                 <p>Creado el {relato.fecha}</p>
                                 <div className='autobiografico-entry-header'>
                                     <div className='autobiografico-header-icon'>
                                         {relato.podcast ? <FontAwesomeIcon icon={faVolumeHigh} />
                                             : <FontAwesomeIcon icon={faBook} />}
+                                    </div>
+                                    <div className={localStorage.getItem('credencial') && cuentaUsuario !== '' ? 'acciones-relato' : 'acciones-relato-disabled'} onClick={(e) => {
+                                        localStorage.getItem('credencial') && cuentaUsuario !== '' ?
+                                            changeFavorite(true) : changeFavorite(false)
+                                    }}>
+                                        {esFavorito && esFavorito.valor && esFavorito.guid == relato.document_id ? <FontAwesomeIcon style={{ color: 'red' }} icon={faHeart} />
+                                            : <FontAwesomeIcon style={{ color: 'darkgray' }} icon={faHeartBroken} />}
+                                        <span>Favoritos <span className="cuenta-favoritos-small">{esFavorito && esFavorito.cuenta > 0 && esFavorito.guid == relato.document_id  ? esFavorito.cuenta : 'sin favoritos'}</span></span>
                                     </div>
                                     <div className='autobiografico-header-autor'>
                                         {relato.autor}

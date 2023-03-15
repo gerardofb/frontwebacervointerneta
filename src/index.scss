@@ -1812,6 +1812,30 @@ Estilo de footer
 /*
 Pagina autobiograficos
 */
+.acciones-relato {
+  display:grid;
+  grid-template-columns: 10% 70% 20%;
+  cursor: pointer;
+  & span{
+    padding:0 .2em;
+  }
+  & .cuenta-favoritos-small{
+    width: 100px;
+    padding:0;
+  }
+}
+.acciones-relato-disabled{
+  display:grid;
+  grid-template-columns: 10% 70% 20%;
+  cursor: pointer;
+  & span{
+    padding:0 .2em;
+  }
+  & .cuenta-favoritos-small{
+    width: 100px;
+    padding:0;
+  }
+}
 .options-autobiograficos-reproduccion-basic {
   display: grid;
   grid-template-columns: auto auto;
@@ -2088,7 +2112,7 @@ Pagina autobiograficos
 
 .autobiografico-entry-header {
   display: grid;
-  grid-template-columns: .2fr auto auto;
+  grid-template-columns: .2fr .5fr auto auto;
   position: relative;
 }
 
@@ -2102,6 +2126,9 @@ Pagina autobiograficos
 
 .autobiografico-entry-header div:nth-child(3) {
   grid-column: 3;
+}
+.autobiografico-entry-header div:nth-child(4) {
+  grid-column: 4;
 }
 
 .autobiografico-list-cat-entry a:nth-child(1) {
