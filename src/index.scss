@@ -4296,6 +4296,16 @@ label.caja-expandible-label {
   left: calc(50% - 100px);
 }
 
+.default-loader-center-relatos {
+  text-align: center;
+  min-height: 100px;
+  width: 100px;
+  position: absolute;
+  z-index: 9999;
+  top: calc(50% - 100px);
+  left: calc(75% - 100px);
+}
+
 /*
 Estilos para modal de búsqueda en búsqueda avanada
 */

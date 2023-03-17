@@ -148,13 +148,13 @@ const sideBarData = [
         ]
       },
       {
-        title: "Podcasts",
+        title: "Podcasts y Relatos",
         path: "#",
         icon: "volume-high",
         subNav: [
           {
             title: "Favoritos",
-            path: '#',
+            path: '/ListadoRelatosFavoritos/Favoritos',
             icon: 'heart',
             sesion_no_iniciada: false
           },

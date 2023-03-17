@@ -46,6 +46,7 @@ const SidebarWrap = styled.div`
   width: 100%;
 `;
 
+const url_loader = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/${name}${wrap ? ')' : ''}`
 
 
 const SideBar = () => {
@@ -53,6 +54,7 @@ const SideBar = () => {
     const showSidebar = () => setSidebar(!sidebar);
     const [sideBarData, setSideBarData] = useState([]);
     const [cuentaUsuario, setCuentaUsuario] = useState('');
+    const [cargando, setCargando] = useState(true);
     useEffect(() => {
         const post_validate = axios.get(`${getBaseAdressApi()}api/userprofile/`, {
             headers: {
@@ -62,13 +64,20 @@ const SideBar = () => {
             .then(response => {
                 console.log('respuesta del userprofile ', response);
                 setCuentaUsuario(response.data["email"])
+                getMenuData().then(datos => {
+                    console.log('en promesa sidebar', datos);
+                    setSideBarData(datos);
+                    setCargando(false);
+                })
             }).catch(err => {
                 setCuentaUsuario('')
+                getMenuData().then(datos => {
+                    console.log('en promesa sidebar', datos);
+                    setSideBarData(datos);
+                    setCargando(false);
+                })
             });
-    getMenuData().then(datos=>{
-        console.log('en promesa sidebar',datos);
-        setSideBarData(datos);
-    })
+        
     }, [cuentaUsuario, sidebar, sideBarData]);
     return (
         <div style={{ background: '#15171c' }}>
@@ -78,6 +87,9 @@ const SideBar = () => {
                     {
                         cuentaUsuario != "" && <span>Bienvenido, {cuentaUsuario}</span>
                     }
+                </div>
+                <div className='default-loader-center' style={cargando ? { display: 'block' } : { display: 'none' }}>
+                    <img width="120" src={url_loader("Reload-white.gif", false)} />
                 </div>
                 <div className="">
                     <div className="">
