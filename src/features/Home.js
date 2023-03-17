@@ -32,7 +32,7 @@ export class Home extends React.Component {
                 return vid;
             }
         })
-        console.log('videos activos por categoría para listado inicial de todos los videos', videosCatActivos.filter(x => x !== undefined));
+        //console.log('videos activos por categoría para listado inicial de todos los videos', videosCatActivos.filter(x => x !== undefined));
         return videosCatActivos.filter(x => x !== undefined);
     }
     componentDidMount() {
@@ -43,24 +43,24 @@ export class Home extends React.Component {
         });
 
         axios.get(getBaseAdressApi() + 'api/categorias/').then(response => {
-            console.log('respuesta previa de api', response)
+            //console.log('respuesta previa de api', response)
             const respuestacategorias = response.data.results.map((el, i) => {
                 el.titulo = el.titulo.replace(/\s/g, '-');
                 return el;
             })
-            console.log('respuesta de api ', response.data, respuestacategorias)
+            //console.log('respuesta de api ', response.data, respuestacategorias)
             this.setState({ categoriasService: respuestacategorias, habilitarLoaderCategories: false });
             axios.get(`${getBaseAdressApi()}api/videos/`).then(response => {
                 this.setState({ videosList: response.data.results, habilitarLoader: false })
             }).catch(err => {
-                console.log('error en el api buscando la lista de videos', err)
+                //console.log('error en el api buscando la lista de videos', err)
                 this.setState({
                     ...this.state,
                     habilitarLoader: false
                 });
             });
         }).catch(err => {
-            console.log('error de api', err)
+            //console.log('error de api', err)
             this.setState({
                 ...this.state,
                 habilitarLoader: false
@@ -70,7 +70,7 @@ export class Home extends React.Component {
     }
     render() {
         const { styles } = this.context;
-        console.log('en home ', this.context)
+        //console.log('en home ', this.context)
         return (
             <div>
 
@@ -150,7 +150,7 @@ export class Home extends React.Component {
                                     </div>
                                     {this.filterActiveCatVideos(this.state.videosList).map((video, index) => {
                                         let vinculo = "/Reproduccion/" + video.titulo + "|" + video.id + "|" + video.id_categoria;
-                                        return <div className='item-list-videos-home'>
+                                        return <div key={index} className='item-list-videos-home'>
                                             <Link style={{ textDecoration: 'none', color: 'transparent' }} to={vinculo}><img src={video.contenedor_img} alt={video.titulo} /></Link>
                                             <div className='titles-item-list-videos-home'>
                                                 <p>Trailer {(index + 1)}: {video.titulo}</p>

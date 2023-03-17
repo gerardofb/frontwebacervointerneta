@@ -24,7 +24,7 @@ const SearchBar = (props) => {
     const [busquedaSimple, setBusquedaSimple] = useState('');
     const [deshabilitar, setDeshabilitar] = useState(false);
     useEffect(() => {
-        console.log('en página para barra de búsqueda', ruta.pathname)
+        //console.log('en página para barra de búsqueda', ruta.pathname)
         if (ruta.pathname == '/BusquedaEstandar') {
             setDeshabilitar(true)
         }

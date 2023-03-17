@@ -26,7 +26,7 @@ const HomeCategories = (props) => {
     const [distancetext, setDistanceText] = useState(0);
     const [categorias,setCategorias]=useState(props.categoriasService);
     const[canvasCategoriasVisible,setCanvasCategoriasVisible] = useState(false);
-    console.log('longitud de categorias ', props.categoriasService.length);
+    //console.log('longitud de categorias ', props.categoriasService.length);
     useEffect(()=>{
         setTimeout(function(){setCanvasCategoriasVisible(true);}, 10000);
     },[canvasCategoriasVisible])
@@ -98,7 +98,7 @@ const HomeCategories = (props) => {
                 ...styles
             }}>
                 {props.categoriasService.map(function (el, index) {
-                    console.log('en categorías revisión fallo',el);
+                    //console.log('en categorías revisión fallo',el);
                     return (
                         <div className='category-images-green' key={index} style={{ float: 'left', margin: '25px', padding: '10px', display: 'block' }}>
                             <div className='inner-hover-categoria'><span>{el.titulo.replace(/[-]/g,' ')}</span></div>

@@ -72,7 +72,7 @@ const SubMenu = ({ item }, { key }) => {
             }
         })
             .then(response => {
-                console.log('respuesta del userprofile ', response);
+                //console.log('respuesta del userprofile ', response);
                 setCuentaUsuario(response.data["email"])
             }).catch(err => {
                 setCuentaUsuario('')
@@ -92,11 +92,13 @@ const SubMenu = ({ item }, { key }) => {
 
                         <SidebarLabel>{item.title}</SidebarLabel>
                         <div style={{ paddingLeft: "10px" }}>
-                            <FontAwesomeIcon icon={!item.subNav && subnav
-                                ? item.iconOpened
-                                : item.subNav
-                                    ? item.iconClosed
-                                    : null} />
+                            {
+                                // // <FontAwesomeIcon icon={!item.subNav && subnav
+                                // ? item.iconOpened
+                                // : item.subNav
+                                //     ? item.iconClosed
+                                //     : null} /> ### se comenta porque ocasiona error de icono no encontrado ### 
+                            }
                         </div>
                     </DropdownSpan>
 
@@ -112,7 +114,7 @@ const SubMenu = ({ item }, { key }) => {
                                     {
                                         subnav && elem.subNav ?
                                             elem.subNav.map((el, indice) => {
-                                                console.log(!localStorage.getItem("credencial"), el)
+                                                //console.log(!localStorage.getItem("credencial"), el)
                                                 let claseinner = innerSubnav == elem.title?"inner-menu-list":"inner-menu-list-hidden";
                                                 if(cuentaUsuario && (el.sesion_no_iniciada=== false || el.sesion_no_iniciada === undefined)){
                                                 return <ul key={indice} className={claseinner}><li>

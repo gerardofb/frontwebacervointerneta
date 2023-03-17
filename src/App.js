@@ -69,7 +69,9 @@ function App() {
   useEffect(() => {
     window.addEventListener('popstate', (event) => {
       let elementotop = document.querySelector('.navbar-principal');
-      if(elementotop !== undefined){setTimeout(function(){elementotop.scrollIntoView({behavior:'smooth'}); console.log('dispare el evento popstate', elementotop);},100)}
+      if(elementotop !== undefined){setTimeout(function(){elementotop.scrollIntoView({behavior:'smooth'}); //console.log('dispare el evento popstate', elementotop);
+    },100)
+    }
       
     });
     populate_videos_set();
@@ -96,10 +98,10 @@ const populate_videos_set = () => {
   }
   function arrange_videos(arreglo) {
     arreglo = arreglo.filter(x=> x.length > 0);
-    console.log('para iterar en app ',arreglo);
+    //console.log('para iterar en app ',arreglo);
     let videosService = {}
     arreglo.forEach(([title, container, pic]) => {
-      console.log('foreach para llave en app ',pic, arreglo)
+      //console.log('foreach para llave en app ',pic, arreglo)
       const picsArray = pic.reduce((acc, key) => {
         const name = container//key.replace(/^\.\/|\.png$/g, "").replace(/_/g, "-")
         return acc.concat({
@@ -123,7 +125,7 @@ const populate_videos_set = () => {
     })
     return videosService;
   }
-  console.log('los videos categorizados en app ',videosPopulated);
+  //console.log('los videos categorizados en app ',videosPopulated);
   return (
     <BrowserRouter>
       <div className="App">

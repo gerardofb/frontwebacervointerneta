@@ -62,17 +62,17 @@ const SideBar = () => {
             }
         })
             .then(response => {
-                console.log('respuesta del userprofile ', response);
+                //console.log('respuesta del userprofile ', response);
                 setCuentaUsuario(response.data["email"])
                 getMenuData().then(datos => {
-                    console.log('en promesa sidebar', datos);
+                    //console.log('en promesa sidebar', datos);
                     setSideBarData(datos);
                     setCargando(false);
                 })
             }).catch(err => {
                 setCuentaUsuario('')
                 getMenuData().then(datos => {
-                    console.log('en promesa sidebar', datos);
+                    //console.log('en promesa sidebar', datos);
                     setSideBarData(datos);
                     setCargando(false);
                 })

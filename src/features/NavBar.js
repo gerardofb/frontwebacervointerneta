@@ -28,7 +28,7 @@ const NavBar = (props) => {
     const switchDarkMode = (bandera) => {
         setDarkMode(bandera);
         let lapaleta = paletas.filter(x => x.dark == bandera)[0]
-        console.log('estableciendo la siguiente paleta ', lapaleta.title);
+        //console.log('estableciendo la siguiente paleta ', lapaleta.title);
         updateTheme(lapaleta.title);
 
     }
@@ -36,7 +36,7 @@ const NavBar = (props) => {
 
         let x = paletas.find(x => x.dark === darkMode && x.title === paletaActiva.title) != undefined ?
             paletas.find(x => x.dark === darkMode && x.title === paletaActiva.title).indice : paletas.find(x => x.dark === darkMode).indice;
-        console.log('previo estableciendo paleta en ', x);
+        //console.log('previo estableciendo paleta en ', x);
 
         let indice = x;
         direccion ? indice++ : indice--;
@@ -44,7 +44,7 @@ const NavBar = (props) => {
         if (indice > paletas.length - 1 || indice < 0) {
             indice = 0;
         }
-        console.log('estableciendo paleta en ', indice);
+        //console.log('estableciendo paleta en ', indice);
         setPaletaActiva(paletas[indice]);
     }
     const { styles, updateTheme } = useContext(ThemesContext);
