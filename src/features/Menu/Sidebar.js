@@ -72,6 +72,7 @@ const SideBar = () => {
             }).catch(err => {
                 setCuentaUsuario('')
                 getMenuData().then(datos => {
+                    setCuentaUsuario('')
                     //console.log('en promesa sidebar', datos);
                     setSideBarData(datos);
                     setCargando(false);
