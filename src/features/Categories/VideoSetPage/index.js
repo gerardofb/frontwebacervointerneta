@@ -179,6 +179,7 @@ const VideoSetPage = (
                 <NavBar></NavBar>
             </div>
             <div className='default-loader-full-generic' style={consultandominiaturas === true ? { display: 'block' } : { display: 'none' }}>  <img src={url_loader("Reload-transparent.gif", false)} width="100px" />
+            <p className="legend-loading-video-miniatures">Cargando miniaturas...</p>
             </div>
             <Flipped
                 flipId={set}

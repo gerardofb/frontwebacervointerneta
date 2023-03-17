@@ -4279,6 +4279,18 @@ label.caja-expandible-label {
   left:0%;
   z-index: 99999;
 }
+.legend-loading-video-miniatures{
+  text-align: center;
+  color:#205a17;
+}
+.legend-loading-relatos-miniatures{
+  text-align: center;
+  color:#205a17;
+}
+.legend-loading-categories-miniatures{
+  text-align: center;
+  color:wheat;
+}
 
 .default-loader-full-categories{
   text-align: center;
@@ -4294,6 +4306,34 @@ label.caja-expandible-label {
   top:50%;
   left:0;
   z-index: 99999;
+}
+
+.legend-full-categories{
+  color:white;
+  text-align: center;
+  min-height: 100px;
+  width: 98%;
+  grid-column-start: 1;
+  grid-column-end: 2;
+  margin-left:.7em;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  background-color: transparent;
+  position: absolute;
+  top:25%;
+  left:0;
+  z-index: 99999;
+  & a{
+    color:white;
+    text-decoration: none;
+  }
+  & a:hover {
+    color:cyan;
+    text-decoration: underline;
+  }
+  & a:visited {
+    color:wheat;
+  }
 }
 
 .default-loader-center {

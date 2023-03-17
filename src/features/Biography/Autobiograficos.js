@@ -1347,6 +1347,7 @@ export const Autobiograficos = () => {
                             </div>
                             <div className='default-loader-center-relatos' style={habilitarLoaderInitial ? { display: 'block' } : { display: 'none' }}>
                                 <img src={url_loader("Reload-transparent.gif", false)} />
+                                <pre className="legend-loading-relatos-miniatures">Cargando relatos y/o podcasts...</pre>
                             </div>
                         </> : null
                     }

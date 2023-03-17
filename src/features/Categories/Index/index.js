@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import axios from "axios"
-import { withRouter, Route } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import qs from "qs"
 import Parallax from 'react-springy-parallax'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,6 +10,7 @@ import {
   faDollarSign,
   faSortAmountDown,
   faSortAmountUp,
+  faEnvelope
 } from "@fortawesome/free-solid-svg-icons"
 import {
   CardGrid,
@@ -160,7 +161,13 @@ class IndexPage extends Component {
             <NavBar></NavBar>
           </div>
         </div>
+        <div className="legend-full-categories" style={this.state.consultandominiaturas === true ? { display: 'block' } : { display: 'none' }}>
+          <hr />
+          <h4>Los videos reproducidos en nuestro sitio, en cada una de las categorías, son Trailers (avances), <br /> si desea puede&nbsp;<FontAwesomeIcon icon={faEnvelope}></FontAwesomeIcon>&nbsp;<Link to="/">ponerse en contacto</Link>&nbsp;<FontAwesomeIcon icon={faEnvelope}></FontAwesomeIcon>&nbsp; y, previa justificación y acuerdo, le haremos llegar los que elija, en su edición completa y de alta calidad.</h4>
+          <hr />
+        </div>
         <div className='default-loader-full-categories' style={this.state.consultandominiaturas === true ? { display: 'block' } : { display: 'none' }}>  <img src={url_loader("Reload-transparent.gif", false)}  width="100px" />
+        <p className="legend-loading-categories-miniatures">Cargando clasificación de videos...</p>
           </div>
         <div className="contents-index-categories">
           <Contents>

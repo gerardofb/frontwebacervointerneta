@@ -578,7 +578,8 @@ const ListadoVideosMasVisitados = (props) => {
 
                 <div className="listado-default">
                 <div className='default-loader-full' style={cargaPaginada === false ? { display: 'block' } : { display: 'none' }}>  <img src={url_loader("Reload_generic.gif", false)} />
-                    </div>
+                <pre className="legend-loading-relatos-miniatures">Cargando listado de videos más visitados...</pre>
+                   </div>
                     {
                         listado.map((item, index) => {
                             let vinculo = "/Reproduccion/" + item.Video + "|" + item.Id + "|" + item.Id_Categoria;

@@ -990,6 +990,7 @@ const Eventos = () => {
                         return <ParallaxLayer onMouseEnter={(e) => { setReset(true); handleEnter(index); }} onMouseLeave={(e) => setReset(false)}
                             offset={index + 1} key={index} speed={1}>
                             <div className='default-loader-full-eventos' style={valoresEventUserForm.enviando === true ? { display: 'block' } : { display: 'none' }}>  <img src={url_loader("Reload-transparent.gif", false)} width="100px" />
+                            <pre className="legend-loading-relatos-miniatures">Cargando eventos, espere...</pre>
                             </div>
                             <div className={"mes-evento-main " + cssMeses[index]} id={"mes_event_" + (index + 1)}>
 

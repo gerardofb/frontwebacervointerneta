@@ -1,16 +1,11 @@
 import React, { useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
-import { faGamepad, faXmark, faAngleRight, faAngleLeft, faMoon, faSun, faBars } from '@fortawesome/free-solid-svg-icons'
+import { faGamepad, faXmark, faAngleRight, faAngleLeft, faMoon, faSun } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import SearchBar from './SearchBar'
 import { ThemesContext } from '../ThemeProvider'
-import SideBar from './Menu/Sidebar';
-import styled from 'styled-components';
-import SubMenu from './Menu/Submenu';
-import { getMenuData } from './Menu/menuAPI'
-import { useEffect } from 'react';
 
-const url = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/${name}.png${wrap ? ')' : ''}`
+
 
 const paletas = [
     { title: 'basic', colors: ['#253237', '#7291d8', '#1f3871', '#5fa3a7', '#274546'], dark: false, indice: 0 },
@@ -53,7 +48,6 @@ const NavBar = (props) => {
             paletas.find(x => x.dark === darkMode && x.title === paletaActiva.title) : paletas.find(x => x.dark === darkMode);
         updateTheme(lapaleta.title)
     }
-    const logotipo = !darkMode ? 'head_claro' : 'head_';
     return (
         <>
             <div className={styles.NavbarPrincipal}><Link to='/' id="logotipo_site"></Link>

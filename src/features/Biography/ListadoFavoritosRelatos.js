@@ -534,6 +534,7 @@ const ListadoRelatosFavoritos = (props) => {
                 <div className="listado-default">
                 <div className='default-loader-full' style={cargaPaginada === false ? { display: 'block' } : { display: 'none' }}>
                         <img src={url_loader("Reload_generic.gif", false)} />
+                        <pre className="legend-loading-relatos-miniatures">Cargando listado de sus relatos y/o podcasts favoritos...</pre>
                     </div>
                     {
                         listado.map((item, index) => {
