@@ -28,7 +28,7 @@ const HomeCategories = (props) => {
     const[canvasCategoriasVisible,setCanvasCategoriasVisible] = useState(false);
     console.log('longitud de categorias ', props.categoriasService.length);
     useEffect(()=>{
-        setTimeout(function(){setCanvasCategoriasVisible(true);}, 6000);
+        setTimeout(function(){setCanvasCategoriasVisible(true);}, 10000);
     },[canvasCategoriasVisible])
     const styles = useSpring({
         from: { x: 0 },

@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import utilidadMenuSuperior from '../utilidadMenuSuperior';
+import { useParams, useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faAngleDown,
@@ -338,6 +339,8 @@ const configuracionMultipart = {
     },
 }
 export const Autobiograficos = () => {
+    utilidadMenuSuperior();
+    const historia = useHistory();
     const { relato } = useParams();
     const [rutaDiferente, setRutaDiferente] = useState('');
     const [paginacion, setPaginacion] = useState({ paginaActual: 0, tamanio: 0 })
@@ -494,7 +497,7 @@ export const Autobiograficos = () => {
 
     useEffect(() => {
         console.log("Location changed");
-
+        utilidadMenuSuperior();
         if (location.search) {
             let parametros;
             parametros = new URLSearchParams(window.location.search);
@@ -1151,6 +1154,27 @@ export const Autobiograficos = () => {
 
         }
     }
+    const navegarRelacionado = (idclip) => {
+        setHabilitarLoaderInitial(true);
+        const obtenerVideos = axios.get(`${getBaseAdressApi()}api/video/${idclip}`).then(response => {
+            let titulovideo = response.data["titulo"];
+            let categoria = response.data["id_categoria"];
+            let identificador = response.data.id;
+            const obtenerCategorias = axios.get(`${getBaseAdressApi()}api/categoria/${categoria}`).then(respuesta => {
+                
+                let id_categ = respuesta.data["id"];
+                let vinculo = "/Reproduccion/" + titulovideo.replace(/\s/g, '-') + "|" + identificador + "|" + id_categ;
+                console.log('el vinculo en la navegación desde relato ',vinculo);
+                setHabilitarLoaderInitial(false);
+                historia.push(vinculo);
+
+            }).catch(err => {
+                setHabilitarLoaderInitial(false);
+            })
+        }).catch(err => {
+            setHabilitarLoaderInitial(false);
+        })
+    }
     return (
         <div>
             <div style={{ backgroundColor: 'black', height: '100px' }}>
@@ -1350,8 +1374,8 @@ export const Autobiograficos = () => {
                                     <div className='autobiografico-header-autor'>
                                         {relato.autor}
                                     </div>
-                                    <div className='autobiografico-header-related'>
-                                        <span>Relacionado con: </span><img src={relato.image} align='right' />
+                                    <div className='autobiografico-header-related' style={{cursor:'pointer'}}>
+                                        <span>Relacionado con: </span><img src={relato.image} onClick={(e) => { navegarRelacionado(relato.id_video) }} align='right' />
                                     </div>
                                 </div>
                                 {
