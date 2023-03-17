@@ -24,9 +24,12 @@ const HomeCategories = (props) => {
     const [fliptext, setFlipText] = useState(false);
     const [distance, setDistance] = useState(0);
     const [distancetext, setDistanceText] = useState(0);
-    const [categorias,setCategorias]=useState(props.categoriasService)
-    
+    const [categorias,setCategorias]=useState(props.categoriasService);
+    const[canvasCategoriasVisible,setCanvasCategoriasVisible] = useState(false);
     console.log('longitud de categorias ', props.categoriasService.length);
+    useEffect(()=>{
+        setTimeout(function(){setCanvasCategoriasVisible(true);}, 6000);
+    },[canvasCategoriasVisible])
     const styles = useSpring({
         from: { x: 0 },
         to: { x: distance },
@@ -81,7 +84,9 @@ const HomeCategories = (props) => {
     // },[player1,player2,player3])
     return (<div>
         <div style={{ marginTop: '-15px',backgroundColor:'white', width:'100%'}}>
-        <Link to='Categorias' style={{ textDecoration: 'none', color: 'black' }}><CanvasTitleCategorie></CanvasTitleCategorie>
+        <Link to='Categorias' style={{ textDecoration: 'none', color: 'black' }}>
+            <div style={canvasCategoriasVisible?{display:'block'}:{display:'none'}}><CanvasTitleCategorie></CanvasTitleCategorie>
+            </div>
             </Link>
         </div>
         <div

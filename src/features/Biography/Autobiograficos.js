@@ -357,6 +357,7 @@ export const Autobiograficos = () => {
     const [cuentaDeUsuario, setcuentaDeUsuario] = useState('');
     const [queryActual, setQueryActual] = useState(null);
     const [esFavorito, setEsFavorito] = useState({ guid: '', valor: true, cuenta: 0 });
+    const [relatoUnico, setRelatoUnico] = useState({ podcast: false, relato: false });
     const handleScroll = (e) => {
         const bottom = Math.round(e.target.scrollHeight - e.target.scrollTop) === e.target.clientHeight;
         console.log('en scroll ', Math.round(e.target.scrollHeight - e.target.scrollTop), e.target.clientHeight);
@@ -370,7 +371,10 @@ export const Autobiograficos = () => {
 
     const btnTipoAutobiograficoClick = (parametro) => {
         setSolopodcats(parametro);
+        setHabilitarLoaderInitial(true);
+        setBiographies([]);
         if (parametro === 'PODCASTS') {
+            setRelatoUnico({ ...relatoUnico, podcast: true, relato: false });
             const requestCategoriesVideos = axios.get(`${getBaseAdressApi()}api/categorias/`).then(response => {
 
                 let respuestacategories = response.data.results.map((el, ind) => {
@@ -410,12 +414,15 @@ export const Autobiograficos = () => {
                         ...editing,
                         podcast: true,
                     });
+                    setHabilitarLoaderInitial(false);
                 }).catch(e => {
                     console.log('error en server', e.response.status);
+                    setHabilitarLoaderInitial(false);
                 });
             });
         }
         else if (parametro === 'RELATOS') {
+            setRelatoUnico({ ...relatoUnico, podcast: false, relato: true });
             const requestCategoriesVideos = axios.get(`${getBaseAdressApi()}api/categorias/`).then(response => {
 
                 let respuestacategories = response.data.results.map((el, ind) => {
@@ -455,8 +462,10 @@ export const Autobiograficos = () => {
                         ...editing,
                         podcast: false,
                     });
+                    setHabilitarLoaderInitial(false);
                 }).catch(e => {
                     console.log('error en server', e.response.status);
+                    setHabilitarLoaderInitial(false);
                 });
             });
         }
@@ -529,7 +538,10 @@ export const Autobiograficos = () => {
                             //categorias[Math.floor(Math.random() * categorias.length)].image;
                             return relato;
                         })
-                        setBiographies(biografias);
+                        relatoUnico.podcast == false && relatoUnico.relato == false ?
+                            setBiographies(biografias) : relatoUnico.podcast && relatoUnico.relato == false ?
+                                setBiographies(biografias.filter(x => x.podcast == true)) : relatoUnico.relato && relatoUnico.podcast == false ?
+                                    setBiographies(biografias.filter(x => x.podcast == false)) : setBiographies([]);
                         setHabilitarLoaderInitial(false);
                         setRutaDiferente(location.pathname);
                         const consultaProfile = axios.get(`${getBaseAdressApi()}api/userprofile/`, {
@@ -609,7 +621,10 @@ export const Autobiograficos = () => {
                             //categorias[Math.floor(Math.random() * categorias.length)].image;
                             return relato;
                         })
-                        setBiographies(biografias);
+                        relatoUnico.podcast == false && relatoUnico.relato == false ?
+                            setBiographies(biografias) : relatoUnico.podcast && relatoUnico.relato == false ?
+                                setBiographies(biografias.filter(x => x.podcast == true)) : relatoUnico.relato && relatoUnico.podcast == false ?
+                                    setBiographies(biografias.filter(x => x.podcast == false)) : setBiographies([]);
                         setHabilitarLoaderInitial(false);
                         setRutaDiferente(location.pathname);
                         const consultaProfile = axios.get(`${getBaseAdressApi()}api/userprofile/`, {
@@ -698,7 +713,10 @@ export const Autobiograficos = () => {
                             //categorias[Math.floor(Math.random() * categorias.length)].image;
                             return relato;
                         })
-                        setBiographies(biografias);
+                        relatoUnico.podcast == false && relatoUnico.relato == false ?
+                            setBiographies(biografias) : relatoUnico.podcast && relatoUnico.relato == false ?
+                                setBiographies(biografias.filter(x => x.podcast == true)) : relatoUnico.relato && relatoUnico.podcast == false ?
+                                    setBiographies(biografias.filter(x => x.podcast == false)) : setBiographies([]);
                         setHabilitarLoaderInitial(false);
                         setRutaDiferente(location.pathname);
                         const consultaProfile = axios.get(`${getBaseAdressApi()}api/userprofile/`, {
@@ -788,7 +806,10 @@ export const Autobiograficos = () => {
                         //categorias[Math.floor(Math.random() * categorias.length)].image;
                         return relato;
                     })
-                    setBiographies(biografias);
+                    relatoUnico.podcast == false && relatoUnico.relato == false ?
+                        setBiographies(biografias) : relatoUnico.podcast && relatoUnico.relato == false ?
+                            setBiographies(biografias.filter(x => x.podcast == true)) : relatoUnico.relato && relatoUnico.podcast == false ?
+                                setBiographies(biografias.filter(x => x.podcast == false)) : setBiographies([]);
                     setHabilitarLoaderInitial(false);
                     setRutaDiferente(location.pathname);
                     const consultaProfile = axios.get(`${getBaseAdressApi()}api/userprofile/`, {
@@ -1020,7 +1041,10 @@ export const Autobiograficos = () => {
                             relato.image = categorias[Math.floor(Math.random() * categorias.length)].image;
                             return relato;
                         })
-                        setBiographies(biografias);
+                        relatoUnico.podcast == false && relatoUnico.relato == false ?
+                            setBiographies(biografias) : relatoUnico.podcast && relatoUnico.relato == false ?
+                                setBiographies(biografias.filter(x => x.podcast == true)) : relatoUnico.relato && relatoUnico.podcast == false ?
+                                    setBiographies(biografias.filter(x => x.podcast == false)) : setBiographies([]);
                         setModeEdit({ podcast: editing.podcast, editando: false });
                         setHabilitarLoader(false)
                     });
@@ -1055,7 +1079,10 @@ export const Autobiograficos = () => {
                                         intento: false,
                                         publicar: false
                                     })
-                                    setBiographies(biografias);
+                                    relatoUnico.podcast == false && relatoUnico.relato == false ?
+                                        setBiographies(biografias) : relatoUnico.podcast && relatoUnico.relato == false ?
+                                            setBiographies(biografias.filter(x => x.podcast == true)) : relatoUnico.relato && relatoUnico.podcast == false ?
+                                                setBiographies(biografias.filter(x => x.podcast == false)) : setBiographies([]);
                                     setModeEdit({ podcast: editing.podcast, editando: false });
                                     setHabilitarLoader(false)
                                 });
@@ -1104,7 +1131,10 @@ export const Autobiograficos = () => {
                             relato.image = categorias[Math.floor(Math.random() * categorias.length)].image;
                             return relato;
                         })
-                        setBiographies(biografias);
+                        relatoUnico.podcast == false && relatoUnico.relato == false ?
+                            setBiographies(biografias) : relatoUnico.podcast && relatoUnico.relato == false ?
+                                setBiographies(biografias.filter(x => x.podcast == true)) : relatoUnico.relato && relatoUnico.podcast == false ?
+                                    setBiographies(biografias.filter(x => x.podcast == false)) : setBiographies([]);
                         setModeEdit({ podcast: editing.podcast, editando: false });
                         setHabilitarLoader(false)
                     });

@@ -140,7 +140,17 @@ body {
 }*/
 
 /*----- finaliza reset CSS*/
-
+.loader-list-videos-home{
+  width:100px;
+  left:calc(50% - 100px);
+  position: absolute;
+}
+.loader-list-categories-home{
+  width:100px;
+  left:calc(50% - 100px);
+  top:calc(50% - 100px);
+  position: absolute;
+}
 
 .container-menu-main {
   position: absolute;
@@ -4506,8 +4516,12 @@ Estilos del registro
 /*
 Estilos del listado de videos en página home
 */
+.contenedor-videos-home{
+  background-color: #1f3871;
+  min-height:500px;;
+}
 .list-videos-home {
-  max-height: 430px;
+  max-height: 350px;
   overflow-y: scroll;
   width: 100%;
   -ms-overflow-style: none;

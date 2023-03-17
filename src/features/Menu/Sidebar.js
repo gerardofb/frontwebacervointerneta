@@ -77,7 +77,7 @@ const SideBar = () => {
                     setCargando(false);
                 })
             });
-        
+
     }, [cuentaUsuario, sidebar, sideBarData]);
     return (
         <div style={{ background: '#15171c' }}>
@@ -90,6 +90,8 @@ const SideBar = () => {
                 </div>
                 <div className='default-loader-center' style={cargando ? { display: 'block' } : { display: 'none' }}>
                     <img width="120" src={url_loader("Reload-white.gif", false)} />
+                    <br></br>
+                    <p style={{ color: 'white', fontSize: 'large', textAlign:'center', marginLeft:'1em' }}>Cargando menú...</p>
                 </div>
                 <div className="">
                     <div className="">
