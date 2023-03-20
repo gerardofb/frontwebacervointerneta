@@ -160,7 +160,7 @@ const sideBarData = [
           },
           {
             title: "Más visitados",
-            path: '#',
+            path: '/ListadoRelatosMasVisitados/MasVisitados',
             icon: 'radio'
           },
         ]
