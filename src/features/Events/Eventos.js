@@ -12,6 +12,7 @@ import DateTimePicker from "react-datetime-picker";
 import 'react-datetime-picker/dist/DateTimePicker.css';
 import 'react-calendar/dist/Calendar.css';
 import 'react-clock/dist/Clock.css';
+import utilidadMenuSuperior from "../utilidadMenuSuperior";
 import axios from "axios";
 import { getBaseAdressApi } from "../MainAPI";
 const yearsacervo = [
@@ -461,6 +462,7 @@ const Eventos = () => {
     const [cuentaUsuario, setCuentaUsuario] = useState('');
     const [valor, setValor] = useState(null);
     const refArchivoEventoUser = useRef();
+    const [listadoEventosVisitados, setListadoEventosVisitados] = useState([])
     const goToTop = () => {
         try {
             referencia.current ? referencia.current.scrollIntoView({ behavior: 'smooth' }) : referencia.current = createRef();
@@ -478,16 +480,34 @@ const Eventos = () => {
         }
     }
     useEffect(() => {
-        const post_validate = axios.get(`${getBaseAdressApi()}api/userprofile/`, {
-            headers: {
-                "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
-            }
-        }).then(response => {
-            console.log('respuesta del userprofile ', response);
-            setCuentaUsuario(response.data["email"])
-        }).catch(err => {
-            setCuentaUsuario('')
-        });
+        if (listadoEventosVisitados.find(e => e == evento) == undefined) {
+            let maseventos = listadoEventosVisitados.concat(evento);
+            setListadoEventosVisitados(maseventos);
+            const post_validate = axios.get(`${getBaseAdressApi()}api/userprofile/`, {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
+                }
+            }).then(response => {
+                console.log('respuesta del userprofile ', response);
+                setCuentaUsuario(response.data["email"])
+            }).catch(err => {
+                setCuentaUsuario('')
+            });
+            const post_addvisit = axios.post(`${getBaseAdressApi()}api/addvisiteventoauth/`,
+                { "identificador": parseInt(evento) },
+                {
+                    headers: {
+                        "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
+                    }
+                }).then(response => {
+
+                }).catch(err => {
+                    const post_addvisitanonima = axios.post(`${getBaseAdressApi()}api/addvisitevento/`,
+                        { "identificador": parseInt(evento) }).then(respuesta => {
+
+                        }).catch(error => { });
+                });
+        }
         console.log("Location changed");
         // const get_eventosmonth = axios.get(`${getBaseAdressApi()}api/eventosuser/1?limit=15&offset=0`).then(response => {
         //     let eventosfirst = response.data.results.map((el, idx) => {
@@ -514,8 +534,9 @@ const Eventos = () => {
         // })
         goToTop();
         centerYear();
+        utilidadMenuSuperior();
 
-    }, [location]);
+    }, [location.pathname]);
 
     const establecePublicacion = (valor) => {
         setMonthSelectedPublish({
@@ -526,7 +547,7 @@ const Eventos = () => {
     const sendEventUserForm = () => {
         let ff = valueFfin;
         let fi = valueFini;
-        if(ff == null || fi == null){
+        if (ff == null || fi == null) {
             setErroresEventUserForm({
                 ...erroresEventUserForm,
                 mensaje: 'La fecha de finalización y la fecha de inicio son obligatorias'
@@ -578,8 +599,8 @@ const Eventos = () => {
                     ...erroresEventUserForm,
                     mensaje: ''
                 });
-                
-                const get_eventosmonth = axios.get(`${getBaseAdressApi()}api/eventosuser/${(monthSelectedPublish.mes)+1}?limit=15&offset=0`).then(response => {
+
+                const get_eventosmonth = axios.get(`${getBaseAdressApi()}api/eventosuser/${(monthSelectedPublish.mes) + 1}?limit=15&offset=0`).then(response => {
                     let eventosfirst = response.data.results.map((el, idx) => {
                         return {
                             index: el.id, selected: false, title: el.titulo, descripcion: el.descripcion,
@@ -602,21 +623,21 @@ const Eventos = () => {
                     setValoresEventUserForm({
                         ...valoresEventUserForm,
                         enviando: false,
-                        descripcionEvento:'',
-                        tituloEvento:''
+                        descripcionEvento: '',
+                        tituloEvento: ''
                     });
                     setValueFfin(null);
                     setValueFini(null);
                     setMonthSelectedPublish({
                         ...monthSelectedPublish,
-                        publish:false,
+                        publish: false,
                     });
                 }).catch(err => {
                     setValoresEventUserForm({
                         ...valoresEventUserForm,
                         enviando: false
                     });
-                })                
+                })
             }).catch(err => {
                 console.log('error en el envío del evento ', err);
                 if (err.response.status == 404 && err.response.data.detail == undefined) {
@@ -625,27 +646,27 @@ const Eventos = () => {
                         mensaje: 'Existe un evento publicado en la fecha y horario elegido, no es posible publicar el evento'
                     })
                 }
-                else if(err.response.data.detail !== undefined){
+                else if (err.response.data.detail !== undefined) {
                     setErroresEventUserForm({
                         ...erroresEventUserForm,
                         mensaje: err.resonse.data.detail
                     })
                 }
-                else if(err.response.data !==undefined && err.response.data.detail == undefined){
+                else if (err.response.data !== undefined && err.response.data.detail == undefined) {
                     let mensaje_salida = 'Ocurrieron algunos errores: ';
-                    mensaje_salida+= Object.keys(err.response.data).reduce(function (previous, key) {
-                        return key + ": "+ err.response.data[key].join('; ')+"\r\n";
+                    mensaje_salida += Object.keys(err.response.data).reduce(function (previous, key) {
+                        return key + ": " + err.response.data[key].join('; ') + "\r\n";
                     }, 0)
                     setErroresEventUserForm({
                         ...erroresEventUserForm,
-                        mensaje:mensaje_salida
+                        mensaje: mensaje_salida
                     })
                 }
                 setValoresEventUserForm({
                     ...valoresEventUserForm,
                     enviando: false
                 });
-                
+
             })
         }
         console.log('los valores del formulario son ', valoresEventUserForm);
@@ -709,7 +730,7 @@ const Eventos = () => {
     const handleEnter = (indice) => {
         setEventosMonth({
             ...eventosMonth,
-            listadoEventosMes:[]
+            listadoEventosMes: []
         })
         const get_eventosmonth = axios.get(`${getBaseAdressApi()}api/eventosuser/${(indice + 1)}?limit=15&offset=0`).then(response => {
             let eventosfirst = response.data.results.map((el, idx) => {
@@ -990,7 +1011,7 @@ const Eventos = () => {
                         return <ParallaxLayer onMouseEnter={(e) => { setReset(true); handleEnter(index); }} onMouseLeave={(e) => setReset(false)}
                             offset={index + 1} key={index} speed={1}>
                             <div className='default-loader-full-eventos' style={valoresEventUserForm.enviando === true ? { display: 'block' } : { display: 'none' }}>  <img src={url_loader("Reload-transparent.gif", false)} width="100px" />
-                            <pre className="legend-loading-relatos-miniatures">Cargando eventos, espere...</pre>
+                                <pre className="legend-loading-relatos-miniatures">Cargando eventos, espere...</pre>
                             </div>
                             <div className={"mes-evento-main " + cssMeses[index]} id={"mes_event_" + (index + 1)}>
 

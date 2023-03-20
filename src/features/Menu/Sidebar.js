@@ -56,6 +56,7 @@ const SideBar = () => {
     const [cuentaUsuario, setCuentaUsuario] = useState('');
     const [cargando, setCargando] = useState(true);
     useEffect(() => {
+
         const post_validate = axios.get(`${getBaseAdressApi()}api/userprofile/`, {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
@@ -64,19 +65,23 @@ const SideBar = () => {
             .then(response => {
                 //console.log('respuesta del userprofile ', response);
                 setCuentaUsuario(response.data["email"])
-                getMenuData().then(datos => {
-                    //console.log('en promesa sidebar', datos);
-                    setSideBarData(datos);
-                    setCargando(false);
-                })
+                if (sideBarData.length == 0) {
+                    getMenuData().then(datos => {
+                        //console.log('en promesa sidebar', datos);
+                        setSideBarData(datos);
+                        setCargando(false);
+                    })
+                }
             }).catch(err => {
                 setCuentaUsuario('')
-                getMenuData().then(datos => {
-                    setCuentaUsuario('')
-                    //console.log('en promesa sidebar', datos);
-                    setSideBarData(datos);
-                    setCargando(false);
-                })
+                if (sideBarData.length == 0) {
+                    getMenuData().then(datos => {
+                        setCuentaUsuario('')
+                        //console.log('en promesa sidebar', datos);
+                        setSideBarData(datos);
+                        setCargando(false);
+                    })
+                }
             });
 
     }, [cuentaUsuario, sidebar, sideBarData]);
@@ -92,7 +97,7 @@ const SideBar = () => {
                 <div className='default-loader-center' style={cargando ? { display: 'block' } : { display: 'none' }}>
                     <img width="120" src={url_loader("Reload-white.gif", false)} />
                     <br></br>
-                    <p style={{ color: 'white', fontSize: 'large', textAlign:'center', marginLeft:'1em' }}>Cargando menú...</p>
+                    <p style={{ color: 'white', fontSize: 'large', textAlign: 'center', marginLeft: '1em' }}>Cargando menú...</p>
                 </div>
                 <div className="">
                     <div className="">

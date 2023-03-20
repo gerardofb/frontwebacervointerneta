@@ -361,6 +361,7 @@ export const Autobiograficos = () => {
     const [queryActual, setQueryActual] = useState(null);
     const [esFavorito, setEsFavorito] = useState({ guid: '', valor: true, cuenta: 0 });
     const [relatoUnico, setRelatoUnico] = useState({ podcast: false, relato: false });
+    const [listadoRelatosVisitados, setListadoRelatosVisitados] = useState([])
     const handleScroll = (e) => {
         const bottom = Math.round(e.target.scrollHeight - e.target.scrollTop) === e.target.clientHeight;
         console.log('en scroll ', Math.round(e.target.scrollHeight - e.target.scrollTop), e.target.clientHeight);
@@ -915,17 +916,35 @@ export const Autobiograficos = () => {
             cuenta: 0,
             valor: cuentaDeUsuario ? true : false
         });
-        const requestmorefavs = axios.get(`${getBaseAdressApi()}api/detailfavoritesrelato/${documento}`).then(response => {
-            let cantidad = response.data[0].favoritos_por_relato.length;
-            console.log('obteniendo cuenta de favoritos ', cantidad, response)
-            setEsFavorito({
-                ...esFavorito,
-                valor: cuentaDeUsuario ? true : false,
-                cuenta: cantidad,
-                guid: response.data[0].document_id
-            })
-        })
+        if (listadoRelatosVisitados.find(e => e == documento) == undefined) {
+            let masrelatosvisitados = listadoRelatosVisitados.concat(documento);
+            setListadoRelatosVisitados(masrelatosvisitados);
+            const post_addvisit = axios.post(`${getBaseAdressApi()}api/addvisitrelatoauth/`,
+                { "document_id": documento },
+                {
+                    headers: {
+                        "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
+                    }
+                }).then(response => {
 
+                }).catch(err => {
+                    const post_addvisitanonima = axios.post(`${getBaseAdressApi()}api/addvisitrelato/`,
+                        { "document_id": documento }).then(respuesta => {
+
+                        }).catch(error => { });
+                });
+            }
+            const requestmorefavs = axios.get(`${getBaseAdressApi()}api/detailfavoritesrelato/${documento}`).then(response => {
+                let cantidad = response.data[0].favoritos_por_relato.length;
+                console.log('obteniendo cuenta de favoritos ', cantidad, response)
+                setEsFavorito({
+                    ...esFavorito,
+                    valor: cuentaDeUsuario ? true : false,
+                    cuenta: cantidad,
+                    guid: response.data[0].document_id
+                })
+            })
+        
     }
     const estableceTags = (parametro) => {
         if (parametro) {
@@ -1161,10 +1180,10 @@ export const Autobiograficos = () => {
             let categoria = response.data["id_categoria"];
             let identificador = response.data.id;
             const obtenerCategorias = axios.get(`${getBaseAdressApi()}api/categoria/${categoria}`).then(respuesta => {
-                
+
                 let id_categ = respuesta.data["id"];
                 let vinculo = "/Reproduccion/" + titulovideo.replace(/\s/g, '-') + "|" + identificador + "|" + id_categ;
-                console.log('el vinculo en la navegación desde relato ',vinculo);
+                console.log('el vinculo en la navegación desde relato ', vinculo);
                 setHabilitarLoaderInitial(false);
                 historia.push(vinculo);
 
@@ -1375,7 +1394,7 @@ export const Autobiograficos = () => {
                                     <div className='autobiografico-header-autor'>
                                         {relato.autor}
                                     </div>
-                                    <div className='autobiografico-header-related' style={{cursor:'pointer'}}>
+                                    <div className='autobiografico-header-related' style={{ cursor: 'pointer' }}>
                                         <span>Relacionado con: </span><img src={relato.image} onClick={(e) => { navegarRelacionado(relato.id_video) }} align='right' />
                                     </div>
                                 </div>

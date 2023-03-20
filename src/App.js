@@ -79,6 +79,7 @@ function App() {
     populate_videos_set();
 },[videosPopulated]);
 const populate_videos_set = () => {
+  if(videosPopulated==null){
   const requestone= axios.get(getBaseAdressApi()+'api/categorias/');
   
   // const requestwo = axios.get('http://localhost:8000/api/videos/');
@@ -95,7 +96,9 @@ const populate_videos_set = () => {
       let salida = arrange_videos([primeracat,segundacat,terceracat,cuartacat,quintacat,sextacat]);
       
       setVideosPopulated(salida);
+      
    }));
+  }
   return;
   }
   function arrange_videos(arreglo) {

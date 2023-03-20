@@ -17,7 +17,22 @@ import { Link } from 'react-router-dom';
 const url = (name, wrap = false) => `${wrap ? 'url(' : ''}images/${name}.svg${wrap ? ')' : ''}`
 const urlpng = (name, wrap = false) => `${wrap ? 'url(' : ''}images/Art/inverted/${name}.png${wrap ? ')' : ''}`
 const url_loader = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/${name}${wrap ? ')' : ''}`
+function isInViewportMenu() {
+    const menusuperior = document.querySelector('.container-menu-main')
+    const barranav = document.querySelector('.navbar-principal');
+    const rect = barranav.getBoundingClientRect();
+    const { scrollTop, offsetHeight } = document.documentElement;
+    console.log('datos de video encabezado', rect.top, rect.left, rect.bottom, rect.right)
+    console.log('limite datos de video encabezado ', Math.round(scrollTop - rect.top))
+    if (Math.round(scrollTop - rect.top) <= 0) {
+        menusuperior.style.display = 'block'
 
+    }
+    else {
+        menusuperior.style.display = 'none'
+    }
+
+}
 const urlvideointro = "/images/VideoIntroInterNeta.mp4";
 export class Home extends React.Component {
     state = {
@@ -25,6 +40,10 @@ export class Home extends React.Component {
         videosList: [],
         habilitarLoader: false,
         habilitarLoaderCategories: false,
+    }
+    handleScroll = () => {
+        
+        isInViewportMenu();
     }
     filterActiveCatVideos = (arreglo) => {
         const videosCatActivos = arreglo.map((vid, i) => {
@@ -72,7 +91,7 @@ export class Home extends React.Component {
         const { styles } = this.context;
         //console.log('en home ', this.context)
         return (
-            <div>
+            <div onScroll={this.handleScroll}>
 
                 <Parallax className={styles.BodyHome}
                     ref={ref => this.parallax = ref}
