@@ -4,6 +4,7 @@ const url = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/${name}.png${w
 const HomeFooter = (props)=>{
     return (
         <div className='footer-site footer-site-black' style={{WebkitBorderTopRightRadius:'20px', width:'100%', margin:'auto', borderTopLeftRadius:'20px', opacity:'100%'}}>
+            <div className='empty-container'></div>
             <div className='container-list-red'>
             <ul className='footer-list-red'>
                 <li>
