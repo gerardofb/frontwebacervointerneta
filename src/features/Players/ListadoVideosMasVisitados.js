@@ -1,4 +1,4 @@
-import React, { useState, useRef,useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import NavBar from '../NavBar';
 import axios from "axios";
 import { getBaseAdressApi } from "../MainAPI";
@@ -237,9 +237,8 @@ const ordenBusquedaPredeterminado = {
     Titulo: 1,
     Categoria: 2,
     Calificacion: 3,
-    ListaReproduccion: 4,
+    Visitas: 4,
     Tags: 5,
-    Relato: 6
 }
 
 const ListadoOrdenar = [
@@ -258,14 +257,11 @@ const ListadoOrdenar = [
     },
     ,
     {
-        indice: 4, title: "Lista Reproducción", icono: faPlay
+        indice: 4, title: "Visitas", icono: faUser
     },
     ,
     {
         indice: 5, title: "Tags", icono: faTag
-    },
-    {
-        indice: 6, title: "Relato", icono: faUser
     }
 ]
 const ListadoOpcionesVideo = [
@@ -296,7 +292,7 @@ const tipoBusquedaPagina = {
     TITULO: 1,
     CATEGORIA: 2,
     USUARIO: 3,
-    LISTAREPRODUCCION: 4,
+    VISITAS: 4,
     TAG: 5
 }
 const orderBy = (listado, ordenamiento, desc) => {
@@ -313,6 +309,9 @@ const orderBy = (listado, ordenamiento, desc) => {
     }
     else if (ordenamiento == ordenBusquedaPredeterminado.Tags) {
         salida.sort((a, b) => a.Tags.length - b.Tags.length);
+    }
+    if (ordenamiento == ordenBusquedaPredeterminado.Visitas) {
+        salida.sort((a, b) => (a.Visitas !== null ? a.Visitas : 0) - (b.Visitas !== null ? b.Visitas : 0));
     }
     salida = desc ? listado.reverse() : listado;
     console.log('ordenando listado', ordenamiento, salida, ordenBusquedaPredeterminado);
@@ -331,14 +330,14 @@ const ListadoVideosMasVisitados = (props) => {
     const history = useHistory();
     const tipoListado = rutaTipoListado.tipo === "MasVisitados" ? seleccionaTipoVideo.MAS_VISITADOS : rutaTipoListado.tipo === "Favoritos" ?
         seleccionaTipoVideo.FAVORITOS : seleccionaTipoVideo.MAS_VISITADOS;
-    const [listado, setListado] =  useState([]);
+    const [listado, setListado] = useState([]);
     const [searchBy, setSearchBy] = useState([-1]);
     const [ordenarPor, setOrdenarPor] = useState({ orden: ordenBusquedaPredeterminado.Nombre, descendiente: false });
     const [ordenamientoDesc, setOrdenamientoDesc] = useState(false);
     const [cargaPaginada, setCargaPaginada] = useState(false);
     const [idFilaFavorito, setIdFilaFavorito] = useState({ vinculo: '', idvideo: 0 });
-    console.log('tipo listado ', rutaTipoListado, tipoListado, listado);
-    console.log('tipo listado ', rutaTipoListado, tipoListado, listado)
+    //console.log('tipo listado ', rutaTipoListado, tipoListado, listado);
+    //console.log('tipo listado ', rutaTipoListado, tipoListado, listado)
     useEffect(() => {
         const peticionCategorias = axios.get(`${getBaseAdressApi()}api/categorias/`).then(respuesta => {
             let categories = respuesta.data.results.map((cat, idx) => {
@@ -346,15 +345,15 @@ const ListadoVideosMasVisitados = (props) => {
             });
             const peticionVisitados = axios.get(`${getBaseAdressApi()}api/vistasporvideo/`).then(response => {
                 let videosvisitados = response.data.map((vid, ind) => {
-                    console.log('respuesta de videos visitados ',response.data);
+                    //console.log('respuesta de videos visitados ',response.data);
                     let sliceIndex = Math.floor(Math.random() * arreglotags.length);
                     let relatovideohightlight = vid.relatos_por_video && vid.relatos_por_video.length > 0 ? vid.relatos_por_video : "";
                     let tagsselected = arreglotags.slice(sliceIndex, sliceIndex + 2).map((tag, i) => {
                         return tag.content
                     });
                     // console.log('los relatos del video son ', relatovideohightlight);
-                    console.log('indice de los tags ', sliceIndex, tagsselected);
-                    return { Categoria: categories.find(x => x.id_cat == vid.id_categoria).titulo, Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria).id_cat, Id: vid.id, Calificacion: Math.ceil(Math.random() * 5), ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight }
+                    //console.log('indice de los tags ', sliceIndex, tagsselected);
+                    return { Categoria: categories.find(x => x.id_cat == vid.id_categoria).titulo, Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria).id_cat, Id: vid.id, Calificacion: Math.ceil(Math.random() * 5), Visitas: vid.total_visitas, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight }
                 });
                 setListado(videosvisitados)
                 setCargaPaginada(true);
@@ -363,19 +362,21 @@ const ListadoVideosMasVisitados = (props) => {
     }, [listado])
     const estableceDescendienteAscendiente = (valor, orden) => {
 
-        if (orden != ordenBusquedaPredeterminado.ListaReproduccion && orden != ordenBusquedaPredeterminado.Relato) {
-            setOrdenamientoDesc(valor);
-            setOrdenarPor({ orden: orden, descendiente: valor });
-            let salida = orderBy(listado.slice(0), orden, valor);
-            setListado(salida);
-            // console.log('descendiente ', valor, orden)
-        }
+
+        setOrdenamientoDesc(valor);
+        setOrdenarPor({ orden: orden, descendiente: valor });
+        //let salida = 
+        setListado(orderBy(listado.slice(0), orden, valor));
+        //setListado(salida);
+        // console.log('descendiente ', valor, orden)
+
     }
     const estableceOrdenamiento = (orden) => {
         setVisibleOpciones(-1);
         setOrdenarPor({ orden: orden.indice, descendiente: ordenamientoDesc });
-        let salida = orderBy(listado.slice(0), orden.indice, ordenamientoDesc);
-        setListado(salida);
+        //let salida = 
+        setListado(orderBy(listado.slice(0), orden.indice, ordenamientoDesc));
+        //setListado(salida);
     }
     const [opcionesSetVisible, setVisibleOpciones] = useState(-1);
     const [opcionVideoPor, setOpcionVideoPor] = useState(-1);
@@ -403,29 +404,29 @@ const ListadoVideosMasVisitados = (props) => {
                     case tipoBusquedaPagina.USUARIO:
                         let salidaautores = [];
                         let autorRelato = salida.map((el, idx) => {
-                            let exit = el.Relato.map((rel, ind) => {
+                            let exit = el.Relato && el.Relato.map((rel, ind) => {
                                 return { autor: rel.id_autor.username, id_video: el.Id }
                             });
                             salidaautores = salidaautores.concat(exit);
                             return exit;
                         });
-                        console.log('autores filtrados del relato ', salidaautores);
+                        //console.log('autores filtrados del relato ', salidaautores);
                         let autorbuscado = salidaautores.find(x => x.autor.toLowerCase() == textoSearch.toLowerCase())
                         salidaUsuario = autorbuscado != undefined ?
                             salidaUsuario.concat(salida.filter(x => x.Relato != "" && x.Id == autorbuscado.id_video)) : [];
                         break;
-                    case tipoBusquedaPagina.LISTAREPRODUCCION:
-                        salidaListaRepro = salidaListaRepro.concat(salida.filter(x => x.ListaReproduccion.Titulo != undefined &&
-                            x.ListaReproduccion.Titulo.toLowerCase().indexOf(textoSearch.toLowerCase()) != -1));
-                        break;
+                    // case tipoBusquedaPagina.LISTAREPRODUCCION:
+                    //     salidaListaRepro = salidaListaRepro.concat(salida.filter(x => x.ListaReproduccion.Titulo != undefined &&
+                    //         x.ListaReproduccion.Titulo.toLowerCase().indexOf(textoSearch.toLowerCase()) != -1));
+                    //     break;
                     case tipoBusquedaPagina.TAG:
                         let busqueda = salida.map((tag, i) => {
-                            console.log('en búsqueda de tags ', tag.Tags);
+                            //console.log('en búsqueda de tags ', tag.Tags);
                         })
                         salidaTags = salidaTags.concat(salida.filter(x => x.Tags.length > 0 && x.Tags.find(a => a.toLowerCase().indexOf(textoSearch.toLowerCase()) != -1)));
                         break;
                 }
-                console.log('buscando en todos los tipos ', salidaTitulo, salidaCategoria, salidaUsuario, salidaListaRepro, salidaTags);
+                //console.log('buscando en todos los tipos ', salidaTitulo, salidaCategoria, salidaUsuario, salidaListaRepro, salidaTags);
             });
 
             salida = salidaTitulo.concat(salidaCategoria).concat(salidaUsuario).concat(salidaListaRepro).concat(salidaTags);
@@ -441,15 +442,15 @@ const ListadoVideosMasVisitados = (props) => {
                 });
                 const peticionVisitados = axios.get(`${getBaseAdressApi()}api/vistasporvideo/`).then(response => {
                     let videosvisitados = response.data.map((vid, ind) => {
-                        console.log('respuesta de videos visitados ',response.data);
+                        //console.log('respuesta de videos visitados ',response.data);
                         let sliceIndex = Math.floor(Math.random() * arreglotags.length);
                         let relatovideohightlight = vid.relatos_por_video && vid.relatos_por_video.length > 0 ? vid.relatos_por_video : "";
                         let tagsselected = arreglotags.slice(sliceIndex, sliceIndex + 2).map((tag, i) => {
                             return tag.content
                         });
                         // console.log('los relatos del video son ', relatovideohightlight);
-                        console.log('indice de los tags ', sliceIndex, tagsselected);
-                        return { Categoria: categories.find(x => x.id_cat == vid.id_categoria).titulo, Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria).id_cat, Id: vid.id, Calificacion: Math.ceil(Math.random() * 5), ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight }
+                        //console.log('indice de los tags ', sliceIndex, tagsselected);
+                        return { Categoria: categories.find(x => x.id_cat == vid.id_categoria).titulo, Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria).id_cat, Id: vid.id, Calificacion: Math.ceil(Math.random() * 5), Visitas: vid.total_visitas, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight }
                     });
                     setListado(videosvisitados)
                     setCargaPaginada(true);
@@ -478,14 +479,14 @@ const ListadoVideosMasVisitados = (props) => {
     }
     const setActionRowVisitado = (elemento) => {
 
-        console.log('acción de combo ', opcionVideoPor, elemento)
+        //console.log('acción de combo ', opcionVideoPor, elemento)
         let accion = ListadoOpcionesVideo.find(x => x.indice == elemento.indice);
         if (accion != undefined) {
             switch (accion.title) {
                 case 'Explorar':
-                    console.log('el vinculo a navegar es ', idFilaFavorito);
+                    //console.log('el vinculo a navegar es ', idFilaFavorito);
                     if (idFilaFavorito.vinculo != '') {
-                        console.log('el vinculo a navegar es navegando a vinculo')
+                        //console.log('el vinculo a navegar es navegando a vinculo')
                         history.push(idFilaFavorito.vinculo);
                     }
                     break;
@@ -506,27 +507,27 @@ const ListadoVideosMasVisitados = (props) => {
                             });
                             const peticionVisitados = axios.get(`${getBaseAdressApi()}api/vistasporvideo/`).then(response => {
                                 let videosvisitados = response.data.map((vid, ind) => {
-                                    console.log('respuesta de videos visitados ',response.data);
+                                    //console.log('respuesta de videos visitados ',response.data);
                                     let sliceIndex = Math.floor(Math.random() * arreglotags.length);
                                     let relatovideohightlight = vid.relatos_por_video && vid.relatos_por_video.length > 0 ? vid.relatos_por_video : "";
                                     let tagsselected = arreglotags.slice(sliceIndex, sliceIndex + 2).map((tag, i) => {
                                         return tag.content
                                     });
                                     // console.log('los relatos del video son ', relatovideohightlight);
-                                    console.log('indice de los tags ', sliceIndex, tagsselected);
-                                    return { Categoria: categories.find(x => x.id_cat == vid.id_categoria).titulo, Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria).id_cat, Id: vid.id, Calificacion: Math.ceil(Math.random() * 5), ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight }
+                                    //console.log('indice de los tags ', sliceIndex, tagsselected);
+                                    return { Categoria: categories.find(x => x.id_cat == vid.id_categoria).titulo, Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria).id_cat, Id: vid.id, Calificacion: Math.ceil(Math.random() * 5), Visitas: vid.total_visitas, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight }
                                 });
                                 setListado(videosvisitados)
                                 setCargaPaginada(true);
                             });
                         });
                     }).catch(err => {
-                        console.log('error eliminando el video visitado ', err);
+                        //console.log('error eliminando el video visitado ', err);
                     });
             }
         }
     }
-    console.log('videos listados como visitados ',listado);
+    //console.log('videos listados como visitados ',listado);
     return (
         <>
             <NavBar></NavBar>
@@ -545,9 +546,9 @@ const ListadoVideosMasVisitados = (props) => {
                     <div className="row-busqueda-videos-listado">
                         <label>Usuario:</label><input onChange={(e) => estableceTipoBusqueda(tipoBusquedaPagina.USUARIO, e.target.checked)} type="checkbox"></input>
                     </div>
-                    <div className="row-busqueda-videos-listado">
-                        <label>Lista de Reproduccion:</label><input onChange={(e) => estableceTipoBusqueda(tipoBusquedaPagina.LISTAREPRODUCCION, e.target.checked)} type="checkbox"></input>
-                    </div>
+                    {/* <div className="row-busqueda-videos-listado">
+                        <label>:</label><input onChange={(e) => estableceTipoBusqueda(tipoBusquedaPagina.LISTAREPRODUCCION, e.target.checked)} type="checkbox"></input>
+                    </div> */}
                     <div className="row-busqueda-videos-listado">
                         <label>Tag:</label><input onChange={(e) => estableceTipoBusqueda(tipoBusquedaPagina.TAG, e.target.checked)} type="checkbox"></input>
                     </div>
@@ -577,24 +578,23 @@ const ListadoVideosMasVisitados = (props) => {
                 </div>
 
                 <div className="listado-default">
-                <div className='default-loader-full' style={cargaPaginada === false ? { display: 'block' } : { display: 'none' }}>  <img src={url_loader("Reload_generic.gif", false)} />
-                <pre className="legend-loading-relatos-miniatures">Cargando listado de videos más visitados...</pre>
-                   </div>
+                    <div className='default-loader-full' style={cargaPaginada === false ? { display: 'block' } : { display: 'none' }}>  <img src={url_loader("Reload_generic.gif", false)} />
+                        <pre className="legend-loading-relatos-miniatures">Cargando listado de videos más visitados...</pre>
+                    </div>
                     {
                         listado.map((item, index) => {
                             let vinculo = "/Reproduccion/" + item.Video + "|" + item.Id + "|" + item.Id_Categoria;
-                            // let autores = item.Relato != '' ? item.Relato.map((rel, idx) => {
-                            //     return rel.id_autor.username
-                            // }).filter(onlyUnique) : []
-                            let autores = [];
+                            let autores = item.Relato != '' ? item.Relato.map((rel, idx) => {
+                                return rel.id_autor.username
+                            }).filter(onlyUnique) : []
                             let claseCssBotonOpciones = opcionesSetVisible == index ? "container-default-combo listado-combo" : "container-default-combo combo-hidden"
-                            let listareproduccion = item.ListaReproduccion.Titulo ? item.ListaReproduccion.Titulo : "";
+                            //let listareproduccion = item.ListaReproduccion.Titulo ? item.ListaReproduccion.Titulo : "";
                             let autorRelato = item.Relato != "" ? autores.join(', ') : "";
-                            console.log('autores del relato de video ', item.Relato, autores);
+                            //console.log('autores del relato de video ', item.Relato, autores);
                             return (
                                 <div className="vid-listado" key={index}>
                                     <div>{item.Video}</div><div>{item.Categoria}</div><div>{item.Calificacion}</div>
-                                    <div>{listareproduccion}
+                                    <div style={{ textAlign: 'center' }}>{item.Visitas}
                                     </div>
 
                                     <div><div className="nowrap-tags-listado">{item.Tags.map((tag, i) => {
@@ -604,7 +604,7 @@ const ListadoVideosMasVisitados = (props) => {
 
                                         )
                                     })}</div></div>
-                                    <div>{autorRelato}</div>
+                                    {/* <div>{autorRelato}</div> */}
                                     <div>
                                         <button title="opciones de la lista (doble click para ocultar)"
                                             onClick={(e) => {

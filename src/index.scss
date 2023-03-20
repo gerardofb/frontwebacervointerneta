@@ -3862,7 +3862,10 @@ Clases de los eventos específicos del acervo (no los publicados por otros usuar
   align-items: flex-start;
   position: relative;
 }
-
+.check-listado input[type=checkbox]{
+  width: 15px;
+  height: 15px;
+}
 .evt-listado div.check-listado,
 .vid-listado div.check-listado {
   display: grid;

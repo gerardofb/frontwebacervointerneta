@@ -163,7 +163,7 @@ class IndexPage extends Component {
         </div>
         <div className="legend-full-categories" style={this.state.consultandominiaturas === true ? { display: 'block' } : { display: 'none' }}>
           <hr />
-          <h4>Los videos reproducidos en nuestro sitio, en cada una de las categorías, son Trailers (avances), <br /> si desea puede&nbsp;<FontAwesomeIcon icon={faEnvelope}></FontAwesomeIcon>&nbsp;<Link to="/">ponerse en contacto</Link>&nbsp;<FontAwesomeIcon icon={faEnvelope}></FontAwesomeIcon>&nbsp; y, previa justificación y acuerdo, le haremos llegar los que elija, en su edición completa y de alta calidad.</h4>
+          <h4>Los videos reproducidos en nuestro sitio, en cada una de las categorías, son Trailers (avances), <br /> si desea puede&nbsp;<FontAwesomeIcon icon={faEnvelope}></FontAwesomeIcon>&nbsp;<Link to="/Contacto">ponerse en contacto</Link>&nbsp;<FontAwesomeIcon icon={faEnvelope}></FontAwesomeIcon>&nbsp; y, previa justificación y acuerdo, le haremos llegar los que elija, en su edición completa y de alta calidad.</h4>
           <hr />
         </div>
         <div className='default-loader-full-categories' style={this.state.consultandominiaturas === true ? { display: 'block' } : { display: 'none' }}>  <img src={url_loader("Reload-transparent.gif", false)}  width="100px" />
