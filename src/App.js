@@ -25,6 +25,7 @@ import Register from './features/Account/Register';
 import Login from './features/Account/Login';
 import Pagina_404 from './features/Pagina_404';
 import Logout from './features/Account/Logout';
+import FormaContacto from './features/FormaContacto';
 import { useEffect } from 'react';
 import {library} from '@fortawesome/fontawesome-svg-core';
 import { faBook, faHouse, faTape, faForward, faCommentDots, faVolumeHigh, faCalendarDays, faUserCheck, faUser,
@@ -229,6 +230,11 @@ const populate_videos_set = () => {
           <Route path="/CerrarSesion">
           <ThemeProvider>
             <Logout></Logout>
+            </ThemeProvider>
+          </Route>
+          <Route path="/Contacto">
+            <ThemeProvider>
+              <FormaContacto></FormaContacto>
             </ThemeProvider>
           </Route>
           <Route path="*">

@@ -189,7 +189,7 @@ const sideBarData = [
       },
       {
         title: "Contacto",
-        path: "#",
+        path: "/Contacto",
         icon: "envelope",
       },
       {

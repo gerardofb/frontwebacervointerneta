@@ -297,7 +297,7 @@ const ListadoRelatosFavoritos = (props) => {
                     setCargaPaginada(true);
                 });
         })
-    }, [])
+    }, [listado])
     const estableceRelatoHover = (documento)=>{
         const peticionRelato = axios.post(`${getBaseAdressApi()}api/singlerelato/`,{
             identificador:documento

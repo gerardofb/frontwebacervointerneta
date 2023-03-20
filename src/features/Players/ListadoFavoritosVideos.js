@@ -362,7 +362,7 @@ const ListadoVideosFavoritos = (props) => {
                     setCargaPaginada(true);
                 });
         })
-    }, [])
+    }, [listado])
     const estableceDescendienteAscendiente = (valor, orden) => {
 
         if (orden != ordenBusquedaPredeterminado.ListaReproduccion && orden != ordenBusquedaPredeterminado.Relato) {
