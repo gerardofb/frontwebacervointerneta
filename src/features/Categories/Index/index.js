@@ -229,9 +229,9 @@ class IndexPage extends Component {
             )}
           </Contents>
         </div>
-        <div>
+        
           <HomeFooter></HomeFooter>
-        </div>
+        
 
       </div>
     )

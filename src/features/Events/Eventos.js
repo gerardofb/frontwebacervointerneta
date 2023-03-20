@@ -1069,7 +1069,7 @@ const Eventos = () => {
                         </ParallaxLayer>
                     }) : null}
                     <ParallaxLayer offset={13} speed={1}>
-                        <div style={{ marginTop: '61vh' }}>
+                        <div style={{ marginTop: '49vh' }}>
                             <HomeFooter></HomeFooter>
                         </div>
                     </ParallaxLayer>
