@@ -163,7 +163,7 @@ export class Home extends React.Component {
                             </div>
                         </div>
                     </Parallax.Layer>
-                    <Parallax.Layer offset={4.3} speed={0} style={{ display: 'flex' }}>
+                    <Parallax.Layer offset={4.25} speed={0} style={{ display: 'flex' }}>
                         <HomeFooter></HomeFooter>
                     </Parallax.Layer>
                 </Parallax>
