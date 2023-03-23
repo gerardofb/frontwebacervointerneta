@@ -291,7 +291,7 @@ const ListadoRelatosFavoritos = (props) => {
                         });
                         console.log('los relatos del video son ', relatovideohightlight);
                         console.log('indice de los tags ', sliceIndex, tagsselected);
-                        return { Documento:relatovideohightlight[0].document_id, Categoria: categories.find(x => x.id_cat == vid.id_categoria).titulo, Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria).id_cat, Id: vid.id, Calificacion: Math.ceil(Math.random() * 5), ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight }
+                        return { Documento:relatovideohightlight && relatovideohightlight[Math.floor(Math.random()*(relatovideohightlight.length-1))].document_id, Categoria: categories.find(x => x.id_cat == vid.id_categoria).titulo, Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria).id_cat, Id: vid.id, Calificacion: Math.ceil(Math.random() * 5), ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight }
                     });
                     setListado(videosfavoritos)
                     setCargaPaginada(true);

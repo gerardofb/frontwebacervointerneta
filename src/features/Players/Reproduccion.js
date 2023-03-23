@@ -48,6 +48,8 @@ import { HomeFooter } from '../HomeFooter';
 import { ThemesContext } from '../../ThemeProvider';
 import { getBaseAdressApi } from '../MainAPI';
 import { useLayoutEffect } from 'react';
+import { click } from '@testing-library/user-event/dist/click'
+const rangoCalificacion = [1, 2, 3, 4, 5];
 const url = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/SocialNetwork/${name}${wrap ? ')' : ''}`
 const url_loader = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/${name}${wrap ? ')' : ''}`
 const Tab = styled.button`
@@ -366,6 +368,8 @@ export const AutoComments = () => {
     const growers = document.querySelectorAll(".grow-wrap");
     const [paginacion, setPaginacion] = useState({ comentarios: { pagina: 0, habilitado: false, total: 0, tamanio: 0 }, responsecomentarios: { habilitado: false } })
     const [respuestaComentarioActual, setRespuestaComentarioActual] = useState({ habilitado: false, respuestas: [], numero_respuestas: 0, comentario: '' });
+    const [calificacionTotal, setCalificacionTotal] = useState(0);
+    const [calificacionEnviada, setCalificacionEnviada] = useState(false);
     growers.forEach((grower) => {
         const textarea = grower.querySelector("textarea");
         textarea.addEventListener("input", () => {
@@ -468,9 +472,9 @@ export const AutoComments = () => {
                         })
                     })
                 }
-                
+
             }
-            
+
             //console.log('la fuente del video es ', response.data.contenedor_aws);            
         });
         const requestfavs = axios.get(`${getBaseAdressApi()}api/detailfavoritesvideo/${idvideo}`).then(response => {
@@ -499,7 +503,7 @@ export const AutoComments = () => {
                         image: 'url("' + el.contenedor_img + '")',
                         url: el.titulo + "|" + el.id + "|" + el.id_categoria,
                         height: 200,
-                        id_video:el.id
+                        id_video: el.id
                     }
                 }).slice(0, response.data.videos_por_categoria.length);
                 if (datostransicion === null) {
@@ -508,6 +512,11 @@ export const AutoComments = () => {
                 }
             }
         });
+        const calificacionVideo = axios.get(`${getBaseAdressApi()}api/calificacionbyvideo/${parseInt(idvideo)}`).then(response => {
+            setCalificacionTotal(response.data[0].total_calificacion.toFixed(1));
+        }).catch(err => {
+
+        })
         items = shuffleArray(items);
         let videoaleatorio = randomBetween10_19();
         ;
@@ -522,10 +531,10 @@ export const AutoComments = () => {
         //elementotop.scrollIntoView({ behavior: 'smooth' });localStorage.getItem
         player && player.load();
         console.log('El video cargado es ', idvideo, sourcevideo);
-    }, [location, location.pathname, sourcevideo]);
-    const sendVisitFrameVideo =(id_del_video)=>{
+    }, [location, location.pathname, sourcevideo,calificacionTotal]);
+    const sendVisitFrameVideo = (id_del_video) => {
         const requestVisita = axios.post(`${getBaseAdressApi()}api/addvisitvideoauth/`, {
-            "id_video":id_del_video
+            "id_video": id_del_video
         }, {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
@@ -864,10 +873,23 @@ export const AutoComments = () => {
     const [childrenModal, setChildrenModal] = useState(-1);
     const toggleState = (e, indice) => {
         //console.log('estableciendo estado ', modalOpen);
+        setCalificacionEnviada(false);
         setChildrenModal(indice);
         setModalOpen(!modalOpen);
         let elementoheader = document.querySelector('.box-header');
         elementoheader.scrollIntoView({ behavior: 'smooth' });
+        if (indice == MODAL_CALIFICACION) {
+            let nuevoclickcalificacion = clicked.map((el, idx) => {
+                if (idx < Math.round(calificacionTotal)) {
+                    el = true;
+                }
+                else {
+                    el = false;
+                }
+                return el;
+            });
+            setClicked(nuevoclickcalificacion);
+        }
         //console.log('estableciendo estado final ', modalOpen);
     };
     const [radioDescarga, setRadioDescarga] = useState(opcionesDescarga);
@@ -1065,6 +1087,38 @@ export const AutoComments = () => {
         console.log('navegando a desde transición', url);
         history.push(url);
     }
+    const sendCalificacionVideo = () => {
+        const calificar = clicked.filter(x => x).length;
+        const sendCalificacion = axios.post(`${getBaseAdressApi()}api/calificarvideoauth/`, {
+            "id_video": parseInt(idvideo),
+            "calificacion": calificar
+        }, {
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
+            },
+        }).then(resp => {
+            setCalificacionEnviada(true);
+            const calificacionVideo = axios.get(`${getBaseAdressApi()}api/calificacionbyvideo/${parseInt(idvideo)}`).then(response => {
+                setCalificacionTotal(response.data[0].total_calificacion.toFixed(1));
+            }).catch(err => {
+    
+            })
+        }).catch(err => {
+            const sendCalificacionAnon = axios.post(`${getBaseAdressApi()}api/calificarvideo/`, {
+                "id_video": parseInt(idvideo),
+                "calificacion": calificar
+            }).then(response => {
+                setCalificacionEnviada(true);
+                const calificacionVideo = axios.get(`${getBaseAdressApi()}api/calificacionbyvideo/${parseInt(idvideo)}`).then(response => {
+                    setCalificacionTotal(response.data[0].total_calificacion.toFixed(1));
+                }).catch(err => {
+        
+                })
+            }).catch(error => {
+            });
+        })
+    }
+    console.log('calificación total del video ',calificacionTotal);
     return (
         <div className='player-individual' onScroll={handleScroll}>
             {
@@ -1106,17 +1160,17 @@ export const AutoComments = () => {
                         <FontAwesomeIcon icon={faScissors} /><span>Clip</span>
                     </div>
                     <div className='item-acciones-repro' onClick={(e) => toggleState(e, MODAL_CALIFICACION)}>
-                        {[0].map((el, index) => {
-                            return <div style={{ marginLeft: '.25em' }} key={index}>
-                                <FontAwesomeIcon icon={faStar} className="clickedstar" />
-                                <FontAwesomeIcon icon={faStar} className="clickedstar" />
-                                <FontAwesomeIcon icon={faStar} className="clickedstar" />
-                                <FontAwesomeIcon icon={faStar} className="clickedstar" />
-                                <FontAwesomeIcon icon={faStar} className="clickedstar" />
-                                <span>(5)</span>
-                            </div>
-                        })
-                        }
+                        <div className='contenedor-cal-video'>
+                            {rangoCalificacion.map((el, index) => {
+                                return <div style={{ marginLeft: '.25em', float: 'left' }} key={index}>
+                                    <FontAwesomeIcon icon={faStar} className={el <= Math.round(calificacionTotal) ? "clickedstar" : "std-star"} />
+
+                                </div>
+
+                            })
+                            }
+                            <span style={{ clear: 'both' }}>({calificacionTotal})</span>
+                        </div>
                     </div>
                     <div className={localStorage.getItem('credencial') && cuentaUsuario !== '' ? 'item-acciones-repro' : 'item-acciones-repro-disabled'} onClick={(e) => {
                         localStorage.getItem('credencial') ?
@@ -1388,22 +1442,34 @@ export const AutoComments = () => {
                                 </button>
                             </div>
                             : childrenModal == MODAL_CALIFICACION ?
+
                                 <div className='calificacion-reprod-std'>
-                                    {[0].map((el, index) => {
-                                        return <>
-                                            <FontAwesomeIcon icon={faStar} className={clicked[0] ? "clickedstar" : "std-star"} onClick={(e) => handleStarClick(e, 0)} />
-                                            <FontAwesomeIcon icon={faStar} className={clicked[1] ? "clickedstar" : "std-star"} onClick={(e) => handleStarClick(e, 1)} />
-                                            <FontAwesomeIcon icon={faStar} className={clicked[2] ? "clickedstar" : "std-star"} onClick={(e) => handleStarClick(e, 2)} />
-                                            <FontAwesomeIcon icon={faStar} className={clicked[3] ? "clickedstar" : "std-star"} onClick={(e) => handleStarClick(e, 3)} />
-                                            <FontAwesomeIcon icon={faStar} className={clicked[4] ? "clickedstar" : "std-star"} onClick={(e) => handleStarClick(e, 4)} />
-                                        </>
-                                    })
+                                    {
+
                                     }
+                                    <div className={!calificacionEnviada ? 'contenedor-cal-video-modal' : 'contenedor-cal-video-modal-hidden'}>
+                                        {
+
+                                            rangoCalificacion.map((el, index) => {
+                                                return <div style={{ marginLeft: '.25em', float: 'left' }} key={index}>
+                                                    <FontAwesomeIcon icon={faStar} className={clicked[index] == true ? "clickedstar" : "std-star"} onClick={(e) => handleStarClick(e, index)} />
+
+                                                </div>
+
+                                            })
+                                        }
+                                    </div>
+                                    <div>
+                                        {calificacionEnviada && <p className="generic-paragraph-success">¡Gracias por enviarnos su calificación!</p>}
+                                        {!calificacionEnviada && <button onClick={sendCalificacionVideo} className='download-video-std'>
+                                            Enviar
+                                        </button>}
+                                    </div>
                                 </div>
                                 : null}
-            </Modal>
+            </Modal >
 
-        </div>
+        </div >
 
     )
 }
