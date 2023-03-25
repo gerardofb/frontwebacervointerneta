@@ -3988,19 +3988,38 @@ Clases de los eventos específicos del acervo (no los publicados por otros usuar
   text-align: left;
 }
 
-.vid-listado div:nth-child(5) {
-  width: 80px;
+.vid-listado div.contenedor-resumenes-relatos-listado {
+  width: 150px;
+  max-height: 200px;
   overflow: auto;
   scrollbar-width: none;
   overflow-wrap: normal;
 }
 
-.vid-listado div:nth-child(5)::-webkit-scrollbar {
+.vid-listado div.contenedor-tags-listado{
+  width: 150px;
+  overflow: auto;
+  scrollbar-width: none;
+  overflow-wrap: normal;
+}
+
+.vid-listado div.contenedor-resumenes-relatos-listado::-webkit-scrollbar {
+  display: none;
+}
+
+.vid-listado div.contenedor-tags-listado::-webkit-scrollbar {
   display: none;
 }
 
 .nowrap-tags-listado {
   width: 3000px
+}
+.resumenes-relatos-listado {
+  width: 5000px
+}
+.items-resumenes-relato-individual{
+  width: 300px;
+  float: left;
 }
 
 button.tag-listado-vid {

@@ -335,33 +335,41 @@ const ListadoVideosFavoritos = (props) => {
     const [ordenarPor, setOrdenarPor] = useState({ orden: ordenBusquedaPredeterminado.Nombre, descendiente: false });
     const [ordenamientoDesc, setOrdenamientoDesc] = useState(false);
     const [cargaPaginada, setCargaPaginada] = useState(false);
-    const [idFilaFavorito, setIdFilaFavorito] = useState({vinculo:'',idvideo:0});
+    const [idFilaFavorito, setIdFilaFavorito] = useState({ vinculo: '', idvideo: 0 });
+    const [videosCalificados,setVideosCalificados] = useState(null);
     console.log('tipo listado ', rutaTipoListado, tipoListado, listado)
     useEffect(() => {
-        const peticionCategorias = axios.get(`${getBaseAdressApi()}api/categorias/`).then(respuesta => {
-            let categories = respuesta.data.results.map((cat, idx) => {
-                return { titulo: cat.titulo, id_cat: cat.id }
-            });
-            const peticionFavoritos = axios.get(`${getBaseAdressApi()}api/detailfavoritesvideobyuser/`,
-                {
-                    headers: {
-                        "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
-                    }
-                }).then(response => {
-                    let videosfavoritos = response.data.map((vid, ind) => {
-                        let sliceIndex = Math.floor(Math.random() * arreglotags.length);
-                        let relatovideohightlight = vid.relatos_por_video.length > 0 ? vid.relatos_por_video : "";
-                        let tagsselected = arreglotags.slice(sliceIndex, sliceIndex + 2).map((tag, i) => {
-                            return tag.content
-                        });
-                        console.log('los relatos del video son ', relatovideohightlight);
-                        console.log('indice de los tags ', sliceIndex, tagsselected);
-                        return { Categoria: categories.find(x => x.id_cat == vid.id_categoria).titulo, Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria).id_cat, Id: vid.id, Calificacion: Math.ceil(Math.random() * 5), ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight }
-                    });
-                    setListado(videosfavoritos)
-                    setCargaPaginada(true);
+        if (listado.length == 0) {
+            const peticionCategorias = axios.get(`${getBaseAdressApi()}api/categorias/`).then(respuesta => {
+                let categories = respuesta.data.results.map((cat, idx) => {
+                    return { titulo: cat.titulo, id_cat: cat.id }
                 });
-        })
+                const peticionFavoritos = axios.get(`${getBaseAdressApi()}api/detailfavoritesvideobyuser/`,
+                    {
+                        headers: {
+                            "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
+                        }
+                    }).then(response => {
+                        let videosfavoritos = response.data.map((vid, ind) => {
+                            let sliceIndex = Math.floor(Math.random() * arreglotags.length);
+                            let relatovideohightlight = vid.relatos_por_video.length > 0 ? vid.relatos_por_video : "";
+                            let tagsselected = arreglotags.slice(sliceIndex, sliceIndex + 2).map((tag, i) => {
+                                return tag.content
+                            });
+                            console.log('los relatos del video son ', relatovideohightlight);
+                            console.log('indice de los tags ', sliceIndex, tagsselected);
+                            return { Categoria: categories.find(x => x.id_cat == vid.id_categoria).titulo, Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria).id_cat, Id: vid.id, Calificacion: Math.ceil(Math.random() * 5), ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight }
+                        });
+                        setListado(videosfavoritos)
+                        setCargaPaginada(true);
+                    });
+            });
+            const peticioncalificaciones = axios.get(`${getBaseAdressApi()}api/listarcalificacionesvideos/`).then(respuesta=>{
+                setVideosCalificados(respuesta.data);
+            }).catch(err=>{
+
+            })
+        }
     }, [listado])
     const estableceDescendienteAscendiente = (valor, orden) => {
 
@@ -461,6 +469,7 @@ const ListadoVideosFavoritos = (props) => {
                         setCargaPaginada(true);
                     });
             })
+            
         }
     }
     const estableceTipoBusqueda = (tipo, checado) => {
@@ -489,9 +498,9 @@ const ListadoVideosFavoritos = (props) => {
             switch (accion.title) {
                 case 'Explorar':
                     console.log('el vinculo a navegar es ', idFilaFavorito);
-                    if(idFilaFavorito.vinculo!=''){
-                    console.log('el vinculo a navegar es navegando a vinculo')
-                    history.push(idFilaFavorito.vinculo);
+                    if (idFilaFavorito.vinculo != '') {
+                        console.log('el vinculo a navegar es navegando a vinculo')
+                        history.push(idFilaFavorito.vinculo);
                     }
                     break;
 
@@ -500,10 +509,11 @@ const ListadoVideosFavoritos = (props) => {
                     const deletefav = axios.delete(`${getBaseAdressApi()}api/addfavoritevideo/`, {
                         headers: {
                             "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
-                        }, data:{
-                        "id_video": parseInt(idFilaFavorito.idvideo)
-                    }}).then(response => {
-                        
+                        }, data: {
+                            "id_video": parseInt(idFilaFavorito.idvideo)
+                        }
+                    }).then(response => {
+
                         const peticionCategorias = axios.get(`${getBaseAdressApi()}api/categorias/`).then(respuesta => {
                             let categories = respuesta.data.results.map((cat, idx) => {
                                 return { titulo: cat.titulo, id_cat: cat.id }
@@ -528,8 +538,8 @@ const ListadoVideosFavoritos = (props) => {
                                     setCargaPaginada(true);
                                 });
                         });
-                    }).catch(err=>{
-                        console.log('error eliminando el favorito ',err);
+                    }).catch(err => {
+                        console.log('error eliminando el favorito ', err);
                     });
             }
         }
@@ -584,7 +594,7 @@ const ListadoVideosFavoritos = (props) => {
                 </div>
 
                 <div className="listado-default">
-                <div className='default-loader-full' style={cargaPaginada === false ? { display: 'block' } : { display: 'none' }}>
+                    <div className='default-loader-full' style={cargaPaginada === false ? { display: 'block' } : { display: 'none' }}>
                         <img src={url_loader("Reload_generic.gif", false)} />
                         <pre className="legend-loading-relatos-miniatures">Cargando listado de sus videos favoritos...</pre>
                     </div>
@@ -597,14 +607,15 @@ const ListadoVideosFavoritos = (props) => {
                             let claseCssBotonOpciones = opcionesSetVisible == index ? "container-default-combo listado-combo" : "container-default-combo combo-hidden"
                             let listareproduccion = item.ListaReproduccion.Titulo ? item.ListaReproduccion.Titulo : "";
                             let autorRelato = item.Relato != "" ? autores.join(', ') : "";
+                            let calificaciondelvideo = videosCalificados.find(x=> x.id== item.Id) ? (videosCalificados.find(x=> x.id== item.Id).total_calificacion ? videosCalificados.find(x=> x.id== item.Id).total_calificacion.toFixed(1) :0) : 0
                             console.log('autores del relato de video ', item.Relato, autores);
                             return (
                                 <div className="vid-listado" key={index}>
-                                    <div>{item.Video}</div><div>{item.Categoria}</div><div>{item.Calificacion}</div>
+                                    <div>{item.Video}</div><div>{item.Categoria}</div><div>{calificaciondelvideo}</div>
                                     <div>{listareproduccion}
                                     </div>
 
-                                    <div><div className="nowrap-tags-listado">{item.Tags.map((tag, i) => {
+                                    <div className="contenedor-tags-listado"><div className="nowrap-tags-listado">{item.Tags.map((tag, i) => {
                                         return (
 
                                             <button className="tag-listado-vid" type="button" key={i}>{tag}</button>
@@ -614,8 +625,12 @@ const ListadoVideosFavoritos = (props) => {
                                     <div>{autorRelato}</div>
                                     <div>
                                         <button title="opciones de la lista (doble click para ocultar)"
-                                            onClick={(e) => {setVisibleOpciones(index);setIdFilaFavorito({...idFilaFavorito,vinculo:vinculo,
-                                                idvideo:item.Id})}} onDoubleClick={(e) => setVisibleOpciones(-1)}>
+                                            onClick={(e) => {
+                                                setVisibleOpciones(index); setIdFilaFavorito({
+                                                    ...idFilaFavorito, vinculo: vinculo,
+                                                    idvideo: item.Id
+                                                })
+                                            }} onDoubleClick={(e) => setVisibleOpciones(-1)}>
                                             <FontAwesomeIcon icon={faBars} /></button>
                                         <div className={claseCssBotonOpciones}>
                                             <DefaultCombo

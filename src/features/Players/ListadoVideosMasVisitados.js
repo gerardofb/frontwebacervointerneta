@@ -336,29 +336,35 @@ const ListadoVideosMasVisitados = (props) => {
     const [ordenamientoDesc, setOrdenamientoDesc] = useState(false);
     const [cargaPaginada, setCargaPaginada] = useState(false);
     const [idFilaFavorito, setIdFilaFavorito] = useState({ vinculo: '', idvideo: 0 });
-    //console.log('tipo listado ', rutaTipoListado, tipoListado, listado);
-    //console.log('tipo listado ', rutaTipoListado, tipoListado, listado)
+    const [videosCalificados,setVideosCalificados] = useState(null);
     useEffect(() => {
-        const peticionCategorias = axios.get(`${getBaseAdressApi()}api/categorias/`).then(respuesta => {
-            let categories = respuesta.data.results.map((cat, idx) => {
-                return { titulo: cat.titulo, id_cat: cat.id }
-            });
-            const peticionVisitados = axios.get(`${getBaseAdressApi()}api/vistasporvideo/`).then(response => {
-                let videosvisitados = response.data.map((vid, ind) => {
-                    //console.log('respuesta de videos visitados ',response.data);
-                    let sliceIndex = Math.floor(Math.random() * arreglotags.length);
-                    let relatovideohightlight = vid.relatos_por_video && vid.relatos_por_video.length > 0 ? vid.relatos_por_video : "";
-                    let tagsselected = arreglotags.slice(sliceIndex, sliceIndex + 2).map((tag, i) => {
-                        return tag.content
-                    });
-                    // console.log('los relatos del video son ', relatovideohightlight);
-                    //console.log('indice de los tags ', sliceIndex, tagsselected);
-                    return { Categoria: categories.find(x => x.id_cat == vid.id_categoria).titulo, Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria).id_cat, Id: vid.id, Calificacion: Math.ceil(Math.random() * 5), Visitas: vid.total_visitas, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight }
+        if (listado.length == 0) {
+            const peticionCategorias = axios.get(`${getBaseAdressApi()}api/categorias/`).then(respuesta => {
+                let categories = respuesta.data.results.map((cat, idx) => {
+                    return { titulo: cat.titulo, id_cat: cat.id }
                 });
-                setListado(videosvisitados)
-                setCargaPaginada(true);
-            });
-        })
+                const peticionVisitados = axios.get(`${getBaseAdressApi()}api/vistasporvideo/`).then(response => {
+                    let videosvisitados = response.data.map((vid, ind) => {
+                        //console.log('respuesta de videos visitados ',response.data);
+                        let sliceIndex = Math.floor(Math.random() * arreglotags.length);
+                        let relatovideohightlight = vid.relatos_por_video && vid.relatos_por_video.length > 0 ? vid.relatos_por_video : "";
+                        let tagsselected = arreglotags.slice(sliceIndex, sliceIndex + 2).map((tag, i) => {
+                            return tag.content
+                        });
+                        // console.log('los relatos del video son ', relatovideohightlight);
+                        //console.log('indice de los tags ', sliceIndex, tagsselected);
+                        return { Categoria: categories.find(x => x.id_cat == vid.id_categoria).titulo, Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria).id_cat, Id: vid.id, Calificacion: Math.ceil(Math.random() * 5), Visitas: vid.total_visitas, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight }
+                    });
+                    setListado(videosvisitados)
+                    setCargaPaginada(true);
+                });
+            })
+            const peticioncalificaciones = axios.get(`${getBaseAdressApi()}api/listarcalificacionesvideos/`).then(respuesta=>{
+                setVideosCalificados(respuesta.data);
+            }).catch(err=>{
+
+            })
+        }
     }, [listado])
     const estableceDescendienteAscendiente = (valor, orden) => {
 
@@ -588,16 +594,16 @@ const ListadoVideosMasVisitados = (props) => {
                                 return rel.id_autor.username
                             }).filter(onlyUnique) : []
                             let claseCssBotonOpciones = opcionesSetVisible == index ? "container-default-combo listado-combo" : "container-default-combo combo-hidden"
-                            //let listareproduccion = item.ListaReproduccion.Titulo ? item.ListaReproduccion.Titulo : "";
+                            let calificaciondelvideo = videosCalificados.find(x=> x.id== item.Id) ? (videosCalificados.find(x=> x.id== item.Id).total_calificacion ? videosCalificados.find(x=> x.id== item.Id).total_calificacion.toFixed(1) :0) : 0
                             let autorRelato = item.Relato != "" ? autores.join(', ') : "";
                             //console.log('autores del relato de video ', item.Relato, autores);
                             return (
                                 <div className="vid-listado" key={index}>
-                                    <div>{item.Video}</div><div>{item.Categoria}</div><div>{item.Calificacion}</div>
+                                    <div>{item.Video}</div><div>{item.Categoria}</div><div>{calificaciondelvideo}</div>
                                     <div style={{ textAlign: 'center' }}>{item.Visitas}
                                     </div>
 
-                                    <div><div className="nowrap-tags-listado">{item.Tags.map((tag, i) => {
+                                    <div className="contenedor-tags-listado"><div className="nowrap-tags-listado">{item.Tags.map((tag, i) => {
                                         return (
 
                                             <button className="tag-listado-vid" type="button" key={i}>{tag}</button>

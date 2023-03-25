@@ -26,6 +26,7 @@ import NavBar from "../../NavBar"
 import VideoSetPage from '../VideoSetPage'
 import { ThemesContext } from "../../../ThemeProvider"
 import { getBaseAdressApi } from "../../MainAPI"
+import utilidadMenuSuperior from "../../utilidadMenuSuperior"
 const defaultState = {
   filter: "",
   display: "grid",
@@ -92,6 +93,7 @@ class IndexPage extends Component {
     consultandominiaturas:false
   }
   componentDidMount() {
+    utilidadMenuSuperior();
     const requestone = axios.get(getBaseAdressApi() + 'api/categorias/');
     this.setState({...this.state,consultandominiaturas:true});
     //const requestwo = axios.get('http://localhost:8000/api/videos/');

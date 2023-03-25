@@ -1389,7 +1389,7 @@ export const Autobiograficos = () => {
                                     }}>
                                         {esFavorito && esFavorito.valor && esFavorito.guid == relato.document_id ? <FontAwesomeIcon style={{ color: 'red' }} icon={faHeart} />
                                             : <FontAwesomeIcon style={{ color: 'darkgray' }} icon={faHeartBroken} />}
-                                        <span>Favoritos <span className="cuenta-favoritos-small">{esFavorito && esFavorito.cuenta > 0 && esFavorito.guid == relato.document_id ? esFavorito.cuenta : 'sin favoritos'}</span></span>
+                                        <span>{esFavorito.valor ? 'Favoritos' : 'No es favorito'} <span className="cuenta-favoritos-small">{esFavorito && esFavorito.cuenta > 0 && esFavorito.guid == relato.document_id ? esFavorito.cuenta : 'sin favoritos'}</span></span>
                                     </div>
                                     <div className='autobiografico-header-autor'>
                                         {relato.autor}

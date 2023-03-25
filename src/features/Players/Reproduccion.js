@@ -1178,7 +1178,7 @@ export const AutoComments = () => {
                     }}>
                         {esFavorito.valor ? <FontAwesomeIcon style={{ color: 'red' }} icon={faHeart} />
                             : <FontAwesomeIcon style={{ color: 'darkgray' }} icon={faHeartBroken} />}
-                        <span>Favoritos <span className="cuenta-favoritos-small">{esFavorito.cuenta > 0 ? esFavorito.cuenta : 'sin favoritos'}</span></span>
+                        <span>{esFavorito.valor ? 'Favoritos' : 'No es favorito'} <span className="cuenta-favoritos-small">{esFavorito.cuenta > 0 ? esFavorito.cuenta : 'sin favoritos'}</span></span>
                     </div>
                     <div className='item-acciones-repro'>
                         <FontAwesomeIcon icon={faHeadphones} /><span>Encolar</span>

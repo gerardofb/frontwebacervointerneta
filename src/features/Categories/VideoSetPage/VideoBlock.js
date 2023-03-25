@@ -67,7 +67,7 @@ const generateRandom = (n) => {
 }
 
 class VideoBlock extends PureComponent {
-  state = { sampleVideo: true, creditos: {} }
+  state = { sampleVideo: true, creditos: {}, datosvideo:{}, calificacionvideo:0 }
   componentDidMount() {
 
     const requestone = axios.get(`${getBaseAdressApi()}api/creditosvideo/${this.props.identificador}`).then(response => {
@@ -76,6 +76,20 @@ class VideoBlock extends PureComponent {
         creditos: response.data[0]
       })
     });
+    const requesttwo = axios.get(`${getBaseAdressApi()}api/video/${this.props.identificador}`).then(response => {
+      console.log('datos del video en bloque de videos ',response.data)
+      this.setState({
+        ...this.state,
+        datosvideo: response.data
+      })
+    });
+    const requestres = axios.get(`${getBaseAdressApi()}api/calificacionbyvideo/${this.props.identificador}`).then(response=>{
+      console.log('datos del video en calificación, en bloque de videos ',response.data)
+      this.setState({
+        ...this.state,
+        calificacionvideo:response.data[0].total_calificacion !== null ? response.data[0].total_calificacion.toFixed(1): 0
+      })
+    })
   }
   navigate = set => {
     this.props.history.push({
@@ -128,9 +142,11 @@ class VideoBlock extends PureComponent {
             &nbsp;<Link to={"/Reproduccion/"+TituloVideo+"|"+this.props.identificador+"|"+this.props.id_categoria}><FontAwesomeIcon style={{ fontSize: 'large' }} icon={faArrowRight} /></Link>
           </StyledParagraph>
           <StyledTools className="video-block-tool-white">
-            <span style={{ color: 'black' }}>{generateRandom(5)} calificación <img src={urlsvg("thumbs-up-solid")} style={{ width: '6%', color: 'white' }} /></span>
-            <span style={{ color: 'black' }}>{generateRandom(2000)} favoritos <img src={urlsvg("heart-solid")} style={{ width: '6%', color: 'white' }} /></span>
-            <span style={{ color: 'black' }}>{generateRandom(2000)} comentarios <img src={urlsvg("comments-solid")} style={{ width: '6%', color: 'white' }} /></span>
+            <span style={{ color: 'black' }}>{this.state.calificacionvideo} calificación <img src={urlsvg("thumbs-up-solid")} style={{ width: '6%', color: 'white' }} /></span>
+            <span style={{ color: 'black' }}>{this.state.datosvideo.favoritos_por_video && this.state.datosvideo.favoritos_por_video.length
+            } favoritos <img src={urlsvg("heart-solid")} style={{ width: '6%', color: 'white' }} /></span>
+            <span style={{ color: 'black' }}>{this.state.datosvideo && this.state.datosvideo.total_comentarios
+            } comentarios <img src={urlsvg("comments-solid")} style={{ width: '6%', color: 'white' }} /></span>
           </StyledTools>
         </StyledLink>
       </VideoGridItem>

@@ -173,8 +173,8 @@ export class Home extends React.Component {
                                             <Link style={{ textDecoration: 'none', color: 'transparent' }} to={vinculo}><img src={video.contenedor_img} alt={video.titulo} /></Link>
                                             <div className='titles-item-list-videos-home'>
                                                 <p>Trailer {(index + 1)}: {video.titulo}</p>
-                                                <p><FontAwesomeIcon icon={faHeart} />&nbsp;1203 favoritos</p>
-                                                <p><FontAwesomeIcon icon={faComment} />&nbsp;259 comentarios</p>
+                                                <p><FontAwesomeIcon icon={faHeart} />&nbsp;{video.favoritos_por_video.length} favoritos</p>
+                                                <p><FontAwesomeIcon icon={faComment} />&nbsp;{video.total_comentarios} comentarios</p>
                                             </div>
                                         </div>
                                     })}

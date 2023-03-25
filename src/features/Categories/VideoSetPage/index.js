@@ -103,8 +103,9 @@ const VideoSetPage = (
     const [categoriaSet, setCategoriaSet] = useState({})
     const [consultandominiaturas, setConsultandoMiniautras] = useState(false);
     useEffect(() => {
+        if(videosPopulated == null){
         populate_videos_set();
-
+        }
     }, [videosPopulated]);
     const populate_videos_set = () => {
         setConsultandoMiniautras(true);

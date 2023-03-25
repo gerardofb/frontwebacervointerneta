@@ -260,41 +260,66 @@ const ListadoMasVisitadosRelatos = (props) => {
     const [ordenarPor, setOrdenarPor] = useState({ orden: ordenBusquedaPredeterminado.Nombre, descendiente: false });
     const [ordenamientoDesc, setOrdenamientoDesc] = useState(false);
     const [cargaPaginada, setCargaPaginada] = useState(false);
-    const [idFilaFavorito, setIdFilaFavorito] = useState({vinculo:'',idvideo:0});
-    const [resumenRelato,setResumenRelato] = useState({guid:'',resumen:''});
-    console.log('tipo listado ', rutaTipoListado, tipoListado, listado)
+    const [idFilaFavorito, setIdFilaFavorito] = useState({ vinculo: '', idvideo: 0 });
+    const [resumenRelato, setResumenRelato] = useState([{ id: 0, resumen: '' }]);
+    console.log('tipo listado ', rutaTipoListado, tipoListado, listado);
+    let sliceIndex = Math.floor(Math.random() * arreglotags.length);
+    let tagsselected = arreglotags.slice(sliceIndex, sliceIndex + 2).map((tag, i) => {
+        return tag.content
+    });
     useEffect(() => {
-        const peticionCategorias = axios.get(`${getBaseAdressApi()}api/categorias/`).then(respuesta => {
-            let categories = respuesta.data.results.map((cat, idx) => {
-                return { titulo: cat.titulo, id_cat: cat.id }
-            });
-            const peticionFavoritos = axios.get(`${getBaseAdressApi()}api/visitasderelato/`).then(response => {
+        if (listado.length == 0) {
+            const peticionCategorias = axios.get(`${getBaseAdressApi()}api/categorias/`).then(respuesta => {
+                let categories = respuesta.data.results.map((cat, idx) => {
+                    return { titulo: cat.titulo, id_cat: cat.id }
+                });
+                const peticionFavoritos = axios.get(`${getBaseAdressApi()}api/visitasderelato/`).then(response => {
                     let videosfavoritos = response.data.map((vid, ind) => {
-                        let sliceIndex = Math.floor(Math.random() * arreglotags.length);
-                        let relatovideohightlight = vid.relatos_por_video.length > 0 ? vid.relatos_por_video.sort((x,y)=> x.total_visitas-y.total_visitas) : "";
-                        let tagsselected = arreglotags.slice(sliceIndex, sliceIndex + 2).map((tag, i) => {
-                            return tag.content
-                        });
+
+                        let relatovideohightlight = vid.relatos_por_video.length > 0 ? vid.relatos_por_video : "";
+
                         console.log('los relatos del video son ', relatovideohightlight);
                         console.log('indice de los tags ', sliceIndex, tagsselected);
-                        return { Documento:relatovideohightlight!= "" ? relatovideohightlight[0].document_id :"", Categoria: categories.find(x => x.id_cat == vid.id_categoria).titulo, Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria).id_cat, Id: vid.id, Visitas: relatovideohightlight!= "" ? relatovideohightlight[0].total_visitas :"", ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight }
+                        let sumavisitas = relatovideohightlight.length > 1 ? relatovideohightlight.reduce((a, b) => { return (a.total_visitas ? a.total_visitas : 0) + (b.total_visitas ? b.total_visitas : 0) }) : relatovideohightlight[0].total_visitas;
+                        console.log('Suma de visitas ', sumavisitas, relatovideohightlight.length);
+                        // let arreglo_relatos = relatovideohightlight != '' ? relatovideohightlight.map((el, idx) => {
+                        //     return el.document_id;
+                        // }) : []
+                        // const peticionRelato = axios.post(`${getBaseAdressApi()}api/severalrelatos/`, {
+                        //     relatos: arreglo_relatos
+                        // }).then(response => {
+                        //     console.log('la respuesta del relato resumido es ', response.data);
+                        //     let relatosrespuesta = response.data.map((el, idx) => {
+                        //         return { id:vid.id,resumen: el.relato.length > 150 ? el.relato.substring(0, 150) + "..." : el.relato }
+                        //     })
+                        //     let salidarelatos = resumenRelato.concat(relatosrespuesta);
+                        //     setResumenRelato(salidarelatos);
+                        // }).catch(err => {
+                        //     console.log('error en relato resumido', err);
+                        // })
+                        return { Documento: relatovideohightlight != "" ? relatovideohightlight[0].document_id : "", Categoria: categories.find(x => x.id_cat == vid.id_categoria).titulo, Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria).id_cat, Id: vid.id, Visitas: relatovideohightlight != "" ? sumavisitas : "", ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight }
                     });
                     setListado(videosfavoritos)
                     setCargaPaginada(true);
                 });
-        })
+            })
+        }
     }, [listado])
-    const estableceRelatoHover = (documento)=>{
-        const peticionRelato = axios.post(`${getBaseAdressApi()}api/singlerelato/`,{
-            identificador:documento
-        }).then(response=>{
-            console.log('la respuesta del relato resumido es ',response.data);
-            if(response.data[0].relato && response.data[0].relato.length > 150){
-                setResumenRelato({...resumenRelato,guid:documento,resumen:response.data[0].relato.substring(0,150)+"..."});
-            }
-            else if(response.data[0].relato && response.data[0].relato.length < 150){
-                setResumenRelato({...resumenRelato,guid:documento,resumen:response.data[0].relato+"..."})
-            }
+    const estableceRelatoHover = (relatos, identificador) => {
+        let arreglo_relatos = relatos != '' ? relatos.map((el, idx) => {
+            return el.document_id;
+        }) : []
+        const peticionRelato = axios.post(`${getBaseAdressApi()}api/severalrelatos/`, {
+            relatos: arreglo_relatos
+        }).then(response => {
+            console.log('la respuesta del relato resumido es ', response.data);
+            let relatosrespuesta = response.data.slice(0, 11).map((el, idx) => {
+                return { id: identificador, resumen: el.relato.length > 150 ? el.relato.substring(0, 150) + "..." : el.relato }
+            })
+            let salidarelatos = resumenRelato.concat(relatosrespuesta);
+            setResumenRelato(relatosrespuesta);
+        }).catch(err => {
+            console.log('error en relato resumido', err);
         })
     }
     const estableceDescendienteAscendiente = (valor, orden) => {
@@ -321,7 +346,7 @@ const ListadoMasVisitadosRelatos = (props) => {
         setOrdenamientoDesc(ordenamientoDesc);
         setOrdenarPor({ orden: ordenarPor, descendiente: ordenamientoDesc });
         let salida = orderBy(listado.slice(0), ordenarPor.orden, ordenamientoDesc);
-        console.log('la salida en buscando en todos los tipos es ',salida,textoSearch);
+        console.log('la salida en buscando en todos los tipos es ', salida, textoSearch);
         if (textoSearch.trim() != '') {
             setCargaPaginada(false);
             let salidaTitulo = [];
@@ -374,19 +399,18 @@ const ListadoMasVisitadosRelatos = (props) => {
                     return { titulo: cat.titulo, id_cat: cat.id }
                 });
                 const peticionFavoritos = axios.get(`${getBaseAdressApi()}api/visitasderelato/`).then(response => {
-                        let videosfavoritos = response.data.map((vid, ind) => {
-                            let sliceIndex = Math.floor(Math.random() * arreglotags.length);
-                            let relatovideohightlight = vid.relatos_por_video.length > 0 ? vid.relatos_por_video.sort((x,y)=> x.total_visitas-y.total_visitas) : "";
-                            let tagsselected = arreglotags.slice(sliceIndex, sliceIndex + 2).map((tag, i) => {
-                                return tag.content
-                            });
-                            console.log('los relatos del video son ', relatovideohightlight);
-                            console.log('indice de los tags ', sliceIndex, tagsselected);
-                            return { Documento:relatovideohightlight!= "" ? relatovideohightlight[0].document_id :"", Categoria: categories.find(x => x.id_cat == vid.id_categoria).titulo, Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria).id_cat, Id: vid.id, Visitas: relatovideohightlight!= "" ? relatovideohightlight[0].total_visitas :"", ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight }
-                        });
-                        setListado(videosfavoritos);
-                        setCargaPaginada(true);
+                    let videosfavoritos = response.data.map((vid, ind) => {
+
+                        let relatovideohightlight = vid.relatos_por_video.length > 0 ? vid.relatos_por_video : "";
+                        console.log('los relatos del video son ', relatovideohightlight);
+                        console.log('indice de los tags ', sliceIndex, tagsselected);
+                        let sumavisitas = relatovideohightlight.length > 1 ? relatovideohightlight.reduce((a, b) => { return (a.total_visitas ? a.total_visitas : 0) + (b.total_visitas ? b.total_visitas : 0) }) : relatovideohightlight[0].total_visitas;
+                        console.log('Suma de visitas ', sumavisitas, relatovideohightlight.length);
+                        return { Documento: relatovideohightlight != "" ? relatovideohightlight[0].document_id : "", Categoria: categories.find(x => x.id_cat == vid.id_categoria).titulo, Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria).id_cat, Id: vid.id, Visitas: relatovideohightlight != "" ? sumavisitas : "", ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight }
                     });
+                    setListado(videosfavoritos);
+                    setCargaPaginada(true);
+                });
             })
         }
     }
@@ -416,14 +440,15 @@ const ListadoMasVisitadosRelatos = (props) => {
             switch (accion.title) {
                 case 'Explorar':
                     console.log('el vinculo a navegar es ', idFilaFavorito);
-                    if(idFilaFavorito.vinculo!=''){
-                    console.log('el vinculo a navegar es navegando a vinculo')
-                    history.push(idFilaFavorito.vinculo);
+                    if (idFilaFavorito.vinculo != '') {
+                        console.log('el vinculo a navegar es navegando a vinculo')
+                        history.push(idFilaFavorito.vinculo);
                     }
                     break;
             }
         }
     }
+    console.log('los relatos totales son ', resumenRelato);
     return (
         <>
             <NavBar></NavBar>
@@ -474,13 +499,13 @@ const ListadoMasVisitadosRelatos = (props) => {
                 </div>
 
                 <div className="listado-default">
-                <div className='default-loader-full' style={cargaPaginada === false ? { display: 'block' } : { display: 'none' }}>
+                    <div className='default-loader-full' style={cargaPaginada === false ? { display: 'block' } : { display: 'none' }}>
                         <img src={url_loader("Reload_generic.gif", false)} />
                         <pre className="legend-loading-relatos-miniatures">Cargando listado de los relatos y/o podcasts más visitados...</pre>
                     </div>
                     {
                         listado.map((item, index) => {
-                            let vinculo = "/Autobiograficos/"+item.Documento+"?s=true&cat=Relatos";
+                            let vinculo = "/Autobiograficos/" + item.Documento + "?s=true&cat=Relatos";
                             let autores = item.Relato.map((rel, idx) => {
                                 return rel.id_autor.username
                             }).filter(onlyUnique)
@@ -489,12 +514,18 @@ const ListadoMasVisitadosRelatos = (props) => {
                             let autorRelato = item.Relato != "" ? autores.join(', ') : "";
                             console.log('autores del relato de video ', item.Relato, autores);
                             return (
-                                <div className="vid-listado" onMouseEnter={(e)=>estableceRelatoHover(item.Documento)} key={index}>
-                                    <div>{item.Video}</div><div>{item.Categoria}</div><div>{item.Visitas}</div>
-                                    <div>{resumenRelato.guid == item.Documento ? resumenRelato.resumen : ''}
+                                <div className="vid-listado" onMouseEnter={(e) => estableceRelatoHover(item.Relato, item.Id)} key={index}>
+                                    <div>{item.Video}</div><div>{item.Categoria}</div>
+                                    <div>{item.Visitas}</div>
+                                    <div className="contenedor-resumenes-relatos-listado">
+                                        <div className="resumenes-relatos-listado">
+                                            {resumenRelato && resumenRelato.filter(x => x.id == item.Id).map((rel, indrel) => {
+                                                return <div className="items-resumenes-relato-individual">{rel.resumen}</div>
+                                            })}
+                                        </div>
                                     </div>
 
-                                    <div><div className="nowrap-tags-listado">{item.Tags.map((tag, i) => {
+                                    <div className="contenedor-tags-listado"><div className="nowrap-tags-listado">{item.Tags.map((tag, i) => {
                                         return (
 
                                             <button className="tag-listado-vid" type="button" key={i}>{tag}</button>
@@ -504,8 +535,12 @@ const ListadoMasVisitadosRelatos = (props) => {
                                     <div>{autorRelato}</div>
                                     <div>
                                         <button title="opciones de la lista (doble click para ocultar)"
-                                            onClick={(e) => {setVisibleOpciones(index);setIdFilaFavorito({...idFilaFavorito,vinculo:vinculo,
-                                                idvideo:item.Id})}} onDoubleClick={(e) => setVisibleOpciones(-1)}>
+                                            onClick={(e) => {
+                                                setVisibleOpciones(index); setIdFilaFavorito({
+                                                    ...idFilaFavorito, vinculo: vinculo,
+                                                    idvideo: item.Id
+                                                })
+                                            }} onDoubleClick={(e) => setVisibleOpciones(-1)}>
                                             <FontAwesomeIcon icon={faBars} /></button>
                                         <div className={claseCssBotonOpciones}>
                                             <DefaultCombo
