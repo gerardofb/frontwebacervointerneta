@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState, useContext } from 'react'
 import { ControlBar, LoadingSpinner, BigPlayButton, Player } from 'video-react'
 import axios from "axios"
+import utilidadMenuSuperior from '../utilidadMenuSuperior'
 import { useHistory } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import {
@@ -381,6 +382,7 @@ export const AutoComments = () => {
     const [player, setPlayer] = useState(null);
     useEffect(() => {
         let parametros;
+        utilidadMenuSuperior();
         if (location.search) {
             parametros = new URLSearchParams(window.location.search);
             if (parametros.get("q") == "true" && parametros.get("cat") == "Comentarios") {
