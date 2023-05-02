@@ -100,6 +100,14 @@ class IndexPage extends Component {
 
     axios.all([requestone]).then(axios.spread((...response) => {
       console.log('respuesta de categorías ', response[0])
+      let arreglocats = [];
+      response[0].data.results.map((el,i)=>{
+         if(el!== undefined){
+          arreglocats.push([response[0].data.results[i].titulo, response[0].data.results[i].contenedor_img, response[0].data.results[i].videos_por_categoria])
+         }
+         else arreglocats.push([]);
+         return null;
+      })
       let primeracat = response[0].data.results[0] !== undefined ? [response[0].data.results[0].titulo, response[0].data.results[0].contenedor_img, response[0].data.results[0].videos_por_categoria] : [];
       let segundacat = response[0].data.results[1] !== undefined ? [response[0].data.results[1].titulo, response[0].data.results[1].contenedor_img, response[0].data.results[1].videos_por_categoria] : [];
       let terceracat = response[0].data.results[2] !== undefined ? [response[0].data.results[2].titulo, response[0].data.results[2].contenedor_img, response[0].data.results[2].videos_por_categoria] : [];

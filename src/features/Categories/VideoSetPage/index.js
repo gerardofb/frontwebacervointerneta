@@ -90,7 +90,7 @@ const onExit = el => {
         delay: anime.stagger(20)
     }).finished
 }
-const ruta_aws = "https://deploy-videos-acervo-interneta.s3.amazonaws.com/"
+const ruta_aws = "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/"
 const VideoSetPage = (
     props) => {
     const { set, focusedVideo } = useParams();
@@ -103,8 +103,8 @@ const VideoSetPage = (
     const [categoriaSet, setCategoriaSet] = useState({})
     const [consultandominiaturas, setConsultandoMiniautras] = useState(false);
     useEffect(() => {
-        if(videosPopulated == null){
-        populate_videos_set();
+        if (videosPopulated == null) {
+            populate_videos_set();
         }
     }, [videosPopulated]);
     const populate_videos_set = () => {
@@ -115,14 +115,29 @@ const VideoSetPage = (
 
         const promise = axios.all([requestone]).then(axios.spread((...response) => {
             console.log('categorias ', response[0].data)
-            let primeracat = [response[0].data.results[0].titulo, response[0].data.results[0].contenedor_img, response[0].data.results[0].videos_por_categoria];
-            let segundacat = [response[0].data.results[1].titulo, response[0].data.results[1].contenedor_img, response[0].data.results[1].videos_por_categoria]
-            let terceracat = [response[0].data.results[2].titulo, response[0].data.results[2].contenedor_img, response[0].data.results[2].videos_por_categoria]
-            let cuartacat = [response[0].data.results[3].titulo, response[0].data.results[3].contenedor_img, response[0].data.results[3].videos_por_categoria]
-            let quintacat = [response[0].data.results[4].titulo, response[0].data.results[4].contenedor_img, response[0].data.results[4].videos_por_categoria]
-            //let sextacat = [response[0].data[5].titulo, response[0].data[5].contenedor_img, response[1].data.filter(x => x.id_categoria == 7)]
-            ////console.log('listados de respuesta videos categorizados',primeracat,segundacat,terceracat,cuartacat,quintacat,sextacat)
-            let salida = arrange_videos([primeracat, segundacat, terceracat, cuartacat, quintacat]);
+            let arreglocats = [];
+            response[0].data.results.map((el, i) => {
+                if (el !== undefined) {
+                    arreglocats.push([response[0].data.results[i].titulo, response[0].data.results[i].contenedor_img, response[0].data.results[i].videos_por_categoria])
+                }
+                else arreglocats.push([]);
+                return null;
+            })
+            // let primeracat = response[0].data.results[0] !== undefined ? [response[0].data.results[0].titulo, response[0].data.results[0].contenedor_img, response[0].data.results[0].videos_por_categoria] : [];
+            // let segundacat = response[0].data.results[1] !== undefined ? [response[0].data.results[1].titulo, response[0].data.results[1].contenedor_img, response[0].data.results[1].videos_por_categoria] : [];
+            // let terceracat = response[0].data.results[2] !== undefined ? [response[0].data.results[2].titulo, response[0].data.results[2].contenedor_img, response[0].data.results[2].videos_por_categoria] : [];
+            // let cuartacat = response[0].data.results[3] !== undefined ? [response[0].data.results[3].titulo, response[0].data.results[3].contenedor_img, response[0].data.results[3].videos_por_categoria] : [];
+            // let quintacat = response[0].data.results[4] !== undefined ? [response[0].data.results[4].titulo, response[0].data.results[4].contenedor_img, response[0].data.results[4].videos_por_categoria] : [];
+            //let sextacat = response[0].data.results[5] !== undefined ? [response[0].data.results[5].titulo, response[0].data.results[5].contenedor_img, response[0].data.results[5].videos_por_categoria] : []
+            let salida = arrange_videos(arreglocats);
+            // let primeracat = [response[0].data.results[0].titulo, response[0].data.results[0].contenedor_img, response[0].data.results[0].videos_por_categoria];
+            // let segundacat = [response[0].data.results[1].titulo, response[0].data.results[1].contenedor_img, response[0].data.results[1].videos_por_categoria]
+            // let terceracat = [response[0].data.results[2].titulo, response[0].data.results[2].contenedor_img, response[0].data.results[2].videos_por_categoria]
+            // let cuartacat = [response[0].data.results[3].titulo, response[0].data.results[3].contenedor_img, response[0].data.results[3].videos_por_categoria]
+            // let quintacat = [response[0].data.results[4].titulo, response[0].data.results[4].contenedor_img, response[0].data.results[4].videos_por_categoria]
+            // //let sextacat = [response[0].data[5].titulo, response[0].data[5].contenedor_img, response[1].data.filter(x => x.id_categoria == 7)]
+            // ////console.log('listados de respuesta videos categorizados',primeracat,segundacat,terceracat,cuartacat,quintacat,sextacat)
+            // let salida = arrange_videos([primeracat, segundacat, terceracat, cuartacat, quintacat]);
             console.log('los videos enumerados son ', salida)
             console.log(salida);
             setVideosPopulated(salida);
@@ -180,7 +195,7 @@ const VideoSetPage = (
                 <NavBar></NavBar>
             </div>
             <div className='default-loader-full-generic' style={consultandominiaturas === true ? { display: 'block' } : { display: 'none' }}>  <img src={url_loader("Reload-transparent.gif", false)} width="100px" />
-            <p className="legend-loading-video-miniatures">Cargando miniaturas...</p>
+                <p className="legend-loading-video-miniatures">Cargando miniaturas...</p>
             </div>
             <Flipped
                 flipId={set}
