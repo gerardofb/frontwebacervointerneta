@@ -1235,13 +1235,14 @@ export const AutoComments = () => {
                     </div>
                 </div>
                 <div className="scroll-list" onContextMenu={(e) => handleContextMenu(false, false)} ref={bottomRef} style={estableceTab(tabuladores[0])}>
-
+                    <div className='container-grow-wrap-1'>
                     <label class="caja-expandible-label" for="text_comentario">Comentar:</label>
                     <div class="grow-wrap">
                         <textarea maxLength={2000} value={newComment} onChange={(e) => setNewComment(e.target.value)} name="text_comentario" id="text_comentario"></textarea>
                     </div>
                     <div className="button-send-expandible-text">
                         <button type="button" onClick={sendComment}>Enviar</button>
+                    </div>
                     </div>{
                         publicarAnonimo.intento &&
                         <div className='usuario-desautorizado'>

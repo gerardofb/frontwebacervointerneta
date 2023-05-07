@@ -358,9 +358,11 @@ const ListadoVideosFavoritos = (props) => {
                             });
                             console.log('los relatos del video son ', relatovideohightlight);
                             console.log('indice de los tags ', sliceIndex, tagsselected);
-                            return { Categoria: categories.find(x => x.id_cat == vid.id_categoria).titulo, Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria).id_cat, Id: vid.id, Calificacion: Math.ceil(Math.random() * 5), ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight }
+                            return { Categoria: categories.find(x => x.id_cat == vid.id_categoria)?categories.find(x => x.id_cat == vid.id_categoria).titulo:"", Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria) ?  categories.find(x => x.id_cat == vid.id_categoria).id_cat : 0, Id: vid.id, Calificacion: Math.ceil(Math.random() * 5), ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight !=""? relatovideohightlight : [] }
                         });
                         setListado(videosfavoritos)
+                        setCargaPaginada(true);
+                    }).catch(err=>{
                         setCargaPaginada(true);
                     });
             });
@@ -463,11 +465,13 @@ const ListadoVideosFavoritos = (props) => {
                             });
                             console.log('los relatos del video son ', relatovideohightlight);
                             console.log('indice de los tags ', sliceIndex, tagsselected);
-                            return { Categoria: categories.find(x => x.id_cat == vid.id_categoria).titulo, Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria).id_cat, Id: vid.id, Calificacion: Math.ceil(Math.random() * 5), ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight }
+                            return { Categoria: categories.find(x => x.id_cat == vid.id_categoria) ? categories.find(x => x.id_cat == vid.id_categoria).titulo : "", Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria) ? categories.find(x => x.id_cat == vid.id_categoria).id_cat : 0, Id: vid.id, Calificacion: Math.ceil(Math.random() * 5), ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight != ""? relatovideohightlight : [] }
                         });
                         setListado(videosfavoritos);
                         setCargaPaginada(true);
-                    });
+                    }).catch(err=>{
+                        setCargaPaginada(true);
+                    });;
             })
             
         }
@@ -532,14 +536,17 @@ const ListadoVideosFavoritos = (props) => {
                                         });
                                         console.log('los relatos del video son ', relatovideohightlight);
                                         console.log('indice de los tags ', sliceIndex, tagsselected);
-                                        return { Categoria: categories.find(x => x.id_cat == vid.id_categoria).titulo, Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria).id_cat, Id: vid.id, Calificacion: Math.ceil(Math.random() * 5), ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight }
+                                        return { Categoria: categories.find(x => x.id_cat == vid.id_categoria) ? categories.find(x => x.id_cat == vid.id_categoria).titulo : "", Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria)? categories.find(x => x.id_cat == vid.id_categoria).id_cat : 0, Id: vid.id, Calificacion: Math.ceil(Math.random() * 5), ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight }
                                     });
                                     setListado(videosfavoritos);
                                     setCargaPaginada(true);
+                                }).catch(err=>{
+                                    setListado([]);
+                                    setCargaPaginada(true);
                                 });
                         });
-                    }).catch(err => {
-                        console.log('error eliminando el favorito ', err);
+                    }).catch(err=>{
+                        setCargaPaginada(true);
                     });
             }
         }

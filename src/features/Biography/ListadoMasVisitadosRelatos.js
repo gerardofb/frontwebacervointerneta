@@ -297,11 +297,13 @@ const ListadoMasVisitadosRelatos = (props) => {
                         // }).catch(err => {
                         //     console.log('error en relato resumido', err);
                         // })
-                        return { Documento: relatovideohightlight != "" ? relatovideohightlight[0].document_id : "", Categoria: categories.find(x => x.id_cat == vid.id_categoria).titulo, Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria).id_cat, Id: vid.id, Visitas: relatovideohightlight != "" ? sumavisitas : "", ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight }
+                        return { Documento: relatovideohightlight != "" ? relatovideohightlight[0].document_id : "", Categoria: categories.find(x => x.id_cat == vid.id_categoria) && categories.find(x => x.id_cat == vid.id_categoria).titulo, Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria) &&  categories.find(x => x.id_cat == vid.id_categoria).id_cat, Id: vid.id, Visitas: relatovideohightlight != "" ? sumavisitas : "", ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight }
                     });
                     setListado(videosfavoritos)
                     setCargaPaginada(true);
-                });
+                }).catch(err=>{
+                    setCargaPaginada(true);
+                });;
             })
         }
     }, [listado])
@@ -406,11 +408,13 @@ const ListadoMasVisitadosRelatos = (props) => {
                         console.log('indice de los tags ', sliceIndex, tagsselected);
                         let sumavisitas = relatovideohightlight.length > 1 ? relatovideohightlight.reduce((a, b) => { return (a.total_visitas ? a.total_visitas : 0) + (b.total_visitas ? b.total_visitas : 0) }) : relatovideohightlight[0].total_visitas;
                         console.log('Suma de visitas ', sumavisitas, relatovideohightlight.length);
-                        return { Documento: relatovideohightlight != "" ? relatovideohightlight[0].document_id : "", Categoria: categories.find(x => x.id_cat == vid.id_categoria).titulo, Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria).id_cat, Id: vid.id, Visitas: relatovideohightlight != "" ? sumavisitas : "", ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight }
+                        return { Documento: relatovideohightlight != "" ? relatovideohightlight[0].document_id : "", Categoria: categories.find(x => x.id_cat == vid.id_categoria) && categories.find(x => x.id_cat == vid.id_categoria).titulo, Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria) && categories.find(x => x.id_cat == vid.id_categoria).id_cat, Id: vid.id, Visitas: relatovideohightlight != "" ? sumavisitas : "", ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight }
                     });
                     setListado(videosfavoritos);
                     setCargaPaginada(true);
-                });
+                }).catch(err=>{
+                    setCargaPaginada(true);
+                });;
             })
         }
     }

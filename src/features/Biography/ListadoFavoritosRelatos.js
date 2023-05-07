@@ -292,9 +292,11 @@ const ListadoRelatosFavoritos = (props) => {
                             });
                             let sumavisitas = relatovideohightlight.length > 1 ? relatovideohightlight.reduce((a, b) => { return (a.total_visitas ? a.total_visitas : 0) + (b.total_visitas ? b.total_visitas : 0) }) : relatovideohightlight[0].total_visitas;
                             console.log('datos del server en favoritos relatos ',response.data)
-                            return { Documento: relatovideohightlight != "" ? relatovideohightlight[0].document_id : "", Categoria: categories.find(x => x.id_cat == vid.id_categoria).titulo, Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria).id_cat, Id: vid.id, Calificacion: Math.ceil(Math.random() * 5), ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight }
+                            return { Documento: relatovideohightlight != "" ? relatovideohightlight[0].document_id : "", Categoria: categories.find(x => x.id_cat == vid.id_categoria) && categories.find(x => x.id_cat == vid.id_categoria).titulo, Video: vid.titulo, Id_Categoria:categories.find(x => x.id_cat == vid.id_categoria) && categories.find(x => x.id_cat == vid.id_categoria).id_cat, Id: vid.id, Calificacion: Math.ceil(Math.random() * 5), ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight }
                         });
                         setListado(videosfavoritos)
+                        setCargaPaginada(true);
+                    }).catch(err=>{
                         setCargaPaginada(true);
                     });
             })
@@ -410,11 +412,13 @@ const ListadoRelatosFavoritos = (props) => {
                             console.log('los relatos del video son ', relatovideohightlight);
                             console.log('indice de los tags ', sliceIndex, tagsselected);
                             let sumavisitas = relatovideohightlight.length > 1 ? relatovideohightlight.reduce((a, b) => { return (a.total_visitas ? a.total_visitas : 0) + (b.total_visitas ? b.total_visitas : 0) }) : relatovideohightlight[0].total_visitas;
-                            return { Documento: relatovideohightlight != "" ? relatovideohightlight[0].document_id : "", Categoria: categories.find(x => x.id_cat == vid.id_categoria).titulo, Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria).id_cat, Id: vid.id, Calificacion: Math.ceil(Math.random() * 5), ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight }
+                            return { Documento: relatovideohightlight != "" ? relatovideohightlight[0].document_id : "", Categoria: categories.find(x => x.id_cat == vid.id_categoria) && categories.find(x => x.id_cat == vid.id_categoria).titulo, Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria) && categories.find(x => x.id_cat == vid.id_categoria).id_cat, Id: vid.id, Calificacion: Math.ceil(Math.random() * 5), ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight }
                         });
                         setListado(videosfavoritos);
                         setCargaPaginada(true);
-                    });
+                    }).catch(err=>{
+                        setCargaPaginada(true);
+                    });;
             })
         }
     }
@@ -481,6 +485,9 @@ const ListadoRelatosFavoritos = (props) => {
                                         return { Documento: relatovideohightlight != "" ? relatovideohightlight[0].document_id : "", Categoria: categories.find(x => x.id_cat == vid.id_categoria).titulo, Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria).id_cat, Id: vid.id, Calificacion: Math.ceil(Math.random() * 5), ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight }
                                     });
                                     setListado(videosfavoritos);
+                                    setCargaPaginada(true);
+                                }).catch(err=>{
+                                    setListado([]);
                                     setCargaPaginada(true);
                                 });
                         });
