@@ -380,6 +380,7 @@ export const AutoComments = () => {
     const [esFavorito, setEsFavorito] = useState({ valor: true, cuenta: 0 });
     const [cuentaUsuario, setCuentaUsuario] = useState('');
     const [player, setPlayer] = useState(null);
+    const [listadoEventosMes, setListadoEventosMes] = useState([])
     useEffect(() => {
         let parametros;
         utilidadMenuSuperior();
@@ -529,11 +530,24 @@ export const AutoComments = () => {
             chat: msjesChat.chat.filter(a => a.propio == false),
             show: false
         });
+
+        const mes = new Date().getMonth() + 1;
+        const get_eventosmonth = axios.get(`${getBaseAdressApi()}api/eventosuser/${(mes)}?limit=15&offset=0`).then(response => {
+            let eventosfirst = response.data.results.map((el, idx) => {
+                return {
+                    index: el.id, selected: false, title: el.titulo, descripcion: el.descripcion,
+                    fecha: new Date(el.fechainicio), duracion: el.duracion, imagen: el.contenedor_img
+                }
+            });
+            setListadoEventosMes(eventosfirst);
+        }).catch(err => {
+
+        });
         let elementotop = document.querySelector('.header-reproduccion-individual');
         //elementotop.scrollIntoView({ behavior: 'smooth' });localStorage.getItem
         player && player.load();
         //console.log('El video cargado es ', idvideo, sourcevideo);
-    }, [location, location.pathname, sourcevideo,calificacionTotal]);
+    }, [location, location.pathname, sourcevideo, calificacionTotal]);
     const sendVisitFrameVideo = (id_del_video) => {
         const requestVisita = axios.post(`${getBaseAdressApi()}api/addvisitvideoauth/`, {
             "id_video": id_del_video
@@ -664,6 +678,23 @@ export const AutoComments = () => {
         0,
         open ? 0.1 : 0.6,
     ])
+    const accionesTabulador = (tab) => {
+        setActive(tab);
+        if (tab == tabuladores[2]) {
+            const mes = new Date().getMonth() + 1;
+            const get_eventosmonth = axios.get(`${getBaseAdressApi()}api/eventosuser/${(mes)}?limit=15&offset=0`).then(response => {
+                let eventosfirst = response.data.results.map((el, idx) => {
+                    return {
+                        index: el.id, selected: false, title: el.titulo, descripcion: el.descripcion,
+                        fecha: new Date(el.fechainicio), duracion: el.duracion, imagen: el.contenedor_img
+                    }
+                });
+                setListadoEventosMes(eventosfirst);
+            }).catch(err => {
+
+            })
+        }
+    }
     const [active, setActive] = useState(tabuladores[0]);
     const [relatos, setRelatos] = useState(autobiograficos.filter(x => x.reciente == false));
     const handleClickOptionRelatos = (parametro) => {
@@ -709,7 +740,7 @@ export const AutoComments = () => {
                     ).then(response => {
 
 
-                       //console.log('consulta para paginar ', consulta_actual);
+                        //console.log('consulta para paginar ', consulta_actual);
                         let comentarios_search = response.data.map((el, indice) => {
                             return { titulo: el.autor, content: el.comentario, respuestas: el.respuestas, uid: el.document_id }
                         });
@@ -853,7 +884,7 @@ export const AutoComments = () => {
     const [myevents, setMyEvents] = useState(eventos);
     const resetMyEvents = (evento, bandera) => {
         if (!bandera) {
-            setMyEvents(myevents.map((elemento, indice) => {
+            setMyEvents(listadoEventosMes.map((elemento, indice) => {
                 if (elemento.index == evento.index) {
                     elemento.selected = true;
                 }
@@ -865,7 +896,7 @@ export const AutoComments = () => {
             setResetEvents({ resetear: true, aplicar: true });
         }
         else {
-            setMyEvents(myevents.map((elemento, indice) => {
+            setMyEvents(listadoEventosMes.map((elemento, indice) => {
                 elemento.selected = false;
                 return elemento;
             }));
@@ -1107,7 +1138,7 @@ export const AutoComments = () => {
             const calificacionVideo = axios.get(`${getBaseAdressApi()}api/calificacionbyvideo/${parseInt(idvideo)}`).then(response => {
                 setCalificacionTotal(response.data[0].total_calificacion.toFixed(1));
             }).catch(err => {
-    
+
             })
         }).catch(err => {
             const sendCalificacionAnon = axios.post(`${getBaseAdressApi()}api/calificarvideo/`, {
@@ -1118,7 +1149,7 @@ export const AutoComments = () => {
                 const calificacionVideo = axios.get(`${getBaseAdressApi()}api/calificacionbyvideo/${parseInt(idvideo)}`).then(response => {
                     setCalificacionTotal(response.data[0].total_calificacion.toFixed(1));
                 }).catch(err => {
-        
+
                 })
             }).catch(error => {
             });
@@ -1206,7 +1237,7 @@ export const AutoComments = () => {
                                 <Tab
                                     key={type}
                                     active={active === type}
-                                    onClick={() => { setActive(type); }}
+                                    onClick={() => { accionesTabulador(type) }}
                                 >
                                     {type}
                                 </Tab>
@@ -1240,13 +1271,13 @@ export const AutoComments = () => {
                 </div>
                 <div className="scroll-list" onContextMenu={(e) => handleContextMenu(false, false)} ref={bottomRef} style={estableceTab(tabuladores[0])}>
                     <div className='container-grow-wrap-1'>
-                    <label class="caja-expandible-label" for="text_comentario">Comentar:</label>
-                    <div class="grow-wrap">
-                        <textarea maxLength={2000} value={newComment} onChange={(e) => setNewComment(e.target.value)} name="text_comentario" id="text_comentario"></textarea>
-                    </div>
-                    <div className="button-send-expandible-text">
-                        <button type="button" onClick={sendComment}>Enviar</button>
-                    </div>
+                        <label class="caja-expandible-label" for="text_comentario">Comentar:</label>
+                        <div class="grow-wrap">
+                            <textarea maxLength={2000} value={newComment} onChange={(e) => setNewComment(e.target.value)} name="text_comentario" id="text_comentario"></textarea>
+                        </div>
+                        <div className="button-send-expandible-text">
+                            <button type="button" onClick={sendComment}>Enviar</button>
+                        </div>
                     </div>{
                         publicarAnonimo.intento &&
                         <div className='usuario-desautorizado'>
@@ -1322,7 +1353,7 @@ export const AutoComments = () => {
                 </div>
                 <div className='scroll-list' onContextMenu={(e) => handleContextMenu(false, false)} style={estableceTab(tabuladores[2])}>
                     {
-                        myevents.map((elem, index) => {
+                        listadoEventosMes.map((elem, index) => {
                             let llave = "/Eventos/" + elem.index + "?previous=" + video;
                             return (
                                 <div className="evento-reproduccion" key={index}>
