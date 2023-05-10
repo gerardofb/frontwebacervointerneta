@@ -66,7 +66,7 @@ export const BusquedaEstandar = (props) => {
         setVideosSearch([])
         setValueUserSearch('')
         setValueVideoSearch('')
-        console.log('levantando modal con ',indice);
+        //console.log('levantando modal con ',indice);
         setChildrenModal(indice);
         refModalUsuario.current && refModalUsuario.current.focus()
         refModalVideos.current && refModalVideos.current.focus()
@@ -77,7 +77,7 @@ export const BusquedaEstandar = (props) => {
         if (query) {
             query = query.split('=');
             consulta = decodeURI(query[query.length - 1])
-            console.log('consulta ', consulta)
+            //console.log('consulta ', consulta)
             let objetoSearchSimple = {
                 "query": consulta,
                 "categoria": "",
@@ -329,7 +329,7 @@ export const BusquedaEstandar = (props) => {
                 });
         }
         else if (!direccion && tipo == tabuladores[1]) {
-            paginaActual = (paginaBusqueda.comentarios - 1);
+            paginaActual = (paginaBusqueda.relatos - 1);
             setPaginaBusqueda(
                 {
                     ...paginaBusqueda,
@@ -466,7 +466,7 @@ export const BusquedaEstandar = (props) => {
                 localStorage.setItem("queryComentarios", JSON.stringify(objetoConsulta));
 
                 let indice_categoria = todascategorias.find(e => e.titulo == video.categoria);
-                console.log('en navegar ', todascategorias, video.categoria, indice_categoria);
+                //console.log('en navegar ', todascategorias, video.categoria, indice_categoria);
                 history.push("/Reproduccion/" + video.titulo + "|" + video.id_video + "|" + indice_categoria.id + "?q=true&cat=Comentarios");
                 break;
                 case categorias.RELATOS:
@@ -494,7 +494,7 @@ export const BusquedaEstandar = (props) => {
             setVideosSearch(response.data.results);
         })
     }
-    console.log('paginas', paginaBusqueda.comentarios, paginasTotal.comentarios, totalResultados.comentarios)
+    //console.log('paginas', paginaBusqueda.comentarios, paginasTotal.comentarios, totalResultados.comentarios)
     const [valueAutorSearch,setValueAutorSearch] = useState('')
     const setUserSearch = (e,usuario)=>{
         setValueAutorSearch(usuario);

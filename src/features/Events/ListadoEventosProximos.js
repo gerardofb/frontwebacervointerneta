@@ -122,7 +122,7 @@ const orderBy = (listado, ordenamiento, desc) => {
         }
     }
     salida = desc ? listado.reverse() : listado;
-    console.log('ordenando listado', ordenamiento, salida, ordenBusquedaPredeterminado);
+    //console.log('ordenando listado', ordenamiento, salida, ordenBusquedaPredeterminado);
     return salida;
 }
 function estableceTituloCalendario(mesinicial, anioinicial) {
@@ -203,7 +203,7 @@ const ListadoEventosProximos = (props) => {
         setOrdenarPor({ orden: orden, descendiente: valor });
         setListado(orderBy(listado, orden, valor));
         //setListado(salida);
-        console.log('descendiente ', valor, orden)
+        //console.log('descendiente ', valor, orden)
     }
     const estableceOrdenamiento = (orden) => {
         setVisibleOpciones(-1);

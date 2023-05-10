@@ -238,7 +238,7 @@ const orderBy = (listado, ordenamiento, desc) => {
         salida.sort((a, b) => a.Tags.length - b.Tags.length);
     }
     salida = desc ? listado.reverse() : listado;
-    console.log('ordenando listado', ordenamiento, salida, ordenBusquedaPredeterminado);
+    //console.log('ordenando listado', ordenamiento, salida, ordenBusquedaPredeterminado);
     return salida;
 }
 function random_color() {
@@ -262,7 +262,7 @@ const ListadoMasVisitadosRelatos = (props) => {
     const [cargaPaginada, setCargaPaginada] = useState(false);
     const [idFilaFavorito, setIdFilaFavorito] = useState({ vinculo: '', idvideo: 0 });
     const [resumenRelato, setResumenRelato] = useState([{ id: 0, resumen: '' }]);
-    console.log('tipo listado ', rutaTipoListado, tipoListado, listado);
+    //console.log('tipo listado ', rutaTipoListado, tipoListado, listado);
     let sliceIndex = Math.floor(Math.random() * arreglotags.length);
     let tagsselected = arreglotags.slice(sliceIndex, sliceIndex + 2).map((tag, i) => {
         return tag.content
@@ -278,10 +278,10 @@ const ListadoMasVisitadosRelatos = (props) => {
 
                         let relatovideohightlight = vid.relatos_por_video.length > 0 ? vid.relatos_por_video : "";
 
-                        console.log('los relatos del video son ', relatovideohightlight);
-                        console.log('indice de los tags ', sliceIndex, tagsselected);
+                        //console.log('los relatos del video son ', relatovideohightlight);
+                        //console.log('indice de los tags ', sliceIndex, tagsselected);
                         let sumavisitas = relatovideohightlight.length > 1 ? relatovideohightlight.reduce((a, b) => { return (a.total_visitas ? a.total_visitas : 0) + (b.total_visitas ? b.total_visitas : 0) }) : relatovideohightlight[0].total_visitas;
-                        console.log('Suma de visitas ', sumavisitas, relatovideohightlight.length);
+                        //console.log('Suma de visitas ', sumavisitas, relatovideohightlight.length);
                         // let arreglo_relatos = relatovideohightlight != '' ? relatovideohightlight.map((el, idx) => {
                         //     return el.document_id;
                         // }) : []
@@ -314,14 +314,14 @@ const ListadoMasVisitadosRelatos = (props) => {
         const peticionRelato = axios.post(`${getBaseAdressApi()}api/severalrelatos/`, {
             relatos: arreglo_relatos
         }).then(response => {
-            console.log('la respuesta del relato resumido es ', response.data);
+            //console.log('la respuesta del relato resumido es ', response.data);
             let relatosrespuesta = response.data.slice(0, 11).map((el, idx) => {
                 return { id: identificador, resumen: el.relato.length > 150 ? el.relato.substring(0, 150) + "..." : el.relato }
             })
             let salidarelatos = resumenRelato.concat(relatosrespuesta);
             setResumenRelato(relatosrespuesta);
         }).catch(err => {
-            console.log('error en relato resumido', err);
+            //console.log('error en relato resumido', err);
         })
     }
     const estableceDescendienteAscendiente = (valor, orden) => {
@@ -348,7 +348,7 @@ const ListadoMasVisitadosRelatos = (props) => {
         setOrdenamientoDesc(ordenamientoDesc);
         setOrdenarPor({ orden: ordenarPor, descendiente: ordenamientoDesc });
         let salida = orderBy(listado.slice(0), ordenarPor.orden, ordenamientoDesc);
-        console.log('la salida en buscando en todos los tipos es ', salida, textoSearch);
+        //console.log('la salida en buscando en todos los tipos es ', salida, textoSearch);
         if (textoSearch.trim() != '') {
             setCargaPaginada(false);
             let salidaTitulo = [];
@@ -373,7 +373,7 @@ const ListadoMasVisitadosRelatos = (props) => {
                             salidaautores = salidaautores.concat(exit);
                             return exit;
                         });
-                        console.log('autores filtrados del relato ', salidaautores);
+                        //console.log('autores filtrados del relato ', salidaautores);
                         let autorbuscado = salidaautores.find(x => x.autor.toLowerCase() == textoSearch.toLowerCase())
                         salidaUsuario = autorbuscado != undefined ?
                             salidaUsuario.concat(salida.filter(x => x.Relato != "" && x.Id == autorbuscado.id_video)) : [];
@@ -384,12 +384,12 @@ const ListadoMasVisitadosRelatos = (props) => {
                         break;
                     case tipoBusquedaPagina.TAG:
                         let busqueda = salida.map((tag, i) => {
-                            console.log('en búsqueda de tags ', tag.Tags);
+                            //console.log('en búsqueda de tags ', tag.Tags);
                         })
                         salidaTags = salidaTags.concat(salida.filter(x => x.Tags.length > 0 && x.Tags.find(a => a.toLowerCase().indexOf(textoSearch.toLowerCase()) != -1)));
                         break;
                 }
-                console.log('buscando en todos los tipos ', salidaTitulo, salidaCategoria, salidaUsuario, salidaListaRepro, salidaTags);
+                //console.log('buscando en todos los tipos ', salidaTitulo, salidaCategoria, salidaUsuario, salidaListaRepro, salidaTags);
             });
             setListado(salidaTitulo.concat(salidaCategoria).concat(salidaUsuario).concat(salidaListaRepro).concat(salidaTags));
             setCargaPaginada(true);
@@ -404,10 +404,10 @@ const ListadoMasVisitadosRelatos = (props) => {
                     let videosfavoritos = response.data.map((vid, ind) => {
 
                         let relatovideohightlight = vid.relatos_por_video.length > 0 ? vid.relatos_por_video : "";
-                        console.log('los relatos del video son ', relatovideohightlight);
-                        console.log('indice de los tags ', sliceIndex, tagsselected);
+                        //console.log('los relatos del video son ', relatovideohightlight);
+                        //console.log('indice de los tags ', sliceIndex, tagsselected);
                         let sumavisitas = relatovideohightlight.length > 1 ? relatovideohightlight.reduce((a, b) => { return (a.total_visitas ? a.total_visitas : 0) + (b.total_visitas ? b.total_visitas : 0) }) : relatovideohightlight[0].total_visitas;
-                        console.log('Suma de visitas ', sumavisitas, relatovideohightlight.length);
+                        //console.log('Suma de visitas ', sumavisitas, relatovideohightlight.length);
                         return { Documento: relatovideohightlight != "" ? relatovideohightlight[0].document_id : "", Categoria: categories.find(x => x.id_cat == vid.id_categoria) && categories.find(x => x.id_cat == vid.id_categoria).titulo, Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria) && categories.find(x => x.id_cat == vid.id_categoria).id_cat, Id: vid.id, Visitas: relatovideohightlight != "" ? sumavisitas : "", ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight }
                     });
                     setListado(videosfavoritos);
@@ -438,21 +438,21 @@ const ListadoMasVisitadosRelatos = (props) => {
     }
     const setActionRowVisitado = (elemento) => {
 
-        console.log('acción de combo ', opcionVideoPor, elemento)
+        //console.log('acción de combo ', opcionVideoPor, elemento)
         let accion = ListadoOpcionesVideo.find(x => x.indice == elemento.indice);
         if (accion != undefined) {
             switch (accion.title) {
                 case 'Explorar':
-                    console.log('el vinculo a navegar es ', idFilaFavorito);
+                    //console.log('el vinculo a navegar es ', idFilaFavorito);
                     if (idFilaFavorito.vinculo != '') {
-                        console.log('el vinculo a navegar es navegando a vinculo')
+                        //console.log('el vinculo a navegar es navegando a vinculo')
                         history.push(idFilaFavorito.vinculo);
                     }
                     break;
             }
         }
     }
-    console.log('los relatos totales son ', resumenRelato);
+    //console.log('los relatos totales son ', resumenRelato);
     return (
         <>
             <NavBar></NavBar>
@@ -516,7 +516,7 @@ const ListadoMasVisitadosRelatos = (props) => {
                             let claseCssBotonOpciones = opcionesSetVisible == index ? "container-default-combo listado-combo" : "container-default-combo combo-hidden"
                             let listareproduccion = item.ListaReproduccion.Titulo ? item.ListaReproduccion.Titulo : "";
                             let autorRelato = item.Relato != "" ? autores.join(', ') : "";
-                            console.log('autores del relato de video ', item.Relato, autores);
+                            //console.log('autores del relato de video ', item.Relato, autores);
                             return (
                                 <div className="vid-listado" onMouseEnter={(e) => estableceRelatoHover(item.Relato, item.Id)} key={index}>
                                     <div>{item.Video}</div><div>{item.Categoria}</div>

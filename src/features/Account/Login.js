@@ -62,11 +62,11 @@ const Login = (props) => {
         let arreglo = Object.keys(formValidate).filter(e => e!="invalido" && e != "exitoso");
         arreglo = arreglo.map((e, i) => {
             if (formValidate[e].length > 0) {
-                console.log('hallado en llaves ', e, formValidate[e])
+                //console.log('hallado en llaves ', e, formValidate[e])
                 return e;
             }
         });
-        console.log('errores de validación ',arreglo.filter(e => e !== undefined))
+        //console.log('errores de validación ',arreglo.filter(e => e !== undefined))
         return arreglo.filter(e => e !== undefined)
 
     }
@@ -88,10 +88,10 @@ const Login = (props) => {
                     window.location = '/';
                 },2000)
             }).catch(err=>{
-                console.log('error obteniendo token',err);
+                //console.log('error obteniendo token',err);
             })
         }).catch(err => {
-            console.log('error en el login ',err, err.response.data)
+            //console.log('error en el login ',err, err.response.data)
             setFormValidate({
                 ...formValidate,
                 username:err.response.data["username"] ? err.response.data["username"] : [err.response.data["detail"]],

@@ -488,7 +488,7 @@ const Eventos = () => {
                     "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
                 }
             }).then(response => {
-                console.log('respuesta del userprofile ', response);
+                //console.log('respuesta del userprofile ', response);
                 setCuentaUsuario(response.data["email"])
             }).catch(err => {
                 setCuentaUsuario('')
@@ -508,7 +508,7 @@ const Eventos = () => {
                         }).catch(error => { });
                 });
         }
-        console.log("Location changed");
+        //console.log("Location changed");
         // const get_eventosmonth = axios.get(`${getBaseAdressApi()}api/eventosuser/1?limit=15&offset=0`).then(response => {
         //     let eventosfirst = response.data.results.map((el, idx) => {
         //         return {
@@ -556,7 +556,7 @@ const Eventos = () => {
         }
         let diff = ff - fi;
         if (diff < 0) {
-            console.log('la fecha de fin es menor a la fecha de inicio');
+            //console.log('la fecha de fin es menor a la fecha de inicio');
             setErroresEventUserForm({
                 ...erroresEventUserForm,
                 mensaje: 'La fecha de finalización no puede ser menor a la fecha de inicio del evento'
@@ -565,7 +565,7 @@ const Eventos = () => {
         }
         else {
             let minutes = Math.ceil(diff / 1000 / 60);
-            console.log('la duración de la fecha es ', minutes);
+            //console.log('la duración de la fecha es ', minutes);
             if (valoresEventUserForm.tituloEvento.trim() == '' || valoresEventUserForm.descripcionEvento.trim() == '') {
                 setErroresEventUserForm({
                     ...erroresEventUserForm,
@@ -582,7 +582,7 @@ const Eventos = () => {
             if (refArchivoEventoUser.current.files.length > 0) {
                 datos.append("filefield", refArchivoEventoUser.current.files[0]);
             }
-            console.log('fechas convertidas en envío de evento ', valueFfin.toISOString(), valueFini.toISOString())
+            //console.log('fechas convertidas en envío de evento ', valueFfin.toISOString(), valueFini.toISOString())
             setValoresEventUserForm({
                 ...valoresEventUserForm,
                 enviando: true
@@ -607,7 +607,7 @@ const Eventos = () => {
                             fecha: new Date(el.fechainicio), duracion: el.duracion, imagen: el.contenedor_img
                         }
                     });
-                    console.log('la respuesta del servicio de eventos por mes es ', response.data, eventosfirst);
+                    //console.log('la respuesta del servicio de eventos por mes es ', response.data, eventosfirst);
                     setEventosMonth({
                         ...eventosMonth,
                         cuentaMes: response.data.count,
@@ -639,7 +639,7 @@ const Eventos = () => {
                     });
                 })
             }).catch(err => {
-                console.log('error en el envío del evento ', err);
+                //console.log('error en el envío del evento ', err);
                 if (err.response.status == 404 && err.response.data.detail == undefined) {
                     setErroresEventUserForm({
                         ...erroresEventUserForm,
@@ -669,15 +669,15 @@ const Eventos = () => {
 
             })
         }
-        console.log('los valores del formulario son ', valoresEventUserForm);
+        //console.log('los valores del formulario son ', valoresEventUserForm);
     }
     const onBlurFechaIni = () => {
         refFechaIni.current && setValueFini(refFechaIni.current.props.value);
-        console.log('la fecha inicial en blur del evento es ', valueFini, valueFfin, refFechaIni.current);
+        //console.log('la fecha inicial en blur del evento es ', valueFini, valueFfin, refFechaIni.current);
     }
     const onBlurFechaFin = () => {
         refFechaFin.current && setValueFfin(refFechaFin.current.props.value);
-        console.log('la fecha final en blur del evento es ', valueFfin, valueFini);
+        //console.log('la fecha final en blur del evento es ', valueFfin, valueFini);
     }
     const onChangeFechaIni = (value) => {
         if (value && value.getMinutes() > 0 && value.getMinutes() <= 30) {
@@ -688,7 +688,7 @@ const Eventos = () => {
         }
         value && value.setSeconds(0);
         setValueFini(value);
-        console.log('la fecha inicial del evento es ', valueFini, valueFfin);
+        //console.log('la fecha inicial del evento es ', valueFini, valueFfin);
     }
     const onChangeFechaFin = (value) => {
         if (value && value.getMinutes() > 0 && value.getMinutes() <= 30) {
@@ -699,7 +699,7 @@ const Eventos = () => {
         }
         value && value.setSeconds(0);
         setValueFfin(value);
-        console.log('la fecha final del evento es ', valueFfin, valueFini);
+        //console.log('la fecha final del evento es ', valueFfin, valueFini);
     }
     const styles = useSpring({
         from: { width: '0', opacity: .3 },
@@ -739,7 +739,7 @@ const Eventos = () => {
                     fecha: new Date(el.fechainicio), duracion: el.duracion, imagen: el.contenedor_img
                 }
             });
-            console.log('la respuesta del servicio de eventos por mes es ', response.data, eventosfirst);
+            //console.log('la respuesta del servicio de eventos por mes es ', response.data, eventosfirst);
             setEventosMonth({
                 ...eventosMonth,
                 cuentaMes: response.data.count,
@@ -922,12 +922,12 @@ const Eventos = () => {
             }, 1000);
             setTick(lapso);
         }
-        console.log('el faltante es ', dias, hours, minutes, evento.fecha)
+        //console.log('el faltante es ', dias, hours, minutes, evento.fecha)
         goToBottom();
     }
     const goToBottom = () => {
         try {
-            console.log('yendo a evento abajo');
+            //console.log('yendo a evento abajo');
             referenciaEventAcervo.current ? referenciaEventAcervo.current.scrollIntoView({ behavior: 'smooth' }) : referenciaEventAcervo.current = createRef();
         }
         catch (ex) {
@@ -935,7 +935,7 @@ const Eventos = () => {
         }
     }
 
-    console.log('el título del mes a publicar es ', monthSelectedPublish.titulo);
+    //console.log('el título del mes a publicar es ', monthSelectedPublish.titulo);
     return (
         detalleEvento == -1 && !eventoacervo ?
             <div>

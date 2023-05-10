@@ -313,7 +313,7 @@ const orderBy = (listado, ordenamiento, desc) => {
         salida.sort((a, b) => a.Tags.length - b.Tags.length);
     }
     salida = desc ? listado.reverse() : listado;
-    console.log('ordenando listado', ordenamiento, salida, ordenBusquedaPredeterminado);
+    //console.log('ordenando listado', ordenamiento, salida, ordenBusquedaPredeterminado);
     return salida;
 }
 function random_color() {
@@ -337,7 +337,7 @@ const ListadoVideosFavoritos = (props) => {
     const [cargaPaginada, setCargaPaginada] = useState(false);
     const [idFilaFavorito, setIdFilaFavorito] = useState({ vinculo: '', idvideo: 0 });
     const [videosCalificados,setVideosCalificados] = useState(null);
-    console.log('tipo listado ', rutaTipoListado, tipoListado, listado)
+    //console.log('tipo listado ', rutaTipoListado, tipoListado, listado)
     useEffect(() => {
         if (listado.length == 0) {
             const peticionCategorias = axios.get(`${getBaseAdressApi()}api/categorias/`).then(respuesta => {
@@ -356,8 +356,8 @@ const ListadoVideosFavoritos = (props) => {
                             let tagsselected = arreglotags.slice(sliceIndex, sliceIndex + 2).map((tag, i) => {
                                 return tag.content
                             });
-                            console.log('los relatos del video son ', relatovideohightlight);
-                            console.log('indice de los tags ', sliceIndex, tagsselected);
+                            //console.log('los relatos del video son ', relatovideohightlight);
+                            //console.log('indice de los tags ', sliceIndex, tagsselected);
                             return { Categoria: categories.find(x => x.id_cat == vid.id_categoria)?categories.find(x => x.id_cat == vid.id_categoria).titulo:"", Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria) ?  categories.find(x => x.id_cat == vid.id_categoria).id_cat : 0, Id: vid.id, Calificacion: Math.ceil(Math.random() * 5), ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight !=""? relatovideohightlight : [] }
                         });
                         setListado(videosfavoritos)
@@ -422,7 +422,7 @@ const ListadoVideosFavoritos = (props) => {
                             salidaautores = salidaautores.concat(exit);
                             return exit;
                         });
-                        console.log('autores filtrados del relato ', salidaautores);
+                        //console.log('autores filtrados del relato ', salidaautores);
                         let autorbuscado = salidaautores.find(x => x.autor.toLowerCase() == textoSearch.toLowerCase())
                         salidaUsuario = autorbuscado != undefined ?
                             salidaUsuario.concat(salida.filter(x => x.Relato != "" && x.Id == autorbuscado.id_video)) : [];
@@ -433,12 +433,12 @@ const ListadoVideosFavoritos = (props) => {
                         break;
                     case tipoBusquedaPagina.TAG:
                         let busqueda = salida.map((tag, i) => {
-                            console.log('en búsqueda de tags ', tag.Tags);
+                            //console.log('en búsqueda de tags ', tag.Tags);
                         })
                         salidaTags = salidaTags.concat(salida.filter(x => x.Tags.length > 0 && x.Tags.find(a => a.toLowerCase().indexOf(textoSearch.toLowerCase()) != -1)));
                         break;
                 }
-                console.log('buscando en todos los tipos ', salidaTitulo, salidaCategoria, salidaUsuario, salidaListaRepro, salidaTags);
+                //console.log('buscando en todos los tipos ', salidaTitulo, salidaCategoria, salidaUsuario, salidaListaRepro, salidaTags);
             });
 
             salida = salidaTitulo.concat(salidaCategoria).concat(salidaUsuario).concat(salidaListaRepro).concat(salidaTags);
@@ -463,8 +463,8 @@ const ListadoVideosFavoritos = (props) => {
                             let tagsselected = arreglotags.slice(sliceIndex, sliceIndex + 2).map((tag, i) => {
                                 return tag.content
                             });
-                            console.log('los relatos del video son ', relatovideohightlight);
-                            console.log('indice de los tags ', sliceIndex, tagsselected);
+                            //console.log('los relatos del video son ', relatovideohightlight);
+                            //console.log('indice de los tags ', sliceIndex, tagsselected);
                             return { Categoria: categories.find(x => x.id_cat == vid.id_categoria) ? categories.find(x => x.id_cat == vid.id_categoria).titulo : "", Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria) ? categories.find(x => x.id_cat == vid.id_categoria).id_cat : 0, Id: vid.id, Calificacion: Math.ceil(Math.random() * 5), ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight != ""? relatovideohightlight : [] }
                         });
                         setListado(videosfavoritos);
@@ -496,14 +496,14 @@ const ListadoVideosFavoritos = (props) => {
     }
     const setActionRowFavorito = (elemento) => {
 
-        console.log('acción de combo ', opcionVideoPor, elemento)
+        //console.log('acción de combo ', opcionVideoPor, elemento)
         let accion = ListadoOpcionesVideo.find(x => x.indice == elemento.indice);
         if (accion != undefined) {
             switch (accion.title) {
                 case 'Explorar':
-                    console.log('el vinculo a navegar es ', idFilaFavorito);
+                    //console.log('el vinculo a navegar es ', idFilaFavorito);
                     if (idFilaFavorito.vinculo != '') {
-                        console.log('el vinculo a navegar es navegando a vinculo')
+                        //console.log('el vinculo a navegar es navegando a vinculo')
                         history.push(idFilaFavorito.vinculo);
                     }
                     break;
@@ -534,8 +534,8 @@ const ListadoVideosFavoritos = (props) => {
                                         let tagsselected = arreglotags.slice(sliceIndex, sliceIndex + 2).map((tag, i) => {
                                             return tag.content
                                         });
-                                        console.log('los relatos del video son ', relatovideohightlight);
-                                        console.log('indice de los tags ', sliceIndex, tagsselected);
+                                        //console.log('los relatos del video son ', relatovideohightlight);
+                                        //console.log('indice de los tags ', sliceIndex, tagsselected);
                                         return { Categoria: categories.find(x => x.id_cat == vid.id_categoria) ? categories.find(x => x.id_cat == vid.id_categoria).titulo : "", Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria)? categories.find(x => x.id_cat == vid.id_categoria).id_cat : 0, Id: vid.id, Calificacion: Math.ceil(Math.random() * 5), ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight }
                                     });
                                     setListado(videosfavoritos);
@@ -615,7 +615,7 @@ const ListadoVideosFavoritos = (props) => {
                             let listareproduccion = item.ListaReproduccion.Titulo ? item.ListaReproduccion.Titulo : "";
                             let autorRelato = item.Relato != "" ? autores.join(', ') : "";
                             let calificaciondelvideo = videosCalificados.find(x=> x.id== item.Id) ? (videosCalificados.find(x=> x.id== item.Id).total_calificacion ? videosCalificados.find(x=> x.id== item.Id).total_calificacion.toFixed(1) :0) : 0
-                            console.log('autores del relato de video ', item.Relato, autores);
+                            //console.log('autores del relato de video ', item.Relato, autores);
                             return (
                                 <div className="vid-listado" key={index}>
                                     <div>{item.Video}</div><div>{item.Categoria}</div><div>{calificaciondelvideo}</div>

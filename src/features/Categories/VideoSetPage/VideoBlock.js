@@ -77,14 +77,14 @@ class VideoBlock extends PureComponent {
       })
     });
     const requesttwo = axios.get(`${getBaseAdressApi()}api/video/${this.props.identificador}`).then(response => {
-      console.log('datos del video en bloque de videos ',response.data)
+      //console.log('datos del video en bloque de videos ',response.data)
       this.setState({
         ...this.state,
         datosvideo: response.data
       })
     });
     const requestres = axios.get(`${getBaseAdressApi()}api/calificacionbyvideo/${this.props.identificador}`).then(response=>{
-      console.log('datos del video en calificación, en bloque de videos ',response.data)
+      //console.log('datos del video en calificación, en bloque de videos ',response.data)
       this.setState({
         ...this.state,
         calificacionvideo:response.data[0].total_calificacion !== null ? response.data[0].total_calificacion.toFixed(1): 0
@@ -108,8 +108,8 @@ class VideoBlock extends PureComponent {
   }
 
   render() {
-    console.log('los creditos son ',this.state.creditos)
-    console.log('el id del video y su categoria son ',this.props.identificador,this.props.id_categoria)
+    //console.log('los creditos son ',this.state.creditos)
+    //console.log('el id del video y su categoria son ',this.props.identificador,this.props.id_categoria)
     const { Video, isFocused, id, name, set } = this.props
     // console.log('en tarjeta de los videos');
     // console.log(this.props)

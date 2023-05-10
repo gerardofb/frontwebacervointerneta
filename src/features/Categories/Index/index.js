@@ -42,9 +42,9 @@ function populate_videos(arreglo) {
   let videosService = {}
   arreglo = arreglo.filter(x => x.length > 0);
   arreglo.forEach(([title, container, pic]) => {
-    console.log('afuera en función de poblamiento de videos ', pic, arreglo)
+    //console.log('afuera en función de poblamiento de videos ', pic, arreglo)
     const picsArray = pic.reduce((acc, key) => {
-      console.log('en función de poblamiento de videos ', key, container, title)
+      //console.log('en función de poblamiento de videos ', key, container, title)
       const name = container//key.replace(/^\.\/|\.png$/g, "").replace(/_/g, "-")
       const elvideo = key.contenedor_img ? key.contenedor_img.split('/') : []
 
@@ -99,7 +99,7 @@ class IndexPage extends Component {
     //const requestwo = axios.get('http://localhost:8000/api/videos/');
 
     axios.all([requestone]).then(axios.spread((...response) => {
-      console.log('respuesta de categorías ', response[0])
+      //console.log('respuesta de categorías ', response[0])
       let arreglocats = [];
       response[0].data.results.map((el,i)=>{
          if(el!== undefined){
@@ -143,8 +143,8 @@ class IndexPage extends Component {
   }
 
   render() {
-    console.log('videos antiguos ', videos);
-    console.log('videos recuperados en listado Categorizado', this.state.videosService)
+    //console.log('videos antiguos ', videos);
+    //console.log('videos recuperados en listado Categorizado', this.state.videosService)
     const { styles } = this.context;
     const focusedSet = this.props.location.pathname.split(/\//g)[1]
 

@@ -5,7 +5,7 @@ const useContextMenu = (referencia) => {
     const [yPos, setYPos] = useState("0px");
     const [showMenu, setShowMenu] = useState(false);
     const el = referencia.current;
-    console.log('la referencia es ',el);
+    //console.log('la referencia es ',el);
     const handleContextMenu = useCallback(
       (e) => {
         e.preventDefault();
@@ -35,7 +35,7 @@ const useContextMenu = (referencia) => {
 
   const ContextMenu = ({ menu, referencia }) => {
     const { xPos, yPos, showMenu } = useContextMenu(referencia);
-    console.log('posición de la referencia', xPos,yPos, showMenu);
+    //console.log('posición de la referencia', xPos,yPos, showMenu);
     return (
       <Motion
         defaultStyle={{ opacity: 0 }}

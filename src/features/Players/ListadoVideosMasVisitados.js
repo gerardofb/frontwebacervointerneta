@@ -314,7 +314,7 @@ const orderBy = (listado, ordenamiento, desc) => {
         salida.sort((a, b) => (a.Visitas !== null ? a.Visitas : 0) - (b.Visitas !== null ? b.Visitas : 0));
     }
     salida = desc ? listado.reverse() : listado;
-    console.log('ordenando listado', ordenamiento, salida, ordenBusquedaPredeterminado);
+    //console.log('ordenando listado', ordenamiento, salida, ordenBusquedaPredeterminado);
     return salida;
 }
 function random_color() {

@@ -100,7 +100,7 @@ const Register = (props) => {
         let arreglo = Object.keys(formValidate).filter(e => e != "invalido" && e != "mapeo");
         arreglo = arreglo.map((e, i) => {
             if (formValidate[e].length > 0) {
-                console.log('hallado en llaves ', e, formValidate[e])
+                //console.log('hallado en llaves ', e, formValidate[e])
                 return e;
             }
         });
@@ -122,8 +122,8 @@ const Register = (props) => {
                 exitoso: true
             });
         }).catch(err => {
-            console.log('trate de cachar la respuesta del registro ', err);
-            console.log('errores encontrados username', err.response.data["username"])
+            //console.log('trate de cachar la respuesta del registro ', err);
+            //console.log('errores encontrados username', err.response.data["username"])
             setFormValidate({
                 ...formValidate,
                 username: "username" in err.response.data ? err.response.data["username"] : [],

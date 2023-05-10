@@ -275,8 +275,8 @@ function isInViewportMenu() {
     const barranav = document.querySelector('.navbar-principal');
     const rect = menusuperior.getBoundingClientRect();
     const { scrollTop, offsetHeight } = document.documentElement;
-    console.log('datos de video encabezado', rect.top, rect.left, rect.bottom, rect.right)
-    console.log('limite datos de video encabezado ', Math.round(scrollTop - rect.top))
+    //console.log('datos de video encabezado', rect.top, rect.left, rect.bottom, rect.right)
+    //console.log('limite datos de video encabezado ', Math.round(scrollTop - rect.top))
     if (Math.round(scrollTop - rect.top) > 0) {
         menusuperior.style.display = 'block'
 
@@ -387,7 +387,7 @@ export const AutoComments = () => {
             parametros = new URLSearchParams(window.location.search);
             if (parametros.get("q") == "true" && parametros.get("cat") == "Comentarios") {
                 let consulta_actual = JSON.parse(localStorage.getItem("queryComentarios"));
-                console.log('consulta de parametros comentarios ', consulta_actual);
+                //console.log('consulta de parametros comentarios ', consulta_actual);
                 setBusquedaComentarios(consulta_actual);
                 localStorage.removeItem("queryComentarios");
                 const requestSearchomments = axios.post(`${getBaseAdressApi()}api/searchcomment/`,
@@ -397,7 +397,7 @@ export const AutoComments = () => {
                         return { titulo: el.autor, content: el.comentario, respuestas: el.respuestas, uid: el.document_id }
                     });
                     setItems(comentarios_search);
-                    console.log('en respuesta de búsqueda comentarios ', comentarios_search)
+                    //console.log('en respuesta de búsqueda comentarios ', comentarios_search)
                 });
             }
         }
@@ -413,7 +413,7 @@ export const AutoComments = () => {
                 "pagina_inicial": 0
             };
             setBusquedaComentarios(consulta_actual);
-            console.log('en consulta por defecto ', consulta_actual)
+            //console.log('en consulta por defecto ', consulta_actual)
             const requestSearchomments = axios.post(`${getBaseAdressApi()}api/searchcomment/`,
                 consulta_actual
             ).then(response => {
@@ -431,7 +431,7 @@ export const AutoComments = () => {
                     ...paginacion,
                     comentarios: { pagina: 0, habilitado: false, total: paginasTotales, tamanio: numeropaginas }
                 })
-                console.log('respuesta de api por defecto', comentarios_search)
+                //console.log('respuesta de api por defecto', comentarios_search)
 
             }).catch(reason => console.log('error en consulta por defecto ', reason));
         }
@@ -443,7 +443,7 @@ export const AutoComments = () => {
             }
         })
             .then(response => {
-                console.log('respuesta del userprofile ', response);
+                //console.log('respuesta del userprofile ', response);
                 setCuentaUsuario(response.data["email"])
             }).catch(err => {
                 setCuentaUsuario('')
@@ -451,7 +451,7 @@ export const AutoComments = () => {
         // console.log('obteniendo fuente del video ',obtenervideo)
         const requestone = axios.get(`${getBaseAdressApi()}api/video/${idvideo}`).then(response => {
 
-            console.log('el video a cargar como fuente es ', response.data.contenedor_aws)
+            //console.log('el video a cargar como fuente es ', response.data.contenedor_aws)
 
             if (response.data.contenedor_aws) {
                 if (sourcevideo == '' || response.data.contenedor_aws != sourcevideo) {
@@ -481,7 +481,7 @@ export const AutoComments = () => {
         });
         const requestfavs = axios.get(`${getBaseAdressApi()}api/detailfavoritesvideo/${idvideo}`).then(response => {
             let cantidad = response.data[0].favoritos_por_video.length;
-            console.log('obteniendo cuenta de favoritos ', cantidad, response)
+            //console.log('obteniendo cuenta de favoritos ', cantidad, response)
             setEsFavorito({
                 ...esFavorito,
                 cuenta: cantidad
@@ -497,7 +497,7 @@ export const AutoComments = () => {
             if (videoscategoria === null) {
                 setVideosCategoria(response.data.videos_por_categoria)
                 const nuevo_listadovideos = response.data.videos_por_categoria.map((el, indice) => {
-                    console.log('video en cateogrias de datos de transición ', el);
+                    //console.log('video en cateogrias de datos de transición ', el);
                     return {
                         name: 'Rare Wind',
                         description: '#a8edea → #fed6e3',
@@ -532,7 +532,7 @@ export const AutoComments = () => {
         let elementotop = document.querySelector('.header-reproduccion-individual');
         //elementotop.scrollIntoView({ behavior: 'smooth' });localStorage.getItem
         player && player.load();
-        console.log('El video cargado es ', idvideo, sourcevideo);
+        //console.log('El video cargado es ', idvideo, sourcevideo);
     }, [location, location.pathname, sourcevideo,calificacionTotal]);
     const sendVisitFrameVideo = (id_del_video) => {
         const requestVisita = axios.post(`${getBaseAdressApi()}api/addvisitvideoauth/`, {
@@ -564,7 +564,7 @@ export const AutoComments = () => {
             }).then(response => {
                 const requestmorefavs = axios.get(`${getBaseAdressApi()}api/detailfavoritesvideo/${idvideo}`).then(response => {
                     let cantidad = response.data[0].favoritos_por_video.length;
-                    console.log('obteniendo cuenta de favoritos ', cantidad, response)
+                    //console.log('obteniendo cuenta de favoritos ', cantidad, response)
                     setEsFavorito({
                         ...esFavorito,
                         valor: !esFavorito.valor,
@@ -590,7 +590,7 @@ export const AutoComments = () => {
             }).then(response => {
                 const requestmorefavs = axios.get(`${getBaseAdressApi()}api/detailfavoritesvideo/${idvideo}`).then(response => {
                     let cantidad = response.data[0].favoritos_por_video.length;
-                    console.log('obteniendo cuenta de favoritos ', cantidad, response)
+                    //console.log('obteniendo cuenta de favoritos ', cantidad, response)
                     setEsFavorito({
                         ...esFavorito,
                         valor: !esFavorito.valor,
@@ -609,7 +609,7 @@ export const AutoComments = () => {
     }
     // console.log('la fuente del video en el estado es ', sourcevideo)
     // console.log('el video aleatorio es ', videoaleatorio);
-    console.log('la transición tiene los siguientes elementos ', datostransicion && datostransicion.length);
+    //console.log('la transición tiene los siguientes elementos ', datostransicion && datostransicion.length);
     function randomBetween10_19() {
 
         let arreglo = [11, 12, 13, 14, 15, 16, 17, 18, 19]
@@ -687,7 +687,7 @@ export const AutoComments = () => {
                 // !location.search && setItems(items)
                 let numero_pagina = paginacion.comentarios.pagina;
                 numero_pagina += 1;
-                console.log('probando condicion para scroll', paginacion)
+                //console.log('probando condicion para scroll', paginacion)
                 if (paginacion.comentarios.total > numero_pagina) {
                     setPaginacion({
                         ...paginacion,
@@ -709,12 +709,12 @@ export const AutoComments = () => {
                     ).then(response => {
 
 
-                        console.log('consulta para paginar ', consulta_actual);
+                       //console.log('consulta para paginar ', consulta_actual);
                         let comentarios_search = response.data.map((el, indice) => {
                             return { titulo: el.autor, content: el.comentario, respuestas: el.respuestas, uid: el.document_id }
                         });
                         let elementos = comentarios_search;
-                        console.log('añadiendo elementos ', elementos)
+                        //console.log('añadiendo elementos ', elementos)
                         setItems(
                             elems.concat(elementos)
                         );
@@ -928,7 +928,7 @@ export const AutoComments = () => {
         const requestrespuestacomm = axios.post(`${getBaseAdressApi()}api/searchanswercomment/`, {
             "parent_document": uid
         }).then(response => {
-            console.log('respuestas de comentario ', response)
+            //console.log('respuestas de comentario ', response)
             setRespuestaComentarioActual({
                 ...respuestaComentarioActual,
                 habilitado: !respuestaComentarioActual.habilitado,
@@ -939,7 +939,7 @@ export const AutoComments = () => {
                 numero_respuestas: response.data.length
             })
         }).catch(err => {
-            console.log('error obteniendo respuestas de comentario ', uid, err);
+            //console.log('error obteniendo respuestas de comentario ', uid, err);
         })
     }
     const postResponseComment = (uid) => {
@@ -979,10 +979,10 @@ export const AutoComments = () => {
                     let primeroselementos = elems.slice(0, indicelemento);
                     let ultimoselementos = elems.slice(indicelemento + 1, elems.length);
                     let salida = primeroselementos.concat(arreglo).concat(ultimoselementos);
-                    console.log('salida de búsqueda de un sólo comentario ', response.data, arreglo, indicelemento, salida);
+                    //console.log('salida de búsqueda de un sólo comentario ', response.data, arreglo, indicelemento, salida);
                     setItems(salida);
                 }).catch(err => {
-                    console.log('error mostrando respuesta de comentario único', err);
+                    //console.log('error mostrando respuesta de comentario único', err);
                 })
 
             }
@@ -1024,7 +1024,7 @@ export const AutoComments = () => {
                         "video": parseInt(idvideo),
                         "pagina_inicial": 0
                     };
-                    console.log('en consulta por defecto ', consulta_actual)
+                    //console.log('en consulta por defecto ', consulta_actual)
                     const requestSearchomments = axios.post(`${getBaseAdressApi()}api/searchcomment/`,
                         consulta_actual
                     ).then(response => {
@@ -1032,8 +1032,10 @@ export const AutoComments = () => {
                             return { titulo: el.autor, content: el.comentario, respuestas: el.respuestas, uid: el.document_id }
                         });
                         setItems(comentarios_search);
-                        console.log('respuesta de api por defecto al enviar comentario', comentarios_search)
-                    }).catch(reason => console.log('error en consulta por defecto al enviar comentario ', reason));
+                        //console.log('respuesta de api por defecto al enviar comentario', comentarios_search)
+                    }).catch(reason => {
+                        //console.log('error en consulta por defecto al enviar comentario ', reason)
+                    });
                 }
             }).catch(err => {
                 if (!publicarAnonimo.publicar) {
@@ -1063,7 +1065,7 @@ export const AutoComments = () => {
                                 "video": parseInt(idvideo),
                                 "pagina_inicial": 0
                             };
-                            console.log('en consulta por defecto ', consulta_actual)
+                            //console.log('en consulta por defecto ', consulta_actual)
                             const requestSearchomments = axios.post(`${getBaseAdressApi()}api/searchcomment/`,
                                 consulta_actual
                             ).then(response => {
@@ -1076,8 +1078,10 @@ export const AutoComments = () => {
                                     intento: false,
                                     publicar: false
                                 })
-                                console.log('respuesta de api por defecto al enviar comentario', comentarios_search)
-                            }).catch(reason => console.log('error en consulta por defecto al enviar comentario ', reason));
+                                //console.log('respuesta de api por defecto al enviar comentario', comentarios_search)
+                            }).catch(reason => {
+                                // console.log('error en consulta por defecto al enviar comentario ', reason)
+                            });
                         }
                     });
                 }
@@ -1086,7 +1090,7 @@ export const AutoComments = () => {
         }
     }
     const resetSourceVideo = (url) => {
-        console.log('navegando a desde transición', url);
+        //console.log('navegando a desde transición', url);
         history.push(url);
     }
     const sendCalificacionVideo = () => {
@@ -1120,7 +1124,7 @@ export const AutoComments = () => {
             });
         })
     }
-    console.log('calificación total del video ',calificacionTotal);
+    //console.log('calificación total del video ',calificacionTotal);
     return (
         <div className='player-individual' onScroll={handleScroll}>
             {
@@ -1218,7 +1222,7 @@ export const AutoComments = () => {
                             className="category-container"
                             onClick={() => set(open => !open)}>
                             {transition((style, item) => {
-                                console.log('iterando en transicion ', item)
+                                //console.log('iterando en transicion ', item)
                                 return (
 
                                     <animated.div

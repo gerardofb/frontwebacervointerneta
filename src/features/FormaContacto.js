@@ -23,7 +23,7 @@ const FormaContacto = (props) => {
     const [todascategorias, setTodascategorias] = useState([])
     const [videoslistado, setVideosListado] = useState([])
     let respuesta_cat = axios.get(`${getBaseAdressApi()}api/categorias/`).then(response => {
-        console.log('dentro de consulta original', response.data.results);
+        //console.log('dentro de consulta original', response.data.results);
         setTodascategorias(response.data.results);
     })
     const requestVideos = axios.get(`${getBaseAdressApi()}api/shortlistvideos/`).then(response => {
@@ -45,7 +45,7 @@ const FormaContacto = (props) => {
         exitoso:false
     });
     const enviarFormulario = () => {
-        console.log('valores enviando el formulario de contacto ', formValidate);
+        //console.log('valores enviando el formulario de contacto ', formValidate);
         if (form.correo_electronico.length == 0 || form.mensaje.length == 0 || form.video.length == 0) {
             setFormValidate({
                 ...formValidate,
@@ -74,7 +74,7 @@ const FormaContacto = (props) => {
         else if ((valor.trim() == "" || valor.trim == "0") && enumeracion == ENUM_CONTACTO.VIDEO) {
             return ["Este campo es obligatorio"];
         }
-        console.log('valores enviando el formulario de contacto ', formValidate);
+        //console.log('valores enviando el formulario de contacto ', formValidate);
         return [];
     }
     const estableceValorFormulario = (valor, enumeracion) => {
@@ -98,7 +98,7 @@ const FormaContacto = (props) => {
                 });
                 break;
         }
-        console.log('valores de formulario normal',form);
+        //console.log('valores de formulario normal',form);
     }
     const validateErrors = () => {
         let arreglo = Object.keys(formValidate).filter(e => e != "invalido" && e != "exitoso");

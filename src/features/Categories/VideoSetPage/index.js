@@ -114,7 +114,7 @@ const VideoSetPage = (
         const requestwo = axios.get(getBaseAdressApi() + 'api/videos/');
 
         const promise = axios.all([requestone]).then(axios.spread((...response) => {
-            console.log('categorias ', response[0].data)
+            //console.log('categorias ', response[0].data)
             let arreglocats = [];
             response[0].data.results.map((el, i) => {
                 if (el !== undefined) {
@@ -138,11 +138,11 @@ const VideoSetPage = (
             // //let sextacat = [response[0].data[5].titulo, response[0].data[5].contenedor_img, response[1].data.filter(x => x.id_categoria == 7)]
             // ////console.log('listados de respuesta videos categorizados',primeracat,segundacat,terceracat,cuartacat,quintacat,sextacat)
             // let salida = arrange_videos([primeracat, segundacat, terceracat, cuartacat, quintacat]);
-            console.log('los videos enumerados son ', salida)
-            console.log(salida);
+            //console.log('los videos enumerados son ', salida)
+            //console.log(salida);
             setVideosPopulated(salida);
             response[0].data.results.map((el, indice) => {
-                console.log('iterando en categorias de respuesta ', el)
+                //console.log('iterando en categorias de respuesta ', el)
                 el.titulo = el.titulo.replace(/\s/g, '-')
                 if (el.titulo == set) {
                     setCategoriaSet(el)
@@ -153,12 +153,12 @@ const VideoSetPage = (
         return;
     }
     function arrange_videos(arreglo) {
-        console.log('antes de foreach para llave ', arreglo)
+        //console.log('antes de foreach para llave ', arreglo)
         let videosService = {}
         arreglo.forEach(([title, container, pic]) => {
-            console.log('foreach para llave ', title, container, pic)
+            //console.log('foreach para llave ', title, container, pic)
             const picsArray = pic.filter(a => a.activo).reduce((acc, key) => {
-                console.log('la llave es ', key);
+                //console.log('la llave es ', key);
                 const name = container//key.replace(/^\.\/|\.png$/g, "").replace(/_/g, "-")
                 const elvideo = key.contenedor_img ? key.contenedor_img.split('/') : []
 
@@ -186,7 +186,7 @@ const VideoSetPage = (
         return videosService;
     }
     {
-        console.log('el estado de los videos en esta categoría es', set, videosPopulated, focusedVideo, categoriaSet)
+        //console.log('el estado de los videos en esta categoría es', set, videosPopulated, focusedVideo, categoriaSet)
     }
     return (
 
@@ -228,7 +228,7 @@ const VideoSetPage = (
                                     {videosPopulated && videosPopulated[set] != undefined && videosPopulated[set].map(({ name, Video, id, llave, titulovideo, categoriavideo }) => {
                                         //console.log('iterando en videos ');
                                         //console.log(focusedVideo)
-                                        console.log('en iteracion de llave ', set, videosPopulated[set], titulovideo)
+                                        //console.log('en iteracion de llave ', set, videosPopulated[set], titulovideo)
                                         return (
                                             <VideoBlock
                                                 Video={ruta_aws + Video}

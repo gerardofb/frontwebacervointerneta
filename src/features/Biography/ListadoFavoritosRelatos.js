@@ -247,7 +247,7 @@ const orderBy = (listado, ordenamiento, desc) => {
         salida.sort((a, b) => a.Tags.length - b.Tags.length);
     }
     salida = desc ? listado.reverse() : listado;
-    console.log('ordenando listado', ordenamiento, salida, ordenBusquedaPredeterminado);
+    //console.log('ordenando listado', ordenamiento, salida, ordenBusquedaPredeterminado);
     return salida;
 }
 function random_color() {
@@ -271,7 +271,7 @@ const ListadoRelatosFavoritos = (props) => {
     const [cargaPaginada, setCargaPaginada] = useState(false);
     const [idFilaFavorito, setIdFilaFavorito] = useState({ vinculo: '', idvideo: 0 });
     const [resumenRelato, setResumenRelato] = useState([{ id: 0, resumen: '' }]);
-    console.log('tipo listado ', rutaTipoListado, tipoListado, listado)
+    //console.log('tipo listado ', rutaTipoListado, tipoListado, listado)
     useEffect(() => {
         if (listado.length == 0) {
             const peticionCategorias = axios.get(`${getBaseAdressApi()}api/categorias/`).then(respuesta => {
@@ -291,7 +291,7 @@ const ListadoRelatosFavoritos = (props) => {
                                 return tag.content
                             });
                             let sumavisitas = relatovideohightlight.length > 1 ? relatovideohightlight.reduce((a, b) => { return (a.total_visitas ? a.total_visitas : 0) + (b.total_visitas ? b.total_visitas : 0) }) : relatovideohightlight[0].total_visitas;
-                            console.log('datos del server en favoritos relatos ',response.data)
+                            //console.log('datos del server en favoritos relatos ',response.data)
                             return { Documento: relatovideohightlight != "" ? relatovideohightlight[0].document_id : "", Categoria: categories.find(x => x.id_cat == vid.id_categoria) && categories.find(x => x.id_cat == vid.id_categoria).titulo, Video: vid.titulo, Id_Categoria:categories.find(x => x.id_cat == vid.id_categoria) && categories.find(x => x.id_cat == vid.id_categoria).id_cat, Id: vid.id, Calificacion: Math.ceil(Math.random() * 5), ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight }
                         });
                         setListado(videosfavoritos)
@@ -309,14 +309,14 @@ const ListadoRelatosFavoritos = (props) => {
         const peticionRelato = axios.post(`${getBaseAdressApi()}api/severalrelatos/`, {
             relatos: arreglo_relatos
         }).then(response => {
-            console.log('la respuesta del relato resumido es ', response.data);
+            //console.log('la respuesta del relato resumido es ', response.data);
             let relatosrespuesta = response.data.slice(0, 11).map((el, idx) => {
                 return { id: identificador, resumen: el.relato.length > 150 ? el.relato.substring(0, 150) + "..." : el.relato }
             })
             let salidarelatos = resumenRelato.concat(relatosrespuesta);
             setResumenRelato(relatosrespuesta);
         }).catch(err => {
-            console.log('error en relato resumido', err);
+            //console.log('error en relato resumido', err);
         })
     }
     const estableceDescendienteAscendiente = (valor, orden) => {
@@ -368,7 +368,7 @@ const ListadoRelatosFavoritos = (props) => {
                             salidaautores = salidaautores.concat(exit);
                             return exit;
                         });
-                        console.log('autores filtrados del relato ', salidaautores);
+                        //console.log('autores filtrados del relato ', salidaautores);
                         let autorbuscado = salidaautores.find(x => x.autor.toLowerCase() == textoSearch.toLowerCase())
                         salidaUsuario = autorbuscado != undefined ?
                             salidaUsuario.concat(salida.filter(x => x.Relato != "" && x.Id == autorbuscado.id_video)) : [];
@@ -379,12 +379,12 @@ const ListadoRelatosFavoritos = (props) => {
                         break;
                     case tipoBusquedaPagina.TAG:
                         let busqueda = salida.map((tag, i) => {
-                            console.log('en búsqueda de tags ', tag.Tags);
+                            //console.log('en búsqueda de tags ', tag.Tags);
                         })
                         salidaTags = salidaTags.concat(salida.filter(x => x.Tags.length > 0 && x.Tags.find(a => a.toLowerCase().indexOf(textoSearch.toLowerCase()) != -1)));
                         break;
                 }
-                console.log('buscando en todos los tipos ', salidaTitulo, salidaCategoria, salidaUsuario, salidaListaRepro, salidaTags);
+                //console.log('buscando en todos los tipos ', salidaTitulo, salidaCategoria, salidaUsuario, salidaListaRepro, salidaTags);
             });
 
             salida = salidaTitulo.concat(salidaCategoria).concat(salidaUsuario).concat(salidaListaRepro).concat(salidaTags);
@@ -409,8 +409,8 @@ const ListadoRelatosFavoritos = (props) => {
                             let tagsselected = arreglotags.slice(sliceIndex, sliceIndex + 2).map((tag, i) => {
                                 return tag.content
                             });
-                            console.log('los relatos del video son ', relatovideohightlight);
-                            console.log('indice de los tags ', sliceIndex, tagsselected);
+                            //console.log('los relatos del video son ', relatovideohightlight);
+                            //console.log('indice de los tags ', sliceIndex, tagsselected);
                             let sumavisitas = relatovideohightlight.length > 1 ? relatovideohightlight.reduce((a, b) => { return (a.total_visitas ? a.total_visitas : 0) + (b.total_visitas ? b.total_visitas : 0) }) : relatovideohightlight[0].total_visitas;
                             return { Documento: relatovideohightlight != "" ? relatovideohightlight[0].document_id : "", Categoria: categories.find(x => x.id_cat == vid.id_categoria) && categories.find(x => x.id_cat == vid.id_categoria).titulo, Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria) && categories.find(x => x.id_cat == vid.id_categoria).id_cat, Id: vid.id, Calificacion: Math.ceil(Math.random() * 5), ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight }
                         });
@@ -442,14 +442,14 @@ const ListadoRelatosFavoritos = (props) => {
     }
     const setActionRowFavorito = (elemento) => {
 
-        console.log('acción de combo ', opcionVideoPor, elemento)
+        //console.log('acción de combo ', opcionVideoPor, elemento)
         let accion = ListadoOpcionesVideo.find(x => x.indice == elemento.indice);
         if (accion != undefined) {
             switch (accion.title) {
                 case 'Explorar':
-                    console.log('el vinculo a navegar es ', idFilaFavorito);
+                    //console.log('el vinculo a navegar es ', idFilaFavorito);
                     if (idFilaFavorito.vinculo != '') {
-                        console.log('el vinculo a navegar es navegando a vinculo')
+                        //console.log('el vinculo a navegar es navegando a vinculo')
                         history.push(idFilaFavorito.vinculo);
                     }
                     break;
@@ -480,8 +480,8 @@ const ListadoRelatosFavoritos = (props) => {
                                         let tagsselected = arreglotags.slice(sliceIndex, sliceIndex + 2).map((tag, i) => {
                                             return tag.content
                                         });
-                                        console.log('los relatos del video son ', relatovideohightlight);
-                                        console.log('indice de los tags ', sliceIndex, tagsselected);
+                                        //console.log('los relatos del video son ', relatovideohightlight);
+                                        //console.log('indice de los tags ', sliceIndex, tagsselected);
                                         return { Documento: relatovideohightlight != "" ? relatovideohightlight[0].document_id : "", Categoria: categories.find(x => x.id_cat == vid.id_categoria).titulo, Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria).id_cat, Id: vid.id, Calificacion: Math.ceil(Math.random() * 5), ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight }
                                     });
                                     setListado(videosfavoritos);
@@ -492,7 +492,7 @@ const ListadoRelatosFavoritos = (props) => {
                                 });
                         });
                     }).catch(err => {
-                        console.log('error eliminando el favorito ', err);
+                        //console.log('error eliminando el favorito ', err);
                     });
             }
         }
@@ -560,7 +560,7 @@ const ListadoRelatosFavoritos = (props) => {
                             let claseCssBotonOpciones = opcionesSetVisible == index ? "container-default-combo listado-combo" : "container-default-combo combo-hidden"
                             let listareproduccion = item.ListaReproduccion.Titulo ? item.ListaReproduccion.Titulo : "";
                             let autorRelato = item.Relato != "" ? autores.join(', ') : "";
-                            console.log('autores del relato de video ', item.Relato, autores);
+                            //console.log('autores del relato de video ', item.Relato, autores);
                             return (
                                 <div className="vid-listado" onMouseEnter={(e) => estableceRelatoHover(item.Relato, item.Id)} key={index}>
                                     <div>{item.Video}</div><div>{item.Categoria}</div><div>{item.Calificacion}</div>

@@ -24,7 +24,7 @@ class ModalAlt extends Component {
   componentDidMount() {
     window.addEventListener("keydown", this.onEscKeyDown, false);
     //setTimeout(() => this.setState({ fadeType: "in" }), 0);
-    console.log('actualizando montaje');
+    //console.log('actualizando montaje');
   }
   componentDidUpdate(prevProps, prevState) {
     if (this.props.isOpen && !prevProps.isOpen) {
@@ -33,7 +33,7 @@ class ModalAlt extends Component {
     else if(!this.props.isOpen && prevProps.isOpen){
       this.setState({fadeType:'out'});
     }
-    console.log('actualizando componente ', this.props.isOpen)
+    //console.log('actualizando componente ', this.props.isOpen)
   }
   componentWillUnmount() {
     window.removeEventListener("keydown", this.onEscKeyDown, false);
@@ -49,7 +49,7 @@ class ModalAlt extends Component {
     this.setState({ fadeType: "out" });
   };
   handleClick = e => {
-    console.log('cerrando modal');
+    //console.log('cerrando modal');
     e.preventDefault();
     this.setState({ fadeType: "out" });
   };
