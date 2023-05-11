@@ -338,6 +338,7 @@ export const AutoComments = () => {
 
     const { video } = useParams();
     const history = useHistory();
+    const [listadoEventosMes, setListadoEventosMes] = useState([]);
     const [sourcevideo, setSourceVideo] = useState('');
     const [datostransicion, setDatosTransicion] = useState(null);
     const [videoscategoria, setVideosCategoria] = useState(null);
@@ -382,7 +383,6 @@ export const AutoComments = () => {
     const [esFavorito, setEsFavorito] = useState({ valor: true, cuenta: 0 });
     const [cuentaUsuario, setCuentaUsuario] = useState('');
     const [player, setPlayer] = useState(null);
-    const [listadoEventosMes, setListadoEventosMes] = useState([]);
     const [relatos, setRelatos] = useState([]);
     useEffect(() => {
         let parametros;
@@ -706,7 +706,7 @@ export const AutoComments = () => {
     const accionesTabulador = (tab) => {
         setActive(tab);
         if (tab == tabuladores[2]) {
-            const mes = new Date().getMonth() + 1;
+            const mes = new Date().getMonth()+1;
             const get_eventosmonth = axios.get(`${getBaseAdressApi()}api/eventosuser/${(mes)}?limit=15&offset=0`).then(response => {
                 let eventosfirst = response.data.results.map((el, idx) => {
                     return {
@@ -987,6 +987,9 @@ export const AutoComments = () => {
     const [childrenModal, setChildrenModal] = useState(-1);
     const toggleState = (e, indice) => {
         //console.log('estableciendo estado ', modalOpen);
+        if(indice == MODAL_DESCARGAS){
+            history.push('/Contacto');
+        }
         setCalificacionEnviada(false);
         setChildrenModal(indice);
         setModalOpen(!modalOpen);
@@ -1433,7 +1436,7 @@ export const AutoComments = () => {
                             })}
                     </div>
                 </div>
-                <div className='scroll-list' onContextMenu={(e) => handleContextMenu(false, false)} style={estableceTab(tabuladores[2])}>
+                <div className='scroll-list' style={estableceTab(tabuladores[2])}>
                     {
                         listadoEventosMes.map((elem, index) => {
                             let llave = "/Eventos/" + elem.index + "?previous=" + video;
@@ -1450,12 +1453,12 @@ export const AutoComments = () => {
                                             }
                                         </div>
                                     </div>
-                                    <div className={elem.selected ? 'header-evento' : 'header-evento-hidden'}>
+                                    {/* <div className={elem.selected ? 'header-evento' : 'header-evento-hidden'}>
                                         <h3>{Number(elem.fecha.getDate())}<span> del</span></h3>
                                         <h3>{Number(elem.fecha.getMonth() + 1)}<span> de</span></h3>
                                         <h3>{Year(elem.fecha.getFullYear())}</h3>
                                         <h3>a las {elem.fecha.getHours()} horas</h3>
-                                    </div>
+                                    </div> */}
                                     <div className={elem.selected ? 'content-evento' : 'content-evento-hidden'}>
                                         {elem.descripcion}
                                     </div>

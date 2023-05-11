@@ -271,6 +271,8 @@ const ListadoRelatosFavoritos = (props) => {
     const [cargaPaginada, setCargaPaginada] = useState(false);
     const [idFilaFavorito, setIdFilaFavorito] = useState({ vinculo: '', idvideo: 0 });
     const [resumenRelato, setResumenRelato] = useState([{ id: 0, resumen: '' }]);
+    const [videosCalificados,setVideosCalificados] = useState(null);
+
     //console.log('tipo listado ', rutaTipoListado, tipoListado, listado)
     useEffect(() => {
         if (listado.length == 0) {
@@ -292,13 +294,18 @@ const ListadoRelatosFavoritos = (props) => {
                             });
                             let sumavisitas = relatovideohightlight.length > 1 ? relatovideohightlight.reduce((a, b) => { return (a.total_visitas ? a.total_visitas : 0) + (b.total_visitas ? b.total_visitas : 0) }) : relatovideohightlight[0].total_visitas;
                             //console.log('datos del server en favoritos relatos ',response.data)
-                            return { Documento: relatovideohightlight != "" ? relatovideohightlight[0].document_id : "", Categoria: categories.find(x => x.id_cat == vid.id_categoria) && categories.find(x => x.id_cat == vid.id_categoria).titulo, Video: vid.titulo, Id_Categoria:categories.find(x => x.id_cat == vid.id_categoria) && categories.find(x => x.id_cat == vid.id_categoria).id_cat, Id: vid.id, Calificacion: Math.ceil(Math.random() * 5), ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight }
+                            return { Documento: relatovideohightlight != "" ? relatovideohightlight[0].document_id : "", Categoria: categories.find(x => x.id_cat == vid.id_categoria) && categories.find(x => x.id_cat == vid.id_categoria).titulo, Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria) && categories.find(x => x.id_cat == vid.id_categoria).id_cat, Id: vid.id, Calificacion: Math.ceil(Math.random() * 5), ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight }
                         });
                         setListado(videosfavoritos)
                         setCargaPaginada(true);
-                    }).catch(err=>{
+                    }).catch(err => {
                         setCargaPaginada(true);
                     });
+                const peticioncalificaciones = axios.get(`${getBaseAdressApi()}api/listarcalificacionesvideos/`).then(respuesta => {
+                    setVideosCalificados(respuesta.data);
+                }).catch(err => {
+
+                })
             })
         }
     }, [listado])
@@ -416,9 +423,14 @@ const ListadoRelatosFavoritos = (props) => {
                         });
                         setListado(videosfavoritos);
                         setCargaPaginada(true);
-                    }).catch(err=>{
+                    }).catch(err => {
                         setCargaPaginada(true);
                     });;
+                    const peticioncalificaciones = axios.get(`${getBaseAdressApi()}api/listarcalificacionesvideos/`).then(respuesta => {
+                        setVideosCalificados(respuesta.data);
+                    }).catch(err => {
+    
+                    })
             })
         }
     }
@@ -486,10 +498,15 @@ const ListadoRelatosFavoritos = (props) => {
                                     });
                                     setListado(videosfavoritos);
                                     setCargaPaginada(true);
-                                }).catch(err=>{
+                                }).catch(err => {
                                     setListado([]);
                                     setCargaPaginada(true);
                                 });
+                                const peticioncalificaciones = axios.get(`${getBaseAdressApi()}api/listarcalificacionesvideos/`).then(respuesta => {
+                                    setVideosCalificados(respuesta.data);
+                                }).catch(err => {
+                
+                                })
                         });
                     }).catch(err => {
                         //console.log('error eliminando el favorito ', err);
@@ -560,10 +577,11 @@ const ListadoRelatosFavoritos = (props) => {
                             let claseCssBotonOpciones = opcionesSetVisible == index ? "container-default-combo listado-combo" : "container-default-combo combo-hidden"
                             let listareproduccion = item.ListaReproduccion.Titulo ? item.ListaReproduccion.Titulo : "";
                             let autorRelato = item.Relato != "" ? autores.join(', ') : "";
-                            //console.log('autores del relato de video ', item.Relato, autores);
+                            let calificaciondelvideo = videosCalificados &&  videosCalificados.find(x=> x.id== item.Id) ? (videosCalificados.find(x=> x.id== item.Id).total_calificacion ? videosCalificados.find(x=> x.id== item.Id).total_calificacion.toFixed(1) :0) : 0
+                            
                             return (
                                 <div className="vid-listado" onMouseEnter={(e) => estableceRelatoHover(item.Relato, item.Id)} key={index}>
-                                    <div>{item.Video}</div><div>{item.Categoria}</div><div>{item.Calificacion}</div>
+                                    <div>{item.Video}</div><div>{item.Categoria}</div><div>{calificaciondelvideo}</div>
                                     <div className="contenedor-resumenes-relatos-listado">
                                         <div className="resumenes-relatos-listado">
                                             {resumenRelato && resumenRelato.filter(x => x.id == item.Id).map((rel, indrel) => {
