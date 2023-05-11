@@ -88,6 +88,8 @@ export const BusquedaEstandar = (props) => {
                 "video": "",
                 "pagina_inicial": 0
             };
+            setActualQuery(
+                JSON.stringify(objetoSearchSimple));
             const requestVideos = axios.get(`${getBaseAdressApi()}api/shortlistvideos/`).then(response=>{
                 let videos = response.data.results.map((el,indice)=>{
                     return {id:el.id,titulo:el.titulo}
@@ -97,8 +99,7 @@ export const BusquedaEstandar = (props) => {
             const requestSimple = axios.post(`${getBaseAdressApi()}api/searchcomment/`,
                 objetoSearchSimple
             ).then(response => {
-                setActualQuery(
-                    JSON.stringify(objetoSearchSimple));
+                
                 setResultadoBusqueda(response.data);
                 let totalDeResultados = response.data.length > 0 ? response.data[0].total : 0;
                 let paginacion_primera =  response.data.length > 0 ? response.data[0].paginacion : 1;
@@ -116,12 +117,13 @@ export const BusquedaEstandar = (props) => {
                     ...totalResultados,
                     comentarios: totalDeResultados
                 })
+            }).catch(err=>{
+
             });
             const requestRelato = axios.post(`${getBaseAdressApi()}api/searchrelato/`,
                 objetoSearchSimple
             ).then(response => {
-                // setActualQuery(
-                //     JSON.stringify(objetoSearchSimple));
+                
                 setResultadoBusquedaRelato(response.data);
                 let totalDeResultadosRelato = response.data[0].total;
                 let paginacion_primera = response.data[0].paginacion;
@@ -139,9 +141,11 @@ export const BusquedaEstandar = (props) => {
                     ...totalResultados,
                     relatos: totalDeResultadosRelato
                 })
+            }).catch(err=>{
+                
             });
             let respuesta_cat = axios.get(`${getBaseAdressApi()}api/categorias/`).then(response => {
-                console.log('dentro de consulta original', response.data.results);
+                //console.log('dentro de consulta original', response.data.results);
                 setTodascategorias(response.data.results);
             })
         }
@@ -159,7 +163,7 @@ export const BusquedaEstandar = (props) => {
                 relatos: 0
             })
             let respuesta_cat = axios.get(`${getBaseAdressApi()}api/categorias/`).then(response => {
-                console.log('dentro de consulta original', response.data.results);
+                //console.log('dentro de consulta original', response.data.results);
                 setTodascategorias(response.data.results);
             })
             const requestVideos = axios.get(`${getBaseAdressApi()}api/shortlistvideos/`).then(response=>{
@@ -185,7 +189,7 @@ export const BusquedaEstandar = (props) => {
                 "video": valorVideoSearch == 0 ? "" : parseInt(valorVideoSearch),
                 "pagina_inicial": 0
             };
-            console.log('el objeto búsqueda es ',objetoSearchAvanzado)
+            //console.log('el objeto búsqueda es ',objetoSearchAvanzado)
             const requestSimple = axios.post(`${getBaseAdressApi()}api/searchcomment/`,
                 objetoSearchAvanzado
             ).then(response => {
@@ -199,7 +203,7 @@ export const BusquedaEstandar = (props) => {
                     comentarios: paginacion_primera
                 });
                 let paginasTotalComentarios = parseInt(totalDeResultados / paginacion_primera) + ((totalDeResultados % paginacion_primera > 0) ? 1 : 0)
-                console.log('en consulta avanzada ',paginasTotalComentarios)
+                //console.log('en consulta avanzada ',paginasTotalComentarios)
                 setPaginasTotal({
                     ...paginasTotal,
                     comentarios: paginasTotalComentarios
@@ -471,6 +475,7 @@ export const BusquedaEstandar = (props) => {
                 break;
                 case categorias.RELATOS:
                     let objetoConsultaRelato = JSON.parse(actualQuery);
+                    //console.log('navegando a relato ',video,actualQuery);
                     objetoConsultaRelato.video = video.id_video;
     
                     localStorage.setItem("queryRelatos", JSON.stringify(objetoConsultaRelato));
@@ -620,6 +625,7 @@ export const BusquedaEstandar = (props) => {
                         {
 
                             resultadoBusquedaRelato.map((el, indice) => {
+                                
                                 let fecharesult = new Date(el.ultima_fecha)
                                 return (
                                     <div className="results-search">

@@ -337,7 +337,7 @@ const EventosMasVisitados = (props) => {
                                             className="opt-evt-listado"><FontAwesomeIcon icon={faBars} /></button>
                                         <div className={claseCssBotonOpciones}>
                                             <DefaultCombo
-                                                on={opcionEvenotPor} listado={tipoListado !== seleccionaTipoEvento.PROXIMOS ? ListadoOpcionesEvento : ListadoOpcionesEventoProximos} />
+                                                on={opcionEvenotPor} onChange={e=> console.log('click')} listado={tipoListado !== seleccionaTipoEvento.PROXIMOS ? ListadoOpcionesEvento : ListadoOpcionesEventoProximos} />
                                         </div>
                                     </div>
                                 </div>

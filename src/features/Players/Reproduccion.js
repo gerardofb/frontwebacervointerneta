@@ -359,8 +359,9 @@ export const AutoComments = () => {
     const [videoaleatorio, setVideoAleatorio] = useState('');
     const [busquedaComentarios, setBusquedaComentarios] = useState(null);
     const obtenervideo = video.split('|')
+    //console.log('valor de obtener video',obtenervideo);
     const categoriareproduciendo = obtenervideo[obtenervideo.length - 1];
-    const titulo = videoaleatorio === "" ? obtenervideo[obtenervideo.length - 3] : "Screenshot-" + videoaleatorio;
+    const titulo = obtenervideo[obtenervideo.length - 3];
     const [comentarios, setComentarios] = useState([]);
     const idvideo = obtenervideo[obtenervideo.length - 2]
     const [newComment, setNewComment] = useState('');
@@ -401,6 +402,8 @@ export const AutoComments = () => {
                     });
                     setItems(comentarios_search);
                     //console.log('en respuesta de búsqueda comentarios ', comentarios_search)
+                }).catch(err=>{
+
                 });
             }
         }
@@ -553,7 +556,7 @@ export const AutoComments = () => {
             "puede": "",
             "prefijo": "",
             "video": "",
-            "pagina_inicial": paginacion.paginaActual
+            "pagina_inicial": 0
         };
         const requestRelatos = axios.post(`${getBaseAdressApi()}api/searchrelato/`,
             objetoSearchPagina
@@ -730,7 +733,7 @@ export const AutoComments = () => {
                 "puede": "",
                 "prefijo": "",
                 "video": "",
-                "pagina_inicial": paginacion.paginaActual
+                "pagina_inicial": 0
             };
             const requestRelatos = axios.post(`${getBaseAdressApi()}api/searchrelato/`,
                 objetoSearchPagina
@@ -753,16 +756,37 @@ export const AutoComments = () => {
 
     const handleClickOptionRelatos = (parametro) => {
         let mesactual = new Date().getMonth();
-        if (parametro == 'recientes') {
-            let elementos = relatos.filter(x => x.fechaconteo.getMonth >= mesactual);
-            elementos = elementos.length > 50 ? elementos.slice(0, 50) : elementos;
-            setRelatos(elementos);
-        }
-        else {
-            let elementos = autobiograficos.filter(x => x.fechaconteo.getMonth <= mesactual);
-            elementos = elementos.length > 50 ? elementos.slice(0, 50) : elementos;
-            setRelatos(elementos);
-        }
+        let fechaactual = new Date().getDate();
+        let objetoSearchPagina = {
+            "query": "",
+            "categoria": "",
+            "frase": false,
+            "autor": "",
+            "puede": "",
+            "prefijo": "",
+            "video": "",
+            "pagina_inicial": 0
+        };
+        const requestRelatos = axios.post(`${getBaseAdressApi()}api/searchrelato/`,
+                objetoSearchPagina
+            ).then(response => {
+                let biografias = response.data.map((elemento, indice) => {
+                    return { document_id: elemento.document_id, id_video: elemento.id_video, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), fechaconteo: new Date(elemento.ultima_fecha), podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '' };
+                });
+                if (parametro == 'recientes') {
+                    let elementos = biografias.filter(x => x.fechaconteo > new Date(new Date().getFullYear(),mesactual,fechaactual-15));
+                    elementos = elementos.length > 50 ? elementos.slice(0, 50) : elementos;
+                    setRelatos(elementos);
+                }
+                else {
+                    let elementos = biografias.filter(x => x.fechaconteo.getMonth() <= mesactual);
+                    elementos = elementos.length > 50 ? elementos.slice(0, 50) : elementos;
+                    setRelatos(elementos);
+                }
+            }).catch(err => {
+                
+            });
+        
     }
     const handleScroll = (event) => {
         const { scrollTop, offsetHeight } = document.documentElement;
@@ -1328,8 +1352,8 @@ export const AutoComments = () => {
                 </div>
                 <div className="scroll-list" onContextMenu={(e) => handleContextMenu(false, false)} ref={bottomRef} style={estableceTab(tabuladores[0])}>
                     <div className='container-grow-wrap-1'>
-                        <label class="caja-expandible-label" for="text_comentario">Comentar:</label>
-                        <div class="grow-wrap">
+                        <label className="caja-expandible-label" htmlFor="text_comentario">Comentar:</label>
+                        <div className="grow-wrap">
                             <textarea maxLength={2000} value={newComment} onChange={(e) => setNewComment(e.target.value)} name="text_comentario" id="text_comentario"></textarea>
                         </div>
                         <div className="button-send-expandible-text">

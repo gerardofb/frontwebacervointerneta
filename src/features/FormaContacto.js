@@ -85,7 +85,7 @@ const FormaContacto = (props) => {
                 exitoso: false
             });
 
-            console.log('el formulario es, ', form);
+            //console.log('el formulario es, ', form);
         }
         else {
             setFormValidate({
@@ -108,7 +108,7 @@ const FormaContacto = (props) => {
         return [];
     }
     const estableceValorFormulario = (valor, enumeracion) => {
-        console.log('estableciendo valor formulario',valor);
+        //console.log('estableciendo valor formulario',valor);
         switch (enumeracion) {
             case ENUM_CONTACTO.CORREO_ELECTRONICO:
                 setForm({

@@ -96,7 +96,7 @@ const VideoSetPage = (
     const { set, focusedVideo } = useParams();
 
     //console.log('el primer estado del video enfocado es ');
-    console.log('el titulo del bloque de videos es ', set);
+    //console.log('el titulo del bloque de videos es ', set);
     //console.log(focusedVideo)
     const location = useLocation();
     const [videosPopulated, setVideosPopulated] = useState(null);

@@ -364,9 +364,9 @@ export const Autobiograficos = () => {
     const [listadoRelatosVisitados, setListadoRelatosVisitados] = useState([])
     const handleScroll = (e) => {
         const bottom = Math.round(e.target.scrollHeight - e.target.scrollTop) === e.target.clientHeight;
-        console.log('en scroll ', Math.round(e.target.scrollHeight - e.target.scrollTop), e.target.clientHeight);
+        //console.log('en scroll ', Math.round(e.target.scrollHeight - e.target.scrollTop), e.target.clientHeight);
         if (bottom) {
-            console.log("reached bottom", tags.length);
+            //console.log("reached bottom", tags.length);
             let items = tags.concat(tags);
             setTags(items);
         }
@@ -392,19 +392,19 @@ export const Autobiograficos = () => {
                 respuestacategories.map((cat, ind) => {
                     videosimagenes = videosimagenes.concat(cat.listadoVideos)
                 });
-                console.log('estableciendo categorías ', respuestacategories)
+                //console.log('estableciendo categorías ', respuestacategories)
                 setCategories(respuestacategories);
                 const requestSearchomments = axios.post(`${getBaseAdressApi()}api/searchrelato/`,
                     queryActual
                 ).then(response => {
-                    console.log('respuesta desde server ', response);
+                    //console.log('respuesta desde server ', response);
                     let biografias = response.data.map((elemento, indice) => {
                         return { document_id: elemento.document_id, id_video: elemento.id_video, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice((indice + 1) * 10, (indice + 2) * 10) };
                     });
 
                     biografias = biografias.map((relato, index) => {
 
-                        console.log('encontrando la imagen ', videosimagenes, relato);
+                        //console.log('encontrando la imagen ', videosimagenes, relato);
                         let imagen = videosimagenes.find(x => x.id == relato.id_video);
                         relato.image = imagen ? imagen.imagen : '';
                         //categorias[Math.floor(Math.random() * categorias.length)].image;
@@ -452,7 +452,7 @@ export const Autobiograficos = () => {
 
                     biografias = biografias.map((relato, index) => {
 
-                        console.log('encontrando la imagen ', videosimagenes, relato);
+                        //console.log('encontrando la imagen ', videosimagenes, relato);
                         let imagen = videosimagenes.find(x => x.id == relato.id_video);
                         relato.image = imagen ? imagen.imagen : '';
                         //categorias[Math.floor(Math.random() * categorias.length)].image;
@@ -536,7 +536,7 @@ export const Autobiograficos = () => {
 
                         biografias = biografias.map((relato, index) => {
 
-                            console.log('encontrando la imagen ', videosimagenes, relato);
+                            //console.log('encontrando la imagen ', videosimagenes, relato);
                             let imagen = videosimagenes.find(x => x.id == relato.id_video);
                             relato.image = imagen ? imagen.imagen : '';
                             //categorias[Math.floor(Math.random() * categorias.length)].image;
@@ -729,7 +729,7 @@ export const Autobiograficos = () => {
                             }
                         })
                             .then(response => {
-                                console.log('respuesta del userprofile en relatos', response);
+                                //console.log('respuesta del userprofile en relatos', response);
                                 if (cuentaDeUsuario == '') {
                                     setcuentaDeUsuario(response.data["email"])
                                 }
@@ -933,18 +933,18 @@ export const Autobiograficos = () => {
 
                         }).catch(error => { });
                 });
-            }
-            const requestmorefavs = axios.get(`${getBaseAdressApi()}api/detailfavoritesrelato/${documento}`).then(response => {
-                let cantidad = response.data[0].favoritos_por_relato.length;
-                //console.log('obteniendo cuenta de favoritos ', cantidad, response)
-                setEsFavorito({
-                    ...esFavorito,
-                    valor: cuentaDeUsuario ? true : false,
-                    cuenta: cantidad,
-                    guid: response.data[0].document_id
-                })
+        }
+        const requestmorefavs = axios.get(`${getBaseAdressApi()}api/detailfavoritesrelato/${documento}`).then(response => {
+            let cantidad = response.data[0].favoritos_por_relato.length;
+            //console.log('obteniendo cuenta de favoritos ', cantidad, response)
+            setEsFavorito({
+                ...esFavorito,
+                valor: cuentaDeUsuario ? true : false,
+                cuenta: cantidad,
+                guid: response.data[0].document_id
             })
-        
+        })
+
     }
     const estableceTags = (parametro) => {
         if (parametro) {
@@ -973,18 +973,34 @@ export const Autobiograficos = () => {
             "pagina_inicial": paginacion.paginaActual
         };
         setQueryActual(objetoSearchPagina);
+        const requestCategoriesVideos = axios.get(`${getBaseAdressApi()}api/categorias/`).then(response => {
 
-        const requestSearchRelatos = axios.post(`${getBaseAdressApi()}api/searchrelato/`,
-            objetoSearchPagina
-        ).then(response => {
-            let biografias = response.data.map((elemento, indice) => {
-                return { document_id: elemento.document_id, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice(0, 30) };
+            let respuestacategories = response.data.results.map((el, ind) => {
+                let title = el.titulo.replace(/\s/g, '-');
+                let videos = el.videos_por_categoria !== undefined ? el.videos_por_categoria.map((vid, idx) => {
+                    return { titulo: vid.titulo, id: vid.id, video: vid.contenedor_aws, imagen: vid.contenedor_img }
+                }) : []
+                return { description: el.titulo, link: '/Categorias/' + title + "/dummy", image: el.contenedor_img, listadoVideos: videos }
             });
-            biografias = biografias.map((relato, index) => {
-                relato.image = categorias[Math.floor(Math.random() * categorias.length)].image;
-                return relato;
-            })
-            setBiographies(biografias);
+            let videosimagenes = [];
+            
+            respuestacategories.map((cat, ind) => {
+                videosimagenes = videosimagenes.concat(cat.listadoVideos);
+            });
+            //console.log('los videos son ',videosimagenes);
+            const requestSearchRelatos = axios.post(`${getBaseAdressApi()}api/searchrelato/`,
+                objetoSearchPagina
+            ).then(response => {
+                let biografias = response.data.map((elemento, indice) => {
+                    return { document_id: elemento.document_id, id_video:elemento.id_video, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice(0, 30) };
+                });
+                biografias = biografias.map((relato, index) => {
+                    let imagen = videosimagenes.find(x => x.id == relato.id_video);
+                    relato.image = imagen ? imagen.imagen : '';
+                    return relato;
+                });
+                setBiographies(biografias);
+            });
         });
     }
     const [recordState, setRecordState] = useState("NONE");

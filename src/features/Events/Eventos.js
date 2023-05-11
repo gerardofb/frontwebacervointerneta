@@ -646,10 +646,16 @@ const Eventos = () => {
                         mensaje: 'Existe un evento publicado en la fecha y horario elegido, no es posible publicar el evento'
                     })
                 }
-                else if (err.response.data.detail !== undefined) {
+                else if (err.response.data !== undefined && err.response.data.detail !== undefined) {
                     setErroresEventUserForm({
                         ...erroresEventUserForm,
-                        mensaje: err.resonse.data.detail
+                        mensaje: err.response.data.detail
+                    })
+                }
+                else if (err.response !== undefined && err.response.detail !== undefined) {
+                    setErroresEventUserForm({
+                        ...erroresEventUserForm,
+                        mensaje: err.response.detail
                     })
                 }
                 else if (err.response.data !== undefined && err.response.data.detail == undefined) {

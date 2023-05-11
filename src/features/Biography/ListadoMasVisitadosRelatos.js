@@ -276,11 +276,11 @@ const ListadoMasVisitadosRelatos = (props) => {
                 const peticionFavoritos = axios.get(`${getBaseAdressApi()}api/visitasderelato/`).then(response => {
                     let videosfavoritos = response.data.map((vid, ind) => {
 
-                        let relatovideohightlight = vid.relatos_por_video.length > 0 ? vid.relatos_por_video : "";
+                        let relatovideohightlight = vid.relatos_por_video && vid.relatos_por_video.length > 0 ? vid.relatos_por_video : "";
 
-                        //console.log('los relatos del video son ', relatovideohightlight);
+                        console.log('los relatos del video son ', relatovideohightlight);
                         //console.log('indice de los tags ', sliceIndex, tagsselected);
-                        let sumavisitas = relatovideohightlight.length > 1 ? relatovideohightlight.reduce((a, b) => { return (a.total_visitas ? a.total_visitas : 0) + (b.total_visitas ? b.total_visitas : 0) }) : relatovideohightlight[0].total_visitas;
+                        let sumavisitas = relatovideohightlight != "" && relatovideohightlight.length > 1 ? relatovideohightlight.reduce((a, b) => { return (a.total_visitas ? a.total_visitas : 0) + (b.total_visitas ? b.total_visitas : 0) }) : 0;
                         //console.log('Suma de visitas ', sumavisitas, relatovideohightlight.length);
                         // let arreglo_relatos = relatovideohightlight != '' ? relatovideohightlight.map((el, idx) => {
                         //     return el.document_id;
@@ -297,11 +297,12 @@ const ListadoMasVisitadosRelatos = (props) => {
                         // }).catch(err => {
                         //     console.log('error en relato resumido', err);
                         // })
-                        return { Documento: relatovideohightlight != "" ? relatovideohightlight[0].document_id : "", Categoria: categories.find(x => x.id_cat == vid.id_categoria) && categories.find(x => x.id_cat == vid.id_categoria).titulo, Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria) &&  categories.find(x => x.id_cat == vid.id_categoria).id_cat, Id: vid.id, Visitas: relatovideohightlight != "" ? sumavisitas : "", ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight }
+                        return { Documento: relatovideohightlight != "" ? relatovideohightlight[0].document_id : "", Categoria: categories.find(x => x.id_cat == vid.id_categoria) && categories.find(x => x.id_cat == vid.id_categoria).titulo, Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria) &&  categories.find(x => x.id_cat == vid.id_categoria).id_cat, Id: vid.id, Visitas: relatovideohightlight != "" ? sumavisitas : "", ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight ? relatovideohightlight : [] }
                     });
                     setListado(videosfavoritos)
                     setCargaPaginada(true);
                 }).catch(err=>{
+                    //console.log('error en la carga de relatos',err);
                     setCargaPaginada(true);
                 });;
             })
@@ -408,7 +409,7 @@ const ListadoMasVisitadosRelatos = (props) => {
                         //console.log('indice de los tags ', sliceIndex, tagsselected);
                         let sumavisitas = relatovideohightlight.length > 1 ? relatovideohightlight.reduce((a, b) => { return (a.total_visitas ? a.total_visitas : 0) + (b.total_visitas ? b.total_visitas : 0) }) : relatovideohightlight[0].total_visitas;
                         //console.log('Suma de visitas ', sumavisitas, relatovideohightlight.length);
-                        return { Documento: relatovideohightlight != "" ? relatovideohightlight[0].document_id : "", Categoria: categories.find(x => x.id_cat == vid.id_categoria) && categories.find(x => x.id_cat == vid.id_categoria).titulo, Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria) && categories.find(x => x.id_cat == vid.id_categoria).id_cat, Id: vid.id, Visitas: relatovideohightlight != "" ? sumavisitas : "", ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight }
+                        return { Documento: relatovideohightlight != "" ? relatovideohightlight[0].document_id : "", Categoria: categories.find(x => x.id_cat == vid.id_categoria) && categories.find(x => x.id_cat == vid.id_categoria).titulo, Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria) && categories.find(x => x.id_cat == vid.id_categoria).id_cat, Id: vid.id, Visitas: relatovideohightlight != "" ? sumavisitas : "", ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight ? relatovideohightlight : [] }
                     });
                     setListado(videosfavoritos);
                     setCargaPaginada(true);
