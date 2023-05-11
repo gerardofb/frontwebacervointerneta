@@ -371,6 +371,7 @@ export const AutoComments = () => {
     const [respuestaComentarioActual, setRespuestaComentarioActual] = useState({ habilitado: false, respuestas: [], numero_respuestas: 0, comentario: '' });
     const [calificacionTotal, setCalificacionTotal] = useState(0);
     const [calificacionEnviada, setCalificacionEnviada] = useState(false);
+
     growers.forEach((grower) => {
         const textarea = grower.querySelector("textarea");
         textarea.addEventListener("input", () => {
@@ -380,7 +381,8 @@ export const AutoComments = () => {
     const [esFavorito, setEsFavorito] = useState({ valor: true, cuenta: 0 });
     const [cuentaUsuario, setCuentaUsuario] = useState('');
     const [player, setPlayer] = useState(null);
-    const [listadoEventosMes, setListadoEventosMes] = useState([])
+    const [listadoEventosMes, setListadoEventosMes] = useState([]);
+    const [relatos, setRelatos] = useState([]);
     useEffect(() => {
         let parametros;
         utilidadMenuSuperior();
@@ -543,6 +545,26 @@ export const AutoComments = () => {
         }).catch(err => {
 
         });
+        let objetoSearchPagina = {
+            "query": "",
+            "categoria": "",
+            "frase": false,
+            "autor": "",
+            "puede": "",
+            "prefijo": "",
+            "video": "",
+            "pagina_inicial": paginacion.paginaActual
+        };
+        const requestRelatos = axios.post(`${getBaseAdressApi()}api/searchrelato/`,
+            objetoSearchPagina
+        ).then(response => {
+            let biografias = response.data.map((elemento, indice) => {
+                return { document_id: elemento.document_id, id_video: elemento.id_video, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), fechaconteo: new Date(elemento.ultima_fecha), podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '' };
+            });
+            setRelatos(biografias);
+        }).catch(err => {
+
+        });
         let elementotop = document.querySelector('.header-reproduccion-individual');
         //elementotop.scrollIntoView({ behavior: 'smooth' });localStorage.getItem
         player && player.load();
@@ -690,20 +712,55 @@ export const AutoComments = () => {
                     }
                 });
                 setListadoEventosMes(eventosfirst);
+                if (response.data.results.length == 0) {
+                    let llave = "/Eventos/" + 0 + "?previous=" + video;
+                    history.push(llave);
+                }
             }).catch(err => {
-
-            })
+                let llave = "/Eventos/" + 0 + "?previous=" + video;
+                history.push(llave);
+            });
+        }
+        else if (tab == tabuladores[1]) {
+            let objetoSearchPagina = {
+                "query": "",
+                "categoria": "",
+                "frase": false,
+                "autor": "",
+                "puede": "",
+                "prefijo": "",
+                "video": "",
+                "pagina_inicial": paginacion.paginaActual
+            };
+            const requestRelatos = axios.post(`${getBaseAdressApi()}api/searchrelato/`,
+                objetoSearchPagina
+            ).then(response => {
+                let biografias = response.data.map((elemento, indice) => {
+                    return { document_id: elemento.document_id, id_video: elemento.id_video, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), fechaconteo: new Date(elemento.ultima_fecha), podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '' };
+                });
+                setRelatos(biografias);
+                if (response.data.length == 0) {
+                    let llave = "/Autobiograficos/" + '6006c5d85f7c417f8714496c418d58' + "?s=true&cat=Relatos";
+                    history.push(llave);
+                }
+            }).catch(err => {
+                let llave = "/Autobiograficos/" + '6006c5d85f7c417f8714496c418d58' + "?s=true&cat=Relatos";
+                history.push(llave);
+            });
         }
     }
     const [active, setActive] = useState(tabuladores[0]);
-    const [relatos, setRelatos] = useState(autobiograficos.filter(x => x.reciente == false));
+
     const handleClickOptionRelatos = (parametro) => {
+        let mesactual = new Date().getMonth();
         if (parametro == 'recientes') {
-            let elementos = autobiograficos.filter(x => x.reciente == true);
+            let elementos = relatos.filter(x => x.fechaconteo.getMonth >= mesactual);
+            elementos = elementos.length > 50 ? elementos.slice(0, 50) : elementos;
             setRelatos(elementos);
         }
         else {
-            let elementos = autobiograficos.filter(x => x.reciente == false);
+            let elementos = autobiograficos.filter(x => x.fechaconteo.getMonth <= mesactual);
+            elementos = elementos.length > 50 ? elementos.slice(0, 50) : elementos;
             setRelatos(elementos);
         }
     }
@@ -1342,8 +1399,9 @@ export const AutoComments = () => {
                     <div className='content-relatos-reprod'>
                         {relatos &&
                             relatos.map((relato, index) => {
+                                let vinculo = "/Autobiograficos/" + relato.document_id + "?s=true&cat=Relatos";
                                 return (<div key={index}>
-                                    <Link to={'/Autobiograficos/' + relato.guid + "?podcast=" + relato.podcast} className="link-relatos-reprod-white">
+                                    <Link to={vinculo} className="link-relatos-reprod-white">
                                         <p>{relato.fecha}</p>
                                         <h4><span className='header-relato-reprod'>{relato.podcast ? <FontAwesomeIcon icon={faVolumeHigh} /> : <FontAwesomeIcon icon={faBook} />}</span>{relato.autor}</h4>
                                     </Link>

@@ -4541,15 +4541,16 @@ Estilos del registro
     & div.item-grid-address.password-validate {
       display: grid;
       margin: .5em 0;
-      grid-template-columns: .3fr .6fr .1fr;
+      grid-template-columns: .3fr .6fr .3fr;
 
       & span {
         font-size: small;
       }
 
-      & input {
+      & input{
         width: 220px;
       }
+      
     }
 
     & div.item-grid-address {
@@ -4729,6 +4730,10 @@ estilos del login
         width: 140px;
         text-align: right;
         padding-right: 1em;
+      }
+      & textarea {
+        width: 230px;
+        height: 130px;
       }
     }
 

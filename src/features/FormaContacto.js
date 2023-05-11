@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faClose
 } from '@fortawesome/free-solid-svg-icons';
+import Autocomplete from 'react-autocomplete';
 
 const ENUM_CONTACTO = {
     CORREO_ELECTRONICO: 1,
@@ -17,44 +18,74 @@ const FormaContacto = (props) => {
     const [form, setForm] = useState({
         correo_electronico: '',
         mensaje: '',
-        video: ''
+        video: null
     });
 
     const [todascategorias, setTodascategorias] = useState([])
     const [videoslistado, setVideosListado] = useState([])
-    let respuesta_cat = axios.get(`${getBaseAdressApi()}api/categorias/`).then(response => {
-        //console.log('dentro de consulta original', response.data.results);
-        setTodascategorias(response.data.results);
+    const [consultaAvanzada, setConsultaAvanzada] = useState({
+        "query": "",
+        "categoria": "",
+        "frase": false,
+        "autor": "",
+        "puede": "",
+        "prefijo": "",
+        "video": "",
+        "pagina_inicial": 0
     })
-    const requestVideos = axios.get(`${getBaseAdressApi()}api/shortlistvideos/`).then(response => {
-        let videos = response.data.results.map((el, indice) => {
-            return { id: el.id, titulo: el.titulo }
-        })
-        setVideosListado(videos);
-    })
+    const [listadoVideos, setListadoVideos] = useState([{ id_video: 0, titulo: '...Seleccionar (escriba para buscar)' }]);
+    const [videoseleccionado, setVideoSeleccionado] = useState({ valor: 0, titulo: '' });
+    const busquedaVideo = (valor) => {
+        if (valor.length > 3) {
+            const requestSearchUser = axios.get(`${getBaseAdressApi()}api/videos/` + valor).then(response => {
+                let respuesta = response.data.results.map((el, idx) => {
+                    return { id_video: el.id, titulo: el.titulo }
+                });
+                setListadoVideos([{ id_video: 0, titulo: '...Seleccionar' }].concat(respuesta));
+            }).catch(err => {
+                console.log(err);
+            });
+        }
+    }
+    useEffect(() => {
+        if (todascategorias.length == 0) {
+            const respuesta_cat = axios.get(`${getBaseAdressApi()}api/categorias/`).then(response => {
+                //console.log('dentro de consulta original', response.data.results);
+                setTodascategorias(response.data.results);
+            });
+        }
+        // const requestVideos = axios.get(`${getBaseAdressApi()}api/shortlistvideos/`).then(response => {
+        //     let videos = response.data.results.map((el, indice) => {
+        //         return { id: el.id, titulo: el.titulo }
+        //     })
+        //     setVideosListado(videos);
+        // });
+    }, [videoslistado, todascategorias]);
     const [formValidate, setFormValidate] = useState({
         mapeo: {
             correo_electronico: "Correo electrónico",
             mensaje: "Mensaje",
             video: "Seleccione un video"
         },
-        correo_electronico:[],
-        mensaje:[],
-        video:[],
-        invalido:false,
-        exitoso:false
+        correo_electronico: [],
+        mensaje: [],
+        video: [],
+        invalido: false,
+        exitoso: false
     });
     const enviarFormulario = () => {
         //console.log('valores enviando el formulario de contacto ', formValidate);
-        if (form.correo_electronico.length == 0 || form.mensaje.length == 0 || form.video.length == 0) {
+        if (form.correo_electronico.length == 0 || form.mensaje.length == 0 || !form.video || form.video.id_video == 0) {
             setFormValidate({
                 ...formValidate,
-                correo_electronico:verificaContacto(form.correo_electronico,ENUM_CONTACTO.CORREO_ELECTRONICO),
-                mensaje:verificaContacto(form.mensaje,ENUM_CONTACTO.MENSAJE),
-                video:verificaContacto(form.video,ENUM_CONTACTO.VIDEO),
+                correo_electronico: verificaContacto(form.correo_electronico, ENUM_CONTACTO.CORREO_ELECTRONICO),
+                mensaje: verificaContacto(form.mensaje, ENUM_CONTACTO.MENSAJE),
+                video: verificaContacto(form.video, ENUM_CONTACTO.VIDEO),
                 invalido: true,
                 exitoso: false
-            })
+            });
+
+            console.log('el formulario es, ', form);
         }
         else {
             setFormValidate({
@@ -65,19 +96,19 @@ const FormaContacto = (props) => {
         }
     }
     const verificaContacto = (valor, enumeracion) => {
-        if (valor.trim() == "" && enumeracion == ENUM_CONTACTO.CORREO_ELECTRONICO) {
+        if (enumeracion == ENUM_CONTACTO.CORREO_ELECTRONICO && valor.trim() == "") {
             return ["Este campo es obligatorio"];
         }
-        else if (valor.trim() == "" && enumeracion == ENUM_CONTACTO.MENSAJE) {
+        else if (enumeracion == ENUM_CONTACTO.MENSAJE && valor.trim() == "") {
             return ["Este campo es obligatorio"];
         }
-        else if ((valor.trim() == "" || valor.trim == "0") && enumeracion == ENUM_CONTACTO.VIDEO) {
+        else if (enumeracion == ENUM_CONTACTO.VIDEO && (!valor || valor.id_video == 0)) {
             return ["Este campo es obligatorio"];
         }
-        //console.log('valores enviando el formulario de contacto ', formValidate);
         return [];
     }
     const estableceValorFormulario = (valor, enumeracion) => {
+        console.log('estableciendo valor formulario',valor);
         switch (enumeracion) {
             case ENUM_CONTACTO.CORREO_ELECTRONICO:
                 setForm({
@@ -96,6 +127,7 @@ const FormaContacto = (props) => {
                     ...form,
                     video: valor
                 });
+
                 break;
         }
         //console.log('valores de formulario normal',form);
@@ -140,10 +172,30 @@ const FormaContacto = (props) => {
         <div className='card-login'>
             <div className='grid-address'>
                 <div className='item-grid-address'>
-                    <label>Correo electrónico</label><input type="text" value={form.correo_electronico} onChange={(e) => estableceValorFormulario(e.target.value, ENUM_CONTACTO.CORREO_ELECTRONICO)}></input>
+                    <label>Correo electrónico</label><input type="text" placeholder='correo@ejemplo.com' value={form.correo_electronico} onChange={(e) => estableceValorFormulario(e.target.value, ENUM_CONTACTO.CORREO_ELECTRONICO)}></input>
                 </div>
                 <div className='item-grid-address password-validate'>
-                    <label>Mensaje</label><input type="password" value={form.mensaje} onChange={(e) => estableceValorFormulario(e.target.value, ENUM_CONTACTO.MENSAJE)}></input>
+                    <label>Mensaje</label><textarea placeholder='Escríbanos su mensaje, y le responderemos en breve con un correo electrónico' rows={5} cols={80} value={form.mensaje} onChange={(e) => estableceValorFormulario(e.target.value, ENUM_CONTACTO.MENSAJE)}></textarea>
+                </div>
+                <div className='item-grid-address'>
+                    <label>Seleccione un video:</label>
+                    <Autocomplete
+                        getItemValue={(item) => item.titulo}
+                        items={listadoVideos}
+                        renderItem={(item, isHighlighted) =>
+                            <div style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
+                                {item.titulo}
+                            </div>
+                        }
+                        value={videoseleccionado.titulo}
+                        onChange={(e) => {
+                            setVideoSeleccionado({
+                                ...videoseleccionado,
+                                titulo: e.target.value
+                            }); busquedaVideo(e.target.value);
+                        }}
+                        onSelect={(val) => { let selected = listadoVideos.find(e => e.titulo == val); setVideoSeleccionado(selected); estableceValorFormulario(selected,ENUM_CONTACTO.VIDEO) }}
+                    />
                 </div>
                 <div className='send-login'>
                     <button type="button" onClick={enviarFormulario}>Enviar mensaje</button>
