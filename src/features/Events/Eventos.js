@@ -425,11 +425,12 @@ let modelCalendarAcervo = {
 var mesesAcervoChosen = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto",
     "Septiembre", "Octubre", "Noviembre", "Diciembre"];
 var diasAcervoChosen = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
-const anioactualacervo = 2034//new Date().getFullYear();
+
 const urlpng = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/${name}.png${wrap ? ')' : ''}`
 const url_loader = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/${name}${wrap ? ')' : ''}`
 
 const Eventos = () => {
+    const anioactualacervo = new Date().getFullYear();
     const { evento } = useParams();
     const location = useLocation();
     const refFechaIni = useRef();
@@ -449,6 +450,7 @@ const Eventos = () => {
     const [clasesemana, setClaseSemana] = useState({ indice: '', clasecss: ' activa' });
     const [eventoPatrocinado, setEventoPatrocinado] = useState(eventoacervo);
     const [anioseventos, setAniosEventos] = useState(anioactualacervo);
+
     const [eventosTemporalesAcervo, setEventosTemporalesAcervo] = useState(getEventosAcervoTemp())
     const [banderaacervo, setBanderaAcervo] = useState(false);
     const [timeCodeTitle, setTimeCodeTitle] = useState(false);
@@ -480,6 +482,24 @@ const Eventos = () => {
         }
     }
     useEffect(() => {
+        estableceAnioAcervo(anioactualacervo);
+        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((indice, idx) => {
+            const get_eventosmonth = axios.get(`${getBaseAdressApi()}api/eventosuser/${(indice)}?limit=15&offset=0`).then(response => {
+                let eventosfirst = response.data.results.map((el, idx) => {
+                    return {
+                        index: el.id, selected: false, title: el.titulo, descripcion: el.descripcion,
+                        fecha: new Date(el.fechainicio), duracion: el.duracion, imagen: el.contenedor_img
+                    }
+                });
+                let eventoselected = eventosfirst.find(x => x.index == evento)
+                if (eventoselected) {
+                    console.log()
+                    setValor(eventoselected)
+                }
+            }).catch(err => {
+
+            })
+        });
         if (listadoEventosVisitados.find(e => e == evento) == undefined) {
             let maseventos = listadoEventosVisitados.concat(evento);
             setListadoEventosVisitados(maseventos);
@@ -536,7 +556,7 @@ const Eventos = () => {
         centerYear();
         utilidadMenuSuperior();
 
-    }, [location.pathname]);
+    }, [location, location.pathname]);
 
     const establecePublicacion = (valor) => {
         setMonthSelectedPublish({
@@ -955,11 +975,11 @@ const Eventos = () => {
                         <div ref={referencia} className="main-content-this-event">
                             {
                                 <>
-                                    <Link title="Regresar a reproducción" to={`/Reproduccion/${regresar}`} className="vinculo-atras-generico"><FontAwesomeIcon icon={faArrowLeft} /></Link>
+                                    {regresar && <Link title="Regresar a reproducción" to={`/Reproduccion/${regresar}`} className="vinculo-atras-generico"><FontAwesomeIcon icon={faArrowLeft} /></Link>}
                                     <div className="main-eventos-link-acervo-eventos-editor">
                                         <Link title="Ver eventos del editor de la página" onMouseEnter={(e) => setEventosEditor(true)}
                                             onMouseLeave={(e) => setEventosEditor(false)}
-                                            to={"/Eventos/" + evento + "?previous=" + regresar + "&acervo=true"}>Quizás prefiera... <span>{
+                                            to={"/Eventos/" + evento + (regresar ? "?previous=" + regresar + "&acervo=true" : "?acervo=true")}>Quizás prefiera... <span>{
                                                 eventoseditor ?
                                                     "ver los eventos del editor del sitio." : null}</span></Link>
                                     </div>
@@ -1030,7 +1050,7 @@ const Eventos = () => {
                                 <div className="listado-min-eventos">
                                     {!monthSelectedPublish.publish || monthSelectedPublish.mes != index ?
                                         eventosMonth.listadoEventosMes.map((event, idx) => {
-                                            let idLink = '/Eventos/' + event.index + "?previous=" + regresar;
+                                            let idLink = '/Eventos/' + event.index + (regresar ? "?previous=" + regresar : "");
                                             return (
                                                 <Link to={idLink} style={{ textDecoration: 'none', color: 'gray' }} key={idx}>
                                                     <div className="miniatura-evento" onMouseEnter={(e) => { estableceDiaEvento(parseInt(event.fecha.getDate())) }}>
@@ -1193,7 +1213,7 @@ const Eventos = () => {
                                         let horafinal = eventodetalle != undefined ? returnHoursDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : null;
                                         let clasesCssEvento =
                                             eventodetalle != undefined ? returnClaseDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : ["", ""];
-                                        let rutadetalle = '/Eventos/' + (eventodetalle && eventodetalle.index) + "?previous=" + regresar;
+                                        let rutadetalle = '/Eventos/' + (eventodetalle && eventodetalle.index) + (regresar ? "?previous=" + regresar : "");
                                         return (<div className={"day-detail" + (eventodetalle ? " with_event" : "")} key={'primera-semana' + i}>
                                             <div className="date-detail">
                                                 <p className="date-num-detail">{detallediaevento}</p>
@@ -1226,7 +1246,7 @@ const Eventos = () => {
                                         let horafinal = eventodetalle != undefined ? returnHoursDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : null;
                                         let clasesCssEvento =
                                             eventodetalle != undefined ? returnClaseDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : ["", ""];
-                                        let rutadetalle = '/Eventos/' + (eventodetalle && eventodetalle.index) + "?previous=" + regresar;
+                                        let rutadetalle = '/Eventos/' + (eventodetalle && eventodetalle.index) + (regresar ? "?previous=" + regresar : "");
                                         return (<div className={"day-detail" + (eventodetalle ? " with_event" : "")} key={'segunda-semana' + i}>
                                             <div className="date-detail">
                                                 <p className="date-num-detail">{detallediaevento}</p>
@@ -1260,7 +1280,7 @@ const Eventos = () => {
                                         let horafinal = eventodetalle != undefined ? returnHoursDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : null;
                                         let clasesCssEvento =
                                             eventodetalle != undefined ? returnClaseDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : ["", ""];
-                                        let rutadetalle = '/Eventos/' + (eventodetalle && eventodetalle.index) + "?previous=" + regresar;
+                                        let rutadetalle = '/Eventos/' + (eventodetalle && eventodetalle.index) + (regresar ? "?previous=" + regresar : "");
                                         return (<div className={"day-detail" + (eventodetalle ? " with_event" : "")} key={'tercera-semana' + i}>
                                             <div className="date-detail">
                                                 <p className="date-num-detail">{detallediaevento}</p>
@@ -1294,7 +1314,7 @@ const Eventos = () => {
                                         let horafinal = eventodetalle != undefined ? returnHoursDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : null;
                                         let clasesCssEvento =
                                             eventodetalle != undefined ? returnClaseDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : ["", ""];
-                                        let rutadetalle = '/Eventos/' + (eventodetalle && eventodetalle.index) + "?previous=" + regresar;
+                                        let rutadetalle = '/Eventos/' + (eventodetalle && eventodetalle.index) + (regresar ? "?previous=" + regresar : "");
                                         return (<div className={"day-detail" + (eventodetalle ? " with_event" : "")} key={'cuarta-semana' + i}>
                                             <div className="date-detail">
                                                 <p className="date-num-detail">{detallediaevento}</p>
@@ -1328,7 +1348,7 @@ const Eventos = () => {
                                         let horafinal = eventodetalle != undefined ? returnHoursDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : null;
                                         let clasesCssEvento =
                                             eventodetalle != undefined ? returnClaseDurationEvent(eventodetalle.fecha, eventodetalle.duracion) : ["", ""];
-                                        let rutadetalle = '/Eventos/' + (eventodetalle && eventodetalle.index) + "?previous=" + regresar;
+                                        let rutadetalle = '/Eventos/' + (eventodetalle && eventodetalle.index) + (regresar ? "?previous=" + regresar : "");
                                         return (<div className={"day-detail" + (eventodetalle ? " with_event" : "")} key={'quinta-semana' + i}>
                                             <div className="date-detail">
                                                 <p className="date-num-detail">{detallediaevento}</p>
@@ -1395,7 +1415,7 @@ const Eventos = () => {
                             </div>
                         </div>
                         <div className="main-content-this-event">
-                            <Link title="Regresar a eventos de los usuarios" to={"/Eventos/" + evento + "?previous=" + regresar} className="vinculo-atras-generico"><FontAwesomeIcon icon={faArrowLeft} /></Link>
+                            <Link title="Regresar a eventos de los usuarios" to={"/Eventos/" + evento + (regresar ? "?previous=" + regresar : "")} className="vinculo-atras-generico"><FontAwesomeIcon icon={faArrowLeft} /></Link>
                         </div>
                         <div className="year" data-year={anioseventos}>
                             <ul className="1" data-month="Enero">{

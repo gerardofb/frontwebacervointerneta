@@ -10,6 +10,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import { getBaseAdressApi } from "../MainAPI";
+import { useHistory } from "react-router-dom";
 
 const seleccionaTipoEvento = { MAS_VISITADOS: 2, PROXIMOS: 3, FAVORITOS: 4 };
 const url_loader = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/${name}${wrap ? ')' : ''}`
@@ -177,6 +178,7 @@ function estableceTituloCalendario(mesinicial, anioinicial) {
 }
 const EventosMasVisitados = (props) => {
     const rutaTipoListado = useParams();
+    const history = useHistory();
     // const [tipoListado, setTipoListado] = useState(3);
     const [cargaPaginada, setCargaPaginada] = useState(false);
     const [evtChecked, setEvtChecked] = useState(-1);
@@ -254,6 +256,11 @@ const EventosMasVisitados = (props) => {
         setDaysInitial({ numerodias: numerodefecto, titulo: estableceTituloCalendario(fecha.getMonth(), anioinicial) });
         setDiaEvento(fecha.getDate());
         setEvtChecked(indice);
+    }
+    const setNavegarEvent = (e,index)=>{
+        console.log('navegando en menú de opciones',e,opcionEvenotPor)
+        if(e.title == 'Explorar')
+        history.push('/Eventos/'+index);
     }
     return (
         <>
@@ -337,7 +344,7 @@ const EventosMasVisitados = (props) => {
                                             className="opt-evt-listado"><FontAwesomeIcon icon={faBars} /></button>
                                         <div className={claseCssBotonOpciones}>
                                             <DefaultCombo
-                                                on={opcionEvenotPor} onChange={e=> console.log('click')} listado={tipoListado !== seleccionaTipoEvento.PROXIMOS ? ListadoOpcionesEvento : ListadoOpcionesEventoProximos} />
+                                                on={opcionEvenotPor} onChange={e=> {setNavegarEvent(e,item.index);} } listado={tipoListado !== seleccionaTipoEvento.PROXIMOS ? ListadoOpcionesEvento : ListadoOpcionesEventoProximos} />
                                         </div>
                                     </div>
                                 </div>

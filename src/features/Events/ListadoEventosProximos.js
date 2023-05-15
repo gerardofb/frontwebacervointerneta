@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, createRef } from "react";
+import { useHistory } from "react-router-dom";
 import NavBar from '../NavBar';
 import { HomeFooter } from "../HomeFooter";
 import { useLocation, useParams } from "react-router-dom";
@@ -169,6 +170,7 @@ function estableceTituloCalendario(mesinicial, anioinicial) {
 }
 const ListadoEventosProximos = (props) => {
     const rutaTipoListado = useParams();
+    const history = useHistory();
     // const [tipoListado, setTipoListado] = useState(3);
     const [cargaPaginada, setCargaPaginada] = useState(false);
     const [evtChecked, setEvtChecked] = useState(-1);
@@ -247,6 +249,11 @@ const ListadoEventosProximos = (props) => {
         setDaysInitial({ numerodias: numerodefecto, titulo: estableceTituloCalendario(fecha.getMonth(), anioinicial) });
         setDiaEvento(fecha.getDate());
         setEvtChecked(indice);
+    }
+    const setNavegarEvent = (e,index)=>{
+        console.log('navegando en menú de opciones',e,opcionEvenotPor)
+        if(e.title == 'Explorar')
+        history.push('/Eventos/'+index);
     }
     return (
         <>
@@ -330,7 +337,7 @@ const ListadoEventosProximos = (props) => {
                                             className="opt-evt-listado"><FontAwesomeIcon icon={faBars} /></button>
                                         <div className={claseCssBotonOpciones}>
                                             <DefaultCombo
-                                                on={opcionEvenotPor} listado={tipoListado !== seleccionaTipoEvento.PROXIMOS ? ListadoOpcionesEvento : ListadoOpcionesEventoProximos} />
+                                                on={opcionEvenotPor} onChange={e=> {setNavegarEvent(e,item.index);}} listado={tipoListado !== seleccionaTipoEvento.PROXIMOS ? ListadoOpcionesEvento : ListadoOpcionesEventoProximos} />
                                         </div>
                                     </div>
                                 </div>
