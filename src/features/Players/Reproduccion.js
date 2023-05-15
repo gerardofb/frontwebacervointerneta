@@ -338,6 +338,7 @@ export const AutoComments = () => {
 
     const { video } = useParams();
     const history = useHistory();
+    const [navegacionCategoria, setNavegacionCategoria] = useState(null);
     const [listadoEventosMes, setListadoEventosMes] = useState([]);
     const [sourcevideo, setSourceVideo] = useState('');
     const [datostransicion, setDatosTransicion] = useState(null);
@@ -402,7 +403,7 @@ export const AutoComments = () => {
                     });
                     setItems(comentarios_search);
                     //console.log('en respuesta de búsqueda comentarios ', comentarios_search)
-                }).catch(err=>{
+                }).catch(err => {
 
                 });
             }
@@ -500,6 +501,9 @@ export const AutoComments = () => {
             }
         });
         const requestthree = axios.get(`${getBaseAdressApi()}api/categoria/${categoriareproduciendo}`).then(response => {
+            if (navegacionCategoria == null) {
+                setNavegacionCategoria({id_categoria:response.data.id, titulo_categoria:response.data.titulo, link_categoria:'/Categorias/' + response.data.titulo.replace(/\s+/g,'-') + "/dummy"});
+            }
             if (videoscategoria === null) {
                 setVideosCategoria(response.data.videos_por_categoria)
                 const nuevo_listadovideos = response.data.videos_por_categoria.map((el, indice) => {
@@ -511,12 +515,14 @@ export const AutoComments = () => {
                         image: 'url("' + el.contenedor_img + '")',
                         url: el.titulo + "|" + el.id + "|" + el.id_categoria,
                         height: 200,
-                        id_video: el.id
+                        id_video: el.id,
+                        id_cat: el.id_categoria
                     }
                 }).slice(0, response.data.videos_por_categoria.length);
                 if (datostransicion === null) {
                     setDatosTransicion(nuevo_listadovideos)
                     //console.log('los videos listados en la categoria son después', nuevo_listadovideos);
+
                 }
             }
         });
@@ -706,7 +712,7 @@ export const AutoComments = () => {
     const accionesTabulador = (tab) => {
         setActive(tab);
         if (tab == tabuladores[2]) {
-            const mes = new Date().getMonth()+1;
+            const mes = new Date().getMonth() + 1;
             const get_eventosmonth = axios.get(`${getBaseAdressApi()}api/eventosuser/${(mes)}?limit=15&offset=0`).then(response => {
                 let eventosfirst = response.data.results.map((el, idx) => {
                     return {
@@ -768,25 +774,25 @@ export const AutoComments = () => {
             "pagina_inicial": 0
         };
         const requestRelatos = axios.post(`${getBaseAdressApi()}api/searchrelato/`,
-                objetoSearchPagina
-            ).then(response => {
-                let biografias = response.data.map((elemento, indice) => {
-                    return { document_id: elemento.document_id, id_video: elemento.id_video, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), fechaconteo: new Date(elemento.ultima_fecha), podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '' };
-                });
-                if (parametro == 'recientes') {
-                    let elementos = biografias.filter(x => x.fechaconteo > new Date(new Date().getFullYear(),mesactual,fechaactual-15));
-                    elementos = elementos.length > 50 ? elementos.slice(0, 50) : elementos;
-                    setRelatos(elementos);
-                }
-                else {
-                    let elementos = biografias.filter(x => x.fechaconteo.getMonth() <= mesactual);
-                    elementos = elementos.length > 50 ? elementos.slice(0, 50) : elementos;
-                    setRelatos(elementos);
-                }
-            }).catch(err => {
-                
+            objetoSearchPagina
+        ).then(response => {
+            let biografias = response.data.map((elemento, indice) => {
+                return { document_id: elemento.document_id, id_video: elemento.id_video, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), fechaconteo: new Date(elemento.ultima_fecha), podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '' };
             });
-        
+            if (parametro == 'recientes') {
+                let elementos = biografias.filter(x => x.fechaconteo > new Date(new Date().getFullYear(), mesactual, fechaactual - 15));
+                elementos = elementos.length > 50 ? elementos.slice(0, 50) : elementos;
+                setRelatos(elementos);
+            }
+            else {
+                let elementos = biografias.filter(x => x.fechaconteo.getMonth() <= mesactual);
+                elementos = elementos.length > 50 ? elementos.slice(0, 50) : elementos;
+                setRelatos(elementos);
+            }
+        }).catch(err => {
+
+        });
+
     }
     const handleScroll = (event) => {
         const { scrollTop, offsetHeight } = document.documentElement;
@@ -987,7 +993,7 @@ export const AutoComments = () => {
     const [childrenModal, setChildrenModal] = useState(-1);
     const toggleState = (e, indice) => {
         //console.log('estableciendo estado ', modalOpen);
-        if(indice == MODAL_DESCARGAS){
+        if (indice == MODAL_DESCARGAS) {
             history.push('/Contacto');
         }
         setCalificacionEnviada(false);
@@ -1251,7 +1257,7 @@ export const AutoComments = () => {
                 <NavBar></NavBar>
             </div>
             <h2 className='header-reproduccion-individual' style={{ padding: '1.5em 1.3em' }} onContextMenu={(e) => handleContextMenu(false, false)}>
-                Reproduciendo: {titulo}
+                {navegacionCategoria && <Link style={{fontSize:'small'}} to={navegacionCategoria.link_categoria}>Categoría del video: {navegacionCategoria.titulo_categoria}</Link>}<br /> Reproduciendo: {titulo}
             </h2>
             <div onClick={(e) => resetMyEvents(null, true)} className='player-container' onContextMenu={(e) => handleContextMenu(false, false)}>
                 <div className="player-inner">

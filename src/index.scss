@@ -3997,10 +3997,11 @@ Clases de los eventos específicos del acervo (no los publicados por otros usuar
 }
 
 .vid-listado div.contenedor-tags-listado{
-  width: 150px;
+  width: 80%;
   overflow: auto;
   scrollbar-width: none;
   overflow-wrap: normal;
+  margin: 0 0.5em
 }
 
 .vid-listado div.contenedor-resumenes-relatos-listado::-webkit-scrollbar {

@@ -24,7 +24,7 @@ const Pagina_404 = () => {
         <div className={claseCss}>
             <img src={imagenaleatoria} />
             <p>
-                <strong>Http 404.</strong> Parece que aquí no hay nada... Favor de no quedarse mirando. <a href="#" onClick={(e)=>historia.goBack()}>Regresar</a>
+                <strong>Http 404.</strong> Parece que aquí no hay nada... Favor de no quedarse mirando. <a href="#" onClick={(e)=>historia.push('/')}>Regresar al inicio</a>
             </p>
         </div>
         <HomeFooter></HomeFooter>

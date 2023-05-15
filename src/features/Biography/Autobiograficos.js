@@ -983,7 +983,7 @@ export const Autobiograficos = () => {
                 return { description: el.titulo, link: '/Categorias/' + title + "/dummy", image: el.contenedor_img, listadoVideos: videos }
             });
             let videosimagenes = [];
-            
+
             respuestacategories.map((cat, ind) => {
                 videosimagenes = videosimagenes.concat(cat.listadoVideos);
             });
@@ -992,7 +992,7 @@ export const Autobiograficos = () => {
                 objetoSearchPagina
             ).then(response => {
                 let biografias = response.data.map((elemento, indice) => {
-                    return { document_id: elemento.document_id, id_video:elemento.id_video, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice(0, 30) };
+                    return { document_id: elemento.document_id, id_video: elemento.id_video, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice(0, 30) };
                 });
                 biografias = biografias.map((relato, index) => {
                     let imagen = videosimagenes.find(x => x.id == relato.id_video);
@@ -1173,10 +1173,10 @@ export const Autobiograficos = () => {
                             setBiographies(biografias) : relatoUnico.podcast && relatoUnico.relato == false ?
                                 setBiographies(biografias.filter(x => x.podcast == true)) : relatoUnico.relato && relatoUnico.podcast == false ?
                                     setBiographies(biografias.filter(x => x.podcast == false)) : setBiographies([]);
-                        setModeEdit({ podcast: editing.podcast, editando: false });
-                        setHabilitarLoader(false)
                     });
                 }
+                setModeEdit({ podcast: editing.podcast, editando: false });
+                setHabilitarLoader(false)
             }).catch(err => {
                 //console.log('error enviando el podcast ', err)
                 setHabilitarLoader(false);
