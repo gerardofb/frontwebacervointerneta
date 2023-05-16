@@ -352,7 +352,7 @@ const ListadoVideosFavoritos = (props) => {
                     }).then(response => {
                         let videosfavoritos = response.data.map((vid, ind) => {
                             let sliceIndex = Math.floor(Math.random() * arreglotags.length);
-                            let relatovideohightlight = vid.relatos_por_video.length > 0 ? vid.relatos_por_video : "";
+                            let relatovideohightlight = vid.favoritos_por_video.length > 0 ? vid.favoritos_por_video : "";
                             let tagsselected = arreglotags.slice(sliceIndex, sliceIndex + 2).map((tag, i) => {
                                 return tag.content
                             });
@@ -459,7 +459,7 @@ const ListadoVideosFavoritos = (props) => {
                     }).then(response => {
                         let videosfavoritos = response.data.map((vid, ind) => {
                             let sliceIndex = Math.floor(Math.random() * arreglotags.length);
-                            let relatovideohightlight = vid.relatos_por_video.length > 0 ? vid.relatos_por_video : "";
+                            let relatovideohightlight = vid.favoritos_por_video.length > 0 ? vid.favoritos_por_video : "";
                             let tagsselected = arreglotags.slice(sliceIndex, sliceIndex + 2).map((tag, i) => {
                                 return tag.content
                             });
@@ -530,7 +530,7 @@ const ListadoVideosFavoritos = (props) => {
                                 }).then(response => {
                                     let videosfavoritos = response.data.map((vid, ind) => {
                                         let sliceIndex = Math.floor(Math.random() * arreglotags.length);
-                                        let relatovideohightlight = vid.relatos_por_video.length > 0 ? vid.relatos_por_video : "";
+                                        let relatovideohightlight = vid.favoritos_por_video.length > 0 ? vid.favoritos_por_video : "";
                                         let tagsselected = arreglotags.slice(sliceIndex, sliceIndex + 2).map((tag, i) => {
                                             return tag.content
                                         });
@@ -609,7 +609,7 @@ const ListadoVideosFavoritos = (props) => {
                         listado.map((item, index) => {
                             let vinculo = "/Reproduccion/" + item.Video + "|" + item.Id + "|" + item.Id_Categoria;
                             let autores = item.Relato.map((rel, idx) => {
-                                return rel.id_autor.username
+                                return rel.id_usuario.username
                             }).filter(onlyUnique)
                             let claseCssBotonOpciones = opcionesSetVisible == index ? "container-default-combo listado-combo" : "container-default-combo combo-hidden"
                             let listareproduccion = item.ListaReproduccion.Titulo ? item.ListaReproduccion.Titulo : "";
