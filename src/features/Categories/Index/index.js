@@ -26,7 +26,7 @@ import NavBar from "../../NavBar"
 import VideoSetPage from '../VideoSetPage'
 import { ThemesContext } from "../../../ThemeProvider"
 import { getBaseAdressApi } from "../../MainAPI"
-import utilidadMenuSuperior from "../../utilidadMenuSuperior"
+import {utilidadMenuSuperior} from "../../utilidadMenuSuperior"
 const defaultState = {
   filter: "",
   display: "grid",

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState, useContext } from 'react'
 import { ControlBar, LoadingSpinner, BigPlayButton, Player } from 'video-react'
 import axios from "axios"
-import utilidadMenuSuperior from '../utilidadMenuSuperior'
+import {utilidadMenuSuperior,isInViewportMenu} from '../utilidadMenuSuperior'
 import { useHistory } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import {
@@ -270,22 +270,7 @@ function isInViewportFooter(element) {
     // );
 }
 
-function isInViewportMenu() {
-    const menusuperior = document.querySelector('.container-menu-main')
-    const barranav = document.querySelector('.navbar-principal');
-    const rect = menusuperior.getBoundingClientRect();
-    const { scrollTop, offsetHeight } = document.documentElement;
-    //console.log('datos de video encabezado', rect.top, rect.left, rect.bottom, rect.right)
-    //console.log('limite datos de video encabezado ', Math.round(scrollTop - rect.top))
-    if (Math.round(scrollTop - rect.top) > 0) {
-        menusuperior.style.display = 'block'
 
-    }
-    else {
-        menusuperior.style.display = 'none'
-    }
-
-}
 const mensajes = [
     { autor: "Gerardo Flores", fecha: "02/06/2022 2:27PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam fermentum.", propio: false },
     { autor: "Gabriela Romo", fecha: "02/06/2022 2:37PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", propio: false },

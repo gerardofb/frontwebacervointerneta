@@ -2523,7 +2523,7 @@ Página de eventos
   width: 95%;
   margin:auto;
   grid-gap:1em;
-  grid-template-columns: repeat(2,1fr);
+  grid-template-columns: 47% 47%;
   
   & .buttons-form-send-evento-user{
      display: grid;
@@ -2537,7 +2537,7 @@ Página de eventos
   & div{
     display: grid;
     grid-gap: 1em;
-    grid-template-columns: .8fr 1.2fr;
+    grid-template-columns: repeat(2,1fr);
     margin:1em 0;
     & label{
       text-align: right;
@@ -2555,6 +2555,7 @@ Página de eventos
     }
     & textarea{
       background-color: transparent;
+      min-width: 22vw;
     }
     & .button-publish-event-user{
       width:100px;
@@ -4256,6 +4257,50 @@ estilos de los resultados de búsqueda
   outline: none;
 }
 
+/*
+Estilos de la caja de texto de formulario de eventos
+*/
+.grow-wrap-evt {
+  /* easy way to plop the elements on top of each other and have them both sized based on the tallest one's height */
+  display: grid;
+}
+
+.grow-wrap-evt::after {
+  /* Note the weird space! Needed to preventy jumpy behavior */
+  content: attr(data-replicated-value) " ";
+
+  /* This is how textarea text behaves */
+  white-space:pre-wrap;
+
+  /* Hidden from view, clicks, and screen readers */
+  visibility: hidden;
+}
+
+.grow-wrap-evt>textarea {
+  /* You could leave this, but after a user resizes, then it ruins the auto sizing */
+  resize: none;
+
+  /* Firefox shows scrollbar on growth, you can hide like this. */
+  overflow: hidden;
+}
+
+.grow-wrap-evt>textarea,
+.grow-wrap-evt::after {
+  /* Identical styling required!! */
+  border: 1px solid black;
+  font: inherit;
+  max-width: 100%;
+  /* Place on top of each other */
+  grid-area: 1 / 1 / 2 / 2;
+}
+
+.grow-wrap-evt>textarea,
+.grow-wrap-evt>textarea:focus {
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  outline: none;
+}
 
 label.caja-expandible-label {
   display: block;

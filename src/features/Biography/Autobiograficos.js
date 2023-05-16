@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import utilidadMenuSuperior from '../utilidadMenuSuperior';
+import {utilidadMenuSuperior} from '../utilidadMenuSuperior';
 import { useParams, useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {

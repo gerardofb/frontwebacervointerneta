@@ -12,7 +12,7 @@ import DateTimePicker from "react-datetime-picker";
 import 'react-datetime-picker/dist/DateTimePicker.css';
 import 'react-calendar/dist/Calendar.css';
 import 'react-clock/dist/Clock.css';
-import utilidadMenuSuperior from "../utilidadMenuSuperior";
+import {utilidadMenuSuperior,isInViewportMenuEvt} from "../utilidadMenuSuperior";
 import axios from "axios";
 import { getBaseAdressApi } from "../MainAPI";
 const yearsacervo = [
@@ -482,6 +482,7 @@ const Eventos = () => {
         }
     }
     useEffect(() => {
+        utilidadMenuSuperior();
         estableceAnioAcervo(anioactualacervo);
         [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((indice, idx) => {
             const get_eventosmonth = axios.get(`${getBaseAdressApi()}api/eventosuser/${(indice)}?limit=15&offset=0`).then(response => {
@@ -554,8 +555,6 @@ const Eventos = () => {
         // })
         goToTop();
         centerYear();
-        utilidadMenuSuperior();
-
     }, [location, location.pathname]);
 
     const establecePublicacion = (valor) => {
@@ -802,7 +801,8 @@ const Eventos = () => {
             // tituloEvento: '',
             // descripcionEvento: '',
             enviando: false
-        })
+        });
+        
     }
 
     const estableceDiaEvento = (dia) => {
@@ -964,7 +964,7 @@ const Eventos = () => {
     //console.log('el título del mes a publicar es ', monthSelectedPublish.titulo);
     return (
         detalleEvento == -1 && !eventoacervo ?
-            <div>
+            <div onScroll={isInViewportMenuEvt}>
                 <Parallax pages={14} className="eventos-main-container">
                     <ParallaxLayer offset={0} speed={0}>
                         <div style={{ backgroundColor: 'black', height: '100px' }}>
@@ -1091,12 +1091,15 @@ const Eventos = () => {
                                                         onChange={onChangeFechaFin} value={valueFfin}></DateTimePicker></div>
                                             </div>
                                             <div className="form-send-evento-user">
-                                                <div><label>Título del evento:</label><input type="text" value={valoresEventUserForm.tituloEvento}
-                                                    onChange={(e) => setValoresEventUserForm({
-                                                        ...valoresEventUserForm,
-                                                        tituloEvento: e.target.value
-                                                    })}></input></div>
+                                                <div><label>Título del evento:</label><div className="grow-wrap-evt">
+                                                    <textarea  maxLength={500} value={valoresEventUserForm.tituloEvento}
+                                                        onChange={(e) => setValoresEventUserForm({
+                                                            ...valoresEventUserForm,
+                                                            tituloEvento: e.target.value
+                                                        })}></textarea>
+                                                </div></div>
                                                 <div><label>Descripción del evento:</label><textarea rows="20" cols="60"
+                                                    maxLength={4000}
                                                     value={valoresEventUserForm.descripcionEvento} onChange={(e) => setValoresEventUserForm({
                                                         ...valoresEventUserForm,
                                                         descripcionEvento: e.target.value
