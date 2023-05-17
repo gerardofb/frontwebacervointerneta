@@ -478,7 +478,7 @@ const Eventos = () => {
             const elementoanio = document.querySelector('.second-active-year-change');
             elementoanio && elementoanio.scrollIntoView({ behavior: 'smooth' })
             //window.scrollTo({behavior:'smooth', left:elementoanio.offsetLeft+100})
-            fillCalendarAcervo(anioseventos);
+            elementoanio && fillCalendarAcervo(anioseventos);
         }
     }
     useEffect(() => {
@@ -967,12 +967,12 @@ const Eventos = () => {
             <div onScroll={isInViewportMenuEvt}>
                 <Parallax pages={14} className="eventos-main-container">
                     <ParallaxLayer offset={0} speed={0}>
-                        <div style={{ backgroundColor: 'black', height: '100px' }}>
+                        <div ref={referencia} style={{ backgroundColor: 'black', height: '100px' }} className="nonHiddenClass">
                             <NavBar></NavBar>
                         </div>
                     </ParallaxLayer>
                     <ParallaxLayer offset={0.16} speed={1}>
-                        <div ref={referencia} className="main-content-this-event">
+                        <div className="main-content-this-event">
                             {
                                 <>
                                     {regresar && <Link title="Regresar a reproducción" to={`/Reproduccion/${regresar}`} className="vinculo-atras-generico"><FontAwesomeIcon icon={faArrowLeft} /></Link>}
