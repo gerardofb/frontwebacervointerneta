@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import {utilidadMenuSuperior} from '../utilidadMenuSuperior';
+import { utilidadMenuSuperior } from '../utilidadMenuSuperior';
 import { useParams, useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -994,6 +994,7 @@ export const Autobiograficos = () => {
                 videosimagenes = videosimagenes.concat(cat.listadoVideos);
             });
             //console.log('los videos son ',videosimagenes);
+            setListadoImagenesVideos(videosimagenes);
             const requestSearchRelatos = axios.post(`${getBaseAdressApi()}api/searchrelato/`,
                 objetoSearchPagina
             ).then(response => {
@@ -1052,237 +1053,297 @@ export const Autobiograficos = () => {
     const [habilitarLoaderInitial, setHabilitarLoaderInitial] = useState(null);
     const [publicarAnonimo, setEsPublicarAnonimo] = useState({ intento: false, publicar: false });
     const postRelato = () => {
+        let objetoSearchPagina = {
+            "query": "",
+            "categoria": "",
+            "frase": false,
+            "autor": "",
+            "puede": "",
+            "prefijo": "",
+            "video": "",
+            "pagina_inicial": paginacion.paginaActual
+        };
+        const requestCategoriesVideos = axios.get(`${getBaseAdressApi()}api/categorias/`).then(response => {
 
-        if (relatoEditing.trim() != "") {
-            let nuevoRelato = {
-                "id_autor": "usuario_generico",
-                "id_video": activeVideo.id,
-                "relato": relatoEditing,
-                "espodcast": false
-            };
-            const datos = new FormData();
-            datos.append("id_autor", 0);
-            datos.append("id_video", nuevoRelato.id_video);
-            datos.append("relato", nuevoRelato.relato);
-            datos.append("espodcast", false);
-            setHabilitarLoader(true);
-            const requestPutRelato = axios.put(`${getBaseAdressApi()}api/relatetextvideoauth/`,
-                datos, {
-                headers: {
-                    "Accept": "application/json",
-                    "Content-Type": "multipart/form-data",
-                    "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
-                },
-            }).then(response => {
-                if (response.status == 201) {
-                    const requestSearchommentsAgain = axios.post(`${getBaseAdressApi()}api/searchrelato/`,
-                        queryActual
-                    ).then(response => {
-                        let biografias = response.data.map((elemento, indice) => {
-                            return { document_id: elemento.document_id, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice(0, 30) };
-                        });
-                        biografias = biografias.map((relato, index) => {
-                            let imagen = listadoimagenesVideos.find(x => x.id == relato.id_video);
-                            relato.image = imagen ? imagen.imagen : '';
-                            return relato;
-                        });
-                        relatoUnico.podcast == false && relatoUnico.relato == false ?
-                            setBiographies(biografias) : relatoUnico.podcast && relatoUnico.relato == false ?
-                                setBiographies(biografias.filter(x => x.podcast == true)) : relatoUnico.relato && relatoUnico.podcast == false ?
-                                    setBiographies(biografias.filter(x => x.podcast == false)) : setBiographies([]);
-                        setModeEdit({ podcast: editing.podcast, editando: false });
-                        setHabilitarLoader(false)
-                    }).catch(err => {
-                        // MANEJO DE ERRORES DE INDEXACION
-                        setTimeout(function () {
-                            const requestSearchommentsAgain = axios.post(`${getBaseAdressApi()}api/searchrelato/`,
-                                queryActual
-                            ).then(response => {
-                                let biografias = response.data.map((elemento, indice) => {
-                                    return { document_id: elemento.document_id, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice(0, 30) };
-                                });
-                                biografias = biografias.map((relato, index) => {
-                                    let imagen = listadoimagenesVideos.find(x => x.id == relato.id_video);
-                                    relato.image = imagen ? imagen.imagen : '';
-                                    return relato;
-                                });
-                                relatoUnico.podcast == false && relatoUnico.relato == false ?
-                                    setBiographies(biografias) : relatoUnico.podcast && relatoUnico.relato == false ?
-                                        setBiographies(biografias.filter(x => x.podcast == true)) : relatoUnico.relato && relatoUnico.podcast == false ?
-                                            setBiographies(biografias.filter(x => x.podcast == false)) : setBiographies([]);
-                                setModeEdit({ podcast: editing.podcast, editando: false });
-                                setHabilitarLoader(false)
-                            }).catch(err => {
-                                setHabilitarLoader(false)
-                                setModeEdit({ podcast: editing.podcast, editando: false });
-                                //console.log('envío de relato textual falló por segunda vez ', err);
+            let respuestacategories = response.data.results.map((el, ind) => {
+                let title = el.titulo.replace(/\s/g, '-');
+                let videos = el.videos_por_categoria !== undefined ? el.videos_por_categoria.map((vid, idx) => {
+                    return { titulo: vid.titulo, id: vid.id, video: vid.contenedor_aws, imagen: vid.contenedor_img }
+                }) : []
+                return { description: el.titulo, link: '/Categorias/' + title + "/dummy", image: el.contenedor_img, listadoVideos: videos }
+            });
+            let videosimagenes = [];
+
+            respuestacategories.map((cat, ind) => {
+                videosimagenes = videosimagenes.concat(cat.listadoVideos);
+            });
+            //console.log('los videos son ',videosimagenes);
+            setListadoImagenesVideos(videosimagenes);
+            if (relatoEditing.trim() != "") {
+                let nuevoRelato = {
+                    "id_autor": "usuario_generico",
+                    "id_video": activeVideo.id,
+                    "relato": relatoEditing,
+                    "espodcast": false
+                };
+                const datos = new FormData();
+                datos.append("id_autor", 0);
+                datos.append("id_video", nuevoRelato.id_video);
+                datos.append("relato", nuevoRelato.relato);
+                datos.append("espodcast", false);
+                setHabilitarLoader(true);
+                const requestPutRelato = axios.put(`${getBaseAdressApi()}api/relatetextvideoauth/`,
+                    datos, {
+                    headers: {
+                        "Accept": "application/json",
+                        "Content-Type": "multipart/form-data",
+                        "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
+                    },
+                }).then(response => {
+                    if (response.status == 201) {
+
+                        const requestSearchommentsAgain = axios.post(`${getBaseAdressApi()}api/searchrelato/`,
+                            objetoSearchPagina
+                        ).then(response => {
+                            let biografias = response.data.map((elemento, indice) => {
+                                return { document_id: elemento.document_id, id_video: elemento.id_video,content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice(0, 30) };
                             });
-                        }, 10000)
-                    });
-                }
-            }).catch(err => {
-                console.log('error previsto en publicación ', err);
-                if (!publicarAnonimo.publicar) {
-                    setHabilitarLoader(false);
-                    setEsPublicarAnonimo({
-                        ...publicarAnonimo,
-                        intento: true,
-                        publicar: false
-                    });
-                    //console.log('error previsto en publicación ', err);
-                }
-                else {
-                    setHabilitarLoader(true);
-                    const requestPutRelatoAnonimo = axios.put(`${getBaseAdressApi()}api/relatevideo/`,
-                        nuevoRelato).then(response => {
-                            if (response.status == 201) {
+                            biografias = biografias.map((relato, index) => {
+                                let imagen = videosimagenes.find(x => x.id == relato.id_video);
+                                relato.image = imagen ? imagen.imagen : '';
+                                return relato;
+                            });
+                            relatoUnico.podcast == false && relatoUnico.relato == false ?
+                                setBiographies(biografias) : relatoUnico.podcast && relatoUnico.relato == false ?
+                                    setBiographies(biografias.filter(x => x.podcast == true)) : relatoUnico.relato && relatoUnico.podcast == false ?
+                                        setBiographies(biografias.filter(x => x.podcast == false)) : setBiographies([]);
+                            setModeEdit({ podcast: editing.podcast, editando: false });
+                            setHabilitarLoader(false)
+                        }).catch(err => {
+                            // MANEJO DE ERRORES DE INDEXACION
+                            setTimeout(function () {
                                 const requestSearchommentsAgain = axios.post(`${getBaseAdressApi()}api/searchrelato/`,
-                                    queryActual
+                                    objetoSearchPagina
                                 ).then(response => {
                                     let biografias = response.data.map((elemento, indice) => {
-                                        return { document_id: elemento.document_id, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice(0, 30) };
+                                        return { document_id: elemento.document_id, content: elemento.relato,id_video: elemento.id_video, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice(0, 30) };
                                     });
                                     biografias = biografias.map((relato, index) => {
-                                        let imagen = listadoimagenesVideos.find(x => x.id == relato.id_video);
+                                        let imagen = videosimagenes.find(x => x.id == relato.id_video);
                                         relato.image = imagen ? imagen.imagen : '';
                                         return relato;
                                     });
-                                    setEsPublicarAnonimo({
-                                        ...publicarAnonimo,
-                                        intento: false,
-                                        publicar: false
-                                    })
                                     relatoUnico.podcast == false && relatoUnico.relato == false ?
                                         setBiographies(biografias) : relatoUnico.podcast && relatoUnico.relato == false ?
                                             setBiographies(biografias.filter(x => x.podcast == true)) : relatoUnico.relato && relatoUnico.podcast == false ?
                                                 setBiographies(biografias.filter(x => x.podcast == false)) : setBiographies([]);
                                     setModeEdit({ podcast: editing.podcast, editando: false });
                                     setHabilitarLoader(false)
-                                }).catch(errorsearch => {
-
-                                    // MANEJO DE ERRORES DE INDEXACION
-                                    setTimeout(function () {
-                                        const requestSearchommentsAgain = axios.post(`${getBaseAdressApi()}api/searchrelato/`,
-                                            queryActual
-                                        ).then(response => {
-                                            let biografias = response.data.map((elemento, indice) => {
-                                                return { document_id: elemento.document_id, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice(0, 30) };
-                                            });
-                                            biografias = biografias.map((relato, index) => {
-                                                let imagen = listadoimagenesVideos.find(x => x.id == relato.id_video);
-                                                relato.image = imagen ? imagen.imagen : '';
-                                                return relato;
-                                            });
-                                            setEsPublicarAnonimo({
-                                                ...publicarAnonimo,
-                                                intento: false,
-                                                publicar: false
-                                            })
-                                            relatoUnico.podcast == false && relatoUnico.relato == false ?
-                                                setBiographies(biografias) : relatoUnico.podcast && relatoUnico.relato == false ?
-                                                    setBiographies(biografias.filter(x => x.podcast == true)) : relatoUnico.relato && relatoUnico.podcast == false ?
-                                                        setBiographies(biografias.filter(x => x.podcast == false)) : setBiographies([]);
-                                            setModeEdit({ podcast: editing.podcast, editando: false });
-                                            setHabilitarLoader(false)
-                                        }).catch(errorsearch => {
-                                            setHabilitarLoader(false)
-                                            setModeEdit({ podcast: editing.podcast, editando: false });
-                                        });
-                                    }, 10000);
+                                }).catch(err => {
+                                    setHabilitarLoader(false)
+                                    setModeEdit({ podcast: editing.podcast, editando: false });
+                                    //console.log('envío de relato textual falló por segunda vez ', err);
                                 });
-                            }
-                        }).catch(err => {
-                            setHabilitarLoader(false)
-                            setModeEdit({ podcast: editing.podcast, editando: false });
-                            //console.log('envío de relato textual falló por segunda vez ', err);
+                            }, 10000)
                         });
-                }
-            })
-        }
+                    }
+                }).catch(err => {
+                    console.log('error previsto en publicación ', err);
+                    if (!publicarAnonimo.publicar) {
+                        setHabilitarLoader(false);
+                        setEsPublicarAnonimo({
+                            ...publicarAnonimo,
+                            intento: true,
+                            publicar: false
+                        });
+                        //console.log('error previsto en publicación ', err);
+                    }
+                    else {
+                        setHabilitarLoader(true);
+                        const requestPutRelatoAnonimo = axios.put(`${getBaseAdressApi()}api/relatevideo/`,
+                            nuevoRelato).then(response => {
+                                if (response.status == 201) {
+                                    const requestSearchommentsAgain = axios.post(`${getBaseAdressApi()}api/searchrelato/`,
+                                        objetoSearchPagina
+                                    ).then(response => {
+                                        let biografias = response.data.map((elemento, indice) => {
+                                            return { document_id: elemento.document_id,id_video: elemento.id_video, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice(0, 30) };
+                                        });
+                                        biografias = biografias.map((relato, index) => {
+                                            let imagen = videosimagenes.find(x => x.id == relato.id_video);
+                                            relato.image = imagen ? imagen.imagen : '';
+                                            return relato;
+                                        });
+                                        setEsPublicarAnonimo({
+                                            ...publicarAnonimo,
+                                            intento: false,
+                                            publicar: false
+                                        })
+                                        relatoUnico.podcast == false && relatoUnico.relato == false ?
+                                            setBiographies(biografias) : relatoUnico.podcast && relatoUnico.relato == false ?
+                                                setBiographies(biografias.filter(x => x.podcast == true)) : relatoUnico.relato && relatoUnico.podcast == false ?
+                                                    setBiographies(biografias.filter(x => x.podcast == false)) : setBiographies([]);
+                                        setModeEdit({ podcast: editing.podcast, editando: false });
+                                        setHabilitarLoader(false)
+                                    }).catch(errorsearch => {
+
+                                        // MANEJO DE ERRORES DE INDEXACION
+                                        setTimeout(function () {
+                                            const requestSearchommentsAgain = axios.post(`${getBaseAdressApi()}api/searchrelato/`,
+                                                objetoSearchPagina
+                                            ).then(response => {
+                                                let biografias = response.data.map((elemento, indice) => {
+                                                    return { document_id: elemento.document_id,id_video: elemento.id_video, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice(0, 30) };
+                                                });
+                                                biografias = biografias.map((relato, index) => {
+                                                    let imagen = videosimagenes.find(x => x.id == relato.id_video);
+                                                    relato.image = imagen ? imagen.imagen : '';
+                                                    return relato;
+                                                });
+                                                setEsPublicarAnonimo({
+                                                    ...publicarAnonimo,
+                                                    intento: false,
+                                                    publicar: false
+                                                })
+                                                relatoUnico.podcast == false && relatoUnico.relato == false ?
+                                                    setBiographies(biografias) : relatoUnico.podcast && relatoUnico.relato == false ?
+                                                        setBiographies(biografias.filter(x => x.podcast == true)) : relatoUnico.relato && relatoUnico.podcast == false ?
+                                                            setBiographies(biografias.filter(x => x.podcast == false)) : setBiographies([]);
+                                                setModeEdit({ podcast: editing.podcast, editando: false });
+                                                setHabilitarLoader(false)
+                                            }).catch(errorsearch => {
+                                                setHabilitarLoader(false)
+                                                setModeEdit({ podcast: editing.podcast, editando: false });
+                                            });
+                                        }, 10000);
+                                    });
+                                }
+                            }).catch(err => {
+                                setHabilitarLoader(false)
+                                setModeEdit({ podcast: editing.podcast, editando: false });
+                                //console.log('envío de relato textual falló por segunda vez ', err);
+                            });
+                    }
+                })
+            }
+        }).catch(errcat => {
+            setModeEdit({ podcast: editing.podcast, editando: false });
+            setHabilitarLoader(false)
+        });
     }
 
     const postRelatoPodcast = () => {
+        let objetoSearchPagina = {
+            "query": "",
+            "categoria": "",
+            "frase": false,
+            "autor": "",
+            "puede": "",
+            "prefijo": "",
+            "video": "",
+            "pagina_inicial": paginacion.paginaActual
+        };
+        const requestCategoriesVideos = axios.get(`${getBaseAdressApi()}api/categorias/`).then(response => {
 
-        if (relatoEditing.trim() != "") {
-            let nuevoRelato = {
-                "id_autor": "usuario_generico",
-                "id_video": activeVideo.id,
-                "relato": relatoEditing,
-                "espodcast": true
-            };
-            const datos = new FormData();
-            datos.append("id_autor", nuevoRelato.id_autor);
-            datos.append("id_video", nuevoRelato.id_video);
-            datos.append("relato", nuevoRelato.relato);
-            datos.append("espodcast", nuevoRelato.espodcast);
-            datos.append("filefield", blobURL.blob)
-            //console.log('enviando los siguientes datos del podcast ', datos.get('relato'), datos)
-            setHabilitarLoader(true);
-            const requestPutRelato = axios.put(`${getBaseAdressApi()}api/relatevideoauth/`,
-                datos, {
-                headers: {
-                    "Accept": "application/json",
-                    "Content-Type": "multipart/form-data",
-                    "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
-                },
-            }).then(response => {
-                if (response.status == 201) {
-                    const requestSearchommentsAgain = axios.post(`${getBaseAdressApi()}api/searchrelato/`,
-                        queryActual
-                    ).then(response => {
-                        let biografias = response.data.map((elemento, indice) => {
-                            return { document_id: elemento.document_id, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice(0, 30) };
-                        });
-                        biografias = biografias.map((relato, index) => {
-                            let imagen = listadoimagenesVideos.find(x => x.id == relato.id_video);
-                            relato.image = imagen ? imagen.imagen : '';
-                            return relato;
-                        });
-                        relatoUnico.podcast == false && relatoUnico.relato == false ?
-                            setBiographies(biografias) : relatoUnico.podcast && relatoUnico.relato == false ?
-                                setBiographies(biografias.filter(x => x.podcast == true)) : relatoUnico.relato && relatoUnico.podcast == false ?
-                                    setBiographies(biografias.filter(x => x.podcast == false)) : setBiographies([]);
-                        setHabilitarLoader(false)
-                        setModeEdit({ podcast: editing.podcast, editando: false });
-                    }).catch(errorsearch => {
-                        // MANEJO DE ERRORES DE INDEXACION
-                        setTimeout(function () {
-                            const requestSearchommentsAgain = axios.post(`${getBaseAdressApi()}api/searchrelato/`,
-                                queryActual
-                            ).then(response => {
-                                let biografias = response.data.map((elemento, indice) => {
-                                    return { document_id: elemento.document_id, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice(0, 30) };
-                                });
-                                biografias = biografias.map((relato, index) => {
-                                    let imagen = listadoimagenesVideos.find(x => x.id == relato.id_video);
-                                    relato.image = imagen ? imagen.imagen : '';
-                                    return relato;
-                                });
-                                relatoUnico.podcast == false && relatoUnico.relato == false ?
-                                    setBiographies(biografias) : relatoUnico.podcast && relatoUnico.relato == false ?
-                                        setBiographies(biografias.filter(x => x.podcast == true)) : relatoUnico.relato && relatoUnico.podcast == false ?
-                                            setBiographies(biografias.filter(x => x.podcast == false)) : setBiographies([]);
-                                setHabilitarLoader(false)
-                                setModeEdit({ podcast: editing.podcast, editando: false });
-                            }).catch(errorsearch => {
-                                setHabilitarLoader(false)
-                                setModeEdit({ podcast: editing.podcast, editando: false });
-                            });
-                        }, 10000)
-                    });
-                }
-
-            }).catch(err => {
-                //console.log('error enviando el podcast ', err)
-                setHabilitarLoader(false);
-                setEsPublicarAnonimo({
-                    ...publicarAnonimo,
-                    intento: true,
-                    publicar: false
-                });
+            let respuestacategories = response.data.results.map((el, ind) => {
+                let title = el.titulo.replace(/\s/g, '-');
+                let videos = el.videos_por_categoria !== undefined ? el.videos_por_categoria.map((vid, idx) => {
+                    return { titulo: vid.titulo, id: vid.id, video: vid.contenedor_aws, imagen: vid.contenedor_img }
+                }) : []
+                return { description: el.titulo, link: '/Categorias/' + title + "/dummy", image: el.contenedor_img, listadoVideos: videos }
             });
+            let videosimagenes = [];
 
-        }
+            respuestacategories.map((cat, ind) => {
+                videosimagenes = videosimagenes.concat(cat.listadoVideos);
+            });
+            //console.log('los videos son ',videosimagenes);
+            setListadoImagenesVideos(videosimagenes);
+            if (relatoEditing.trim() != "") {
+                let nuevoRelato = {
+                    "id_autor": "usuario_generico",
+                    "id_video": activeVideo.id,
+                    "relato": relatoEditing,
+                    "espodcast": true
+                };
+                const datos = new FormData();
+                datos.append("id_autor", nuevoRelato.id_autor);
+                datos.append("id_video", nuevoRelato.id_video);
+                datos.append("relato", nuevoRelato.relato);
+                datos.append("espodcast", nuevoRelato.espodcast);
+                datos.append("filefield", blobURL.blob)
+                //console.log('enviando los siguientes datos del podcast ', datos.get('relato'), datos)
+                setHabilitarLoader(true);
+                const requestPutRelato = axios.put(`${getBaseAdressApi()}api/relatevideoauth/`,
+                    datos, {
+                    headers: {
+                        "Accept": "application/json",
+                        "Content-Type": "multipart/form-data",
+                        "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
+                    },
+                }).then(response => {
+                    if (response.status == 201) {
+                        const requestSearchommentsAgain = axios.post(`${getBaseAdressApi()}api/searchrelato/`,
+                            objetoSearchPagina
+                        ).then(response => {
+                            let biografias = response.data.map((elemento, indice) => {
+                                return { document_id: elemento.document_id, id_video: elemento.id_video,content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice(0, 30) };
+                            });
+                            biografias = biografias.map((relato, index) => {
+                                let imagen = videosimagenes.find(x => x.id == relato.id_video);
+                                relato.image = imagen ? imagen.imagen : '';
+                                return relato;
+                            });
+                            relatoUnico.podcast == false && relatoUnico.relato == false ?
+                                setBiographies(biografias) : relatoUnico.podcast && relatoUnico.relato == false ?
+                                    setBiographies(biografias.filter(x => x.podcast == true)) : relatoUnico.relato && relatoUnico.podcast == false ?
+                                        setBiographies(biografias.filter(x => x.podcast == false)) : setBiographies([]);
+                            setHabilitarLoader(false)
+                            setModeEdit({ podcast: editing.podcast, editando: false });
+                        }).catch(errorsearch => {
+                            // MANEJO DE ERRORES DE INDEXACION
+                            setTimeout(function () {
+                                const requestSearchommentsAgain = axios.post(`${getBaseAdressApi()}api/searchrelato/`,
+                                    objetoSearchPagina
+                                ).then(response => {
+                                    let biografias = response.data.map((elemento, indice) => {
+                                        return { document_id: elemento.document_id,id_video: elemento.id_video, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice(0, 30) };
+                                    });
+                                    biografias = biografias.map((relato, index) => {
+                                        let imagen = videosimagenes.find(x => x.id == relato.id_video);
+                                        relato.image = imagen ? imagen.imagen : '';
+                                        return relato;
+                                    });
+                                    relatoUnico.podcast == false && relatoUnico.relato == false ?
+                                        setBiographies(biografias) : relatoUnico.podcast && relatoUnico.relato == false ?
+                                            setBiographies(biografias.filter(x => x.podcast == true)) : relatoUnico.relato && relatoUnico.podcast == false ?
+                                                setBiographies(biografias.filter(x => x.podcast == false)) : setBiographies([]);
+                                    setHabilitarLoader(false)
+                                    setModeEdit({ podcast: editing.podcast, editando: false });
+                                }).catch(errorsearch => {
+                                    setHabilitarLoader(false)
+                                    setModeEdit({ podcast: editing.podcast, editando: false });
+                                });
+                            }, 10000)
+                        });
+                    }
+
+                }).catch(err => {
+                    //console.log('error enviando el podcast ', err)
+                    setHabilitarLoader(false);
+                    setEsPublicarAnonimo({
+                        ...publicarAnonimo,
+                        intento: true,
+                        publicar: false
+                    });
+                });
+
+            }
+        }).catch(errcat => {
+            setModeEdit({ podcast: editing.podcast, editando: false });
+            setHabilitarLoader(false)
+        })
+
     }
     const navegarRelacionado = (idclip) => {
         setHabilitarLoaderInitial(true);

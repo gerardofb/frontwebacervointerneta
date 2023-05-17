@@ -25,7 +25,7 @@ function isInViewportMenu() {
 
 function isInViewportMenuEvt() {
     const menusuperior = document.querySelector('.container-menu-main')
-    const barranav = document.querySelector('.navbar-principal');
+    const barranav = document.querySelector('.main-content-this-event');
     const rect = menusuperior.getBoundingClientRect();
     const rectnav = barranav.getBoundingClientRect();
     const { scrollTop, offsetHeight } = document.documentElement;
