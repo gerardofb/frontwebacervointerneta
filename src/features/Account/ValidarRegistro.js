@@ -29,7 +29,7 @@ const ValidarRegistro = (props) => {
                 mensaje: 'Ocurrió un error inesperado'
             });
         }).catch(err => {
-            console.log('error validando registro',err);
+            console.log('error validando registro', err);
             setExito({
                 ...exito,
                 exitoso: false,
@@ -39,7 +39,7 @@ const ValidarRegistro = (props) => {
     }
     let parametros = new URLSearchParams(window.location.search);
     if (location.search) {
-        
+
         if (postMensaje.guid == '' && parametros.get('vinculo') && parametros.get('usuario')) {
             setpostMensaje({
                 guid: parametros.get('vinculo'),
@@ -47,12 +47,28 @@ const ValidarRegistro = (props) => {
             });
             setMensaje('Por favor verifique su registro con nosotros haciendo click en el siguiente link');
         }
-        else if(postMensaje == '') {
-            setMensaje('Al parecer ha llegado a esta página por error. Para salir haga click en el siguiente vínculo:');
+        else if (postMensaje == '') {
+            setExito({
+                ...exito,
+                exitoso:false,
+                mensaje:'Al parecer ha llegado a esta página por error. Para salir haga click en el siguiente vínculo:'
+            })
+        }
+
+        else if (exito.mensaje==''&& (!parametros.get('vinculo') || !parametros.get('usuario'))) {
+            setExito({
+                ...exito,
+                exitoso:false,
+                mensaje:'Al parecer ha llegado a esta página por error. Para salir haga click en el siguiente vínculo:'
+            })
         }
     }
-    else if(!parametros.get('vinculo') || !parametros.get('usuario')) {
-        setMensaje('Al parecer ha llegado a esta página por error. Para salir haga click en el siguiente vínculo:');
+    else if(exito.mensaje== ''){
+        setExito({
+            ...exito,
+            exitoso:false,
+            mensaje:'Al parecer ha llegado a esta página por error. Para salir haga click en el siguiente vínculo:'
+        })
     }
     return (
         <div>
@@ -78,15 +94,12 @@ const ValidarRegistro = (props) => {
                     <strong>¡Gracias por su confianza, está a un paso de ser miembro activo de la comunidad del Acervo Audiovisual Interneta!</strong>
                 </p>
                 {
-                    mensaje ? <>
+                    mensaje && exito.exitoso !== false ? <>
                         <div className='send-registro-validar'>
                             <p>{mensaje}</p>
-                            <button type="button" onClick={(e)=>validarVinculo()}>Validar mi registro</button>
+                            <button type="button" onClick={(e) => validarVinculo()}>Validar mi registro</button>
                         </div></>
-                        : <><p>{mensaje}</p>
-                            <div className='send-registro-validar'>
-                                <p>{mensaje}</p>
-                            </div></>
+                        : null
                 }
             </div>
         </div>
