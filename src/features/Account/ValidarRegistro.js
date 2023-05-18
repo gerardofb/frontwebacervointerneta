@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation, useHistory, Link } from 'react-router-dom';
 import NavBar from '../NavBar';
 import axios from 'axios';
 import { getBaseAdressApi } from '../MainAPI';
@@ -99,7 +99,9 @@ const ValidarRegistro = (props) => {
                             <p>{mensaje}</p>
                             <button type="button" onClick={(e) => validarVinculo()}>Validar mi registro</button>
                         </div></>
-                        : null
+                        : <div className='send-registro-validar'>
+                            <Link to='/Registro'>Ir al registro de usuarios</Link>
+                            </div>
                 }
             </div>
         </div>
