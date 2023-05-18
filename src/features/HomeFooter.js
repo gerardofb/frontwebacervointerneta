@@ -58,7 +58,7 @@ const HomeFooter = (props)=>{
             </ul>
             </div>
             <div className='logos-sociales-footer'>
-                <div className='legend-logos-sociales'><p>Síguenos en:</p></div>
+                {/* <div className='legend-logos-sociales'><p>Síguenos en:</p></div> */}
                 <a href="https://www.facebook.com/internetamx/" target="_blank">Facebook&nbsp;<img src="/images/SocialNetwork/facebook_logo.png" alt="Búscanos en facebook" /></a>
                 <a href="https://www.instagram.com/internetamx/" target="_blank">Instagram&nbsp;<img src="/images/SocialNetwork/instagram_gradient.png" alt="Búscanos en instagram" /></a>
             </div>
