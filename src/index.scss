@@ -894,10 +894,10 @@ Estilo de footer
 */
 
 .footer-site {
-  max-height: 350px;
+  max-height: 380px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: 1fr 1fr .5fr;
+  grid-template-rows: 1fr 1fr .2fr .5fr;
   justify-content: left;
   background-image: url('/images/head_.svg');
   background-repeat: no-repeat;
@@ -960,20 +960,54 @@ Estilo de footer
 .container-list-red {
   margin: 0 2em;
   width: 100%;
-  height: 200px;
+  height: 140px;
   display: flex;
   grid-row: 2;
   grid-column-start: 1;
   grid-column-end: 3;
   justify-content: space-between;
 }
-
+.logos-sociales-footer{
+  display: grid;
+  width:50%;
+  padding-bottom:15px;
+  height: 60px;
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row:3;
+  grid-template-rows: repeat(2,1fr);
+  grid-template-columns: 50% 50%;
+  justify-items: center;
+  justify-content: center;
+  margin:auto;
+  & img{
+    width:20px;
+    vertical-align:bottom;
+  }
+  & a{
+    text-decoration: none;
+    color:white;
+    grid-row: 2;
+  }
+  & div.legend-logos-sociales{
+    color:white;
+    display: flex;
+    grid-row:1;
+    grid-column-start: 1;
+    grid-column-end: 2;
+    & p{
+      width:100%;
+      text-align: center;
+    }
+  }
+}
 .logos-patrocinadores-footer {
+  padding-top:0.5em;
   display: grid;
   width: 100%;
   gap: 2em;
   grid-column: 2;
-  grid-row: 3;
+  grid-row: 4;
   grid-auto-flow: column;
   justify-items: center;
 
