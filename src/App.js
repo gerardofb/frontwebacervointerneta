@@ -18,6 +18,7 @@ import ListadoVideosFavoritos from './features/Players/ListadoFavoritosVideos';
 import ListadoVideosMasVisitados from './features/Players/ListadoVideosMasVisitados';
 import ListadoRelatosFavoritos from './features/Biography/ListadoFavoritosRelatos';
 import ListadoMasVisitadosRelatos from './features/Biography/ListadoMasVisitadosRelatos';
+import ValidarRegistro from './features/Account/ValidarRegistro';
 import {BusquedaEstandar} from './features/BusquedaEstandar';
 import { ThemeProvider } from './ThemeProvider';
 import Eventos from './features/Events/Eventos';
@@ -253,6 +254,11 @@ const populate_videos_set = () => {
           <Route path="/Contacto">
             <ThemeProvider>
               <FormaContacto></FormaContacto>
+            </ThemeProvider>
+          </Route>
+          <Route path="/VerificaRegistro">
+            <ThemeProvider>
+              <ValidarRegistro></ValidarRegistro>
             </ThemeProvider>
           </Route>
           <Route path="*">

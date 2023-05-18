@@ -4684,7 +4684,41 @@ Estilos del registro
     cursor: pointer;
   }
 }
+.card-register-validar {
+  width: 800px;
+  display: grid;
+  grid-template-rows: repeat(3,1fr);
+  align-items: center;
+  justify-content: right;
+  height: 40vh;
+  border: #253237 1px solid;
+  box-shadow: 10px 10px #5D5D5D;
+  margin: auto;
+  top: 300px;
+  bottom: 0;
+  left: calc(50% - 400px);
+  position: absolute;
+}
+.send-registro-validar {
+  grid-column: 1;
+  display: grid;
+  grid-template-rows: repeat(2,1fr);
+  justify-content: center;
+  margin: .5em 0;
+  & button {
+    background-color: #009639;
+    color: white;
+    border: 1px solid #15171c;
+    border-radius: 4px;
+    padding: .4em;
+    cursor: pointer;
+  }
 
+  & button:hover {
+    background-color: darkgreen
+  }
+
+}
 .card-register {
   width: 800px;
   display: flex;
