@@ -298,7 +298,9 @@ const tipoBusquedaPagina = {
     TAG: 5
 }
 const orderBy = (listado, ordenamiento, desc) => {
-    let salida = listado;
+    let salida = listado.map((e,idx)=>{
+        return e;
+    });
 
     if (ordenamiento == ordenBusquedaPredeterminado.Titulo) {
         salida.sort((a, b) => a.Video.localeCompare(b.Video));
@@ -307,12 +309,12 @@ const orderBy = (listado, ordenamiento, desc) => {
         salida.sort((a, b) => a.Categoria.localeCompare(b.Categoria));
     }
     else if (ordenamiento == ordenBusquedaPredeterminado.Calificacion) {
-        salida.sort((a, b) => a.Calificacion - b.Calificacion);
+        salida.sort((a, b) => parseFloat(a.Calificacion) - parseFloat(b.Calificacion));
     }
     else if (ordenamiento == ordenBusquedaPredeterminado.Tags) {
         salida.sort((a, b) => a.Tags.length - b.Tags.length);
     }
-    salida = desc ? listado.reverse() : listado;
+    salida = desc ? salida.reverse() : salida;
     //console.log('ordenando listado', ordenamiento, salida, ordenBusquedaPredeterminado);
     return salida;
 }
@@ -336,7 +338,7 @@ const ListadoVideosFavoritos = (props) => {
     const [ordenamientoDesc, setOrdenamientoDesc] = useState(false);
     const [cargaPaginada, setCargaPaginada] = useState(false);
     const [idFilaFavorito, setIdFilaFavorito] = useState({ vinculo: '', idvideo: 0 });
-    const [videosCalificados,setVideosCalificados] = useState(null);
+    const [videosCalificados, setVideosCalificados] = useState(null);
     //console.log('tipo listado ', rutaTipoListado, tipoListado, listado)
     useEffect(() => {
         if (listado.length == 0) {
@@ -344,33 +346,36 @@ const ListadoVideosFavoritos = (props) => {
                 let categories = respuesta.data.results.map((cat, idx) => {
                     return { titulo: cat.titulo, id_cat: cat.id }
                 });
-                const peticionFavoritos = axios.get(`${getBaseAdressApi()}api/detailfavoritesvideobyuser/`,
-                    {
-                        headers: {
-                            "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
-                        }
-                    }).then(response => {
-                        let videosfavoritos = response.data.map((vid, ind) => {
-                            let sliceIndex = Math.floor(Math.random() * arreglotags.length);
-                            let relatovideohightlight = vid.favoritos_por_video.length > 0 ? vid.favoritos_por_video : "";
-                            let tagsselected = arreglotags.slice(sliceIndex, sliceIndex + 2).map((tag, i) => {
-                                return tag.content
+                const peticioncalificaciones = axios.get(`${getBaseAdressApi()}api/listarcalificacionesvideos/`).then(respuesta => {
+                    setVideosCalificados(respuesta.data);
+                    let calificaciones_vid = respuesta.data;
+                    const peticionFavoritos = axios.get(`${getBaseAdressApi()}api/detailfavoritesvideobyuser/`,
+                        {
+                            headers: {
+                                "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
+                            }
+                        }).then(response => {
+                            let videosfavoritos = response.data.map((vid, ind) => {
+                                let sliceIndex = Math.floor(Math.random() * arreglotags.length);
+                                let relatovideohightlight = vid.favoritos_por_video.length > 0 ? vid.favoritos_por_video : "";
+                                let calificaciondelvideo = calificaciones_vid.find(x => x.id == vid.id) ? (calificaciones_vid.find(x => x.id == vid.id).total_calificacion ? calificaciones_vid.find(x => x.id == vid.id).total_calificacion.toFixed(1) : 0) : 0
+                                let tagsselected = arreglotags.slice(sliceIndex, sliceIndex + 2).map((tag, i) => {
+                                    return tag.content
+                                });
+                                //console.log('los relatos del video son ', relatovideohightlight);
+                                //console.log('indice de los tags ', sliceIndex, tagsselected);
+                                return { Categoria: categories.find(x => x.id_cat == vid.id_categoria) ? categories.find(x => x.id_cat == vid.id_categoria).titulo : "", Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria) ? categories.find(x => x.id_cat == vid.id_categoria).id_cat : 0, Id: vid.id, Calificacion: calificaciondelvideo, ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight != "" ? relatovideohightlight : [] }
                             });
-                            //console.log('los relatos del video son ', relatovideohightlight);
-                            //console.log('indice de los tags ', sliceIndex, tagsselected);
-                            return { Categoria: categories.find(x => x.id_cat == vid.id_categoria)?categories.find(x => x.id_cat == vid.id_categoria).titulo:"", Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria) ?  categories.find(x => x.id_cat == vid.id_categoria).id_cat : 0, Id: vid.id, Calificacion: Math.ceil(Math.random() * 5), ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight !=""? relatovideohightlight : [] }
+                            setListado(videosfavoritos)
+                            setCargaPaginada(true);
+                        }).catch(err => {
+                            setCargaPaginada(true);
                         });
-                        setListado(videosfavoritos)
-                        setCargaPaginada(true);
-                    }).catch(err=>{
-                        setCargaPaginada(true);
-                    });
+                }).catch(err => {
+                    setCargaPaginada(true);
+                });
             });
-            const peticioncalificaciones = axios.get(`${getBaseAdressApi()}api/listarcalificacionesvideos/`).then(respuesta=>{
-                setVideosCalificados(respuesta.data);
-            }).catch(err=>{
 
-            })
         }
     }, [listado])
     const estableceDescendienteAscendiente = (valor, orden) => {
@@ -465,15 +470,15 @@ const ListadoVideosFavoritos = (props) => {
                             });
                             //console.log('los relatos del video son ', relatovideohightlight);
                             //console.log('indice de los tags ', sliceIndex, tagsselected);
-                            return { Categoria: categories.find(x => x.id_cat == vid.id_categoria) ? categories.find(x => x.id_cat == vid.id_categoria).titulo : "", Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria) ? categories.find(x => x.id_cat == vid.id_categoria).id_cat : 0, Id: vid.id, Calificacion: Math.ceil(Math.random() * 5), ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight != ""? relatovideohightlight : [] }
+                            return { Categoria: categories.find(x => x.id_cat == vid.id_categoria) ? categories.find(x => x.id_cat == vid.id_categoria).titulo : "", Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria) ? categories.find(x => x.id_cat == vid.id_categoria).id_cat : 0, Id: vid.id, Calificacion: Math.ceil(Math.random() * 5), ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight != "" ? relatovideohightlight : [] }
                         });
                         setListado(videosfavoritos);
                         setCargaPaginada(true);
-                    }).catch(err=>{
+                    }).catch(err => {
                         setCargaPaginada(true);
                     });;
             })
-            
+
         }
     }
     const estableceTipoBusqueda = (tipo, checado) => {
@@ -536,16 +541,16 @@ const ListadoVideosFavoritos = (props) => {
                                         });
                                         //console.log('los relatos del video son ', relatovideohightlight);
                                         //console.log('indice de los tags ', sliceIndex, tagsselected);
-                                        return { Categoria: categories.find(x => x.id_cat == vid.id_categoria) ? categories.find(x => x.id_cat == vid.id_categoria).titulo : "", Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria)? categories.find(x => x.id_cat == vid.id_categoria).id_cat : 0, Id: vid.id, Calificacion: Math.ceil(Math.random() * 5), ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight }
+                                        return { Categoria: categories.find(x => x.id_cat == vid.id_categoria) ? categories.find(x => x.id_cat == vid.id_categoria).titulo : "", Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria) ? categories.find(x => x.id_cat == vid.id_categoria).id_cat : 0, Id: vid.id, Calificacion: Math.ceil(Math.random() * 5), ListaReproduccion: {}, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight }
                                     });
                                     setListado(videosfavoritos);
                                     setCargaPaginada(true);
-                                }).catch(err=>{
+                                }).catch(err => {
                                     setListado([]);
                                     setCargaPaginada(true);
                                 });
                         });
-                    }).catch(err=>{
+                    }).catch(err => {
                         setCargaPaginada(true);
                     });
             }
@@ -614,11 +619,10 @@ const ListadoVideosFavoritos = (props) => {
                             let claseCssBotonOpciones = opcionesSetVisible == index ? "container-default-combo listado-combo" : "container-default-combo combo-hidden"
                             let listareproduccion = item.ListaReproduccion.Titulo ? item.ListaReproduccion.Titulo : "";
                             let autorRelato = item.Relato != "" ? autores.join(', ') : "";
-                            let calificaciondelvideo = videosCalificados.find(x=> x.id== item.Id) ? (videosCalificados.find(x=> x.id== item.Id).total_calificacion ? videosCalificados.find(x=> x.id== item.Id).total_calificacion.toFixed(1) :0) : 0
                             //console.log('autores del relato de video ', item.Relato, autores);
                             return (
                                 <div className="vid-listado" key={index}>
-                                    <div>{item.Video}</div><div>{item.Categoria}</div><div>{calificaciondelvideo}</div>
+                                    <div>{item.Video}</div><div>{item.Categoria}</div><div>{item.Calificacion}</div>
                                     <div>{listareproduccion}
                                     </div>
 

@@ -296,7 +296,9 @@ const tipoBusquedaPagina = {
     TAG: 5
 }
 const orderBy = (listado, ordenamiento, desc) => {
-    let salida = listado;
+    let salida = listado.map((e,idx)=>{
+        return e;
+    });
 
     if (ordenamiento == ordenBusquedaPredeterminado.Titulo) {
         salida.sort((a, b) => a.Video.localeCompare(b.Video));
@@ -305,7 +307,7 @@ const orderBy = (listado, ordenamiento, desc) => {
         salida.sort((a, b) => a.Categoria.localeCompare(b.Categoria));
     }
     else if (ordenamiento == ordenBusquedaPredeterminado.Calificacion) {
-        salida.sort((a, b) => a.Calificacion - b.Calificacion);
+        salida.sort((a, b) => parseFloat(a.Calificacion) - parseFloat(b.Calificacion));
     }
     else if (ordenamiento == ordenBusquedaPredeterminado.Tags) {
         salida.sort((a, b) => a.Tags.length - b.Tags.length);
@@ -313,7 +315,7 @@ const orderBy = (listado, ordenamiento, desc) => {
     if (ordenamiento == ordenBusquedaPredeterminado.Visitas) {
         salida.sort((a, b) => (a.Visitas !== null ? a.Visitas : 0) - (b.Visitas !== null ? b.Visitas : 0));
     }
-    salida = desc ? listado.reverse() : listado;
+    salida = desc ? salida.reverse() : salida;
     //console.log('ordenando listado', ordenamiento, salida, ordenBusquedaPredeterminado);
     return salida;
 }
@@ -343,27 +345,31 @@ const ListadoVideosMasVisitados = (props) => {
                 let categories = respuesta.data.results.map((cat, idx) => {
                     return { titulo: cat.titulo, id_cat: cat.id }
                 });
-                const peticionVisitados = axios.get(`${getBaseAdressApi()}api/vistasporvideo/`).then(response => {
-                    let videosvisitados = response.data.map((vid, ind) => {
-                        //console.log('respuesta de videos visitados ',response.data);
-                        let sliceIndex = Math.floor(Math.random() * arreglotags.length);
-                        let relatovideohightlight = vid.relatos_por_video && vid.relatos_por_video.length > 0 ? vid.relatos_por_video : "";
-                        let tagsselected = arreglotags.slice(sliceIndex, sliceIndex + 2).map((tag, i) => {
-                            return tag.content
+                const peticioncalificaciones = axios.get(`${getBaseAdressApi()}api/listarcalificacionesvideos/`).then(respuesta=>{
+                    setVideosCalificados(respuesta.data);
+                    let calificaciones_vid = respuesta.data;
+                    const peticionVisitados = axios.get(`${getBaseAdressApi()}api/vistasporvideo/`).then(response => {
+                        let videosvisitados = response.data.map((vid, ind) => {
+                            console.log('respuesta de videos visitados ',response.data);
+                            let sliceIndex = Math.floor(Math.random() * arreglotags.length);
+                            let relatovideohightlight = vid.relatos_por_video && vid.relatos_por_video.length > 0 ? vid.relatos_por_video : "";
+                            let calificaciondelvideo = calificaciones_vid.find(x=> x.id== vid.id) ? (calificaciones_vid.find(x=> x.id== vid.id).total_calificacion ? calificaciones_vid.find(x=> x.id== vid.id).total_calificacion.toFixed(1) :0) : 0
+                            let tagsselected = arreglotags.slice(sliceIndex, sliceIndex + 2).map((tag, i) => {
+                                return tag.content
+                            });
+                            // console.log('los relatos del video son ', relatovideohightlight);
+                            //console.log('indice de los tags ', sliceIndex, tagsselected);
+                            return { Categoria: categories.find(x => x.id_cat == vid.id_categoria).titulo, Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria).id_cat, Id: vid.id, Calificacion: calificaciondelvideo, Visitas: vid.total_visitas, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight }
                         });
-                        // console.log('los relatos del video son ', relatovideohightlight);
-                        //console.log('indice de los tags ', sliceIndex, tagsselected);
-                        return { Categoria: categories.find(x => x.id_cat == vid.id_categoria).titulo, Video: vid.titulo, Id_Categoria: categories.find(x => x.id_cat == vid.id_categoria).id_cat, Id: vid.id, Calificacion: Math.ceil(Math.random() * 5), Visitas: vid.total_visitas, Comentario: [], Tags: tagsselected, Relato: relatovideohightlight }
+                        setListado(videosvisitados)
+                        setCargaPaginada(true);
                     });
-                    setListado(videosvisitados)
+                }).catch(err=>{
                     setCargaPaginada(true);
-                });
+                })
+                
             })
-            const peticioncalificaciones = axios.get(`${getBaseAdressApi()}api/listarcalificacionesvideos/`).then(respuesta=>{
-                setVideosCalificados(respuesta.data);
-            }).catch(err=>{
-
-            })
+            
         }
     }, [listado])
     const estableceDescendienteAscendiente = (valor, orden) => {
@@ -594,12 +600,12 @@ const ListadoVideosMasVisitados = (props) => {
                                 return rel.id_autor.username
                             }).filter(onlyUnique) : []
                             let claseCssBotonOpciones = opcionesSetVisible == index ? "container-default-combo listado-combo" : "container-default-combo combo-hidden"
-                            let calificaciondelvideo = videosCalificados.find(x=> x.id== item.Id) ? (videosCalificados.find(x=> x.id== item.Id).total_calificacion ? videosCalificados.find(x=> x.id== item.Id).total_calificacion.toFixed(1) :0) : 0
+                            
                             let autorRelato = item.Relato != "" ? autores.join(', ') : "";
                             //console.log('autores del relato de video ', item.Relato, autores);
                             return (
                                 <div className="vid-listado" key={index}>
-                                    <div>{item.Video}</div><div>{item.Categoria}</div><div>{calificaciondelvideo}</div>
+                                    <div>{item.Video}</div><div>{item.Categoria}</div><div>{item.Calificacion}</div>
                                     <div style={{ textAlign: 'center' }}>{item.Visitas}
                                     </div>
 

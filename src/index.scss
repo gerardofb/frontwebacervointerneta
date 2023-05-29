@@ -1451,7 +1451,7 @@ Estilo de footer
   display: grid;
   gap: .5em;
   grid-template-columns: 25% 75%;
-  grid-template-rows: 35px 4% 94%;
+  grid-template-rows: 35px 4% 96%;
 
 }
 
@@ -3922,6 +3922,7 @@ Clases de los eventos específicos del acervo (no los publicados por otros usuar
   padding: 0 .5em;
   display: none;
   background-color: white;
+  min-width: 150px;
   z-index: 999;
 }
 
@@ -4018,9 +4019,10 @@ Clases de los eventos específicos del acervo (no los publicados por otros usuar
 }
 
 .listado-default {
+  grid-row:3;
   grid-column: 2;
   min-height: 100vh;
-  margin: 1em .25em;
+  margin: 1em .25em 4em .25em;
 }
 
 .evt-listado div img,
