@@ -232,7 +232,9 @@ const tipoBusquedaPagina = {
     TAG: 5
 }
 const orderBy = (listado, ordenamiento, desc) => {
-    let salida = listado;
+    let salida = listado.map((e,idx)=>{
+        return e;
+    });
 
     if (ordenamiento == ordenBusquedaPredeterminado.Titulo) {
         salida.sort((a, b) => a.Video.localeCompare(b.Video));
@@ -241,12 +243,12 @@ const orderBy = (listado, ordenamiento, desc) => {
         salida.sort((a, b) => a.Categoria.localeCompare(b.Categoria));
     }
     else if (ordenamiento == ordenBusquedaPredeterminado.Calificacion) {
-        salida.sort((a, b) => a.Calificacion - b.Calificacion);
+        salida.sort((a, b) => parseFloat(a.Calificacion) - parseFloat(b.Calificacion));
     }
     else if (ordenamiento == ordenBusquedaPredeterminado.Tags) {
         salida.sort((a, b) => a.Tags.length - b.Tags.length);
     }
-    salida = desc ? listado.reverse() : listado;
+    salida = desc ? salida.reverse() : salida;
     //console.log('ordenando listado', ordenamiento, salida, ordenBusquedaPredeterminado);
     return salida;
 }
