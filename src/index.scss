@@ -4009,6 +4009,10 @@ Clases de los eventos específicos del acervo (no los publicados por otros usuar
   text-align: left;
   padding: 0 .5em;
 }
+.vid-listado div:nth-child(1){
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
 
 .evt-listado button,
 .vid-listado button {
