@@ -143,7 +143,7 @@ const Register = (props) => {
                     ...formValidate,
                     exitoso:false
                 })}><FontAwesomeIcon icon={faClose}></FontAwesomeIcon></div>
-                <p>!Felicidades! Su registro ha sido exitoso, en breve recibirá un correo electrónico para verificar el registro en el sitio.</p>
+                <p>!Felicidades! Su registro ha sido exitoso, en breve recibirá un correo electrónico para verificar el registro en el sitio, en caso de no recibirlo, verifique su carpeta de correo no deseado.</p>
             </div>
         }
         {formValidate.invalido && <div className='error-summary'>
