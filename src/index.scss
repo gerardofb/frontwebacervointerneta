@@ -5078,3 +5078,14 @@ Estilos del modal de advertencia al usuario de publicación anónima
 .contenedor-pagina-vacia {
   background-color: black;
 }
+
+.aviso-privacidad{
+  padding:2em;
+  & ul{
+    list-style-type: lower-alpha;
+  }
+  text-align: justify;
+  & h3{
+    border-bottom: 1px solid darkgray;
+  }
+}

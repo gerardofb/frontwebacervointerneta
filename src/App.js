@@ -27,6 +27,7 @@ import Login from './features/Account/Login';
 import Pagina_404 from './features/Pagina_404';
 import Logout from './features/Account/Logout';
 import FormaContacto from './features/FormaContacto';
+import AvisoPrivacidad from './features/AvisoPrivacidadj';
 import { useEffect } from 'react';
 import {library} from '@fortawesome/fontawesome-svg-core';
 import { faBook, faHouse, faTape, faForward, faCommentDots, faVolumeHigh, faCalendarDays, faUserCheck, faUser,
@@ -259,6 +260,11 @@ const populate_videos_set = () => {
           <Route path="/VerificaRegistro">
             <ThemeProvider>
               <ValidarRegistro></ValidarRegistro>
+            </ThemeProvider>
+          </Route>
+          <Route path="/AvisoPivacidad">
+            <ThemeProvider>
+              <AvisoPrivacidad></AvisoPrivacidad>
             </ThemeProvider>
           </Route>
           <Route path="*">
