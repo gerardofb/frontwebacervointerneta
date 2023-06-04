@@ -5089,3 +5089,14 @@ Estilos del modal de advertencia al usuario de publicación anónima
     border-bottom: 1px solid darkgray;
   }
 }
+.miperfil{
+  padding:2em;
+  & .registros-perfil{
+    display:grid;
+    grid-template-columns: repeat(2,1fr);
+  }
+  text-align: justify;
+  & h3{
+    border-bottom: 1px solid darkgray;
+  }
+}

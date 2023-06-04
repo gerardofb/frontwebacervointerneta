@@ -53,6 +53,12 @@ const sideBarData = [
         icon: "user-check",
         subNav: [
           {
+            title: "Mi perfil",
+              path: '/Perfil',
+              icon: 'fa-users',
+              sesion_no_iniciada: false 
+          },
+          {
             title: "Registro",
             path: '/Registro',
             icon: 'address-card'
@@ -68,7 +74,7 @@ const sideBarData = [
             path: '/CerrarSesion',
             icon: 'fa-up-right-and-down-left-from-center',
             sesion_no_iniciada: false
-          },]
+          }]
       },
       {
         title: "Categorias",

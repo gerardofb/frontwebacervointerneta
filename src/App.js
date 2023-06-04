@@ -28,18 +28,19 @@ import Pagina_404 from './features/Pagina_404';
 import Logout from './features/Account/Logout';
 import FormaContacto from './features/FormaContacto';
 import AvisoPrivacidad from './features/AvisoPrivacidadj';
+import Perfil from './features/Account/Perfil';
 import { useEffect } from 'react';
 import {library} from '@fortawesome/fontawesome-svg-core';
 import { faBook, faHouse, faTape, faForward, faCommentDots, faVolumeHigh, faCalendarDays, faUserCheck, faUser,
 faEnvelope, faCircleExclamation, faHeart, faRadio, faTimeline, faPlay, faShuffle, faFilm, faVideo, faClapperboard, 
-faAddressCard, faCheck, faRightFromBracket, faUpRightAndDownLeftFromCenter } from '@fortawesome/free-solid-svg-icons';
+faAddressCard, faCheck, faRightFromBracket, faUpRightAndDownLeftFromCenter, faUsers } from '@fortawesome/free-solid-svg-icons';
 import SideBar from './features/Menu/Sidebar'
 import { useState } from 'react';
 import {getBaseAdressApi} from './features/MainAPI'
 
 library.add(faBook, faHouse, faTape, faForward, faCommentDots, faVolumeHigh, faCalendarDays, faUserCheck, faEnvelope,
   faCircleExclamation, faHeart, faRadio, faTimeline, faPlay, faShuffle, faFilm, faVideo, faClapperboard, faCheck,
-  faRightFromBracket,faUpRightAndDownLeftFromCenter, faAddressCard);
+  faRightFromBracket,faUpRightAndDownLeftFromCenter, faAddressCard, faUsers);
 const FlexContents = styled(Contents)`
   display: flex;
   justify-content: space-between;
@@ -265,6 +266,11 @@ const populate_videos_set = () => {
           <Route path="/AvisoPivacidad">
             <ThemeProvider>
               <AvisoPrivacidad></AvisoPrivacidad>
+            </ThemeProvider>
+          </Route>
+          <Route path="/Perfil">
+            <ThemeProvider>
+              <Perfil></Perfil>
             </ThemeProvider>
           </Route>
           <Route path="*">
