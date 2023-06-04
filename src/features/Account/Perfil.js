@@ -7,16 +7,15 @@ import axios from 'axios';
 const Perfil = (props) => {
     const [datosPerfil, setDatosPefil] = useState({});
     useEffect(() => {
-        const getAuthorization = axios.post(`${getBaseAdressApi()}api/userprofile`,
-            {
-                headers: {
-                    "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
-                }
-            }).then(response=>{
+        const getAuthorization = axios.get(`${getBaseAdressApi()}api/userprofile/`, {
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
+            }
+        }).then(response=>{
                 setDatosPefil({
                     usuario:response.data["username"],
-                    nombres:response.data["firstname"],
-                    apellidos:response.data["lastname"],
+                    nombres:response.data["first_name"],
+                    apellidos:response.data["last_name"],
                     correo:response.data["email"]
                 })
             }).catch(err=>{
