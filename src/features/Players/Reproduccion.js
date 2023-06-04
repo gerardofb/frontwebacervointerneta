@@ -1513,13 +1513,13 @@ export const AutoComments = () => {
                             <dt>Guión:</dt><dd>{creditosvideo.guion}</dd>
                             <dt>Cámara:</dt><dd>{creditosvideo.camara}</dd>
                             <dt>Sinopsis:</dt><dd>{creditosvideo.sinopsis}</dd>
-                            <dt>Tema:</dt><dd>Ninguno establecido</dd>
-                            <dt>Colección:</dt><dd>Ninguna establecida</dd>
+                            <dt>Guión:</dt><dd>{creditosvideo.guion}</dd>
+                            <dt>Cámara:</dt><dd>{creditosvideo.camara}</dd>
                             <dt>Año:</dt><dd>{creditosvideo.anio_produccion}</dd>
-                            <dt>Producción:</dt><dd>{creditosvideo.produccion_ejecutiva}</dd>
-                            <dt>Duración:</dt><dd>{creditosvideo.duracion_mins}</dd>
-                            <dt>Formato de producción:</dt><dd>Ninguno establecido</dd>
-                            <dt>Formatos disponibles:</dt><dd>Ninguno establecido</dd>
+                            <dt>Producción:</dt><dd>{creditosvideo.produccion}</dd>
+                            <dt>Duración:</dt><dd>{creditosvideo.duracion_mins} minutos</dd>
+                            <dt>Música:</dt><dd>{creditosvideo.musica}</dd>
+                            <dt>Edición:</dt><dd>{creditosvideo.edicion}</dd>
                         </dl>
                     </div>
                     : childrenModal == MODAL_REDES ?
