@@ -1262,7 +1262,7 @@ export const Autobiograficos = () => {
             });
             //console.log('los videos son ',videosimagenes);
             setListadoImagenesVideos(videosimagenes);
-            if (relatoEditing.trim() != "" && blobURL.blob.size < 5000000/**/) {
+            if (relatoEditing.trim() != "" && blobURL.blob.size < 10000000/**/) {
                 let nuevoRelato = {
                     "id_autor": "usuario_generico",
                     "id_video": activeVideo.id,
