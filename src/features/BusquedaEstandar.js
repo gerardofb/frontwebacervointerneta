@@ -507,9 +507,11 @@ export const BusquedaEstandar = (props) => {
         toggleState(e,MODAL_SEARCH_USERS);
     }
     const setVideoSearch = (e,video)=>{
-        setValorVideoSearch(video);
-        setBuscarAvanzado(video,tiposBusqueda.VIDEO);
+        setValorVideoSearch(video.id);
+        setVideosListado([...videoslistado,{id:video.id,titulo:video.titulo}]);
+        setBuscarAvanzado(video.id,tiposBusqueda.VIDEO);
         toggleState(e,MODAL_SEARCH_VIDEOS);
+
     }
     return (
         <div>
@@ -620,7 +622,7 @@ export const BusquedaEstandar = (props) => {
                         }
                     </div>
                     <div style={estableceTab(tabuladores[1])}>
-                        <h2>Resultados de la búsqueda ({totalResultados.relatos}):</h2>
+                        <h2>Resultados de la búsqueda:</h2>
 
                         {
 
@@ -648,7 +650,7 @@ export const BusquedaEstandar = (props) => {
                                     <><p>Página {paginaBusqueda.relatos} de {paginasTotal.relatos}
                                     </p><button onClick={(e) => { cambiarPagina(true, tabuladores[1]) }} type="button">Siguiente</button></> : paginaBusqueda.relatos > 1 && paginaBusqueda.relatos >= paginasTotal.relatos ?
                                         <><button onClick={(e) => { cambiarPagina(false, tabuladores[1]) }} type="button">Anterior</button><p>Página {paginaBusqueda.relatos} de {paginasTotal.relatos}</p>
-                                        </> : <><p>Página {paginaBusqueda.relatos} de {paginasTotal.relatos}</p>
+                                        </> : <><p></p>
                                         </>}
                             </div>
                         }
@@ -672,7 +674,7 @@ export const BusquedaEstandar = (props) => {
                             <button type="button" onClick={searchVideo}><FontAwesomeIcon icon={faSearch}></FontAwesomeIcon></button></div>
                             <div className='results-search-list-advanced'>
                                 {videosSearch.map((el,index)=>{
-                                    return <button type="button" onClick={(e) => setVideoSearch(e,el.id)}>{el.titulo}</button>
+                                    return <button type="button" onClick={(e) => setVideoSearch(e,el)}>{el.titulo}</button>
                                 })}
                             </div></div> : null}</ModalAlt>
         </div>
