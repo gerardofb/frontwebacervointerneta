@@ -1051,7 +1051,7 @@ export const Autobiograficos = () => {
     const [relatoEditing, setRelatoEditing] = useState('');
     const [habilitarLoader, setHabilitarLoader] = useState(null);
     const [habilitarLoaderInitial, setHabilitarLoaderInitial] = useState(null);
-    const [publicarAnonimo, setEsPublicarAnonimo] = useState({ intento: false, publicar: false });
+    const [publicarAnonimo, setEsPublicarAnonimo] = useState({ intento: false, publicar: false, longitud:false });
     const postRelato = () => {
         let objetoSearchPagina = {
             "query": "",
@@ -1154,7 +1154,8 @@ export const Autobiograficos = () => {
                         setEsPublicarAnonimo({
                             ...publicarAnonimo,
                             intento: true,
-                            publicar: false
+                            publicar: false,
+                            longitud:false
                         });
                         //console.log('error previsto en publicación ', err);
                     }
@@ -1177,7 +1178,8 @@ export const Autobiograficos = () => {
                                         setEsPublicarAnonimo({
                                             ...publicarAnonimo,
                                             intento: false,
-                                            publicar: false
+                                            publicar: false,
+                                            longitud:false
                                         })
                                         relatoUnico.podcast == false && relatoUnico.relato == false ?
                                             setBiographies(biografias) : relatoUnico.podcast && relatoUnico.relato == false ?
@@ -1203,7 +1205,8 @@ export const Autobiograficos = () => {
                                                 setEsPublicarAnonimo({
                                                     ...publicarAnonimo,
                                                     intento: false,
-                                                    publicar: false
+                                                    publicar: false,
+                                                    longitud:false
                                                 })
                                                 relatoUnico.podcast == false && relatoUnico.relato == false ?
                                                     setBiographies(biografias) : relatoUnico.podcast && relatoUnico.relato == false ?
@@ -1259,7 +1262,7 @@ export const Autobiograficos = () => {
             });
             //console.log('los videos son ',videosimagenes);
             setListadoImagenesVideos(videosimagenes);
-            if (relatoEditing.trim() != "") {
+            if (relatoEditing.trim() != "" && blobURL.blob.size < 5000000/**/) {
                 let nuevoRelato = {
                     "id_autor": "usuario_generico",
                     "id_video": activeVideo.id,
@@ -1272,8 +1275,10 @@ export const Autobiograficos = () => {
                 datos.append("relato", nuevoRelato.relato);
                 datos.append("espodcast", nuevoRelato.espodcast);
                 datos.append("filefield", blobURL.blob)
+                console.log('longitud del blob enviado ',blobURL.blob.size)
                 //console.log('enviando los siguientes datos del podcast ', datos.get('relato'), datos)
                 setHabilitarLoader(true);
+                
                 const requestPutRelato = axios.put(`${getBaseAdressApi()}api/relatevideoauth/`,
                     datos, {
                     headers: {
@@ -1334,10 +1339,20 @@ export const Autobiograficos = () => {
                     setEsPublicarAnonimo({
                         ...publicarAnonimo,
                         intento: true,
-                        publicar: false
+                        publicar: false,
+                        longitud:false
                     });
                 });
 
+            }
+            else{
+                setHabilitarLoader(false);
+                setEsPublicarAnonimo({
+                    ...publicarAnonimo,
+                    intento: true,
+                    publicar: false,
+                    longitud:true
+                });
             }
         }).catch(errcat => {
             setModeEdit({ podcast: editing.podcast, editando: false });
@@ -1486,11 +1501,18 @@ export const Autobiograficos = () => {
                                     <>
                                         <h4 style={{ margin: '.5em 1em' }}>Escriba una descripción e inicie la grabación del podcast, relacionado al vídeo elegido en la siguiente columna {activeVideo && 'Relato acerca del clip ' + activeVideo.titulo}</h4>
 
-                                        {publicarAnonimo.intento &&
+                                        {publicarAnonimo.intento && !publicarAnonimo.longitud &&
                                             <div className='usuario-desautorizado'>
                                                 <div className="contenido-usuario-desautorizado">
                                                     <p>Atención, no es posible publicar podcasts anónimos en el sitio, es necesario estar registrado en el sitio e iniciar sesión.</p>
                                                     <p><Link to="/Login">inicie sesión</Link> en el sitio.</p>
+                                                </div>
+                                            </div>
+                                        }
+                                        {publicarAnonimo.intento && publicarAnonimo.longitud &&
+                                            <div className='usuario-desautorizado'>
+                                                <div className="contenido-usuario-desautorizado">
+                                                    <p>Atención, no es posible publicar podcasts mayores en longitud a 5 MB.</p>
                                                 </div>
                                             </div>
                                         }
@@ -1514,7 +1536,7 @@ export const Autobiograficos = () => {
                                                 <div className="contenido-usuario-desautorizado">
                                                     <p>Atención, debido a que no ha iniciado sesión en el sitio, el comentario se publicará como anónimo.</p>
                                                     <p>De click en el botón "Aceptar" para continuar y vuelva a intentarlo por favor.</p><p>O bien, <Link to="/Login">inicie sesión</Link> en el sitio.</p>
-                                                    <button type="button" onClick={(e) => { setEsPublicarAnonimo({ ...publicarAnonimo, intento: false, publicar: true }); }}>Aceptar</button>
+                                                    <button type="button" onClick={(e) => { setEsPublicarAnonimo({ ...publicarAnonimo, intento: false, publicar: true,longitud:false }); }}>Aceptar</button>
                                                 </div>
                                             </div>
                                         }
