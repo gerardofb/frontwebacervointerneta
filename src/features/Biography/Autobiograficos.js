@@ -343,7 +343,7 @@ export const Autobiograficos = () => {
     const historia = useHistory();
     const { relato } = useParams();
     const [rutaDiferente, setRutaDiferente] = useState('');
-    const [paginacion, setPaginacion] = useState({ paginaActual: 0, tamanio: 0 })
+    const [paginacion, setPaginacion] = useState({ paginaActual: 0, tamanio: 0, pagina: 0 })
     const actualRelato = relato;
     const location = useLocation();
     const esPodcast = new URLSearchParams(location.search).get('podcast') !== "false";
@@ -367,9 +367,75 @@ export const Autobiograficos = () => {
         const bottom = Math.round(e.target.scrollHeight - e.target.scrollTop) === e.target.clientHeight;
         //console.log('en scroll ', Math.round(e.target.scrollHeight - e.target.scrollTop), e.target.clientHeight);
         if (bottom) {
-            //console.log("reached bottom", tags.length);
+            console.log("reached bottom", tags.length, paginacion);
             let items = tags.concat(tags);
             setTags(items);
+            let parametros = new URLSearchParams(window.location.search);
+            setHabilitarLoader(true);
+            if (paginacion.tamanio > paginacion.pagina) {
+                if (biographies.length < paginacion.tamanio) {
+                    let pagina_actual = paginacion.paginaActual + 1;
+                    setPaginacion({ ...paginacion, paginaActual: pagina_actual });
+                    let desdePagina = pagina_actual * paginacion.pagina;
+                    let objetoSearchPagina = {
+                        "query": "",
+                        "categoria": "",
+                        "frase": false,
+                        "autor": "",
+                        "puede": "",
+                        "prefijo": "",
+                        "video": "",
+                        "pagina_inicial": desdePagina
+                    };
+                    setQueryActual(objetoSearchPagina);
+                    const requestCategoriesVideos = axios.get(`${getBaseAdressApi()}api/categorias/`).then(response => {
+
+                        let respuestacategories = response.data.results.map((el, ind) => {
+                            let title = el.titulo.replace(/\s/g, '-');
+                            let videos = el.videos_por_categoria !== undefined ? el.videos_por_categoria.map((vid, idx) => {
+                                return { titulo: vid.titulo, id: vid.id, video: vid.contenedor_aws, imagen: vid.contenedor_img }
+                            }) : []
+                            return { description: el.titulo, link: '/Categorias/' + title + "/dummy", image: el.contenedor_img, listadoVideos: videos }
+                        });
+                        let videosimagenes = [];
+
+                        respuestacategories.map((cat, ind) => {
+                            videosimagenes = videosimagenes.concat(cat.listadoVideos);
+                        });
+                        //console.log('los videos son ',videosimagenes);
+                        setListadoImagenesVideos(videosimagenes);
+                        const requestSearchRelatos = axios.post(`${getBaseAdressApi()}api/searchrelato/`,
+                            objetoSearchPagina
+                        ).then(response => {
+                            let biografias = response.data.map((elemento, indice) => {
+                                return { document_id: elemento.document_id, id_video: elemento.id_video, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice(0, 30) };
+                            });
+                             biografias = biografias.map((relato, index) => {
+                                let imagen = videosimagenes.find(x => x.id == relato.id_video);
+                                relato.image = imagen ? imagen.imagen : '';
+                                return relato;
+                            });
+                            if (biografias.length > 0) {
+                                setPaginacion({ ...paginacion, tamanio: response.data[0] ? response.data[0].total : 0, pagina: response.data[0] ? response.data[0].paginacion : 0 })
+                                setBiographies(biographies.concat(biografias));
+                            }
+                            setHabilitarLoader(false);
+                        }).catch(err => {
+                            setHabilitarLoader(false);
+                        });
+
+                    }).catch(err => {
+                        setHabilitarLoader(false);
+                    });
+
+                }
+            }
+            else {
+                setHabilitarLoader(false);
+            }
+        }
+        else {
+            setHabilitarLoader(false);
         }
 
     }
@@ -402,7 +468,7 @@ export const Autobiograficos = () => {
                     let biografias = response.data.map((elemento, indice) => {
                         return { document_id: elemento.document_id, id_video: elemento.id_video, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice((indice + 1) * 10, (indice + 2) * 10) };
                     });
-
+                    setPaginacion({ ...paginacion, tamanio: response.data[0] ? response.data[0].total : 0, pagina: response.data[0] ? response.data[0].paginacion : 0 })
                     biografias = biografias.map((relato, index) => {
 
                         //console.log('encontrando la imagen ', videosimagenes, relato);
@@ -451,7 +517,7 @@ export const Autobiograficos = () => {
                     let biografias = response.data.map((elemento, indice) => {
                         return { document_id: elemento.document_id, id_video: elemento.id_video, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice((indice + 1) * 10, (indice + 2) * 10) };
                     });
-
+                    setPaginacion({ ...paginacion, tamanio: response.data[0] ? response.data[0].total : 0, pagina: response.data[0] ? response.data[0].paginacion : 0 })
                     biografias = biografias.map((relato, index) => {
 
                         //console.log('encontrando la imagen ', videosimagenes, relato);
@@ -536,7 +602,7 @@ export const Autobiograficos = () => {
                         let biografias = response.data.map((elemento, indice) => {
                             return { document_id: elemento.document_id, id_video: elemento.id_video, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice((indice + 1) * 10, (indice + 2) * 10) };
                         });
-
+                        setPaginacion({ ...paginacion, tamanio: response.data[0] ? response.data[0].total : 0, pagina: response.data[0] ? response.data[0].paginacion : 0 })
                         biografias = biografias.map((relato, index) => {
 
                             //console.log('encontrando la imagen ', videosimagenes, relato);
@@ -713,7 +779,7 @@ export const Autobiograficos = () => {
                         let biografias = response.data.map((elemento, indice) => {
                             return { document_id: elemento.document_id, id_video: elemento.id_video, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice((indice + 1) * 10, (indice + 2) * 10) };
                         });
-
+                        setPaginacion({ ...paginacion, tamanio: response.data[0] ? response.data[0].total : 0, pagina: response.data[0] ? response.data[0].paginacion : 0 })
                         biografias = biografias.map((relato, index) => {
 
                             //console.log('encontrando la imagen ', videosimagenes, relato);
@@ -807,7 +873,7 @@ export const Autobiograficos = () => {
                     let biografias = response.data.map((elemento, indice) => {
                         return { document_id: elemento.document_id, id_video: elemento.id_video, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice((indice + 1) * 10, (indice + 2) * 10) };
                     });
-
+                    setPaginacion({ ...paginacion, tamanio: response.data[0] ? response.data[0].total : 0, pagina: response.data[0] ? response.data[0].paginacion : 0 })
                     biografias = biografias.map((relato, index) => {
 
                         //console.log('encontrando la imagen ', videosimagenes, relato);
@@ -1001,6 +1067,7 @@ export const Autobiograficos = () => {
                 let biografias = response.data.map((elemento, indice) => {
                     return { document_id: elemento.document_id, id_video: elemento.id_video, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice(0, 30) };
                 });
+                setPaginacion({ ...paginacion, tamanio: response.data[0] ? response.data[0].total : 0, pagina: response.data[0] ? response.data[0].paginacion : 0 })
                 biografias = biografias.map((relato, index) => {
                     let imagen = videosimagenes.find(x => x.id == relato.id_video);
                     relato.image = imagen ? imagen.imagen : '';
@@ -1051,7 +1118,7 @@ export const Autobiograficos = () => {
     const [relatoEditing, setRelatoEditing] = useState('');
     const [habilitarLoader, setHabilitarLoader] = useState(null);
     const [habilitarLoaderInitial, setHabilitarLoaderInitial] = useState(null);
-    const [publicarAnonimo, setEsPublicarAnonimo] = useState({ intento: false, publicar: false, longitud:false });
+    const [publicarAnonimo, setEsPublicarAnonimo] = useState({ intento: false, publicar: false, longitud: false });
     const postRelato = () => {
         let objetoSearchPagina = {
             "query": "",
@@ -1106,8 +1173,9 @@ export const Autobiograficos = () => {
                             objetoSearchPagina
                         ).then(response => {
                             let biografias = response.data.map((elemento, indice) => {
-                                return { document_id: elemento.document_id, id_video: elemento.id_video,content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice(0, 30) };
+                                return { document_id: elemento.document_id, id_video: elemento.id_video, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice(0, 30) };
                             });
+                            setPaginacion({ ...paginacion, tamanio: response.data[0] ? response.data[0].total : 0, pagina: response.data[0] ? response.data[0].paginacion : 0 })
                             biografias = biografias.map((relato, index) => {
                                 let imagen = videosimagenes.find(x => x.id == relato.id_video);
                                 relato.image = imagen ? imagen.imagen : '';
@@ -1126,8 +1194,9 @@ export const Autobiograficos = () => {
                                     objetoSearchPagina
                                 ).then(response => {
                                     let biografias = response.data.map((elemento, indice) => {
-                                        return { document_id: elemento.document_id, content: elemento.relato,id_video: elemento.id_video, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice(0, 30) };
+                                        return { document_id: elemento.document_id, content: elemento.relato, id_video: elemento.id_video, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice(0, 30) };
                                     });
+                                    setPaginacion({ ...paginacion, tamanio: response.data[0] ? response.data[0].total : 0, pagina: response.data[0] ? response.data[0].paginacion : 0 })
                                     biografias = biografias.map((relato, index) => {
                                         let imagen = videosimagenes.find(x => x.id == relato.id_video);
                                         relato.image = imagen ? imagen.imagen : '';
@@ -1155,7 +1224,7 @@ export const Autobiograficos = () => {
                             ...publicarAnonimo,
                             intento: true,
                             publicar: false,
-                            longitud:false
+                            longitud: false
                         });
                         //console.log('error previsto en publicación ', err);
                     }
@@ -1168,8 +1237,9 @@ export const Autobiograficos = () => {
                                         objetoSearchPagina
                                     ).then(response => {
                                         let biografias = response.data.map((elemento, indice) => {
-                                            return { document_id: elemento.document_id,id_video: elemento.id_video, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice(0, 30) };
+                                            return { document_id: elemento.document_id, id_video: elemento.id_video, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice(0, 30) };
                                         });
+                                        setPaginacion({ ...paginacion, tamanio: response.data[0] ? response.data[0].total : 0, pagina: response.data[0] ? response.data[0].paginacion : 0 })
                                         biografias = biografias.map((relato, index) => {
                                             let imagen = videosimagenes.find(x => x.id == relato.id_video);
                                             relato.image = imagen ? imagen.imagen : '';
@@ -1179,7 +1249,7 @@ export const Autobiograficos = () => {
                                             ...publicarAnonimo,
                                             intento: false,
                                             publicar: false,
-                                            longitud:false
+                                            longitud: false
                                         })
                                         relatoUnico.podcast == false && relatoUnico.relato == false ?
                                             setBiographies(biografias) : relatoUnico.podcast && relatoUnico.relato == false ?
@@ -1195,8 +1265,9 @@ export const Autobiograficos = () => {
                                                 objetoSearchPagina
                                             ).then(response => {
                                                 let biografias = response.data.map((elemento, indice) => {
-                                                    return { document_id: elemento.document_id,id_video: elemento.id_video, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice(0, 30) };
+                                                    return { document_id: elemento.document_id, id_video: elemento.id_video, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice(0, 30) };
                                                 });
+                                                setPaginacion({ ...paginacion, tamanio: response.data[0] ? response.data[0].total : 0, pagina: response.data[0] ? response.data[0].paginacion : 0 })
                                                 biografias = biografias.map((relato, index) => {
                                                     let imagen = videosimagenes.find(x => x.id == relato.id_video);
                                                     relato.image = imagen ? imagen.imagen : '';
@@ -1206,7 +1277,7 @@ export const Autobiograficos = () => {
                                                     ...publicarAnonimo,
                                                     intento: false,
                                                     publicar: false,
-                                                    longitud:false
+                                                    longitud: false
                                                 })
                                                 relatoUnico.podcast == false && relatoUnico.relato == false ?
                                                     setBiographies(biografias) : relatoUnico.podcast && relatoUnico.relato == false ?
@@ -1275,10 +1346,10 @@ export const Autobiograficos = () => {
                 datos.append("relato", nuevoRelato.relato);
                 datos.append("espodcast", nuevoRelato.espodcast);
                 datos.append("filefield", blobURL.blob)
-                console.log('longitud del blob enviado ',blobURL.blob.size)
+                console.log('longitud del blob enviado ', blobURL.blob.size)
                 //console.log('enviando los siguientes datos del podcast ', datos.get('relato'), datos)
                 setHabilitarLoader(true);
-                
+
                 const requestPutRelato = axios.put(`${getBaseAdressApi()}api/relatevideoauth/`,
                     datos, {
                     headers: {
@@ -1292,8 +1363,9 @@ export const Autobiograficos = () => {
                             objetoSearchPagina
                         ).then(response => {
                             let biografias = response.data.map((elemento, indice) => {
-                                return { document_id: elemento.document_id, id_video: elemento.id_video,content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice(0, 30) };
+                                return { document_id: elemento.document_id, id_video: elemento.id_video, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice(0, 30) };
                             });
+                            setPaginacion({ ...paginacion, tamanio: response.data[0] ? response.data[0].total : 0, pagina: response.data[0] ? response.data[0].paginacion : 0 })
                             biografias = biografias.map((relato, index) => {
                                 let imagen = videosimagenes.find(x => x.id == relato.id_video);
                                 relato.image = imagen ? imagen.imagen : '';
@@ -1312,8 +1384,9 @@ export const Autobiograficos = () => {
                                     objetoSearchPagina
                                 ).then(response => {
                                     let biografias = response.data.map((elemento, indice) => {
-                                        return { document_id: elemento.document_id,id_video: elemento.id_video, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice(0, 30) };
+                                        return { document_id: elemento.document_id, id_video: elemento.id_video, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice(0, 30) };
                                     });
+                                    setPaginacion({ ...paginacion, tamanio: response.data[0] ? response.data[0].total : 0, pagina: response.data[0] ? response.data[0].paginacion : 0 })
                                     biografias = biografias.map((relato, index) => {
                                         let imagen = videosimagenes.find(x => x.id == relato.id_video);
                                         relato.image = imagen ? imagen.imagen : '';
@@ -1340,18 +1413,18 @@ export const Autobiograficos = () => {
                         ...publicarAnonimo,
                         intento: true,
                         publicar: false,
-                        longitud:false
+                        longitud: false
                     });
                 });
 
             }
-            else{
+            else {
                 setHabilitarLoader(false);
                 setEsPublicarAnonimo({
                     ...publicarAnonimo,
                     intento: true,
                     publicar: false,
-                    longitud:true
+                    longitud: true
                 });
             }
         }).catch(errcat => {
@@ -1536,7 +1609,7 @@ export const Autobiograficos = () => {
                                                 <div className="contenido-usuario-desautorizado">
                                                     <p>Atención, debido a que no ha iniciado sesión en el sitio, el comentario se publicará como anónimo.</p>
                                                     <p>De click en el botón "Aceptar" para continuar y vuelva a intentarlo por favor.</p><p>O bien, <Link to="/Login">inicie sesión</Link> en el sitio.</p>
-                                                    <button type="button" onClick={(e) => { setEsPublicarAnonimo({ ...publicarAnonimo, intento: false, publicar: true,longitud:false }); }}>Aceptar</button>
+                                                    <button type="button" onClick={(e) => { setEsPublicarAnonimo({ ...publicarAnonimo, intento: false, publicar: true, longitud: false }); }}>Aceptar</button>
                                                 </div>
                                             </div>
                                         }
@@ -1550,7 +1623,7 @@ export const Autobiograficos = () => {
                         </>
                     }
                 </div>
-                <div className='autobiografico-main-list'>
+                <div className='autobiografico-main-list' onScroll={handleScroll}>
                     {!editing.editando ?
                         <>
                             <div className='autobiografico-main-list-entries'>
