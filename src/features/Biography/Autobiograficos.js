@@ -1585,7 +1585,7 @@ export const Autobiograficos = () => {
                                         {publicarAnonimo.intento && publicarAnonimo.longitud &&
                                             <div className='usuario-desautorizado'>
                                                 <div className="contenido-usuario-desautorizado">
-                                                    <p>Atención, no es posible publicar podcasts mayores en longitud a 5 MB.</p>
+                                                    <p>Atención, no es posible publicar podcasts mayores en longitud a 10 MB.</p>
                                                 </div>
                                             </div>
                                         }
