@@ -20,7 +20,6 @@ display:none`
 const StyledLink = styled(Link)`
   width:${props => (props.isFocused ? "100%" : "100%")};
   display: block;
-  margin:2rem;
   text-decoration:none;
   height: ${props => (props.isFocused ? "100%" : "100%")};
   background-color: ${props => (props.isFocused ? "white" : "transparent")};
@@ -45,9 +44,11 @@ const VideoGridItem = styled.li`
   padding: ${props => (props.isFocused ? "0" : "2rem")};
   padding-top: 0;
   margin-left:-5%;
+  position:relative;
   z-index:${props => (props.isFocused ? "99999" : "100")};
   img {
     will-change: transform;
+    
   }
 `
 
@@ -117,6 +118,7 @@ class VideoBlock extends PureComponent {
     if (!this.state.sampleVideo) extraProps["data-icon-nonsample"] = true
     const TituloVideo = this.props.titulo
     return (
+      <div className="item-video-block-hovered">
       <VideoGridItem key={id} isFocused={isFocused} {...extraProps}>
         {isFocused && (
           <Flipped flipId={`${set}-detail-title`}>
@@ -139,7 +141,7 @@ class VideoBlock extends PureComponent {
           </Flipped>
           <StyledParagraph className="video-block-paragraph-white">
             {this.state.creditos && this.state.creditos.sinopsis}
-            &nbsp;<Link to={"/Reproduccion/"+TituloVideo+"|"+this.props.identificador+"|"+this.props.id_categoria}><FontAwesomeIcon style={{ fontSize: 'large' }} icon={faArrowRight} /></Link>
+            &nbsp;<span className="tooltip-video-block-link">click...</span><Link to={"/Reproduccion/"+TituloVideo+"|"+this.props.identificador+"|"+this.props.id_categoria}><FontAwesomeIcon style={{ fontSize: 'large' }} icon={faArrowRight} /></Link>
           </StyledParagraph>
           <StyledTools className="video-block-tool-white">
             <span style={{ color: 'black' }}>{this.state.calificacionvideo} calificación <img src={urlsvg("thumbs-up-solid")} style={{ width: '6%', color: 'white' }} /></span>
@@ -150,6 +152,7 @@ class VideoBlock extends PureComponent {
           </StyledTools>
         </StyledLink>
       </VideoGridItem>
+      </div>
     )
   }
 }
