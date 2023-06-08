@@ -7,7 +7,7 @@ import { HomeFooter } from '../HomeFooter';
 import { ThemesContext } from '../../ThemeProvider';
 import axios from 'axios';
 import { getBaseAdressApi } from '../MainAPI';
-import { faClose } from '@fortawesome/free-solid-svg-icons';
+import { faClose, faEye } from '@fortawesome/free-solid-svg-icons';
 
 const ENUM_REGISTRO = {
     EMAIL: 1,
@@ -18,6 +18,7 @@ const ENUM_REGISTRO = {
     LAST_NAME: 6
 }
 const Register = (props) => {
+    const [showPassword,setShowPassword]=useState({normal:false,confirm:false});
     const [formRegister, setFormRegister] = useState({
         email: '',
         username: '',
@@ -171,11 +172,11 @@ const Register = (props) => {
                     <label>Nombre de usuario</label><input type="text" value={formRegister.username} onChange={(e) => estableceValorRegistro(e.target.value, ENUM_REGISTRO.USERNAME)}></input>
                 </div>
                 <div className='item-grid-address password-validate'>
-                    <label>Contraseña</label><input type="password" value={formRegister.password} onChange={(e) => estableceValorRegistro(e.target.value, ENUM_REGISTRO.PASSWORD)}></input>
+                    <label>Contraseña</label><span className="eye-validate" style={{color:"blue"}} onClick={(e)=>{setShowPassword({...showPassword,normal:!showPassword.normal})}}><FontAwesomeIcon icon={faEye}></FontAwesomeIcon></span><input type={showPassword.normal?"text":"password"} value={formRegister.password} onChange={(e) => estableceValorRegistro(e.target.value, ENUM_REGISTRO.PASSWORD)}></input>
                     <span style={{ color: "green" }}>{formRegister.password_confirm && <FontAwesomeIcon icon='fa-check'></FontAwesomeIcon>}</span>
                 </div>
                 <div className='item-grid-address password-validate'>
-                    <label>Confirmar contraseña</label><input type="password" value={formRegister.password2} onChange={(e) => estableceValorRegistro(e.target.value, ENUM_REGISTRO.CONFIRM_PASSWORD)}
+                    <label>Confirmar contraseña</label><span className="eye-validate" style={{color:"blue"}} onClick={(e)=>{setShowPassword({...showPassword,confirm:!showPassword.confirm})}}><FontAwesomeIcon icon={faEye}></FontAwesomeIcon></span><input type={showPassword.confirm?"text":"password"} value={formRegister.password2} onChange={(e) => estableceValorRegistro(e.target.value, ENUM_REGISTRO.CONFIRM_PASSWORD)}
                         onBlur={verificaPassword}></input><span style={{ color: "green" }}>{formRegister.password_confirm && <FontAwesomeIcon icon='fa-check'></FontAwesomeIcon>}</span>
                 </div>
                 <div className='item-grid-address'>
