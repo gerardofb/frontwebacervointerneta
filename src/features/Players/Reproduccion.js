@@ -979,6 +979,7 @@ export const AutoComments = () => {
     const toggleState = (e, indice) => {
         //console.log('estableciendo estado ', modalOpen);
         if (indice == MODAL_DESCARGAS) {
+            localStorage.setItem('titulo-descarga-video',titulo);
             history.push('/Contacto');
         }
         setCalificacionEnviada(false);

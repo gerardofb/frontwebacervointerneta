@@ -4,6 +4,7 @@ import { HomeFooter } from './HomeFooter';
 import axios from 'axios';
 import { getBaseAdressApi } from './MainAPI';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import {
     faClose
 } from '@fortawesome/free-solid-svg-icons';
@@ -19,8 +20,8 @@ function isInViewportMenu() {
     const barranav = document.querySelector('.navbar-principal');
     const rect = barranav.getBoundingClientRect();
     const { scrollTop, offsetHeight } = document.documentElement;
-    // console.log('datos de video encabezado', rect.top, rect.left, rect.bottom, rect.right)
-    // console.log('limite datos de video encabezado ', Math.round(scrollTop - rect.top))
+    //console.log('datos de video encabezado', rect.top, rect.left, rect.bottom, rect.right)
+    console.log('limite datos de video encabezado ', Math.round(scrollTop - rect.top))
     if (Math.round(scrollTop - rect.top) <= 0) {
         menusuperior.style.display = 'block'
 
@@ -36,7 +37,10 @@ const FormaContacto = (props) => {
         mensaje: '',
         video: null
     });
-
+    const handleScroll = () => {
+        isInViewportMenu();
+    }
+    const location = useLocation();
     const [todascategorias, setTodascategorias] = useState([])
     const [videoslistado, setVideosListado] = useState([])
     const [consultaAvanzada, setConsultaAvanzada] = useState({
@@ -65,18 +69,23 @@ const FormaContacto = (props) => {
     }
     useEffect(() => {
         isInViewportMenu();
+        if (localStorage.getItem('titulo-descarga-video')) {
+            setTimeout(function(){
+            setVideoSeleccionado({
+                ...videoseleccionado,
+                titulo: localStorage.getItem('titulo-descarga-video')
+            });
+            busquedaVideo(localStorage.getItem('titulo-descarga-video'))
+            localStorage.removeItem('titulo-descarga-video')
+        },500)
+        }
         if (todascategorias.length == 0) {
             const respuesta_cat = axios.get(`${getBaseAdressApi()}api/categorias/`).then(response => {
                 //console.log('dentro de consulta original', response.data.results);
                 setTodascategorias(response.data.results);
             });
         }
-        // const requestVideos = axios.get(`${getBaseAdressApi()}api/shortlistvideos/`).then(response => {
-        //     let videos = response.data.results.map((el, indice) => {
-        //         return { id: el.id, titulo: el.titulo }
-        //     })
-        //     setVideosListado(videos);
-        // });
+ 
     }, [videoslistado, todascategorias]);
     const [formValidate, setFormValidate] = useState({
         mapeo: {
@@ -159,7 +168,7 @@ const FormaContacto = (props) => {
         return arreglo.filter(e => e !== undefined)
 
     }
-    return (<>
+    return (<div>
         <NavBar></NavBar>
         {
             formValidate.exitoso && <div className='login-success'>
@@ -211,7 +220,7 @@ const FormaContacto = (props) => {
                                 titulo: e.target.value
                             }); busquedaVideo(e.target.value);
                         }}
-                        onSelect={(val) => { let selected = listadoVideos.find(e => e.titulo == val); setVideoSeleccionado(selected); estableceValorFormulario(selected,ENUM_CONTACTO.VIDEO) }}
+                        onSelect={(val) => { let selected = listadoVideos.find(e => e.titulo == val); setVideoSeleccionado(selected); estableceValorFormulario(selected, ENUM_CONTACTO.VIDEO) }}
                     />
                 </div>
                 <div className='send-login'>
@@ -220,8 +229,9 @@ const FormaContacto = (props) => {
             </div>
 
         </div >
-        <div class="footer-login">
+        <div className="footer-login">
             <HomeFooter></HomeFooter>
-        </div></>)
+        </div>
+    </div>)
 }
 export default FormaContacto;
