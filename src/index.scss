@@ -4906,8 +4906,14 @@ Estilos del listado de videos en página home
   & img {
     height: 100px;
   }
-
-  ;
+  & p.sinopsis-corta-item-video{
+    height:calc(100px - 2em);
+    padding:1em;
+    text-overflow: ellipsis;
+    overflow:hidden;
+    color:white;
+    font-size: x-small;
+  }
   text-align: right;
 }
 

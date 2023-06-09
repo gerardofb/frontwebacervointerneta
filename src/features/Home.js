@@ -40,9 +40,10 @@ export class Home extends React.Component {
         videosList: [],
         habilitarLoader: false,
         habilitarLoaderCategories: false,
+        creditosvideo: { id: 0, sinopsis: '' }
     }
     handleScroll = () => {
-        
+
         isInViewportMenu();
     }
     filterActiveCatVideos = (arreglo) => {
@@ -53,6 +54,25 @@ export class Home extends React.Component {
         })
         //console.log('videos activos por categoría para listado inicial de todos los videos', videosCatActivos.filter(x => x !== undefined));
         return videosCatActivos.filter(x => x !== undefined);
+    }
+    estableceCreditosHover = (idvideo, bandera) => {
+        if (bandera) {
+            const requesttwo = axios.get(`${getBaseAdressApi()}api/creditosvideo/${idvideo}`).then(response => {
+
+                this.setState({
+                    ...this.state,
+                    creditosvideo: { id: idvideo, sinopsis: response.data[0].sinopsis }
+                });
+                console.log('los creditos del video son ', response.data[0])
+
+            });
+        }
+        else {
+            this.setState({
+                ...this.state,
+                creditosvideo: { id: 0, sinopsis: '' }
+            });
+        }
     }
     componentDidMount() {
         this.setState({
@@ -170,7 +190,12 @@ export class Home extends React.Component {
                                     {this.filterActiveCatVideos(this.state.videosList).map((video, index) => {
                                         let vinculo = "/Reproduccion/" + video.titulo + "|" + video.id + "|" + video.id_categoria;
                                         return <div key={index} className='item-list-videos-home'>
-                                            <Link style={{ textDecoration: 'none', color: 'transparent' }} to={vinculo}><img src={video.contenedor_img} alt={video.titulo} /></Link>
+                                            <Link style={{ textDecoration: 'none', color: 'transparent' }} to={vinculo}>
+                                                {this.state.creditosvideo.id != video.id ?
+                                                    <img src={video.contenedor_img} alt={video.titulo} onMouseOver={(e) => this.estableceCreditosHover(video.id,true)} />
+                                                    : <p className='sinopsis-corta-item-video' onMouseLeave={(e)=>this.estableceCreditosHover(0,false)}>{this.state.creditosvideo.sinopsis}</p>
+                                                }
+                                            </Link>
                                             <div className='titles-item-list-videos-home'>
                                                 <p>Trailer {(index + 1)}: {video.titulo}</p>
                                                 <p><FontAwesomeIcon icon={faHeart} />&nbsp;{video.favoritos_por_video.length} favoritos</p>
