@@ -14,6 +14,22 @@ const ENUM_CONTACTO = {
     MENSAJE: 2,
     VIDEO: 3
 }
+function isInViewportMenu() {
+    const menusuperior = document.querySelector('.container-menu-main')
+    const barranav = document.querySelector('.navbar-principal');
+    const rect = barranav.getBoundingClientRect();
+    const { scrollTop, offsetHeight } = document.documentElement;
+    // console.log('datos de video encabezado', rect.top, rect.left, rect.bottom, rect.right)
+    // console.log('limite datos de video encabezado ', Math.round(scrollTop - rect.top))
+    if (Math.round(scrollTop - rect.top) <= 0) {
+        menusuperior.style.display = 'block'
+
+    }
+    else {
+        menusuperior.style.display = 'none'
+    }
+
+}
 const FormaContacto = (props) => {
     const [form, setForm] = useState({
         correo_electronico: '',
@@ -48,6 +64,7 @@ const FormaContacto = (props) => {
         }
     }
     useEffect(() => {
+        isInViewportMenu();
         if (todascategorias.length == 0) {
             const respuesta_cat = axios.get(`${getBaseAdressApi()}api/categorias/`).then(response => {
                 //console.log('dentro de consulta original', response.data.results);

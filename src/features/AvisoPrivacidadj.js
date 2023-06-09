@@ -1,8 +1,27 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import NavBar from './NavBar';
 import { HomeFooter } from './HomeFooter';
+function isInViewportMenu() {
+    const menusuperior = document.querySelector('.container-menu-main')
+    const barranav = document.querySelector('.navbar-principal');
+    const rect = barranav.getBoundingClientRect();
+    const { scrollTop, offsetHeight } = document.documentElement;
+    // console.log('datos de video encabezado', rect.top, rect.left, rect.bottom, rect.right)
+    // console.log('limite datos de video encabezado ', Math.round(scrollTop - rect.top))
+    if (Math.round(scrollTop - rect.top) <= 0) {
+        menusuperior.style.display = 'block'
 
+    }
+    else {
+        menusuperior.style.display = 'none'
+    }
+
+}
 const AvisoPrivacidad = (props) => {
+    useEffect(() => {
+        isInViewportMenu();
+        
+    });
     return (
         <div>
             <NavBar></NavBar>
