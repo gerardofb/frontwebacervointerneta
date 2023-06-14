@@ -91,6 +91,22 @@ const onExit = el => {
     }).finished
 }
 const ruta_aws = "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/"
+function isInViewportMenu() {
+    const menusuperior = document.querySelector('.container-menu-main')
+    const barranav = document.querySelector('.navbar-principal');
+    const rect = barranav.getBoundingClientRect();
+    const { scrollTop, offsetHeight } = document.documentElement;
+    // console.log('datos de video encabezado', rect.top, rect.left, rect.bottom, rect.right)
+    // console.log('limite datos de video encabezado ', Math.round(scrollTop - rect.top))
+    if (Math.round(scrollTop - rect.top) <= 0) {
+        menusuperior.style.display = 'block'
+
+    }
+    else {
+        menusuperior.style.display = 'none'
+    }
+
+}
 const VideoSetPage = (
     props) => {
     const { set, focusedVideo } = useParams();
@@ -103,6 +119,7 @@ const VideoSetPage = (
     const [categoriaSet, setCategoriaSet] = useState({})
     const [consultandominiaturas, setConsultandoMiniautras] = useState(false);
     useEffect(() => {
+        isInViewportMenu();
         if (videosPopulated == null) {
             populate_videos_set();
         }

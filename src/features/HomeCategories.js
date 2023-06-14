@@ -73,7 +73,7 @@ const HomeCategories = (props) => {
             }
         }
         else {
-            console.log('distancias inversas',-distance,-(distancia * props.categoriasService.length - 1))
+            console.log('distancias inversas', -distance, -(distancia * props.categoriasService.length - 1))
             if (-distance > 0 && -distance < -(distancia * props.categoriasService.length - 1)) {
                 setFlip(false);
                 setDistance(distance - distancia);
@@ -85,27 +85,27 @@ const HomeCategories = (props) => {
         }
     }
     const forwardText = (distancia) => {
-        if(distancia > 0){
-        if (distancetext > -(distancia * props.categoriasService.length - 1)) {
-            setFlipText(false);
-            setDistanceText(distancetext - distancia);
+        if (distancia > 0) {
+            if (distancetext > -(distancia * props.categoriasService.length - 1)) {
+                setFlipText(false);
+                setDistanceText(distancetext - distancia);
+            }
+            else {
+                setFlipText(true);
+                setDistanceText(0);
+            }
         }
         else {
-            setFlipText(true);
-            setDistanceText(0);
+            console.log('distancias inversas texto', -distancetext, -(distancia * props.categoriasService.length - 1))
+            if (-distancetext > 0 && -distancetext < -(distancia * props.categoriasService.length - 1)) {
+                setFlipText(false);
+                setDistanceText(distancetext - distancia);
+            }
+            else {
+                setFlipText(true);
+                setDistanceText(0);
+            }
         }
-    }
-    else{
-        console.log('distancias inversas texto',-distancetext,-(distancia * props.categoriasService.length - 1))
-        if (-distancetext > 0 && -distancetext < -(distancia * props.categoriasService.length - 1)) {
-            setFlipText(false);
-            setDistanceText(distancetext - distancia);
-        }
-        else {
-            setFlipText(true);
-            setDistanceText(0);
-        }
-    }
     }
 
     const [flipsvg, setflipsvg] = useState(false)
@@ -132,9 +132,9 @@ const HomeCategories = (props) => {
     return (<div>
         {canvasCategoriasVisible &&
             <>
-                <FontAwesomeIcon icon={faArrowLeft} style={{ fontSize: "xx-large", position: 'absolute', top: '50%', left: '1.5%', color: 'white' }}
+                <FontAwesomeIcon icon={faArrowLeft} style={{ fontSize: "xx-large", cursor:'pointer', position: 'absolute', top: '50%', left: '1.5%', color: 'white' }}
                     onClick={(e => { forward(getTamanioDivCategoria('.primer-categoria-imagen-secuencia', true)); forwardText(getTamanioDivCategoria('.primer-categoria-secuencia', true)) })}></FontAwesomeIcon>
-                <FontAwesomeIcon icon={faArrowRight} style={{ fontSize: "xx-large", position: 'absolute', top: '50%', right: '1.5%', color: 'white' }}
+                <FontAwesomeIcon icon={faArrowRight} style={{ fontSize: "xx-large", cursor:'pointer', position: 'absolute', top: '50%', right: '1.5%', color: 'white' }}
                     onClick={(e => { forward(getTamanioDivCategoria('.primer-categoria-imagen-secuencia')); forwardText(getTamanioDivCategoria('.primer-categoria-secuencia')) })}></FontAwesomeIcon>
             </>
         }
@@ -157,13 +157,16 @@ const HomeCategories = (props) => {
                 {props.categoriasService.map(function (el, index) {
                     //console.log('en categorías revisión fallo',el);
                     let clase_css_categoria = index == 0 ? 'category-images-green primer-categoria-imagen-secuencia' : 'category-images-green';
+                    let vinculo = "/Categorias/" + el.titulo + "/dummy";
                     return (
-                        <div className={clase_css_categoria} key={index} style={{ float: 'left', padding: '10px', display: 'block' }}>
-                            <div className='inner-hover-categoria'><span>{el.titulo.replace(/[-]/g, ' ')}</span></div>
-                            <video width={450} height={337} autoPlay loop type="video/mp4" muted>
-                                <source src={el.contenedor_img}></source>
-                            </video>
-                        </div>
+                        <Link to={vinculo} style={{ textDecoration: 'none', color: 'black' }}>
+                            <div className={clase_css_categoria} key={index} style={{ float: 'left', padding: '10px', display: 'block' }}>
+                                <div className='inner-hover-categoria'><span>{el.titulo.replace(/[-]/g, ' ')}</span></div>
+                                <video width={450} height={337} autoPlay loop type="video/mp4" muted>
+                                    <source src={el.contenedor_img}></source>
+                                </video>
+                            </div>
+                        </Link>
                     )
                 })}
                 <div style={{ clear: 'both' }}></div>
