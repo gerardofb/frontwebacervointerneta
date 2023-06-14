@@ -2139,6 +2139,7 @@ Pagina autobiograficos
   margin: 0 5px;
   text-align: left;
   max-height: 100vh;
+  overflow-y: scroll;
 }
 
 .autobiografico-main-aesthetic .autobiografico-main-category {
@@ -2228,7 +2229,16 @@ Pagina autobiograficos
   display: grid;
   grid-template-columns: 2fr 1fr;
 }
-
+.autobiografico-main-list-tags-header .form-input{
+  display:grid;
+  grid-template-columns: 90% 10%;
+  max-height: 25px;
+}
+.autobiografico-main-list-tags-header .form-input span{
+  display: inline-block;
+  padding-top:.8em;
+  padding-right:.8em;
+}
 .autobiografico-main-list-tags-header .form-input input {
   border-radius: 5px;
   outline: none;
@@ -2336,7 +2346,13 @@ Pagina autobiograficos
   margin-top: 2rem;
 
 }
+.autobiografico-main-category::-webkit-scrollbar {
+  display: none;
+}
 
+.autobiografico-main-category::-webkit-scrollbar {
+  display: none;
+}
 .autobiografico-main-category .autobiografico-main-list-tags::-webkit-scrollbar {
   display: none;
 }
