@@ -1253,7 +1253,7 @@ export const AutoComments = () => {
                         }}>
                             <source src={sourcevideo}></source>
                             <ControlBar disableCompletely={false}></ControlBar>
-                            <BigPlayButton position='center' />
+                            <BigPlayButton position={"center"} />
                             <LoadingSpinner></LoadingSpinner>
                         </Player>
                     }

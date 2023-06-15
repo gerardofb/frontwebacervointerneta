@@ -305,7 +305,7 @@ const ListadoEventos = (props) => {
                         })
 
                     }
-                    <div></div><div>Opciones</div>
+                    <div>Opciones <br /><span className="opciones-listados-small">(el icono de barras abre las opciones disponibles entre ellas visualizar cada elemento)</span></div>
                 </div>
 
                 <div className="listado-default">
