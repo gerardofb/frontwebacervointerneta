@@ -162,7 +162,7 @@ const HomeCategories = (props) => {
                         <Link to={vinculo} style={{ textDecoration: 'none', color: 'black' }}>
                             <div className={clase_css_categoria} key={index} style={{ float: 'left', padding: '10px', display: 'block' }}>
                                 <div className='inner-hover-categoria'><span>{el.titulo.replace(/[-]/g, ' ')}</span></div>
-                                <video width={450} height={337} autoPlay loop type="video/mp4" muted>
+                                <video width={500} height={337} autoPlay loop type="video/mp4" muted>
                                     <source src={el.contenedor_img}></source>
                                 </video>
                             </div>
@@ -185,7 +185,7 @@ const HomeCategories = (props) => {
                     props.categoriasService.map(function (el, index) {
                         let clase_css_categoria = index == 0 ? 'primer-categoria-secuencia' : '';
                         return (
-                            <div key={index} style={{ float: 'left', padding: '25px', display: 'block', maxHeight: '250px', width: '700px', textAlign: 'left', color: 'white', overflowY: 'auto' }} className={headercolors[index % headercolors.length] + " categoria-home" + ' ' + clase_css_categoria}>
+                            <div key={index} style={{ float: 'left', padding: '25px', display: 'block', maxHeight: '250px', width: '470px', textAlign: 'left', color: 'white', overflowY: 'auto' }} className={headercolors[index % headercolors.length] + " categoria-home" + ' ' + clase_css_categoria}>
                                 <h1>{el.titulo}</h1>
                                 <p>{el.descripcion}
                                 </p>
