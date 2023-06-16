@@ -29,18 +29,19 @@ import Logout from './features/Account/Logout';
 import FormaContacto from './features/FormaContacto';
 import AvisoPrivacidad from './features/AvisoPrivacidadj';
 import Perfil from './features/Account/Perfil';
+import QuienesSomos from './features/QuienesSomos';
 import { useEffect } from 'react';
 import {library} from '@fortawesome/fontawesome-svg-core';
 import { faBook, faHouse, faTape, faForward, faCommentDots, faVolumeHigh, faCalendarDays, faUserCheck, faUser,
 faEnvelope, faCircleExclamation, faHeart, faRadio, faTimeline, faPlay, faShuffle, faFilm, faVideo, faClapperboard, 
-faAddressCard, faCheck, faRightFromBracket, faUpRightAndDownLeftFromCenter, faUsers } from '@fortawesome/free-solid-svg-icons';
+faAddressCard, faCheck, faRightFromBracket, faUpRightAndDownLeftFromCenter, faUsers, faSquareCheck } from '@fortawesome/free-solid-svg-icons';
 import SideBar from './features/Menu/Sidebar'
 import { useState } from 'react';
 import {getBaseAdressApi} from './features/MainAPI'
 
 library.add(faBook, faHouse, faTape, faForward, faCommentDots, faVolumeHigh, faCalendarDays, faUserCheck, faEnvelope,
   faCircleExclamation, faHeart, faRadio, faTimeline, faPlay, faShuffle, faFilm, faVideo, faClapperboard, faCheck,
-  faRightFromBracket,faUpRightAndDownLeftFromCenter, faAddressCard, faUsers);
+  faRightFromBracket,faUpRightAndDownLeftFromCenter, faAddressCard, faUsers, faSquareCheck);
 const FlexContents = styled(Contents)`
   display: flex;
   justify-content: space-between;
@@ -271,6 +272,11 @@ const populate_videos_set = () => {
           <Route path="/Perfil">
             <ThemeProvider>
               <Perfil></Perfil>
+            </ThemeProvider>
+          </Route>
+          <Route path="/QuienesSomos">
+            <ThemeProvider>
+              <QuienesSomos></QuienesSomos>
             </ThemeProvider>
           </Route>
           <Route path="*">

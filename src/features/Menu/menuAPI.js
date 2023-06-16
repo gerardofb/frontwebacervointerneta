@@ -48,6 +48,11 @@ const sideBarData = [
         icon: "house",
       },
       {
+        title:"Quiénes somos",
+        path:"/QuienesSomos",
+        icon:"square-check"
+      },
+      {
         title: "Mi cuenta",
         path: "#",
         icon: "user-check",

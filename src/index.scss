@@ -5195,3 +5195,66 @@ Estilos del modal de advertencia al usuario de publicación anónima
 .video-react .video-react-big-play-button{
   display: none !important;
 }
+/*
+Quienes somos estilos
+*/
+.quienes-somos-header hr {
+  display: block;
+  visibility: hidden;
+  height: 1px;
+  border-top: 1px solid #ccc;
+  padding: 1em 0;
+}
+.quienes-somos-body h3{
+  display: block;
+  padding:.5em 2em;
+}
+.quienes-somos-header::before{
+  content: '\25B6';
+  color:darkgray;
+  font-size: xx-large;
+  width:25px;
+  position: absolute;
+  top:.15em;
+}
+.quienes-somos-header{
+  position: relative;
+}
+.quienes-somos-body p{
+  padding:.5em 0;
+  line-height:1.2em;
+}
+.quienes-somos-body p::before{
+  content: '\25C9';
+  color:#ccc;
+  font-size: xx-large;
+  width:25px;
+  line-height: 10px;
+}
+.quienes-somos-content {
+  padding: 2em;
+  text-align: justify;
+}
+.quienes-somos-content-home {
+  padding: 2em;
+  text-align: justify;
+  color:white;
+  & .quienes-somos-body p::before{
+    content: '\25C9';
+    color:#fafaa3;
+    font-size: xx-large;
+    width:25px;
+    line-height: 10px;
+  }
+  & .quienes-somos-header::before{
+    content: '\25B6';
+    color:#fafaa3;
+    font-size: xx-large;
+    width:25px;
+    position: absolute;
+    top:.15em;
+  }
+  & strong{
+    color:#fafaa3;
+  }
+}
