@@ -117,13 +117,14 @@ const VideoSetPage = (
     const location = useLocation();
     const [videosPopulated, setVideosPopulated] = useState(null);
     const [categoriaSet, setCategoriaSet] = useState({})
+    const [descripcionSeparada, setDescripcionSeparada] = useState(null);
     const [consultandominiaturas, setConsultandoMiniautras] = useState(false);
     useEffect(() => {
         isInViewportMenu();
         if (videosPopulated == null) {
             populate_videos_set();
         }
-    }, [videosPopulated]);
+    }, [videosPopulated, descripcionSeparada]);
     const populate_videos_set = () => {
         setConsultandoMiniautras(true);
         const requestone = axios.get(getBaseAdressApi() + 'api/categorias/');
@@ -138,6 +139,13 @@ const VideoSetPage = (
                     arreglocats.push([response[0].data.results[i].titulo, response[0].data.results[i].contenedor_img, response[0].data.results[i].videos_por_categoria])
                 }
                 else arreglocats.push([]);
+                el.titulo = el.titulo.replace(/\s/g, '-')
+                if (el.titulo == set) {
+                    setCategoriaSet(el);
+
+                    setDescripcionSeparada(el.descripcion.split('\r\n'));
+
+                }
                 return null;
             })
             // let primeracat = response[0].data.results[0] !== undefined ? [response[0].data.results[0].titulo, response[0].data.results[0].contenedor_img, response[0].data.results[0].videos_por_categoria] : [];
@@ -158,13 +166,7 @@ const VideoSetPage = (
             //console.log('los videos enumerados son ', salida)
             //console.log(salida);
             setVideosPopulated(salida);
-            response[0].data.results.map((el, indice) => {
-                //console.log('iterando en categorias de respuesta ', el)
-                el.titulo = el.titulo.replace(/\s/g, '-')
-                if (el.titulo == set) {
-                    setCategoriaSet(el)
-                }
-            });
+
             setConsultandoMiniautras(false);
         }));
         return;
@@ -202,9 +204,8 @@ const VideoSetPage = (
         })
         return videosService;
     }
-    {
-        //console.log('el estado de los videos en esta categoría es', set, videosPopulated, focusedVideo, categoriaSet)
-    }
+    console.log('descripción de bullets ', descripcionSeparada);
+
     return (
 
         <div>
@@ -270,10 +271,13 @@ const VideoSetPage = (
                         </CanvasVideoSet>
                         <div className="resume-video-set">
                             <h2>{set.replace('-', ' ')}</h2>
-                            <p>Número de documentos audiovisuales: 26</p>
-                            <p>{
-                                categoriaSet && categoriaSet.descripcion
-                            }</p>
+                            <ul style={{ listStyle: "disc" }}>
+                                {descripcionSeparada && descripcionSeparada.map((cat, i) => {
+                                    if (cat.trim() != "") {
+                                        return <li>{cat}</li>
+                                    }
+                                })
+                                }</ul>
 
                         </div>
                     </div>
