@@ -19,7 +19,7 @@ export async function getMenuData(user = {}) {
   //console.log('las categorias recuperadas son ',getActualCategories());
   const promesa = getActualCategories();
   await promesa.then(data=>{
-    sideBarData[0].subNav[2].subNav= data;
+    sideBarData[0].subNav[3].subNav= data;
     //console.log('sidebar datos adentro ',sideBarData);
     
   })
