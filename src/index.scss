@@ -936,9 +936,10 @@ Estilo de footer
 
 .footer-list-white li {
   cursor: pointer;
-  & a{
+
+  & a {
     text-decoration: none;
-    color:white;
+    color: white;
   }
 }
 
@@ -971,24 +972,26 @@ Estilo de footer
   justify-content: center;
   align-items: center;
   margin: auto;
-  & .spline-logos-sociales-footer-1{
-  height:50px;
-  width: 100%;
-  background-image:url('/images/cable_inicio_2.png');
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size:100%;
-  grid-column: 1;
-  }
-  & .spline-logos-sociales-footer-2{
-    height:50px;
+
+  & .spline-logos-sociales-footer-1 {
+    height: 50px;
     width: 100%;
-    background-image:url('/images/cable_inicio_1.png');
+    background-image: url('/images/cable_inicio_2.png');
     background-repeat: no-repeat;
     background-position: center center;
-    background-size:100%;
+    background-size: 100%;
+    grid-column: 1;
+  }
+
+  & .spline-logos-sociales-footer-2 {
+    height: 50px;
+    width: 100%;
+    background-image: url('/images/cable_inicio_1.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100%;
     grid-column: 4;
-    }
+  }
 
   & img {
     width: 20px;
@@ -1002,11 +1005,49 @@ Estilo de footer
     display: block;
   }
 }
-.logos-sociales-footer a:nth-child(1){
+
+.logos-sociales-footer a:nth-child(1) {
   grid-column: 2;
 }
-.logos-sociales-footer a:nth-child(2){
+
+.logos-sociales-footer a:nth-child(2) {
   grid-column: 2;
+}
+
+h3#footer-vinculos {
+  background-image: url('/images/vga_1.png');
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-size: 10%;
+  padding-left: 15%;
+  padding-bottom:.25em;
+}
+
+h3#footer-eventos {
+  background-image: url('/images/vga_2.png');
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-size: 10%;
+  padding-left: 15%;
+  padding-bottom:.25em;
+}
+
+h3#footer-categorias {
+  background-image: url('/images/vga_3.png');
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-size: 10%;
+  padding-left: 15%;
+  padding-bottom:.25em;
+}
+
+h3#footer-salaschat {
+  background-image: url('/images/vga_4.png');
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-size: 10%;
+  padding-left: 15%;
+  padding-bottom:.25em;
 }
 
 .logos-patrocinadores-footer {
@@ -1049,13 +1090,15 @@ Estilo de footer
 .logo-interneta-footer img {
   width: 100%;
 }
-.categoria-home{
-  margin:1em 2.82% 1em 0;
+
+.categoria-home {
+  margin: 1em 2.82% 1em 0;
 }
+
 .category-images-green {
   background-color: #2B9230;
   position: relative;
-  margin:1em 1.3% 1em 0;
+  margin: 1em 1.3% 1em 0;
 }
 
 .category-images-green div.inner-hover-categoria {
@@ -1222,7 +1265,7 @@ Estilo de footer
 .tooltip-video-block-link {
   display: none;
   padding-left: 1em;
-  color:limegreen;
+  color: limegreen;
 }
 
 .item-video-block-hovered:hover {
@@ -1247,7 +1290,7 @@ Estilo de footer
   & li p:hover {
     & a {
       animation: none;
-      color:limegreen;
+      color: limegreen;
     }
 
     & .tooltip-video-block-link {
@@ -2243,16 +2286,19 @@ Pagina autobiograficos
   display: grid;
   grid-template-columns: 2fr 1fr;
 }
-.autobiografico-main-list-tags-header .form-input{
-  display:grid;
+
+.autobiografico-main-list-tags-header .form-input {
+  display: grid;
   grid-template-columns: 90% 10%;
   max-height: 25px;
 }
-.autobiografico-main-list-tags-header .form-input span{
+
+.autobiografico-main-list-tags-header .form-input span {
   display: inline-block;
-  padding-top:.8em;
-  padding-right:.8em;
+  padding-top: .8em;
+  padding-right: .8em;
 }
+
 .autobiografico-main-list-tags-header .form-input input {
   border-radius: 5px;
   outline: none;
@@ -2360,6 +2406,7 @@ Pagina autobiograficos
   margin-top: 2rem;
 
 }
+
 .autobiografico-main-category::-webkit-scrollbar {
   display: none;
 }
@@ -2367,6 +2414,7 @@ Pagina autobiograficos
 .autobiografico-main-category::-webkit-scrollbar {
   display: none;
 }
+
 .autobiografico-main-category .autobiografico-main-list-tags::-webkit-scrollbar {
   display: none;
 }
@@ -4840,7 +4888,7 @@ Estilos del registro
       & span {
         font-size: small;
       }
-      
+
       & input {
         width: 205px;
       }
@@ -4937,14 +4985,16 @@ Estilos del listado de videos en página home
   & img {
     height: 100px;
   }
-  & p.sinopsis-corta-item-video{
-    height:calc(100px - 2em);
-    padding:1em;
+
+  & p.sinopsis-corta-item-video {
+    height: calc(100px - 2em);
+    padding: 1em;
     text-overflow: ellipsis;
-    overflow:hidden;
-    color:white;
+    overflow: hidden;
+    color: white;
     font-size: x-small;
   }
+
   text-align: right;
 }
 
@@ -5199,14 +5249,17 @@ Estilos del modal de advertencia al usuario de publicación anónima
     border-bottom: 1px solid darkgray;
   }
 }
-.opciones-listados-small{
+
+.opciones-listados-small {
   font-size: x-small;
   display: inline-block;
   text-align: right;
 }
-.video-react .video-react-big-play-button{
+
+.video-react .video-react-big-play-button {
   display: none !important;
 }
+
 /*
 Quienes somos estilos
 */
@@ -5217,56 +5270,66 @@ Quienes somos estilos
   border-top: 1px solid #ccc;
   padding: 1em 0;
 }
-.quienes-somos-body h3{
+
+.quienes-somos-body h3 {
   display: block;
-  padding:.5em 2em;
+  padding: .5em 2em;
 }
-.quienes-somos-header::before{
+
+.quienes-somos-header::before {
   content: '\25B6';
-  color:darkgray;
+  color: darkgray;
   font-size: xx-large;
-  width:25px;
+  width: 25px;
   position: absolute;
-  top:.15em;
+  top: .15em;
 }
-.quienes-somos-header{
+
+.quienes-somos-header {
   position: relative;
 }
-.quienes-somos-body p{
-  padding:.5em 0;
-  line-height:1.2em;
+
+.quienes-somos-body p {
+  padding: .5em 0;
+  line-height: 1.2em;
 }
-.quienes-somos-body p::before{
+
+.quienes-somos-body p::before {
   content: '\25C9';
-  color:#ccc;
+  color: #ccc;
   font-size: xx-large;
-  width:25px;
+  width: 25px;
   line-height: 10px;
 }
+
 .quienes-somos-content {
   padding: 2em;
   text-align: justify;
 }
+
 .quienes-somos-content-home {
   padding: 2em;
   text-align: justify;
-  color:white;
-  & .quienes-somos-body p::before{
+  color: white;
+
+  & .quienes-somos-body p::before {
     content: '\25C9';
-    color:#fafaa3;
+    color: #fafaa3;
     font-size: xx-large;
-    width:25px;
+    width: 25px;
     line-height: 10px;
   }
-  & .quienes-somos-header::before{
+
+  & .quienes-somos-header::before {
     content: '\25B6';
-    color:#fafaa3;
+    color: #fafaa3;
     font-size: xx-large;
-    width:25px;
+    width: 25px;
     position: absolute;
-    top:.15em;
+    top: .15em;
   }
-  & strong{
-    color:#fafaa3;
+
+  & strong {
+    color: #fafaa3;
   }
 }
