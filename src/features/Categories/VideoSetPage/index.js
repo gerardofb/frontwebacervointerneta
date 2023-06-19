@@ -204,8 +204,6 @@ const VideoSetPage = (
         })
         return videosService;
     }
-    console.log('descripción de bullets ', descripcionSeparada);
-
     return (
 
         <div>
@@ -274,7 +272,8 @@ const VideoSetPage = (
                             <ul style={{ listStyle: "disc" }}>
                                 {descripcionSeparada && descripcionSeparada.map((cat, i) => {
                                     if (cat.trim() != "") {
-                                        return <li>{cat}</li>
+                                        let llave = "resume-video-set-"+i;
+                                        return <li key={llave}>{cat}</li>
                                     }
                                 })
                                 }</ul>
