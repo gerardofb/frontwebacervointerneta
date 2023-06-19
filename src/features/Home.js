@@ -33,7 +33,32 @@ function isInViewportMenu() {
     }
 
 }
-const urlvideointro = "/images/VideoIntroInterNeta.mp4";
+const urlvideointro = "/images/Web_interneta.mp4";
+/* Toggle Button to Unmute the Video */
+
+// function toggleMute() {
+//     var video = document.getElementsByTagName('video')[0];
+//     console.log('el elemento de video es',video);
+//     if (video.muted == false) {
+//         video.muted = true;
+//     } else {
+//         video.muted = false;
+//     }
+// }
+
+// /* Delay Function to Add SetTimeOut After Defined Interval */
+
+// function delay(time) {
+//     return new Promise((resolve) => setTimeout(resolve, time));
+// }
+
+// /* Show Video Function to Add Display Property to Show the Video on Click of Button which will fulfilled User Interaction Needs to Browser to Run the Video with Unmute State */
+
+// function showVideo() {
+//     var button = document.getElementById('button-allow-autoplay');
+//     button.style.display = 'none';
+//     delay(100).then(() => toggleMute());
+// }
 export class Home extends React.Component {
     state = {
         categoriasService: [],
@@ -105,14 +130,14 @@ export class Home extends React.Component {
                 habilitarLoader: false
             });
         });
-
+        // showVideo();
     }
     render() {
         const { styles } = this.context;
         //console.log('en home ', this.context)
         return (
             <div onScroll={this.handleScroll}>
-
+                {/* <button type="button" onClick="showVideo()" id="button-allow-autoplay">Click Me</button> */}
                 <Parallax className={styles.BodyHome}
                     ref={ref => this.parallax = ref}
                     pages={6}
@@ -145,10 +170,10 @@ export class Home extends React.Component {
                     <Parallax.Layer offset={0.2} speed={0} style={{ display: 'flex', marginBottom: '50px' }}>
 
                         <Player autoPlay
-                            muted
                             ref={player => {
                                 this.player = player;
                             }}
+                            muted
                             fluid={false}
                             height={'100%'}
                             width={'100%'}
@@ -208,7 +233,7 @@ export class Home extends React.Component {
                         </div>
                     </Parallax.Layer>
                     <Parallax.Layer offset={4.5} speed={0} style={{ display: 'flex' }}>
-                        <div className={'quienes-somos-content-home '+styles.SecondLayerHome}>
+                        <div className={'quienes-somos-content-home ' + styles.SecondLayerHome}>
                             <div className='quienes-somos-body'>
                                 <div className='quienes-somos-header'>
                                     <h3>¿Quiénes somos?</h3>
