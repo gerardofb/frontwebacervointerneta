@@ -136,7 +136,7 @@ class VideoBlock extends PureComponent {
           <Flipped flipId={id} onAppear={this.onAppear}>
             <div style={{ postion: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               <img src={url(Video)} style={{ width: '200px', height: '160px' }}></img>
-              <img src={urlplay('PLAY_OVER')} style={{ width: '50px', transform: 'translateX(-250%)' }} />
+              {/* <img src={urlplay('PLAY_OVER')} style={{ width: '50px', transform: 'translateX(-250%)' }} /> */}
             </div>
           </Flipped>
           <StyledParagraph className="video-block-paragraph-white">

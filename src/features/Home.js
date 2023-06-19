@@ -33,7 +33,7 @@ function isInViewportMenu() {
     }
 
 }
-const urlvideointro = "/images/Web_interneta.mp4";
+const urlvideointro = "/images/Web_InterNeta.mp4";
 /* Toggle Button to Unmute the Video */
 
 // function toggleMute() {
