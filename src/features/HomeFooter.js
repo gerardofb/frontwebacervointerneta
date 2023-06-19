@@ -59,7 +59,7 @@ const HomeFooter = (props) => {
                         </h3>
                     </li>
                     <li style={{ fontSize: 'small' }}>
-                        Acerca de
+                        <Link to="/QuienesSomos">Acerca de nosotros</Link>
                     </li>
                     <li style={{ fontSize: 'small' }}>
                         <Link to="/Contacto">Contacto</Link>
