@@ -38,6 +38,7 @@ faAddressCard, faCheck, faRightFromBracket, faUpRightAndDownLeftFromCenter, faUs
 import SideBar from './features/Menu/Sidebar'
 import { useState } from 'react';
 import {getBaseAdressApi} from './features/MainAPI'
+import ReactGA from "react-ga4";
 
 library.add(faBook, faHouse, faTape, faForward, faCommentDots, faVolumeHigh, faCalendarDays, faUserCheck, faEnvelope,
   faCircleExclamation, faHeart, faRadio, faTimeline, faPlay, faShuffle, faFilm, faVideo, faClapperboard, faCheck,
@@ -71,7 +72,8 @@ history.push = args => {
 
 function App() {
   const [videosPopulated,setVideosPopulated] = useState(null);
-  const[categoriasService,setCategoriasService] = useState([])
+  const[categoriasService,setCategoriasService] = useState([]);
+  ReactGA.initialize("G-QHDVTJ0KW9");
   useEffect(() => {
     window.addEventListener('popstate', (event) => {
       let elementotop = document.querySelector('.navbar-principal');
