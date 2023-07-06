@@ -8,6 +8,7 @@ import { ThemesContext } from '../../ThemeProvider';
 import axios from 'axios';
 import { getBaseAdressApi } from '../MainAPI';
 import { faClose } from '@fortawesome/free-solid-svg-icons';
+import ReactGA  from 'react-ga4'
 
 const ENUM_LOGIN = {
     USERNAME:1,
@@ -84,6 +85,9 @@ const Login = (props) => {
                 "refresh":response.data["refresh"]
             }).then(respuesta => {
                 localStorage.setItem("credencial",respuesta.data["access"]);
+                ReactGA.event('login',{
+                    method:'backend-std'
+                });
                 setTimeout(function(){
                     window.location = '/';
                 },2000)

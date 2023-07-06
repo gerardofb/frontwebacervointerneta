@@ -8,7 +8,7 @@ import { ThemesContext } from '../../ThemeProvider';
 import axios from 'axios';
 import { getBaseAdressApi } from '../MainAPI';
 import { faClose, faEye } from '@fortawesome/free-solid-svg-icons';
-
+import ReactGA from 'react-ga4'
 const ENUM_REGISTRO = {
     EMAIL: 1,
     USERNAME: 2,
@@ -121,6 +121,9 @@ const Register = (props) => {
                 ...formValidate,
                 invalido: false,
                 exitoso: true
+            });
+            ReactGA.event('sign_up',{
+                method:'backend-std'
             });
         }).catch(err => {
             //console.log('trate de cachar la respuesta del registro ', err);

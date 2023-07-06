@@ -8,6 +8,7 @@ import styled from "styled-components";
 import ModalAlt from './ModalAlt';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import ReactGA from 'react-ga4'
 
 const Tab = styled.button`
   font-size: 20px;
@@ -99,7 +100,9 @@ export const BusquedaEstandar = (props) => {
             const requestSimple = axios.post(`${getBaseAdressApi()}api/searchcomment/`,
                 objetoSearchSimple
             ).then(response => {
-                
+                ReactGA.event('search',{
+                    search_term:consulta
+                });
                 setResultadoBusqueda(response.data);
                 let totalDeResultados = response.data.length > 0 ? response.data[0].total : 0;
                 let paginacion_primera =  response.data.length > 0 ? response.data[0].paginacion : 1;
