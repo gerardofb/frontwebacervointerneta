@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState, useContext } from 'react'
 import { ControlBar, LoadingSpinner, BigPlayButton, Player } from 'video-react'
 import axios from "axios"
-import {utilidadMenuSuperior,isInViewportMenu} from '../utilidadMenuSuperior'
+import { utilidadMenuSuperior, isInViewportMenu } from '../utilidadMenuSuperior'
 import { useHistory } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import {
@@ -341,7 +341,7 @@ export const AutoComments = () => {
             <div><FontAwesomeIcon icon={faBan}></FontAwesomeIcon>&nbsp;Quitar</div>
         </div>
     );
-    const [msjesChat, setMsjesChat] = useState({ chat: mensajes, show: false });
+    const [msjesChat, setMsjesChat] = useState(mensajes);
     const [elems, setItems] = useState([]);
     const [videoaleatorio, setVideoAleatorio] = useState('');
     const [busquedaComentarios, setBusquedaComentarios] = useState(null);
@@ -359,7 +359,7 @@ export const AutoComments = () => {
     const [respuestaComentarioActual, setRespuestaComentarioActual] = useState({ habilitado: false, respuestas: [], numero_respuestas: 0, comentario: '' });
     const [calificacionTotal, setCalificacionTotal] = useState(0);
     const [calificacionEnviada, setCalificacionEnviada] = useState(false);
-
+    const [chatHabilitado, setChatHabilitado] = useState(null);
     growers.forEach((grower) => {
         const textarea = grower.querySelector("textarea");
         textarea.addEventListener("input", () => {
@@ -487,7 +487,7 @@ export const AutoComments = () => {
         });
         const requestthree = axios.get(`${getBaseAdressApi()}api/categoria/${categoriareproduciendo}`).then(response => {
             if (navegacionCategoria == null) {
-                setNavegacionCategoria({id_categoria:response.data.id, titulo_categoria:response.data.titulo, link_categoria:'/Categorias/' + response.data.titulo.replace(/\s+/g,'-') + "/dummy"});
+                setNavegacionCategoria({ id_categoria: response.data.id, titulo_categoria: response.data.titulo, link_categoria: '/Categorias/' + response.data.titulo.replace(/\s+/g, '-') + "/dummy" });
             }
             if (videoscategoria === null) {
                 setVideosCategoria(response.data.videos_por_categoria)
@@ -522,10 +522,10 @@ export const AutoComments = () => {
         if (location.search) {
             setVideoAleatorio(videoaleatorio);
         }
-        setMsjesChat({
-            chat: msjesChat.chat.filter(a => a.propio == false),
-            show: false
-        });
+        // setMsjesChat({
+        //     chat: msjesChat.chat.filter(a => a.propio == false),
+        //     show: false
+        // });
 
         const mes = new Date().getMonth() + 1;
         const get_eventosmonth = axios.get(`${getBaseAdressApi()}api/eventosuser/${(mes)}?limit=15&offset=0`).then(response => {
@@ -887,12 +887,22 @@ export const AutoComments = () => {
     const addMessage = () => {
         //console.log('el texto a agregar es ' + texting.mensaje)
         if (texting.mensaje.length > 0) {
-            let fecha = new Date().toLocaleDateString();
-            let tiempo = new Date().getHours() + ":" + new Date().getMinutes();
-            setMsjesChat({
-                chat: [...msjesChat.chat, { autor: 'Anonimo ' + fecha + " " + tiempo, mensaje: texting.mensaje, propio: true }]
-            });
-            chatRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+            if (chatHabilitado && chatHabilitado.readyState == 1) {
+                chatHabilitado.send(JSON.stringify({ "text": texting.mensaje }));
+            }
+            else {
+                console.log('chat inhabilitado', chatHabilitado)
+                chatHabilitado.onopen = function (event) {
+                    chatHabilitado.send(JSON.stringify({ "text": texting.mensaje }));
+                }
+            }
+
+            // let fecha = new Date().toLocaleDateString();
+            // let tiempo = new Date().getHours() + ":" + new Date().getMinutes();
+            // setMsjesChat({
+            //     chat: [...msjesChat.chat, { autor: 'Anonimo ' + fecha + " " + tiempo, mensaje: texting.mensaje, propio: true }]
+            // });
+            // chatRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
         }
     }
     const chatRef = useRef();
@@ -979,7 +989,7 @@ export const AutoComments = () => {
     const toggleState = (e, indice) => {
         //console.log('estableciendo estado ', modalOpen);
         if (indice == MODAL_DESCARGAS) {
-            localStorage.setItem('titulo-descarga-video',titulo);
+            localStorage.setItem('titulo-descarga-video', titulo);
             history.push('/Contacto');
         }
         setCalificacionEnviada(false);
@@ -1231,6 +1241,49 @@ export const AutoComments = () => {
             });
         })
     }
+    const InitWebSocket = () => {
+        console.log('inicializar socket', chatHabilitado)
+        if (chatHabilitado == null) {
+
+            let socket = new WebSocket(
+                "ws://127.0.0.1:9000/ws/chat/1/"
+            );
+            socket.onopen = function (event) {
+
+                console.log('enviando a socket')
+                socket.send(JSON.stringify({ "text": "Mensaje de prueba al socket!" }));
+
+            };
+            setChatHabilitado(socket);
+            socket.onmessage = function (event) {
+                if (event.data.length > 0) {
+                    console.log('recibiendo chat', event.data);
+                    let salidaJson = JSON.parse(event.data);
+                    // let fecha = new Date().toLocaleDateString();
+                    // let tiempo = new Date().getHours() + ":" + new Date().getMinutes();
+
+                    setMsjesChat((prevState) => [...prevState, { autor: 'Anonimo ' + " " + salidaJson["timestamp"], mensaje: salidaJson["message"], propio: true }]);
+                    console.log('longitud de mensajes', msjesChat.length)
+                    chatRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                }
+            };
+
+        }
+        if (chatHabilitado) {
+            chatHabilitado.onmessage = function (event) {
+                if (event.data.length > 0) {
+                    console.log('recibiendo chat', event.data);
+                    let salidaJson = JSON.parse(event.data);
+                    // let fecha = new Date().toLocaleDateString();
+                    // let tiempo = new Date().getHours() + ":" + new Date().getMinutes();
+
+                    setMsjesChat((prevState) => [...prevState, { autor: 'Anonimo ' + " " + salidaJson["timestamp"], mensaje: salidaJson["message"], propio: true }]);
+                    console.log('longitud de mensajes', msjesChat.length)
+                    chatRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                }
+            };
+        }
+    }
     //console.log('calificación total del video ',calificacionTotal);
     return (
         <div className='player-individual' onScroll={handleScroll}>
@@ -1243,7 +1296,7 @@ export const AutoComments = () => {
                 <NavBar></NavBar>
             </div>
             <h2 className='header-reproduccion-individual' style={{ padding: '1.5em 1.3em' }} onContextMenu={(e) => handleContextMenu(false, false)}>
-                {navegacionCategoria && <Link style={{fontSize:'small'}} to={navegacionCategoria.link_categoria}>Categoría del video: {navegacionCategoria.titulo_categoria}</Link>}<br /> Reproduciendo: {titulo}
+                {navegacionCategoria && <Link style={{ fontSize: 'small' }} to={navegacionCategoria.link_categoria}>Categoría del video: {navegacionCategoria.titulo_categoria}</Link>}<br /> Reproduciendo: {titulo}
             </h2>
             <div onClick={(e) => resetMyEvents(null, true)} className='player-container' onContextMenu={(e) => handleContextMenu(false, false)}>
                 <div className="player-inner">
@@ -1459,7 +1512,7 @@ export const AutoComments = () => {
                         })
                     }
                 </div>
-                <div onClick={(e) => resetMyEvents(null, true)} className={alturaPlayer && alturaPlayerMax ? "chat" : alturaPlayer && !alturaPlayerMax ? "chat-min" : "chat-hidden"}>
+                <div onClick={(e) => { resetMyEvents(null, true); InitWebSocket(); }} className={alturaPlayer && alturaPlayerMax ? "chat" : alturaPlayer && !alturaPlayerMax ? "chat-min" : "chat-hidden"}>
                     <div className='top-chat' onClick={(e) => { setHeightChat(true); handleContextMenu(false, false); }} onContextMenu={(e) => handleContextMenu(false, false)}>
                         <p><FontAwesomeIcon icon={faComment}></FontAwesomeIcon>&nbsp; Chat de Interneta
                         </p>
@@ -1471,7 +1524,7 @@ export const AutoComments = () => {
                         }
                     </div>
                     <div className='content-chat' onScroll={(e) => handleContextMenu(false, false)}>
-                        {alturaPlayer && alturaPlayerMax ? msjesChat.chat.map(function (msj, index) {
+                        {alturaPlayer && alturaPlayerMax ? msjesChat.map(function (msj, index) {
                             return (
                                 <div className='origen-mensaje-chat' ref={referencia} key={(index + "-" + msj.autor)}
                                     onContextMenu={(e) => handleContextMenu(true, true)} onMouseEnter={(e) => handleContextMenu(true, true)}>

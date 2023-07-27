@@ -11,8 +11,8 @@ function isInViewportMenu() {
     const barranav = document.querySelector('.navbar-principal');
     const rect = menusuperior.getBoundingClientRect();
     const { scrollTop, offsetHeight } = document.documentElement;
-    console.log('datos de video encabezado', rect.top, rect.left, rect.bottom, rect.right)
-    console.log('limite datos de video encabezado ', Math.round(scrollTop - rect.top))
+    //console.log('datos de video encabezado', rect.top, rect.left, rect.bottom, rect.right)
+    //console.log('limite datos de video encabezado ', Math.round(scrollTop - rect.top))
     if (Math.round(scrollTop - rect.top) > 0) {
         menusuperior.style.display = 'block'
 
