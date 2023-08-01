@@ -350,7 +350,7 @@ const ListadoVideosMasVisitados = (props) => {
                     let calificaciones_vid = respuesta.data;
                     const peticionVisitados = axios.get(`${getBaseAdressApi()}api/vistasporvideo/`).then(response => {
                         let videosvisitados = response.data.map((vid, ind) => {
-                            console.log('respuesta de videos visitados ',response.data);
+                            //console.log('respuesta de videos visitados ',response.data);
                             let sliceIndex = Math.floor(Math.random() * arreglotags.length);
                             let relatovideohightlight = vid.relatos_por_video && vid.relatos_por_video.length > 0 ? vid.relatos_por_video : "";
                             let calificaciondelvideo = calificaciones_vid.find(x=> x.id== vid.id) ? (calificaciones_vid.find(x=> x.id== vid.id).total_calificacion ? calificaciones_vid.find(x=> x.id== vid.id).total_calificacion.toFixed(1) :0) : 0

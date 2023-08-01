@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
@@ -7,6 +7,7 @@ import SubMenu from './Submenu';
 import { getMenuData } from './menuAPI'
 import axios from 'axios';
 import { getBaseAdressApi } from '../MainAPI';
+import { ThemesContext } from '../../ThemeProvider'
 
 const Nav = styled.div`
   background: #15171c;
@@ -55,6 +56,7 @@ const SideBar = () => {
     const [sideBarData, setSideBarData] = useState([]);
     const [cuentaUsuario, setCuentaUsuario] = useState('');
     const [cargando, setCargando] = useState(true);
+    const { styles, updateUser } = useContext(ThemesContext);
     useEffect(() => {
 
         const post_validate = axios.get(`${getBaseAdressApi()}api/userprofile/`, {

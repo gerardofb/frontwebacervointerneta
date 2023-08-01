@@ -367,7 +367,7 @@ export const Autobiograficos = () => {
         const bottom = Math.round(e.target.scrollHeight - e.target.scrollTop) === e.target.clientHeight;
         //console.log('en scroll ', Math.round(e.target.scrollHeight - e.target.scrollTop), e.target.clientHeight);
         if (bottom) {
-            console.log("reached bottom", tags.length, paginacion);
+            //console.log("reached bottom", tags.length, paginacion);
             let items = tags.concat(tags);
             setTags(items);
             let parametros = new URLSearchParams(window.location.search);
@@ -1097,7 +1097,7 @@ export const Autobiograficos = () => {
             )
         }
         catch (ex) {
-            console.log(ex);
+            //console.log(ex);
         }
     }
 
@@ -1217,7 +1217,7 @@ export const Autobiograficos = () => {
                         });
                     }
                 }).catch(err => {
-                    console.log('error previsto en publicación ', err);
+                    //console.log('error previsto en publicación ', err);
                     if (!publicarAnonimo.publicar) {
                         setHabilitarLoader(false);
                         setEsPublicarAnonimo({
@@ -1346,7 +1346,7 @@ export const Autobiograficos = () => {
                 datos.append("relato", nuevoRelato.relato);
                 datos.append("espodcast", nuevoRelato.espodcast);
                 datos.append("filefield", blobURL.blob)
-                console.log('longitud del blob enviado ', blobURL.blob.size)
+                //console.log('longitud del blob enviado ', blobURL.blob.size)
                 //console.log('enviando los siguientes datos del podcast ', datos.get('relato'), datos)
                 setHabilitarLoader(true);
 

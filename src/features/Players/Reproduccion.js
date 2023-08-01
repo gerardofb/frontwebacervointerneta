@@ -333,7 +333,7 @@ export const AutoComments = () => {
     const tabuladores = ["Comentarios", "Autobiográficos/Podcasts", "Eventos"];
     const [alturaPlayer, setAlturaPlayer] = useState(true);
     const [alturaPlayerMax, setAlturaPlayerMax] = useState(false);
-    const { styles } = useContext(ThemesContext);
+    const { styles, usuario } = useContext(ThemesContext);
     const CustomMenu = () => (
         <div className="menu-personalizado">
             <div><FontAwesomeIcon icon={faClone}></FontAwesomeIcon>&nbsp;Copiar</div>
@@ -371,6 +371,7 @@ export const AutoComments = () => {
     const [player, setPlayer] = useState(null);
     const [relatos, setRelatos] = useState([]);
     useEffect(() => {
+        //console.log('usuario a enviar para login al socket ',usuario,styles);
         let parametros;
         utilidadMenuSuperior();
         if (location.search) {
@@ -425,7 +426,8 @@ export const AutoComments = () => {
                 })
                 //console.log('respuesta de api por defecto', comentarios_search)
 
-            }).catch(reason => console.log('error en consulta por defecto ', reason));
+            }).catch(reason => reason);//console.log('error en consulta por defecto ',
+             
         }
 
         // console.log("Location changed");
@@ -827,7 +829,8 @@ export const AutoComments = () => {
                                 comentarios: { pagina: numero_pagina, habilitado: false, total: paginacion.comentarios.total, tamanio: paginacion.comentarios.tamanio }
                             })
                         }, 1500);
-                    }).catch(reason => console.log('error en consulta por defecto paginando', reason));
+                    }).catch(//reason => //console.log('error en consulta por defecto paginando', reason)
+                    );
                 }
             }
             // else if (active == tabuladores[1] && autobiograficos.lengcatdatath < 100) {
@@ -891,7 +894,7 @@ export const AutoComments = () => {
                 chatHabilitado.send(JSON.stringify({ "text": texting.mensaje }));
             }
             else {
-                console.log('chat inhabilitado', chatHabilitado)
+                //console.log('chat inhabilitado', chatHabilitado)
                 chatHabilitado.onopen = function (event) {
                     chatHabilitado.send(JSON.stringify({ "text": texting.mensaje }));
                 }
@@ -1242,31 +1245,38 @@ export const AutoComments = () => {
         })
     }
     const InitWebSocket = () => {
-        console.log('inicializar socket', chatHabilitado)
+        //console.log('inicializar socket', chatHabilitado)
         if (chatHabilitado == null) {
-
-            let socket = new WebSocket(
-                "ws://127.0.0.1:9000/ws/chat/1/"
-            );
-            socket.onopen = function (event) {
-
-                console.log('enviando a socket')
-                socket.send(JSON.stringify({ "text": "Mensaje de prueba al socket!" }));
-
-            };
-            setChatHabilitado(socket);
-            socket.onmessage = function (event) {
-                if (event.data.length > 0) {
-                    console.log('recibiendo chat', event.data);
-                    let salidaJson = JSON.parse(event.data);
-                    // let fecha = new Date().toLocaleDateString();
-                    // let tiempo = new Date().getHours() + ":" + new Date().getMinutes();
-
-                    setMsjesChat((prevState) => [...prevState, { autor: 'Anonimo ' + " " + salidaJson["timestamp"], mensaje: salidaJson["message"], propio: true }]);
-                    console.log('longitud de mensajes', msjesChat.length)
-                    chatRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
-                }
-            };
+            
+                // const post_chat_login = axios.post(`http://localhost:9001/token/`, {
+                //     "username": usuario.username,
+                //     "password": usuario.password,
+                // }).then(reschat=>{
+                // localStorage.setItem("credencial_chat",reschat.data["access"]);
+                let socket = new WebSocket(
+                    "ws://127.0.0.1:9001/ws/chat/"+idvideo+"/?token="+localStorage.getItem("credencial_chat")
+                );
+                socket.onopen = function (event) {
+    
+                    //console.log('enviando a socket')
+                    //socket.send(JSON.stringify({ "text": "Mensaje de prueba al socket!" }));
+    
+                };
+                setChatHabilitado(socket);
+                socket.onmessage = function (event) {
+                    if (event.data.length > 0) {
+                        console.log('recibiendo chat', event.data);
+                        let salidaJson = JSON.parse(event.data);
+                        // let fecha = new Date().toLocaleDateString();
+                        // let tiempo = new Date().getHours() + ":" + new Date().getMinutes();
+    
+                        setMsjesChat((prevState) => [...prevState, { autor: salidaJson["usuario"] + " " + salidaJson["timestamp"], mensaje: salidaJson["message"], propio: true }]);
+                        //console.log('longitud de mensajes', msjesChat.length)
+                        chatRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                    }
+                };
+                // })
+            
 
         }
         if (chatHabilitado) {
@@ -1277,8 +1287,8 @@ export const AutoComments = () => {
                     // let fecha = new Date().toLocaleDateString();
                     // let tiempo = new Date().getHours() + ":" + new Date().getMinutes();
 
-                    setMsjesChat((prevState) => [...prevState, { autor: 'Anonimo ' + " " + salidaJson["timestamp"], mensaje: salidaJson["message"], propio: true }]);
-                    console.log('longitud de mensajes', msjesChat.length)
+                    setMsjesChat((prevState) => [...prevState, { autor: salidaJson["usuario"] + " " + salidaJson["timestamp"], mensaje: salidaJson["message"], propio: true }]);
+                    //console.log('longitud de mensajes', msjesChat.length)
                     chatRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
                 }
             };

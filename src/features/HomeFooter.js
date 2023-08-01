@@ -8,7 +8,7 @@ const url = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/${name}.png${w
 const HomeFooter = (props) => {
     const history = useHistory();
     const setRelatosAleatorios = () => {
-        console.log('buscando relatos')
+        //console.log('buscando relatos')
         let objetoSearchPagina = {
             "query": "",
             "categoria": "",
@@ -29,9 +29,9 @@ const HomeFooter = (props) => {
                 let indice = parseInt(Math.random() * biografias.length);
                 history.push('/Autobiogràficos/' + biografias[indice].documento_id);
             }
-            else console.log('no se encontraron relatos');
+            //else console.log('no se encontraron relatos');
         }).catch(err => {
-            console.log('error buscando relatos', err);
+            //console.log('error buscando relatos', err);
         });
     }
     const eventoAleatorio = () => {
@@ -43,9 +43,9 @@ const HomeFooter = (props) => {
                 let indice = parseInt(Math.random() * eventosvisitados.length);
                 history.push('/Eventos/' + eventosvisitados[indice].index);
             }
-            console.log('eventos aleatorios ', eventosvisitados)
+            //console.log('eventos aleatorios ', eventosvisitados)
         }).catch(err => {
-            console.log('error consultando eventos aleatorios ', err);
+            //console.log('error consultando eventos aleatorios ', err);
         });
     }
     return (

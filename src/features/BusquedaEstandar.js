@@ -295,7 +295,7 @@ export const BusquedaEstandar = (props) => {
                 })
                 break;
         }
-        console.log('consulta avanzada ', consultaAvanzada);
+        //console.log('consulta avanzada ', consultaAvanzada);
     }
     const tabuladores = ["Comentarios", "Autobiográficos/Podcasts", "Tags"];
     const [active, setActive] = useState(tabuladores[0]);

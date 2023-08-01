@@ -251,7 +251,7 @@ const ListadoEventosProximos = (props) => {
         setEvtChecked(indice);
     }
     const setNavegarEvent = (e,index)=>{
-        console.log('navegando en menú de opciones',e,opcionEvenotPor)
+        //console.log('navegando en menú de opciones',e,opcionEvenotPor)
         if(e.title == 'Explorar')
         history.push('/Eventos/'+index);
     }

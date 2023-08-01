@@ -63,7 +63,7 @@ const FormaContacto = (props) => {
                 });
                 setListadoVideos([{ id_video: 0, titulo: '...Seleccionar' }].concat(respuesta));
             }).catch(err => {
-                console.log(err);
+                //console.log(err);
             });
         }
     }

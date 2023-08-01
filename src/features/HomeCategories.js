@@ -73,7 +73,7 @@ const HomeCategories = (props) => {
             }
         }
         else {
-            console.log('distancias inversas', -distance, -(distancia * props.categoriasService.length - 1))
+            //console.log('distancias inversas', -distance, -(distancia * props.categoriasService.length - 1))
             if (-distance > 0 && -distance < -(distancia * props.categoriasService.length - 1)) {
                 setFlip(false);
                 setDistance(distance - distancia);
@@ -96,7 +96,7 @@ const HomeCategories = (props) => {
             }
         }
         else {
-            console.log('distancias inversas texto', -distancetext, -(distancia * props.categoriasService.length - 1))
+            //console.log('distancias inversas texto', -distancetext, -(distancia * props.categoriasService.length - 1))
             if (-distancetext > 0 && -distancetext < -(distancia * props.categoriasService.length - 1)) {
                 setFlipText(false);
                 setDistanceText(distancetext - distancia);

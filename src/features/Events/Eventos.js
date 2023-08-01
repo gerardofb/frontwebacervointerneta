@@ -494,7 +494,6 @@ const Eventos = () => {
                 });
                 let eventoselected = eventosfirst.find(x => x.index == evento)
                 if (eventoselected) {
-                    console.log()
                     setValor(eventoselected)
                 }
             }).catch(err => {

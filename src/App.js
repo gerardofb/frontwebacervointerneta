@@ -19,7 +19,7 @@ import ListadoVideosMasVisitados from './features/Players/ListadoVideosMasVisita
 import ListadoRelatosFavoritos from './features/Biography/ListadoFavoritosRelatos';
 import ListadoMasVisitadosRelatos from './features/Biography/ListadoMasVisitadosRelatos';
 import ValidarRegistro from './features/Account/ValidarRegistro';
-import {BusquedaEstandar} from './features/BusquedaEstandar';
+import { BusquedaEstandar } from './features/BusquedaEstandar';
 import { ThemeProvider } from './ThemeProvider';
 import Eventos from './features/Events/Eventos';
 import Register from './features/Account/Register';
@@ -31,18 +31,20 @@ import AvisoPrivacidad from './features/AvisoPrivacidadj';
 import Perfil from './features/Account/Perfil';
 import QuienesSomos from './features/QuienesSomos';
 import { useEffect } from 'react';
-import {library} from '@fortawesome/fontawesome-svg-core';
-import { faBook, faHouse, faTape, faForward, faCommentDots, faVolumeHigh, faCalendarDays, faUserCheck, faUser,
-faEnvelope, faCircleExclamation, faHeart, faRadio, faTimeline, faPlay, faShuffle, faFilm, faVideo, faClapperboard, 
-faAddressCard, faCheck, faRightFromBracket, faUpRightAndDownLeftFromCenter, faUsers, faSquareCheck } from '@fortawesome/free-solid-svg-icons';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import {
+  faBook, faHouse, faTape, faForward, faCommentDots, faVolumeHigh, faCalendarDays, faUserCheck, faUser,
+  faEnvelope, faCircleExclamation, faHeart, faRadio, faTimeline, faPlay, faShuffle, faFilm, faVideo, faClapperboard,
+  faAddressCard, faCheck, faRightFromBracket, faUpRightAndDownLeftFromCenter, faUsers, faSquareCheck
+} from '@fortawesome/free-solid-svg-icons';
 import SideBar from './features/Menu/Sidebar'
 import { useState } from 'react';
-import {getBaseAdressApi} from './features/MainAPI'
+import { getBaseAdressApi } from './features/MainAPI'
 import ReactGA from "react-ga4";
 
 library.add(faBook, faHouse, faTape, faForward, faCommentDots, faVolumeHigh, faCalendarDays, faUserCheck, faEnvelope,
   faCircleExclamation, faHeart, faRadio, faTimeline, faPlay, faShuffle, faFilm, faVideo, faClapperboard, faCheck,
-  faRightFromBracket,faUpRightAndDownLeftFromCenter, faAddressCard, faUsers, faSquareCheck);
+  faRightFromBracket, faUpRightAndDownLeftFromCenter, faAddressCard, faUsers, faSquareCheck);
 const FlexContents = styled(Contents)`
   display: flex;
   justify-content: space-between;
@@ -71,59 +73,61 @@ history.push = args => {
 }
 
 function App() {
-  const [videosPopulated,setVideosPopulated] = useState(null);
-  const[categoriasService,setCategoriasService] = useState([]);
+  const [videosPopulated, setVideosPopulated] = useState(null);
+  const [categoriasService, setCategoriasService] = useState([]);
   ReactGA.initialize("G-QHDVTJ0KW9");
   useEffect(() => {
     window.addEventListener('popstate', (event) => {
       let elementotop = document.querySelector('.navbar-principal');
-      if(elementotop !== undefined){setTimeout(function(){elementotop.scrollIntoView({behavior:'smooth'}); //console.log('dispare el evento popstate', elementotop);
-    },100)
-    }
-      
+      if (elementotop !== undefined) {
+        setTimeout(function () {
+          elementotop.scrollIntoView({ behavior: 'smooth' }); //console.log('dispare el evento popstate', elementotop);
+        }, 100)
+      }
+
     });
     populate_videos_set();
-},[videosPopulated]);
-const populate_videos_set = () => {
-  if(videosPopulated==null){
-  const requestone= axios.get(getBaseAdressApi()+'api/categorias/');
-  
-  // const requestwo = axios.get('http://localhost:8000/api/videos/');
-   
-  const promise = axios.all([requestone]).then(axios.spread((...response) => {
-     //console.log(response[0].data)
-    //  let primeracat = response[0].data.results[0] !== undefined ? [response[0].data.results[0].titulo, response[0].data.results[0].contenedor_img, response[0].data.results[0].videos_por_categoria] : [];
-    //   let segundacat = response[0].data.results[1] !== undefined ?[response[0].data.results[1].titulo, response[0].data.results[1].contenedor_img, response[0].data.results[1].videos_por_categoria]: [];
-    //   let terceracat = response[0].data.results[2] !== undefined ?[response[0].data.results[2].titulo, response[0].data.results[2].contenedor_img, response[0].data.results[2].videos_por_categoria]: [];
-    //   let cuartacat = response[0].data.results[3] !== undefined ?[response[0].data.results[3].titulo,  response[0].data.results[3].contenedor_img, response[0].data.results[3].videos_por_categoria]: [];
-    //   let quintacat = response[0].data.results[4] !== undefined ? [response[0].data.results[4].titulo, response[0].data.results[4].contenedor_img, response[0].data.results[4].videos_por_categoria]: [];
-    //   let sextacat = response[0].data.results[5] !== undefined ?[response[0].data.results[5].titulo, response[0].data.results[5].contenedor_img, response[0].data.results[5].videos_por_categoria] :[]
-      
-    //   let salida = arrange_videos([primeracat,segundacat,terceracat,cuartacat,quintacat,sextacat]);
-    let arreglocats = [];
-      response[0].data.results.map((el,i)=>{
-         if(el!== undefined){
-          arreglocats.push([response[0].data.results[i].titulo, response[0].data.results[i].contenedor_img, response[0].data.results[i].videos_por_categoria])
-         }
-         else arreglocats.push([]);
-         return null;
-      })
-      // let primeracat = response[0].data.results[0] !== undefined ? [response[0].data.results[0].titulo, response[0].data.results[0].contenedor_img, response[0].data.results[0].videos_por_categoria] : [];
-      // let segundacat = response[0].data.results[1] !== undefined ? [response[0].data.results[1].titulo, response[0].data.results[1].contenedor_img, response[0].data.results[1].videos_por_categoria] : [];
-      // let terceracat = response[0].data.results[2] !== undefined ? [response[0].data.results[2].titulo, response[0].data.results[2].contenedor_img, response[0].data.results[2].videos_por_categoria] : [];
-      // let cuartacat = response[0].data.results[3] !== undefined ? [response[0].data.results[3].titulo, response[0].data.results[3].contenedor_img, response[0].data.results[3].videos_por_categoria] : [];
-      // let quintacat = response[0].data.results[4] !== undefined ? [response[0].data.results[4].titulo, response[0].data.results[4].contenedor_img, response[0].data.results[4].videos_por_categoria] : [];
-      //let sextacat = response[0].data.results[5] !== undefined ? [response[0].data.results[5].titulo, response[0].data.results[5].contenedor_img, response[0].data.results[5].videos_por_categoria] : []
-      let salida = arrange_videos(arreglocats);
-      
-      setVideosPopulated(salida);
-      
-   }));
-  }
-  return;
+  }, [videosPopulated]);
+  const populate_videos_set = () => {
+    if (videosPopulated == null) {
+      const requestone = axios.get(getBaseAdressApi() + 'api/categorias/');
+
+      // const requestwo = axios.get('http://localhost:8000/api/videos/');
+
+      const promise = axios.all([requestone]).then(axios.spread((...response) => {
+        //console.log(response[0].data)
+        //  let primeracat = response[0].data.results[0] !== undefined ? [response[0].data.results[0].titulo, response[0].data.results[0].contenedor_img, response[0].data.results[0].videos_por_categoria] : [];
+        //   let segundacat = response[0].data.results[1] !== undefined ?[response[0].data.results[1].titulo, response[0].data.results[1].contenedor_img, response[0].data.results[1].videos_por_categoria]: [];
+        //   let terceracat = response[0].data.results[2] !== undefined ?[response[0].data.results[2].titulo, response[0].data.results[2].contenedor_img, response[0].data.results[2].videos_por_categoria]: [];
+        //   let cuartacat = response[0].data.results[3] !== undefined ?[response[0].data.results[3].titulo,  response[0].data.results[3].contenedor_img, response[0].data.results[3].videos_por_categoria]: [];
+        //   let quintacat = response[0].data.results[4] !== undefined ? [response[0].data.results[4].titulo, response[0].data.results[4].contenedor_img, response[0].data.results[4].videos_por_categoria]: [];
+        //   let sextacat = response[0].data.results[5] !== undefined ?[response[0].data.results[5].titulo, response[0].data.results[5].contenedor_img, response[0].data.results[5].videos_por_categoria] :[]
+
+        //   let salida = arrange_videos([primeracat,segundacat,terceracat,cuartacat,quintacat,sextacat]);
+        let arreglocats = [];
+        response[0].data.results.map((el, i) => {
+          if (el !== undefined) {
+            arreglocats.push([response[0].data.results[i].titulo, response[0].data.results[i].contenedor_img, response[0].data.results[i].videos_por_categoria])
+          }
+          else arreglocats.push([]);
+          return null;
+        })
+        // let primeracat = response[0].data.results[0] !== undefined ? [response[0].data.results[0].titulo, response[0].data.results[0].contenedor_img, response[0].data.results[0].videos_por_categoria] : [];
+        // let segundacat = response[0].data.results[1] !== undefined ? [response[0].data.results[1].titulo, response[0].data.results[1].contenedor_img, response[0].data.results[1].videos_por_categoria] : [];
+        // let terceracat = response[0].data.results[2] !== undefined ? [response[0].data.results[2].titulo, response[0].data.results[2].contenedor_img, response[0].data.results[2].videos_por_categoria] : [];
+        // let cuartacat = response[0].data.results[3] !== undefined ? [response[0].data.results[3].titulo, response[0].data.results[3].contenedor_img, response[0].data.results[3].videos_por_categoria] : [];
+        // let quintacat = response[0].data.results[4] !== undefined ? [response[0].data.results[4].titulo, response[0].data.results[4].contenedor_img, response[0].data.results[4].videos_por_categoria] : [];
+        //let sextacat = response[0].data.results[5] !== undefined ? [response[0].data.results[5].titulo, response[0].data.results[5].contenedor_img, response[0].data.results[5].videos_por_categoria] : []
+        let salida = arrange_videos(arreglocats);
+
+        setVideosPopulated(salida);
+
+      }));
+    }
+    return;
   }
   function arrange_videos(arreglo) {
-    arreglo = arreglo.filter(x=> x.length > 0);
+    arreglo = arreglo.filter(x => x.length > 0);
     //console.log('para iterar en app ',arreglo);
     let videosService = {}
     arreglo.forEach(([title, container, pic]) => {
@@ -134,7 +138,7 @@ const populate_videos_set = () => {
           id: `${title.replace(/\s/g, '-')}`,
           name,
           Video: name,
-          titulovideo:pic.titulo
+          titulovideo: pic.titulo
         })
       }, [])
       // randomize the icons to show on the index page
@@ -156,7 +160,7 @@ const populate_videos_set = () => {
     <BrowserRouter>
       <div className="App">
         <div className='container-menu-main'>
-        <SideBar></SideBar>
+          <SideBar></SideBar>
         </div>
         <Switch>
           <Route path='/' exact>
@@ -182,8 +186,8 @@ const populate_videos_set = () => {
             }}
           />}
           <Route path="/Categorias/:set/:focusedVideo">
-          <ThemeProvider>
-            <VideoSetPage videos={videosPopulated}></VideoSetPage>
+            <ThemeProvider>
+              <VideoSetPage videos={videosPopulated}></VideoSetPage>
             </ThemeProvider>
           </Route>
           <Route path="/Reproduccion/:video/" exact>
@@ -202,34 +206,34 @@ const populate_videos_set = () => {
             </ThemeProvider>
           </Route>
           <Route path="/Eventos/ListadoEventos/:tipo" exact>
-              <ThemeProvider>
-                <ListadoEventos></ListadoEventos>
-              </ThemeProvider>
+            <ThemeProvider>
+              <ListadoEventos></ListadoEventos>
+            </ThemeProvider>
           </Route>
           <Route path="/Eventos/ListadoProximosEventos/:tipo" exact>
-              <ThemeProvider>
-                <ListadoEventosProximos></ListadoEventosProximos>
-              </ThemeProvider>
+            <ThemeProvider>
+              <ListadoEventosProximos></ListadoEventosProximos>
+            </ThemeProvider>
           </Route>
           <Route path="/Eventos/EventosMasVisitados/:tipo" exact>
-              <ThemeProvider>
-                <EventosMasVisitados></EventosMasVisitados>
-              </ThemeProvider>
+            <ThemeProvider>
+              <EventosMasVisitados></EventosMasVisitados>
+            </ThemeProvider>
           </Route>
           <Route path="/ListadoReproduccion/:tipo" exact>
-              <ThemeProvider>
-                <ListadoVideosFavoritos></ListadoVideosFavoritos>
-              </ThemeProvider>
+            <ThemeProvider>
+              <ListadoVideosFavoritos></ListadoVideosFavoritos>
+            </ThemeProvider>
           </Route>
           <Route path="/ListadoReproduccionVisitados/:tipo" exact>
-              <ThemeProvider>
-                <ListadoVideosMasVisitados></ListadoVideosMasVisitados>
-              </ThemeProvider>
+            <ThemeProvider>
+              <ListadoVideosMasVisitados></ListadoVideosMasVisitados>
+            </ThemeProvider>
           </Route>
           <Route path="/ListadoRelatosFavoritos/:tipo" exact>
-              <ThemeProvider>
-                <ListadoRelatosFavoritos></ListadoRelatosFavoritos>
-              </ThemeProvider>
+            <ThemeProvider>
+              <ListadoRelatosFavoritos></ListadoRelatosFavoritos>
+            </ThemeProvider>
           </Route>
           <Route path="/ListadoRelatosMasVisitados/:tipo" exact>
             <ThemeProvider>
@@ -237,9 +241,9 @@ const populate_videos_set = () => {
             </ThemeProvider>
           </Route>
           <Route path="/BusquedaEstandar">
-              <ThemeProvider>
-                <BusquedaEstandar></BusquedaEstandar>
-              </ThemeProvider>
+            <ThemeProvider>
+              <BusquedaEstandar></BusquedaEstandar>
+            </ThemeProvider>
           </Route>
           <Route path="/Registro" exact>
             <ThemeProvider>
@@ -252,8 +256,8 @@ const populate_videos_set = () => {
             </ThemeProvider>
           </Route>
           <Route path="/CerrarSesion">
-          <ThemeProvider>
-            <Logout></Logout>
+            <ThemeProvider>
+              <Logout></Logout>
             </ThemeProvider>
           </Route>
           <Route path="/Contacto">
@@ -282,8 +286,8 @@ const populate_videos_set = () => {
             </ThemeProvider>
           </Route>
           <Route path="*">
-          <ThemeProvider>
-            <Pagina_404></Pagina_404>
+            <ThemeProvider>
+              <Pagina_404></Pagina_404>
             </ThemeProvider>
           </Route>
         </Switch>

@@ -30,7 +30,7 @@ function isInViewportMenuEvt() {
     const rect = menusuperior.getBoundingClientRect();
     const rectnav = eventomain.getBoundingClientRect();
     const { scrollTop, offsetHeight } = document.documentElement;
-    console.log('datos de scroll en menu de eventos ',rectnav,rect);
+    //console.log('datos de scroll en menu de eventos ',rectnav,rect);
     if (Math.round(scrollTop - rectnav.top) < rectnav.height) {
         menusuperior.style.display = 'block'
 

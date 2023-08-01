@@ -29,7 +29,7 @@ const ValidarRegistro = (props) => {
                 mensaje: 'Ocurrió un error inesperado'
             });
         }).catch(err => {
-            console.log('error validando registro', err);
+            //console.log('error validando registro', err);
             setExito({
                 ...exito,
                 exitoso: false,

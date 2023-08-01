@@ -278,7 +278,7 @@ const ListadoMasVisitadosRelatos = (props) => {
 
                         let relatovideohightlight = vid.relatos_por_video && vid.relatos_por_video.length > 0 ? vid.relatos_por_video : "";
 
-                        console.log('los relatos del video son ', relatovideohightlight);
+                        //console.log('los relatos del video son ', relatovideohightlight);
                         //console.log('indice de los tags ', sliceIndex, tagsselected);
                         let sumavisitas = relatovideohightlight.length > 1 ? relatovideohightlight.reduce((a, b) => { return (a.total_visitas ? a.total_visitas : 0) + (b.total_visitas ? b.total_visitas : 0) }) : relatovideohightlight.length > 0 ?
                         relatovideohightlight[0].total_visitas :0;

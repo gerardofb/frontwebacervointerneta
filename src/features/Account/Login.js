@@ -10,6 +10,7 @@ import { getBaseAdressApi } from '../MainAPI';
 import { faClose } from '@fortawesome/free-solid-svg-icons';
 import ReactGA  from 'react-ga4'
 
+
 const ENUM_LOGIN = {
     USERNAME:1,
     PASSWORD:2
@@ -29,6 +30,7 @@ const Login = (props) => {
         invalido:false,
         exitoso:false
     });
+    const {updateUser} = useContext(ThemesContext);
     const verificaPassword = (valor,enumeracion) => {
         if (valor.trim()== "" && enumeracion ==ENUM_LOGIN.USERNAME) {
             setFormValidate({
@@ -88,9 +90,19 @@ const Login = (props) => {
                 ReactGA.event('login',{
                     method:'backend-std'
                 });
+                updateUser(formLogin.username, formLogin.password);
+                const post_chat_login = axios.post(`http://localhost:9001/token/`, {
+                    "username": formLogin.username,
+                    "password": formLogin.password,
+                }).then(reschat=>{
+                localStorage.setItem("credencial_chat",reschat.data["access"]);
                 setTimeout(function(){
                     window.location = '/';
-                },2000)
+                },2000);
+            }).catch(errchat=>{
+                //console.log('fallo al login del chat ',errchat);
+            });
+
             }).catch(err=>{
                 //console.log('error obteniendo token',err);
             })
