@@ -83,43 +83,40 @@ const estilos = {
     },
 }
 export const ThemesContext = createContext({
-    styles:
-    {
-        FirstLayerHome: '',
-        SecondLayerHome: '',
-        ThirdLayerHome: '',
-        NavbarPrincipal: '',
-        SearchBarMain: 'search-bar-main-basic',
-    },
-    usuario:
-    {
-        username: '',
-        password: ''
-    },
-    updateTheme: () => { },
-    updateUser: () => { }
+    // styles:
+    // {
+    //     FirstLayerHome: '',
+    //     SecondLayerHome: '',
+    //     ThirdLayerHome: '',
+    //     NavbarPrincipal: '',
+    //     SearchBarMain: 'search-bar-main-basic',
+    // },
+    // usuario:
+    // {
+    //     username: '',
+    //     password: ''
+    // },
+    // updateTheme: () => { },
+    // updateUser: () => { }
 })
 
 export class ThemeProvider extends React.Component {
     updateTheme = themeName => {
-        this.setState({ ...this.state, styles: estilos[themeName] });
+        this.setState({ usuario:this.state.usuario, styles: estilos[themeName] });
     }
-    updateUser = (nombreusuario, password) => {
+    updateUser = (nombreusuario) => {
         //console.log('estableciendo nombre de usuario en provider ',nombreusuario,password)
-        this.setState({ ...this.state, usuario: { username: nombreusuario, password: password } })
+        this.setState({ styles:this.state.styles, usuario: nombreusuario })
     }
     state = {
         styles: estilos.basic,
+        usuario: '',
         updateTheme: this.updateTheme,
-        usuario: {
-            username: '',
-            password: ''
-        },
         updateUser: this.updateUser,
     }
     render() {
-        //console.log('usuario general ', this.state.usuario, this.state.styles)
-        return <ThemesContext.Provider value={this.state}>
+        console.log('usuario general ', this.state.usuario, this.state.styles)
+        return <ThemesContext.Provider value={{styles:this.state.styles, updateUser:this.state.updateUser,updateTheme:this.state.updateTheme, usuario:this.state.usuario}}>
             {
                 this.props.children
             }

@@ -16,6 +16,7 @@ const ENUM_LOGIN = {
     PASSWORD:2
 }
 const Login = (props) => {
+    const {updateUser} = useContext(ThemesContext);
     const [formLogin, setFormLogin]= useState({
         username: '',
         password: ''
@@ -30,7 +31,7 @@ const Login = (props) => {
         invalido:false,
         exitoso:false
     });
-    const {updateUser} = useContext(ThemesContext);
+    
     const verificaPassword = (valor,enumeracion) => {
         if (valor.trim()== "" && enumeracion ==ENUM_LOGIN.USERNAME) {
             setFormValidate({
@@ -78,6 +79,7 @@ const Login = (props) => {
             "username": formLogin.username,
             "password": formLogin.password,
         }).then(response => {
+            //updateUser(formLogin.username);
             setFormValidate({
                 ...formValidate,
                 invalido: false,
@@ -86,11 +88,11 @@ const Login = (props) => {
             const post_login_refresh = axios.post(`${getBaseAdressApi()}api/token/refresh/`, {
                 "refresh":response.data["refresh"]
             }).then(respuesta => {
+                localStorage.setItem('usuario_general',formLogin.username);
                 localStorage.setItem("credencial",respuesta.data["access"]);
                 ReactGA.event('login',{
                     method:'backend-std'
                 });
-                updateUser(formLogin.username, formLogin.password);
                 const post_chat_login = axios.post(`http://localhost:9001/token/`, {
                     "username": formLogin.username,
                     "password": formLogin.password,
@@ -100,11 +102,11 @@ const Login = (props) => {
                     window.location = '/';
                 },2000);
             }).catch(errchat=>{
-                //console.log('fallo al login del chat ',errchat);
+                console.log('fallo al login del chat ',errchat);
             });
 
             }).catch(err=>{
-                //console.log('error obteniendo token',err);
+                console.log('error obteniendo token',err);
             })
         }).catch(err => {
             //console.log('error en el login ',err, err.response.data)

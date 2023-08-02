@@ -427,7 +427,7 @@ export const AutoComments = () => {
                 //console.log('respuesta de api por defecto', comentarios_search)
 
             }).catch(reason => reason);//console.log('error en consulta por defecto ',
-             
+
         }
 
         // console.log("Location changed");
@@ -1247,48 +1247,42 @@ export const AutoComments = () => {
     const InitWebSocket = () => {
         //console.log('inicializar socket', chatHabilitado)
         if (chatHabilitado == null) {
-            
-                // const post_chat_login = axios.post(`http://localhost:9001/token/`, {
-                //     "username": usuario.username,
-                //     "password": usuario.password,
-                // }).then(reschat=>{
-                // localStorage.setItem("credencial_chat",reschat.data["access"]);
-                let socket = new WebSocket(
-                    "ws://127.0.0.1:9001/ws/chat/"+idvideo+"/?token="+localStorage.getItem("credencial_chat")
-                );
-                socket.onopen = function (event) {
-    
-                    //console.log('enviando a socket')
-                    //socket.send(JSON.stringify({ "text": "Mensaje de prueba al socket!" }));
-    
-                };
-                setChatHabilitado(socket);
-                socket.onmessage = function (event) {
-                    if (event.data.length > 0) {
-                        console.log('recibiendo chat', event.data);
-                        let salidaJson = JSON.parse(event.data);
-                        // let fecha = new Date().toLocaleDateString();
-                        // let tiempo = new Date().getHours() + ":" + new Date().getMinutes();
-    
-                        setMsjesChat((prevState) => [...prevState, { autor: salidaJson["usuario"] + " " + salidaJson["timestamp"], mensaje: salidaJson["message"], propio: true }]);
-                        //console.log('longitud de mensajes', msjesChat.length)
-                        chatRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
-                    }
-                };
-                // })
-            
+
+            // const post_chat_login = axios.post(`http://localhost:9001/token/`, {
+            //     "username": usuario.username,
+            //     "password": usuario.password,
+            // }).then(reschat=>{
+            // localStorage.setItem("credencial_chat",reschat.data["access"]);
+            let socket = new WebSocket(
+                `ws://127.0.0.1:9001/ws/chat/${idvideo}/?token=${localStorage.getItem("credencial_chat")}`);
+            socket.onopen = function (event) {
+
+                //console.log('enviando a socket')
+                //socket.send(JSON.stringify({ "text": "Mensaje de prueba al socket!" }));
+
+            };
+            setChatHabilitado(socket);
+            socket.onmessage = function (event) {
+                if (event.data.length > 0) {
+                    let usuario_general = localStorage.getItem('usuario_general');
+                    console.log('recibiendo chat', event.data);
+                    let salidaJson = JSON.parse(event.data);
+                    setMsjesChat((prevState) => [...prevState, { autor: salidaJson["usuario"] + " " + salidaJson["timestamp"], mensaje: salidaJson["message"], propio: salidaJson["usuario"] === usuario_general }]);
+                    chatRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                }
+            };
+            // })
+
 
         }
         if (chatHabilitado) {
             chatHabilitado.onmessage = function (event) {
                 if (event.data.length > 0) {
+                    let usuario_general = localStorage.getItem('usuario_general');
                     console.log('recibiendo chat', event.data);
                     let salidaJson = JSON.parse(event.data);
-                    // let fecha = new Date().toLocaleDateString();
-                    // let tiempo = new Date().getHours() + ":" + new Date().getMinutes();
-
-                    setMsjesChat((prevState) => [...prevState, { autor: salidaJson["usuario"] + " " + salidaJson["timestamp"], mensaje: salidaJson["message"], propio: true }]);
-                    //console.log('longitud de mensajes', msjesChat.length)
+                    setMsjesChat((prevState) => [...prevState, { autor: salidaJson["usuario"] + " " + salidaJson["timestamp"], mensaje: salidaJson["message"], propio: salidaJson["usuario"] === usuario_general }]);
+                    chatRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
                     chatRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
                 }
             };
