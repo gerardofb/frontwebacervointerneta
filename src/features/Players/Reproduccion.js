@@ -868,7 +868,6 @@ export const AutoComments = () => {
         if (param && !enfocado) {
             setAlturaPlayerMax(!alturaPlayerMax);
             setAlturaPlayer(true);
-
         }
         else if (param && enfocado) {
             setAlturaPlayerMax(false);
@@ -891,12 +890,12 @@ export const AutoComments = () => {
         //console.log('el texto a agregar es ' + texting.mensaje)
         if (texting.mensaje.length > 0) {
             if (chatHabilitado && chatHabilitado.readyState == 1) {
-                chatHabilitado.send(JSON.stringify({ "text": texting.mensaje }));
+                chatHabilitado.send(JSON.stringify({ "text": texting.mensaje, "usuario":localStorage.getItem("usuario_general") }));
             }
             else {
                 //console.log('chat inhabilitado', chatHabilitado)
                 chatHabilitado.onopen = function (event) {
-                    chatHabilitado.send(JSON.stringify({ "text": texting.mensaje }));
+                    chatHabilitado.send(JSON.stringify({ "text": texting.mensaje, "usuario":localStorage.getItem("usuario_general") }));
                 }
             }
 
@@ -985,6 +984,9 @@ export const AutoComments = () => {
                 elemento.selected = false;
                 return elemento;
             }));
+        }
+        if(alturaPlayerMax){
+
         }
     }
     const [modalOpen, setModalOpen] = useState(false);
@@ -1247,7 +1249,7 @@ export const AutoComments = () => {
     const InitWebSocket = () => {
         //console.log('inicializar socket', chatHabilitado)
         if (chatHabilitado == null) {
-
+            console.log('habilitando chat');
             // const post_chat_login = axios.post(`http://localhost:9001/token/`, {
             //     "username": usuario.username,
             //     "password": usuario.password,
@@ -1279,7 +1281,7 @@ export const AutoComments = () => {
             chatHabilitado.onmessage = function (event) {
                 if (event.data.length > 0) {
                     let usuario_general = localStorage.getItem('usuario_general');
-                    console.log('recibiendo chat', event.data);
+                    console.log('recibiendo chat desde state', event.data);
                     let salidaJson = JSON.parse(event.data);
                     setMsjesChat((prevState) => [...prevState, { autor: salidaJson["usuario"] + " " + salidaJson["timestamp"], mensaje: salidaJson["message"], propio: salidaJson["usuario"] === usuario_general }]);
                     chatRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
@@ -1516,8 +1518,8 @@ export const AutoComments = () => {
                         })
                     }
                 </div>
-                <div onClick={(e) => { resetMyEvents(null, true); InitWebSocket(); }} className={alturaPlayer && alturaPlayerMax ? "chat" : alturaPlayer && !alturaPlayerMax ? "chat-min" : "chat-hidden"}>
-                    <div className='top-chat' onClick={(e) => { setHeightChat(true); handleContextMenu(false, false); }} onContextMenu={(e) => handleContextMenu(false, false)}>
+                <div onMouseLeave={e=>setHeightChat(false) } onClick={(e) => { resetMyEvents(null, true); }} className={alturaPlayer && alturaPlayerMax ? "chat" : alturaPlayer && !alturaPlayerMax ? "chat-min" : "chat-hidden"}>
+                    <div className='top-chat'  onClick={(e) => { setHeightChat(true); InitWebSocket();  handleContextMenu(false, false); }} onContextMenu={(e) => handleContextMenu(false, false)}>
                         <p><FontAwesomeIcon icon={faComment}></FontAwesomeIcon>&nbsp; Chat de Interneta
                         </p>
                         {alturaPlayer && alturaPlayerMax ?
