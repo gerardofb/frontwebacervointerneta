@@ -47,7 +47,7 @@ import NavBar from '../NavBar';
 import ContextMenu from '../ContextMenu';
 import { HomeFooter } from '../HomeFooter';
 import { ThemesContext } from '../../ThemeProvider';
-import { getBaseAdressApi } from '../MainAPI';
+import { getBaseAdressApi, getBaseChatWs } from '../MainAPI';
 import { useLayoutEffect } from 'react';
 import { click } from '@testing-library/user-event/dist/click'
 const rangoCalificacion = [1, 2, 3, 4, 5];
@@ -1250,18 +1250,11 @@ export const AutoComments = () => {
         //console.log('inicializar socket', chatHabilitado)
         if (chatHabilitado == null) {
             console.log('habilitando chat');
-            // const post_chat_login = axios.post(`http://localhost:9001/token/`, {
-            //     "username": usuario.username,
-            //     "password": usuario.password,
-            // }).then(reschat=>{
-            // localStorage.setItem("credencial_chat",reschat.data["access"]);
             let socket = new WebSocket(
-                `ws://127.0.0.1:9001/ws/chat/${idvideo}/?token=${localStorage.getItem("credencial_chat")}`);
+                `${getBaseChatWs()}${idvideo}/?token=${localStorage.getItem("credencial_chat")}`);
             socket.onopen = function (event) {
-
                 //console.log('enviando a socket')
                 //socket.send(JSON.stringify({ "text": "Mensaje de prueba al socket!" }));
-
             };
             setChatHabilitado(socket);
             socket.onmessage = function (event) {

@@ -6,7 +6,7 @@ import NavBar from '../NavBar';
 import { HomeFooter } from '../HomeFooter';
 import { ThemesContext } from '../../ThemeProvider';
 import axios from 'axios';
-import { getBaseAdressApi } from '../MainAPI';
+import { getBaseAdressApi, getBaseChatApi } from '../MainAPI';
 import { faClose } from '@fortawesome/free-solid-svg-icons';
 import ReactGA  from 'react-ga4'
 
@@ -93,7 +93,7 @@ const Login = (props) => {
                 ReactGA.event('login',{
                     method:'backend-std'
                 });
-                const post_chat_login = axios.post(`http://localhost:9001/token/`, {
+                const post_chat_login = axios.post(getBaseChatApi(), {
                     "username": formLogin.username,
                     "password": formLogin.password,
                 }).then(reschat=>{

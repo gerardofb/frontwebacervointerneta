@@ -96,8 +96,6 @@ class IndexPage extends Component {
     utilidadMenuSuperior();
     const requestone = axios.get(getBaseAdressApi() + 'api/categorias/');
     this.setState({...this.state,consultandominiaturas:true});
-    //const requestwo = axios.get('http://localhost:8000/api/videos/');
-
     axios.all([requestone]).then(axios.spread((...response) => {
       //console.log('respuesta de categorías ', response[0])
       let arreglocats = [];
