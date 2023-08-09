@@ -333,7 +333,7 @@ Estilos del chat en el reproductor individual de video
   position: fixed;
   bottom: 0;
   left: 2em;
-  min-height: 640px;
+  min-height: 40%;
   width: 40%;
   grid-column: 1;
   padding-bottom: 1em;
@@ -370,7 +370,8 @@ Estilos del chat en el reproductor individual de video
 
 .content-chat {
   overflow-y: scroll;
-  max-height: 500px;
+  max-height: 400px;
+  min-height: 100%;
   background-color: white;
 }
 

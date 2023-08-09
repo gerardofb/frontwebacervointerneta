@@ -341,7 +341,7 @@ export const AutoComments = () => {
             <div><FontAwesomeIcon icon={faBan}></FontAwesomeIcon>&nbsp;Quitar</div>
         </div>
     );
-    const [msjesChat, setMsjesChat] = useState(mensajes);
+    const [msjesChat, setMsjesChat] = useState([]);
     const [elems, setItems] = useState([]);
     const [videoaleatorio, setVideoAleatorio] = useState('');
     const [busquedaComentarios, setBusquedaComentarios] = useState(null);
