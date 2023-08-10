@@ -868,27 +868,33 @@ export const AutoComments = () => {
         const enfocado = isInViewport(elementoVideo) || footerenfocado;
 
         if (param && !enfocado && localStorage.getItem("credencial_chat") && localStorage.getItem("credencial")) {
-            setHabilitarLoaderChat(true);
-            const requestrespuestachat = axios.get(`${getBaseAdressApi()}api/chatvideoroom/${idvideo}`, {
-                headers: {
-                    "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
-                }
-            }).then(response => {
-
-                let respuestachat = response.data[0].video_chat;
-                let usuario_general = localStorage.getItem('usuario_general');
-                console.log('respuesta desde el chat api', response.data);
-                respuestachat && respuestachat.map((message, index) => {
-                    setMsjesChat((prevState) => [...prevState, { autor: message["id_usuario"].username + " " + message["fecha_mensaje"], mensaje: message["mensaje"], propio: message["id_usuario"].username === usuario_general }]);
+            if (!alturaPlayerMax) {
+                setHabilitarLoaderChat(true);
+                const requestrespuestachat = axios.get(`${getBaseAdressApi()}api/chatvideoroom/${idvideo}`, {
+                    headers: {
+                        "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
+                    }
+                }).then(response => {
+                    let respuestachat = response.data[0].video_chat;
+                    let usuario_general = localStorage.getItem('usuario_general');
+                    console.log('respuesta desde el chat api', response.data);
+                    respuestachat && respuestachat.map((message, index) => {
+                        setMsjesChat((prevState) => [...prevState, { autor: message["id_usuario"].username + " " + message["fecha_mensaje"], mensaje: message["mensaje"], propio: message["id_usuario"].username === usuario_general }]);
+                    });
+                    setAlturaPlayerMax(!alturaPlayerMax);
+                    setAlturaPlayer(true);
+                    chatRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                    setHabilitarLoaderChat(false);
+                }).catch(err => {
+                    console.log('error recuperando chat', err);
+                    setHabilitarLoaderChat(false);
+                    setChatPermitido(false);
                 });
+            }
+            else {
                 setAlturaPlayerMax(!alturaPlayerMax);
                 setAlturaPlayer(true);
-                chatRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
-                setHabilitarLoaderChat(false);
-            }).catch(err => {
-                console.log('error recuperando chat', err);
-                setHabilitarLoaderChat(false);
-            });
+            }
         }
         else if (param && enfocado) {
             setAlturaPlayerMax(false);
@@ -903,6 +909,7 @@ export const AutoComments = () => {
         }
         else if (!localStorage.getItem("credencial_chat") || !localStorage.getItem("credencial")) {
             setAlturaPlayerMax(false);
+            setAlturaPlayer(false);
         }
     }
     const referencia = useRef();
@@ -1270,7 +1277,7 @@ export const AutoComments = () => {
     }
     const InitWebSocket = () => {
         //console.log('inicializar socket', chatHabilitado)
-        if (!localStorage.getItem("credencial_chat")) {
+        if (!localStorage.getItem("credencial_chat") || !localStorage.getItem("credencial")) {
             setChatPermitido(false);
             return;
         }

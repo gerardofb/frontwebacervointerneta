@@ -80,11 +80,6 @@ const Login = (props) => {
             "password": formLogin.password,
         }).then(response => {
             //updateUser(formLogin.username);
-            setFormValidate({
-                ...formValidate,
-                invalido: false,
-                exitoso: true
-            });
             const post_login_refresh = axios.post(`${getBaseAdressApi()}api/token/refresh/`, {
                 "refresh":response.data["refresh"]
             }).then(respuesta => {
@@ -98,15 +93,34 @@ const Login = (props) => {
                     "password": formLogin.password,
                 }).then(reschat=>{
                 localStorage.setItem("credencial_chat",reschat.data["access"]);
+                setFormValidate({
+                    ...formValidate,
+                    invalido: false,
+                    exitoso: true
+                });
                 setTimeout(function(){
                     window.location = '/';
                 },2000);
             }).catch(errchat=>{
                 console.log('fallo al login del chat ',errchat);
+                setFormValidate({
+                    ...formValidate,
+                    username:[formLogin.username],
+                    password:["Ocurrió un error al iniciar sesión en las salas de chat, consulte a su administrador del sistema"],
+                    invalido: true,
+                    exitoso:false
+                })
             });
 
             }).catch(err=>{
                 console.log('error obteniendo token',err);
+                setFormValidate({
+                    ...formValidate,
+                    username:[formLogin.username],
+                    password:["Ocurrió un error al iniciar sesión en las salas de chat, consulte a su administrador del sistema"],
+                    invalido: true,
+                    exitoso:false
+                })
             })
         }).catch(err => {
             //console.log('error en el login ',err, err.response.data)
