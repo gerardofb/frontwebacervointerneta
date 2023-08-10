@@ -465,6 +465,7 @@ Estilos del chat en el reproductor individual de video
 }
 
 .top-chat {
+  width:100%;
   height: 80px;
   background: white;
   display: grid;
@@ -4585,6 +4586,16 @@ label.caja-expandible-label {
   text-align: center;
   min-height: 100px;
   width: 100%;
+}
+
+.default-loader-chat-messages{
+  height: 40px;
+  width: 40px;
+  margin:2px 2px 2px 80%;
+  text-align: right;
+  float:right;
+  color:#009639;
+  grid-column: 2;
 }
 
 .default-loader-full {

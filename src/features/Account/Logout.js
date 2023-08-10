@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom';
 const Logout = () => {
     const historia = useHistory();
     useEffect(() => {
+        localStorage.removeItem("credencial_chat");
         localStorage.removeItem("credencial");
         setTimeout(function () {
             window.location = '/';

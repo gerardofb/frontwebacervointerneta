@@ -360,6 +360,8 @@ export const AutoComments = () => {
     const [calificacionTotal, setCalificacionTotal] = useState(0);
     const [calificacionEnviada, setCalificacionEnviada] = useState(false);
     const [chatHabilitado, setChatHabilitado] = useState(null);
+    const [chatPermitido, setChatPermitido] = useState(true);
+    const [habilitarLoaderChat, setHabilitarLoaderChat] = useState(false);
     growers.forEach((grower) => {
         const textarea = grower.querySelector("textarea");
         textarea.addEventListener("input", () => {
@@ -865,9 +867,28 @@ export const AutoComments = () => {
         const footerenfocado = isInViewportFooter(elementoFooter);
         const enfocado = isInViewport(elementoVideo) || footerenfocado;
 
-        if (param && !enfocado) {
-            setAlturaPlayerMax(!alturaPlayerMax);
-            setAlturaPlayer(true);
+        if (param && !enfocado && localStorage.getItem("credencial_chat") && localStorage.getItem("credencial")) {
+            setHabilitarLoaderChat(true);
+            const requestrespuestachat = axios.get(`${getBaseAdressApi()}api/chatvideoroom/${idvideo}`, {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
+                }
+            }).then(response => {
+
+                let respuestachat = response.data[0].video_chat;
+                let usuario_general = localStorage.getItem('usuario_general');
+                console.log('respuesta desde el chat api', response.data);
+                respuestachat && respuestachat.map((message, index) => {
+                    setMsjesChat((prevState) => [...prevState, { autor: message["id_usuario"].username + " " + message["fecha_mensaje"], mensaje: message["mensaje"], propio: message["id_usuario"].username === usuario_general }]);
+                });
+                setAlturaPlayerMax(!alturaPlayerMax);
+                setAlturaPlayer(true);
+                chatRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                setHabilitarLoaderChat(false);
+            }).catch(err => {
+                console.log('error recuperando chat', err);
+                setHabilitarLoaderChat(false);
+            });
         }
         else if (param && enfocado) {
             setAlturaPlayerMax(false);
@@ -880,6 +901,9 @@ export const AutoComments = () => {
         else if (!enfocado) {
             setAlturaPlayer(true);
         }
+        else if (!localStorage.getItem("credencial_chat") || !localStorage.getItem("credencial")) {
+            setAlturaPlayerMax(false);
+        }
     }
     const referencia = useRef();
     const [menuContextual, setMenuContextual] = useState({ foucused: false, show: false });
@@ -890,12 +914,12 @@ export const AutoComments = () => {
         //console.log('el texto a agregar es ' + texting.mensaje)
         if (texting.mensaje.length > 0) {
             if (chatHabilitado && chatHabilitado.readyState == 1) {
-                chatHabilitado.send(JSON.stringify({ "text": texting.mensaje, "usuario":localStorage.getItem("usuario_general") }));
+                chatHabilitado.send(JSON.stringify({ "text": texting.mensaje, "usuario": localStorage.getItem("usuario_general") }));
             }
             else {
                 //console.log('chat inhabilitado', chatHabilitado)
                 chatHabilitado.onopen = function (event) {
-                    chatHabilitado.send(JSON.stringify({ "text": texting.mensaje, "usuario":localStorage.getItem("usuario_general") }));
+                    chatHabilitado.send(JSON.stringify({ "text": texting.mensaje, "usuario": localStorage.getItem("usuario_general") }));
                 }
             }
 
@@ -985,9 +1009,7 @@ export const AutoComments = () => {
                 return elemento;
             }));
         }
-        if(alturaPlayerMax){
 
-        }
     }
     const [modalOpen, setModalOpen] = useState(false);
     const [childrenModal, setChildrenModal] = useState(-1);
@@ -1248,6 +1270,11 @@ export const AutoComments = () => {
     }
     const InitWebSocket = () => {
         //console.log('inicializar socket', chatHabilitado)
+        if (!localStorage.getItem("credencial_chat")) {
+            setChatPermitido(false);
+            return;
+        }
+
         if (chatHabilitado == null) {
             console.log('habilitando chat');
             let socket = new WebSocket(
@@ -1257,6 +1284,7 @@ export const AutoComments = () => {
                 //socket.send(JSON.stringify({ "text": "Mensaje de prueba al socket!" }));
             };
             setChatHabilitado(socket);
+            setChatPermitido(true);
             socket.onmessage = function (event) {
                 if (event.data.length > 0) {
                     let usuario_general = localStorage.getItem('usuario_general');
@@ -1511,10 +1539,21 @@ export const AutoComments = () => {
                         })
                     }
                 </div>
-                <div onMouseLeave={e=>setHeightChat(false) } onClick={(e) => { resetMyEvents(null, true); }} className={alturaPlayer && alturaPlayerMax ? "chat" : alturaPlayer && !alturaPlayerMax ? "chat-min" : "chat-hidden"}>
-                    <div className='top-chat'  onClick={(e) => { setHeightChat(true); InitWebSocket();  handleContextMenu(false, false); }} onContextMenu={(e) => handleContextMenu(false, false)}>
-                        <p><FontAwesomeIcon icon={faComment}></FontAwesomeIcon>&nbsp; Chat de Interneta
-                        </p>
+                <div onMouseLeave={e => setHeightChat(false)} onClick={(e) => { resetMyEvents(null, true); }} className={alturaPlayer && alturaPlayerMax ? "chat" : alturaPlayer && !alturaPlayerMax ? "chat-min" : "chat-hidden"}>
+                    <div className='top-chat' onClick={(e) => { setHeightChat(true); InitWebSocket(); handleContextMenu(false, false); }} onContextMenu={(e) => handleContextMenu(false, false)}>
+                        {
+                            chatPermitido ?
+                                <>
+                                    <p><FontAwesomeIcon icon={faComment}></FontAwesomeIcon>&nbsp; Chat de Interneta
+                                    </p><div className='default-loader-chat-messages' style={habilitarLoaderChat ? { display: 'block' } : { display: 'none' }}>
+                                        <img width={40} src={url_loader("Reload-transparent.gif", false)} />
+                                    </div>
+                                </>
+                                :
+                                <p style={{ color: "red" }}><FontAwesomeIcon icon={faComment}></FontAwesomeIcon>&nbsp; El chat está deshabilitado porque necesita autenticación
+                                    &nbsp;<Link to="/Login">Iniciar sesión</Link>
+                                </p>
+                        }
                         {alturaPlayer && alturaPlayerMax ?
                             <span>
                                 <FontAwesomeIcon icon={faAngleUp}></FontAwesomeIcon></span>
@@ -1529,7 +1568,7 @@ export const AutoComments = () => {
                                     onContextMenu={(e) => handleContextMenu(true, true)} onMouseEnter={(e) => handleContextMenu(true, true)}>
                                     <span style={{ gridColumn: "1" }}>{msj.autor} &nbsp; {msj.fecha}</span>
                                     {!msj.propio ?
-                                        <span style={{ gridColumn: "2" }} title="Reaccionar"><FontAwesomeIcon icon={faFaceSmile}></FontAwesomeIcon></span>
+                                        <span style={{ gridColumn: "2" }} title="Reaccionar"><FontAwesomeIcon style={{ color: "lightblue", cursor: "pointer" }} icon={faFaceSmile}></FontAwesomeIcon></span>
                                         : null
                                     }<div className={msj.propio ? 'mensaje-chat-propio' : 'mensaje-chat-other'}>
                                         {msj.mensaje}
