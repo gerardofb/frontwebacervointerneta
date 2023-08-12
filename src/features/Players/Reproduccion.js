@@ -1275,6 +1275,15 @@ export const AutoComments = () => {
             });
         })
     }
+    const findTags = (message) => {
+        let regex = /\s+/g;
+        let mapeo = message.split(regex);
+        let tags = mapeo.map(function (el, i) {
+            if (el.indexOf("#") == 0 && el.length > 2)
+                return el;
+        }).filter(x => x != undefined);
+        return tags;
+    }
     const InitWebSocket = () => {
         //console.log('inicializar socket', chatHabilitado)
         if (!localStorage.getItem("credencial_chat") || !localStorage.getItem("credencial")) {
@@ -1299,11 +1308,30 @@ export const AutoComments = () => {
                     let salidaJson = JSON.parse(event.data);
                     setMsjesChat((prevState) => [...prevState, { autor: salidaJson["usuario"] + " " + salidaJson["timestamp"], mensaje: salidaJson["message"], propio: salidaJson["usuario"] === usuario_general }]);
                     chatRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                    let tags = findTags(salidaJson["message"]);
+                    if (tags.length > 0) {
+                        console.log('tags encontrados ', tags);
+                        const requesttag = axios.put(`${getBaseAdressApi()}api/indextagchat/`,
+                            {
+                                "id_video": parseInt(idvideo),
+                                "guid": salidaJson["guid"],
+                                "mensaje": salidaJson["message"],
+                                "fecha_mensaje": salidaJson["timestamp"],
+                                "tags": tags
+                            }, {
+                            headers: {
+                                "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
+                            },
+                        }).then(response => {
+                            if (response.status == 201) {
+                                console.log('tags creados', tags);
+                            }
+                        }).catch(err => {
+                            console.log('error creando tags en el índice', err);
+                        });
+                    }
                 }
-            };
-            // })
-
-
+            }
         }
         if (chatHabilitado) {
             chatHabilitado.onmessage = function (event) {
@@ -1313,9 +1341,30 @@ export const AutoComments = () => {
                     let salidaJson = JSON.parse(event.data);
                     setMsjesChat((prevState) => [...prevState, { autor: salidaJson["usuario"] + " " + salidaJson["timestamp"], mensaje: salidaJson["message"], propio: salidaJson["usuario"] === usuario_general }]);
                     chatRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
-                    chatRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
-                }
-            };
+                    let tags = findTags(salidaJson["message"]);
+                    if (tags.length > 0) {
+                        console.log('tags encontrados ', tags);
+                        const requesttag = axios.put(`${getBaseAdressApi()}api/indextagchat/`,
+                            {
+                                "id_video": parseInt(idvideo),
+                                "guid": salidaJson["guid"],
+                                "mensaje": salidaJson["message"],
+                                "fecha_mensaje": salidaJson["timestamp"],
+                                "tags": tags
+                            }, {
+                            headers: {
+                                "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
+                            },
+                        }).then(response => {
+                            if (response.status == 201) {
+                                console.log('tags creados', tags);
+                            }
+                        }).catch(err => {
+                            console.log('error creando tags en el índice', err);
+                        });
+                    }
+                };
+            }
         }
     }
     //console.log('calificación total del video ',calificacionTotal);
