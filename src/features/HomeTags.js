@@ -168,7 +168,7 @@ const HomeTags = (props) => {
                 });
                 setArreglotags(tags);
                 let cuentaPopulares = response.data["last_added_tags"]["date_videos_last_days"];
-                let cadenaCuentaPopulares = `Tags agregados en los últimos 15 días (del ${cuentaPopulares["desde"]} al ${cuentaPopulares["hasta"]}): ${cuentaPopulares["cuenta"]}`;
+                let cadenaCuentaPopulares = `Tags comentados en los últimos 15 días (del ${cuentaPopulares["desde"]} al ${cuentaPopulares["hasta"]}): ${cuentaPopulares["cuenta"]}`;
                 setCuentaTagsPopulares(cadenaCuentaPopulares);
                 setHabilitarLoader(false);
             }).catch(err => {

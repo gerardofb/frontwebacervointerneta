@@ -50,6 +50,7 @@ import { ThemesContext } from '../../ThemeProvider';
 import { getBaseAdressApi, getBaseChatWs } from '../MainAPI';
 import { useLayoutEffect } from 'react';
 import { click } from '@testing-library/user-event/dist/click'
+import { text } from '@fortawesome/fontawesome-svg-core'
 const rangoCalificacion = [1, 2, 3, 4, 5];
 const url = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/SocialNetwork/${name}${wrap ? ')' : ''}`
 const url_loader = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/${name}${wrap ? ')' : ''}`
@@ -372,7 +373,8 @@ export const AutoComments = () => {
     const [cuentaUsuario, setCuentaUsuario] = useState('');
     const [player, setPlayer] = useState(null);
     const [relatos, setRelatos] = useState([]);
-    const [habilitaChatTag,setHabilitaChatTag] = useState('');
+    const [habilitaChatTag, setHabilitaChatTag] = useState('');
+    const [rutaNavegacionNormal,setRutaNavegacionNormal] = useState('');
     useEffect(() => {
         //console.log('usuario a enviar para login al socket ',usuario,styles);
         let parametros;
@@ -396,11 +398,15 @@ export const AutoComments = () => {
 
                 });
             }
-            else if(parametros.get("tag_search")){
-                setHabilitaChatTag('#'+parametros.get("tag_search"))
+            else if (parametros.get("tag_search")) {
+                setHabilitaChatTag('#' + parametros.get("tag_search"));
+                let ruta = window.location.pathname;
+                
+                setRutaNavegacionNormal(ruta)
             }
         }
         else {
+            setHabilitaChatTag('');
             let consulta_actual = {
                 "query": "",
                 "categoria": "",
@@ -871,67 +877,101 @@ export const AutoComments = () => {
         const footerenfocado = isInViewportFooter(elementoFooter);
         const enfocado = isInViewport(elementoVideo) || footerenfocado;
 
-        if (!habilitaChatTag && param && !enfocado && localStorage.getItem("credencial_chat") && localStorage.getItem("credencial")) {
+        if (param && !enfocado && (habilitaChatTag || (localStorage.getItem("credencial_chat") && localStorage.getItem("credencial")))) {
             if (!alturaPlayerMax) {
                 setHabilitarLoaderChat(true);
-                const requestrespuestachat = axios.get(`${getBaseAdressApi()}api/chatvideoroom/${idvideo}`, {
-                    headers: {
-                        "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
-                    }
-                }).then(response => {
-                    let respuestachat = response.data[0].video_chat;
-                    let usuario_general = localStorage.getItem('usuario_general');
-                    console.log('respuesta desde el chat api', response.data);
-                    respuestachat && respuestachat.map((message, index) => {
-                        setMsjesChat((prevState) => [...prevState, { autor: message["id_usuario"].username + " " + message["fecha_mensaje"], mensaje: message["mensaje"], propio: message["id_usuario"].username === usuario_general }]);
+                if (!habilitaChatTag) {
+                    const requestrespuestachat = axios.get(`${getBaseAdressApi()}api/chatvideoroom/${idvideo}`, {
+                        headers: {
+                            "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
+                        }
+                    }).then(response => {
+                        let respuestachat = response.data[0].video_chat;
+                        let usuario_general = localStorage.getItem('usuario_general');
+                        console.log('respuesta desde el chat api', response.data);
+                        respuestachat && respuestachat.map((message, index) => {
+                            setMsjesChat((prevState) => [...prevState, { autor: message["id_usuario"].username + " " + message["fecha_mensaje"], mensaje: message["mensaje"], propio: message["id_usuario"].username === usuario_general }]);
+                        });
+                        setAlturaPlayerMax(!alturaPlayerMax);
+                        setAlturaPlayer(true);
+                        chatRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                        setHabilitarLoaderChat(false);
+                    }).catch(err => {
+                        console.log('error recuperando chat', err);
+                        setHabilitarLoaderChat(false);
+                        setChatPermitido(false);
                     });
-                    setAlturaPlayerMax(!alturaPlayerMax);
-                    setAlturaPlayer(true);
-                    chatRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
-                    setHabilitarLoaderChat(false);
-                }).catch(err => {
-                    console.log('error recuperando chat', err);
-                    setHabilitarLoaderChat(false);
-                    setChatPermitido(false);
-                });
+                }
+                else {
+                    const peticionSecondNavegarTag = axios.post(`${getBaseAdressApi()}api/searchtags/`,
+                        {
+                            "tags": [habilitaChatTag],
+                            "pagina_inicial": 0
+                        }).then(response => {
+                            let usuario_general = localStorage.getItem('usuario_general');
+                            let tagsvideo = response.data.map((e, index) => {
+                                setMsjesChat((prevState) => [...prevState, { autor: e.autor + " " + e["fecha_mensaje"], mensaje: e["mensaje"], propio: usuario_general && e["autor"] === usuario_general }]);
+                                return e;
+                            });
+                            console.log('respuesta desde consulta tags ',tagsvideo);
+                            setAlturaPlayerMax(!alturaPlayerMax);
+                            setAlturaPlayer(true);
+                            chatRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                            setHabilitarLoaderChat(false);
+                        }).catch(err => {
+                            console.log('error recuperando chat', err);
+                            setHabilitarLoaderChat(false);
+                            setChatPermitido(false);
+                        });
+                }
             }
             else {
+                if(habilitaChatTag)
+                setMsjesChat([]);
                 setAlturaPlayerMax(!alturaPlayerMax);
+                setTexting({ mensaje: '', write: false });
                 setAlturaPlayer(true);
             }
         }
-        else if(param && habilitaChatTag){
+        else if (!enfocado && param && habilitaChatTag && (!localStorage.getItem("credencial_chat") || !localStorage.getItem("credencial"))) {
             if (!alturaPlayerMax) {
                 setHabilitarLoaderChat(true);
                 const peticionSecondNavegarTag = axios.post(`${getBaseAdressApi()}api/searchtags/`,
-                {
-                    "tags": [habilitaChatTag],
-                    "pagina_inicial": 0
-                }).then(response => {
-                    let usuario_general = localStorage.getItem('usuario_general');
-                    let tagsvideo = response.data.map((e, index) => {
-                        setMsjesChat((prevState) => [...prevState, { autor:e.autor + " " + e["fecha_mensaje"], mensaje: e["mensaje"], propio: usuario_general && e["autor"] === usuario_general }]);
+                    {
+                        "tags": [habilitaChatTag],
+                        "pagina_inicial": 0
+                    }).then(response => {
+                        let usuario_general = localStorage.getItem('usuario_general');
+                        let tagsvideo = response.data.map((e, index) => {
+                            setMsjesChat((prevState) => [...prevState, { autor: e.autor + " " + e["fecha_mensaje"], mensaje: e["mensaje"], propio: usuario_general && e["autor"] === usuario_general }]);
+                            return e;
+                        });
+                        console.log('respuesta desde consulta tags ',tagsvideo);
+                        setAlturaPlayerMax(!alturaPlayerMax);
+                        setAlturaPlayer(true);
+                        chatRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                        setHabilitarLoaderChat(false);
+                    }).catch(err => {
+                        console.log('error recuperando chat', err);
+                        setHabilitarLoaderChat(false);
+                        setChatPermitido(false);
                     });
-                    setAlturaPlayerMax(!alturaPlayerMax);
-                    setAlturaPlayer(true);
-                    chatRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
-                    setHabilitarLoaderChat(false);
-                }).catch(err => {
-                    console.log('error recuperando chat', err);
-                    setHabilitarLoaderChat(false);
-                    setChatPermitido(false);
-                });
             }
             else {
+                setTexting({ mensaje: '', write: false });
+                if(habilitaChatTag)
+                setMsjesChat([]);
                 setAlturaPlayerMax(!alturaPlayerMax);
                 setAlturaPlayer(true);
             }
         }
         else if (param && enfocado) {
+            setTexting({ mensaje: '', write: false });
             setAlturaPlayerMax(false);
             setAlturaPlayer(true);
         }
         else if (enfocado) {
+            setTexting({ mensaje: '', write: false });
             setAlturaPlayerMax(false);
             setAlturaPlayer(false);
         }
@@ -939,6 +979,7 @@ export const AutoComments = () => {
             setAlturaPlayer(true);
         }
         else if (!localStorage.getItem("credencial_chat") || !localStorage.getItem("credencial")) {
+            setTexting({ mensaje: '', write: false });
             setAlturaPlayerMax(false);
             setAlturaPlayer(false);
         }
@@ -1337,7 +1378,7 @@ export const AutoComments = () => {
                     let usuario_general = localStorage.getItem('usuario_general');
                     console.log('recibiendo chat', event.data);
                     let salidaJson = JSON.parse(event.data);
-                    setMsjesChat((prevState) => [...prevState, { autor: salidaJson["usuario"] + " " + salidaJson["timestamp"], mensaje: salidaJson["message"], propio: salidaJson["usuario"] === usuario_general }]);
+                    setMsjesChat((prevState) => [...prevState, { autor: salidaJson["usuario"] + " " + salidaJson["timestamp"], mensaje: salidaJson["message"], propio: usuario_general && salidaJson["usuario"] === usuario_general }]);
                     chatRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
                     let tags = findTags(salidaJson["message"]);
                     if (tags.length > 0) {
@@ -1370,7 +1411,7 @@ export const AutoComments = () => {
                     let usuario_general = localStorage.getItem('usuario_general');
                     console.log('recibiendo chat desde state', event.data);
                     let salidaJson = JSON.parse(event.data);
-                    setMsjesChat((prevState) => [...prevState, { autor: salidaJson["usuario"] + " " + salidaJson["timestamp"], mensaje: salidaJson["message"], propio: salidaJson["usuario"] === usuario_general }]);
+                    setMsjesChat((prevState) => [...prevState, { autor: salidaJson["usuario"] + " " + salidaJson["timestamp"], mensaje: salidaJson["message"], propio: usuario_general && salidaJson["usuario"] === usuario_general }]);
                     chatRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
                     let tags = findTags(salidaJson["message"]);
                     if (tags.length > 0) {
@@ -1629,17 +1670,19 @@ export const AutoComments = () => {
                 <div onMouseLeave={e => setHeightChat(false)} onClick={(e) => { resetMyEvents(null, true); }} className={alturaPlayer && alturaPlayerMax ? "chat" : alturaPlayer && !alturaPlayerMax ? "chat-min" : "chat-hidden"}>
                     <div className='top-chat' onClick={(e) => { setHeightChat(true); InitWebSocket(); handleContextMenu(false, false); }} onContextMenu={(e) => handleContextMenu(false, false)}>
                         {
-                            chatPermitido ?
+                            chatPermitido && !habilitaChatTag ?
                                 <>
                                     <p><FontAwesomeIcon icon={faComment}></FontAwesomeIcon>&nbsp; Chat de Interneta
                                     </p><div className='default-loader-chat-messages' style={habilitarLoaderChat ? { display: 'block' } : { display: 'none' }}>
                                         <img width={40} src={url_loader("Reload-transparent.gif", false)} />
                                     </div>
                                 </>
-                                :
-                                <p style={{ color: "red" }}><FontAwesomeIcon icon={faComment}></FontAwesomeIcon>&nbsp; El chat está deshabilitado porque necesita autenticación
+                                : !chatPermitido && !habilitaChatTag  ?
+                                <p style={{ color: "red" }}><FontAwesomeIcon icon={faComment}></FontAwesomeIcon>&nbsp; El Chat de Interneta está deshabilitado porque necesita autenticación
                                     &nbsp;<Link to="/Login">Iniciar sesión</Link>
-                                </p>
+                                </p> : habilitaChatTag ? <p style={{ color: "steelblue" }}><FontAwesomeIcon icon={faComment}></FontAwesomeIcon>&nbsp; El Chat de Interneta está en modo de previsualización de tags, cambiar a {<Link to={rutaNavegacionNormal}>Reproducción normal</Link>}
+                                    
+                                </p> : null
                         }
                         {alturaPlayer && alturaPlayerMax ?
                             <span>
@@ -1666,16 +1709,16 @@ export const AutoComments = () => {
                         <div ref={chatRef} style={{ height: { cssBottomChat }, minHeight: '100px' }}></div>
                     </div>
                     <div className='chat-input' onContextMenu={(e) => handleContextMenu(false, false)}>
-                        <textarea rows="2" onKeyUp={(e) => { writeTextMessage(e.target.value) }} onBlur={(e) => { writeTextMessage(e.target.value) }}></textarea>
+                        <textarea rows="2" value={texting.mensaje} onChange={(e) => { writeTextMessage(e.target.value)}}></textarea>
                         <div className='chat-input-actions'>
                             {localStorage.getItem('credencial_chat') && localStorage.getItem('credencial') ?
-                            <button onClick={addMessage}>{texting.write ?
-                                <FontAwesomeIcon icon={faArrowRight}></FontAwesomeIcon> :
-                                <FontAwesomeIcon icon={faMicrophoneLines}></FontAwesomeIcon>
-                            }</button> : <button disabled="disabled" onClick={addMessage}>{texting.write ?
-                                <FontAwesomeIcon icon={faArrowRight}></FontAwesomeIcon> :
-                                <FontAwesomeIcon icon={faMicrophoneLines}></FontAwesomeIcon>
-                            }</button>
+                                <button onClick={addMessage}>{texting.write ?
+                                    <FontAwesomeIcon icon={faArrowRight}></FontAwesomeIcon> :
+                                    <FontAwesomeIcon icon={faMicrophoneLines}></FontAwesomeIcon>
+                                }</button> : <button disabled="disabled" onClick={addMessage}>{texting.write ?
+                                    <FontAwesomeIcon icon={faArrowRight}></FontAwesomeIcon> :
+                                    <FontAwesomeIcon icon={faMicrophoneLines}></FontAwesomeIcon>
+                                }</button>
                             }
                         </div>
                     </div>
