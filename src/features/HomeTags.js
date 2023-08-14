@@ -164,7 +164,7 @@ const HomeTags = (props) => {
             setHabilitarLoader(true);
             const peticionTags = axios.post(`${getBaseAdressApi()}api/getpopulartags/`).then(response => {
                 let tags = response.data["tags"].map((e, index) => {
-                    return e["tag_autor"].split('|')[0];
+                    return e["tag"];
                 });
                 setArreglotags(tags);
                 let cuentaPopulares = response.data["last_added_tags"]["date_videos_last_days"];
