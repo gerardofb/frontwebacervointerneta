@@ -890,7 +890,7 @@ export const AutoComments = () => {
                         let usuario_general = localStorage.getItem('usuario_general');
                         console.log('respuesta desde el chat api', response.data);
                         respuestachat && respuestachat.map((message, index) => {
-                            setMsjesChat((prevState) => [...prevState, { autor: message["id_usuario"].username + " " + message["fecha_mensaje"], mensaje: message["mensaje"], propio: message["id_usuario"].username === usuario_general }]);
+                            setMsjesChat((prevState) => [...prevState, { autor: message["id_usuario"].username + " " + new Date(message["fecha_mensaje"]).toLocaleDateString()+" " + new Date(message["fecha_mensaje"]).toLocaleTimeString(), mensaje: message["mensaje"], propio: message["id_usuario"].username === usuario_general }]);
                         });
                         setAlturaPlayerMax(!alturaPlayerMax);
                         setAlturaPlayer(true);
@@ -910,7 +910,7 @@ export const AutoComments = () => {
                         }).then(response => {
                             let usuario_general = localStorage.getItem('usuario_general');
                             let tagsvideo = response.data.map((e, index) => {
-                                setMsjesChat((prevState) => [...prevState, { autor: e.autor + " " + e["fecha_mensaje"], mensaje: e["mensaje"], propio: usuario_general && e["autor"] === usuario_general }]);
+                                setMsjesChat((prevState) => [...prevState, { autor: e.autor + " " + new Date(e["fecha_mensaje"]).toLocaleDateString()+ " " + new Date(e["fecha_mensaje"]).toLocaleTimeString(), mensaje: e["mensaje"], propio: usuario_general && e["autor"] === usuario_general }]);
                                 return e;
                             });
                             console.log('respuesta desde consulta tags ',tagsvideo);
@@ -943,7 +943,7 @@ export const AutoComments = () => {
                     }).then(response => {
                         let usuario_general = localStorage.getItem('usuario_general');
                         let tagsvideo = response.data.map((e, index) => {
-                            setMsjesChat((prevState) => [...prevState, { autor: e.autor + " " + e["fecha_mensaje"], mensaje: e["mensaje"], propio: usuario_general && e["autor"] === usuario_general }]);
+                            setMsjesChat((prevState) => [...prevState, { autor: e.autor + " " + new Date(e["fecha_mensaje"]).toLocaleDateString()+ " " + new Date(e["fecha_mensaje"]).toLocaleTimeString(), mensaje: e["mensaje"], propio: usuario_general && e["autor"] === usuario_general }]);
                             return e;
                         });
                         console.log('respuesta desde consulta tags ',tagsvideo);
@@ -966,11 +966,13 @@ export const AutoComments = () => {
             }
         }
         else if (param && enfocado) {
+            setMsjesChat([]);
             setTexting({ mensaje: '', write: false });
             setAlturaPlayerMax(false);
             setAlturaPlayer(true);
         }
         else if (enfocado) {
+            setMsjesChat([]);
             setTexting({ mensaje: '', write: false });
             setAlturaPlayerMax(false);
             setAlturaPlayer(false);
@@ -979,6 +981,7 @@ export const AutoComments = () => {
             setAlturaPlayer(true);
         }
         else if (!localStorage.getItem("credencial_chat") || !localStorage.getItem("credencial")) {
+            setMsjesChat([]);
             setTexting({ mensaje: '', write: false });
             setAlturaPlayerMax(false);
             setAlturaPlayer(false);
@@ -1378,10 +1381,10 @@ export const AutoComments = () => {
                     let usuario_general = localStorage.getItem('usuario_general');
                     console.log('recibiendo chat', event.data);
                     let salidaJson = JSON.parse(event.data);
-                    setMsjesChat((prevState) => [...prevState, { autor: salidaJson["usuario"] + " " + salidaJson["timestamp"], mensaje: salidaJson["message"], propio: usuario_general && salidaJson["usuario"] === usuario_general }]);
+                    setMsjesChat((prevState) => [...prevState, { autor: salidaJson["usuario"] + " " + new Date(salidaJson["timestamp"]).toLocaleDateString()+" "+new Date(salidaJson["timestamp"]).toLocaleTimeString(), mensaje: salidaJson["message"], propio: usuario_general && salidaJson["usuario"] === usuario_general }]);
                     chatRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
                     let tags = findTags(salidaJson["message"]);
-                    if (tags.length > 0) {
+                    if (tags.length > 0 && tags.length <=10) {
                         console.log('tags encontrados ', tags);
                         const requesttag = axios.put(`${getBaseAdressApi()}api/indextagchat/`,
                             {
@@ -1402,6 +1405,9 @@ export const AutoComments = () => {
                             console.log('error creando tags en el índice', err);
                         });
                     }
+                    else if(tags.length > 10){
+                        setMsjesChat((prevState) => [...prevState, { autor: "Administración de Chat Interneta" + " " + new Date().toISOString(), mensaje: "El mensaje que envió contiene más tags del número permitido. No se permiten más de diez tags en un solo mensaje, además de un límite de 70 tags diarios", propio: false }]);
+                    }
                 }
             }
         }
@@ -1411,10 +1417,10 @@ export const AutoComments = () => {
                     let usuario_general = localStorage.getItem('usuario_general');
                     console.log('recibiendo chat desde state', event.data);
                     let salidaJson = JSON.parse(event.data);
-                    setMsjesChat((prevState) => [...prevState, { autor: salidaJson["usuario"] + " " + salidaJson["timestamp"], mensaje: salidaJson["message"], propio: usuario_general && salidaJson["usuario"] === usuario_general }]);
+                    setMsjesChat((prevState) => [...prevState, { autor: salidaJson["usuario"] + " " +new Date(salidaJson["timestamp"]).toLocaleDateString()+" "+new Date(salidaJson["timestamp"]).toLocaleTimeString(), mensaje: salidaJson["message"], propio: usuario_general && salidaJson["usuario"] === usuario_general }]);
                     chatRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
                     let tags = findTags(salidaJson["message"]);
-                    if (tags.length > 0) {
+                    if (tags.length > 0 && tags.length <= 10) {
                         console.log('tags encontrados ', tags);
                         const requesttag = axios.put(`${getBaseAdressApi()}api/indextagchat/`,
                             {
@@ -1434,6 +1440,9 @@ export const AutoComments = () => {
                         }).catch(err => {
                             console.log('error creando tags en el índice', err);
                         });
+                    }
+                    else if(tags.length > 10){
+                        setMsjesChat((prevState) => [...prevState, { autor: "Administración de Chat Interneta" + " " + new Date().toISOString(), mensaje: "El mensaje que envió contiene más tags del número permitido. No se permiten más de diez tags en un solo mensaje, además de un límite de 70 tags diarios", propio: false }]);
                     }
                 };
             }
@@ -1678,9 +1687,9 @@ export const AutoComments = () => {
                                     </div>
                                 </>
                                 : !chatPermitido && !habilitaChatTag  ?
-                                <p style={{ color: "red" }}><FontAwesomeIcon icon={faComment}></FontAwesomeIcon>&nbsp; El Chat de Interneta está deshabilitado porque necesita autenticación
+                                <p style={{ color: "red" }}><FontAwesomeIcon icon={faComment}></FontAwesomeIcon>&nbsp; El Chat de Interneta está deshabilitado porque necesita autenticación.
                                     &nbsp;<Link to="/Login">Iniciar sesión</Link>
-                                </p> : habilitaChatTag ? <p style={{ color: "steelblue" }}><FontAwesomeIcon icon={faComment}></FontAwesomeIcon>&nbsp; El Chat de Interneta está en modo de previsualización de tags, cambiar a {<Link to={rutaNavegacionNormal}>Reproducción normal</Link>}
+                                </p> : habilitaChatTag ? <p style={{ color: "steelblue" }}><FontAwesomeIcon icon={faComment}></FontAwesomeIcon>&nbsp; El Chat de Interneta no registra cambios en modo de previsualización de tags. &nbsp; {<Link to={rutaNavegacionNormal}>Modo normal</Link>}
                                     
                                 </p> : null
                         }
