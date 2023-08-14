@@ -372,6 +372,7 @@ export const AutoComments = () => {
     const [cuentaUsuario, setCuentaUsuario] = useState('');
     const [player, setPlayer] = useState(null);
     const [relatos, setRelatos] = useState([]);
+    const [habilitaChatTag,setHabilitaChatTag] = useState('');
     useEffect(() => {
         //console.log('usuario a enviar para login al socket ',usuario,styles);
         let parametros;
@@ -394,6 +395,9 @@ export const AutoComments = () => {
                 }).catch(err => {
 
                 });
+            }
+            else if(parametros.get("tag_search")){
+                setHabilitaChatTag('#'+parametros.get("tag_search"))
             }
         }
         else {
@@ -520,12 +524,12 @@ export const AutoComments = () => {
         }).catch(err => {
 
         })
-        items = shuffleArray(items);
-        let videoaleatorio = randomBetween10_19();
-        ;
-        if (location.search) {
-            setVideoAleatorio(videoaleatorio);
-        }
+        // items = shuffleArray(items);
+        // let videoaleatorio = randomBetween10_19();
+        // ;
+        // if (location.search && !location) {
+        //     setVideoAleatorio(videoaleatorio);
+        // }
         // setMsjesChat({
         //     chat: msjesChat.chat.filter(a => a.propio == false),
         //     show: false
@@ -867,7 +871,7 @@ export const AutoComments = () => {
         const footerenfocado = isInViewportFooter(elementoFooter);
         const enfocado = isInViewport(elementoVideo) || footerenfocado;
 
-        if (param && !enfocado && localStorage.getItem("credencial_chat") && localStorage.getItem("credencial")) {
+        if (!habilitaChatTag && param && !enfocado && localStorage.getItem("credencial_chat") && localStorage.getItem("credencial")) {
             if (!alturaPlayerMax) {
                 setHabilitarLoaderChat(true);
                 const requestrespuestachat = axios.get(`${getBaseAdressApi()}api/chatvideoroom/${idvideo}`, {
@@ -880,6 +884,33 @@ export const AutoComments = () => {
                     console.log('respuesta desde el chat api', response.data);
                     respuestachat && respuestachat.map((message, index) => {
                         setMsjesChat((prevState) => [...prevState, { autor: message["id_usuario"].username + " " + message["fecha_mensaje"], mensaje: message["mensaje"], propio: message["id_usuario"].username === usuario_general }]);
+                    });
+                    setAlturaPlayerMax(!alturaPlayerMax);
+                    setAlturaPlayer(true);
+                    chatRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                    setHabilitarLoaderChat(false);
+                }).catch(err => {
+                    console.log('error recuperando chat', err);
+                    setHabilitarLoaderChat(false);
+                    setChatPermitido(false);
+                });
+            }
+            else {
+                setAlturaPlayerMax(!alturaPlayerMax);
+                setAlturaPlayer(true);
+            }
+        }
+        else if(param && habilitaChatTag){
+            if (!alturaPlayerMax) {
+                setHabilitarLoaderChat(true);
+                const peticionSecondNavegarTag = axios.post(`${getBaseAdressApi()}api/searchtags/`,
+                {
+                    "tags": [habilitaChatTag],
+                    "pagina_inicial": 0
+                }).then(response => {
+                    let usuario_general = localStorage.getItem('usuario_general');
+                    let tagsvideo = response.data.map((e, index) => {
+                        setMsjesChat((prevState) => [...prevState, { autor:e.autor + " " + e["fecha_mensaje"], mensaje: e["mensaje"], propio: usuario_general && e["autor"] === usuario_general }]);
                     });
                     setAlturaPlayerMax(!alturaPlayerMax);
                     setAlturaPlayer(true);
@@ -1637,10 +1668,15 @@ export const AutoComments = () => {
                     <div className='chat-input' onContextMenu={(e) => handleContextMenu(false, false)}>
                         <textarea rows="2" onKeyUp={(e) => { writeTextMessage(e.target.value) }} onBlur={(e) => { writeTextMessage(e.target.value) }}></textarea>
                         <div className='chat-input-actions'>
+                            {localStorage.getItem('credencial_chat') && localStorage.getItem('credencial') ?
                             <button onClick={addMessage}>{texting.write ?
                                 <FontAwesomeIcon icon={faArrowRight}></FontAwesomeIcon> :
                                 <FontAwesomeIcon icon={faMicrophoneLines}></FontAwesomeIcon>
+                            }</button> : <button disabled="disabled" onClick={addMessage}>{texting.write ?
+                                <FontAwesomeIcon icon={faArrowRight}></FontAwesomeIcon> :
+                                <FontAwesomeIcon icon={faMicrophoneLines}></FontAwesomeIcon>
                             }</button>
+                            }
                         </div>
                     </div>
                 </div>

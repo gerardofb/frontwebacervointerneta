@@ -78,7 +78,10 @@ const SideBar = () => {
                 setCuentaUsuario('')
                 if (sideBarData.length == 0) {
                     getMenuData().then(datos => {
-                        setCuentaUsuario('')
+                        setCuentaUsuario('');
+                        localStorage.removeItem('usuario_general');
+                        localStorage.removeItem('credencial_chat');
+                        localStorage.removeItem('credencial');
                         //console.log('en promesa sidebar', datos);
                         setSideBarData(datos);
                         setCargando(false);
