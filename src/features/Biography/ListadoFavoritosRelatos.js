@@ -273,6 +273,7 @@ const ListadoRelatosFavoritos = (props) => {
     const [cargaPaginada, setCargaPaginada] = useState(false);
     const [idFilaFavorito, setIdFilaFavorito] = useState({ vinculo: '', idvideo: 0 });
     const [resumenRelato, setResumenRelato] = useState([{ id: 0, resumen: '' }]);
+    const [tagsVideo,setTagsVideo] = useState([{id:0,tags:[]}])
     const [videosCalificados, setVideosCalificados] = useState(null);
 
     //console.log('tipo listado ', rutaTipoListado, tipoListado, listado)
@@ -310,7 +311,27 @@ const ListadoRelatosFavoritos = (props) => {
                 })
             })
         }
-    }, [listado])
+    }, [listado]);
+    const estableceTagsHoverVideo=(idvideo)=>{
+        const peticionTags = axios.post(`${getBaseAdressApi()}api/searchtagsbyvideo/`,{
+            "id_video":idvideo,
+            "pagina_inicial":0
+        }).then(response=>{
+            let nuevostags = response.data.map((tag, indice) => {
+                let tagarray = tag.tags.map((el,idx)=>{
+                    console.log('hallando tags específicos ',el);
+                    let t = {
+                        color : random_color(),
+                        content: el
+                        }
+                        return t;
+                })
+                return tagarray.flat();
+            });
+            let newfoundtags = { id: idvideo, tags: nuevostags.flat() }
+            setTagsVideo(tagsVideo.concat(newfoundtags));
+        });
+    }
     const estableceRelatoHover = (relatos, identificador) => {
         let arreglo_relatos = relatos != '' ? relatos.map((el, idx) => {
             return el.document_id;
@@ -585,7 +606,7 @@ const ListadoRelatosFavoritos = (props) => {
                             let calificaciondelvideo = videosCalificados && videosCalificados.find(x => x.id == item.Id) ? (videosCalificados.find(x => x.id == item.Id).total_calificacion ? videosCalificados.find(x => x.id == item.Id).total_calificacion.toFixed(1) : 0) : 0
 
                             return (
-                                <div className="vid-listado" onMouseEnter={(e) => estableceRelatoHover(item.Relato, item.Id)} key={index}>
+                                <div className="vid-listado" onMouseEnter={(e) => {estableceRelatoHover(item.Relato, item.Id); estableceTagsHoverVideo(item.Id);}} key={index}>
                                     <div>{item.Video}</div><div>{item.Categoria}</div><div>{calificaciondelvideo}</div>
                                     <div className="contenedor-resumenes-relatos-listado">
                                         <div className="resumenes-relatos-listado">
@@ -595,13 +616,17 @@ const ListadoRelatosFavoritos = (props) => {
                                         </div>
                                     </div>
 
-                                    <div className="contenedor-tags-listado"><div className="nowrap-tags-listado">{item.Tags.map((tag, i) => {
-                                        return (
+                                    <div className="contenedor-tags-listado"><div className="nowrap-tags-listado">
+                                        {tagsVideo && tagsVideo.find(x => x.id == item.Id) ? tagsVideo.find(x => x.id == item.Id).tags.map((tagitem, ind) => {
+                                            
+                                            return (
 
-                                            <button className="tag-listado-vid" type="button" key={i}>{tag}</button>
+                                                <button className="tag-listado-vid" type="button" key={ind}>{tagitem.content}</button>
 
-                                        )
-                                    })}</div></div>
+                                            )
+                                       
+                                    }):
+                                    null}</div></div>
                                     <div>{autorRelato}</div>
                                     <div>
                                         <button title="opciones de la lista (doble click para ocultar)"

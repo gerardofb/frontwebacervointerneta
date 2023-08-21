@@ -262,11 +262,33 @@ const ListadoMasVisitadosRelatos = (props) => {
     const [cargaPaginada, setCargaPaginada] = useState(false);
     const [idFilaFavorito, setIdFilaFavorito] = useState({ vinculo: '', idvideo: 0 });
     const [resumenRelato, setResumenRelato] = useState([{ id: 0, resumen: '' }]);
+    const [tagsVideo,setTagsVideo] = useState([{id:0,tags:[]}])
+
     //console.log('tipo listado ', rutaTipoListado, tipoListado, listado);
     let sliceIndex = Math.floor(Math.random() * arreglotags.length);
     let tagsselected = arreglotags.slice(sliceIndex, sliceIndex + 2).map((tag, i) => {
         return tag.content
     });
+    const estableceTagsHoverVideo=(idvideo)=>{
+        const peticionTags = axios.post(`${getBaseAdressApi()}api/searchtagsbyvideo/`,{
+            "id_video":idvideo,
+            "pagina_inicial":0
+        }).then(response=>{
+            let nuevostags = response.data.map((tag, indice) => {
+                let tagarray = tag.tags.map((el,idx)=>{
+                    console.log('hallando tags específicos ',el);
+                    let t = {
+                        color : random_color(),
+                        content: el
+                        }
+                        return t;
+                })
+                return tagarray.flat();
+            });
+            let newfoundtags = { id: idvideo, tags: nuevostags.flat() }
+            setTagsVideo(tagsVideo.concat(newfoundtags));
+        });
+    }
     useEffect(() => {
         if (listado.length == 0) {
             const peticionCategorias = axios.get(`${getBaseAdressApi()}api/categorias/`).then(respuesta => {
@@ -521,7 +543,7 @@ const ListadoMasVisitadosRelatos = (props) => {
                             let autorRelato = item.Relato != "" && item.Relato.length > 0 ? autores.join(', ') : "";
                             //console.log('autores del relato de video ', item.Relato, autores);
                             return (
-                                <div className="vid-listado" onMouseEnter={(e) => estableceRelatoHover(item.Relato, item.Id)} key={index}>
+                                <div className="vid-listado" onMouseEnter={(e) => {estableceRelatoHover(item.Relato, item.Id); estableceTagsHoverVideo(item.Id);}} key={index}>
                                     <div>{item.Video}</div><div>{item.Categoria}</div>
                                     <div>{item.Visitas}</div>
                                     <div className="contenedor-resumenes-relatos-listado">
@@ -532,13 +554,17 @@ const ListadoMasVisitadosRelatos = (props) => {
                                         </div>
                                     </div>
 
-                                    <div className="contenedor-tags-listado"><div className="nowrap-tags-listado">{item.Tags.map((tag, i) => {
-                                        return (
+                                    <div className="contenedor-tags-listado"><div className="nowrap-tags-listado">
+                                        {tagsVideo && tagsVideo.find(x => x.id == item.Id) ? tagsVideo.find(x => x.id == item.Id).tags.map((tagitem, ind) => {
+                                            
+                                            return (
 
-                                            <button className="tag-listado-vid" type="button" key={i}>{tag}</button>
+                                                <button className="tag-listado-vid" type="button" key={ind}>{tagitem.content}</button>
 
-                                        )
-                                    })}</div></div>
+                                            )
+                                       
+                                    }):
+                                    null}</div></div>
                                     <div>{autorRelato}</div>
                                     <div>
                                         <button title="opciones de la lista (doble click para ocultar)"

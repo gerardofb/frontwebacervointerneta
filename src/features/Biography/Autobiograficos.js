@@ -347,10 +347,10 @@ export const Autobiograficos = () => {
     const actualRelato = relato;
     const location = useLocation();
     const esPodcast = new URLSearchParams(location.search).get('podcast') !== "false";
-    const [categories, setCategories] = useState(categorias);
+    const [categories, setCategories] = useState([]);
     const [editing, setEditing] = useState({ podcast: esPodcast, editando: false });
     const [collapsed, setCollapsed] = useState(false);
-    const [tags, setTags] = useState(arreglotags);
+    const [tags, setTags] = useState([]);
     const [biographies, setBiographies] = useState(null);
     const [solopodcasts, setSolopodcats] = useState('');
     const referenciaScroll = useRef();
@@ -368,8 +368,8 @@ export const Autobiograficos = () => {
         //console.log('en scroll ', Math.round(e.target.scrollHeight - e.target.scrollTop), e.target.clientHeight);
         if (bottom) {
             //console.log("reached bottom", tags.length, paginacion);
-            let items = tags.concat(tags);
-            setTags(items);
+            //let items = tags.concat(tags);
+            //setTags(items);
             let parametros = new URLSearchParams(window.location.search);
             setHabilitarLoader(true);
             if (paginacion.tamanio > paginacion.pagina) {
@@ -410,7 +410,7 @@ export const Autobiograficos = () => {
                             let biografias = response.data.map((elemento, indice) => {
                                 return { document_id: elemento.document_id, id_video: elemento.id_video, content: elemento.relato, autor: elemento.autor, fecha: new Date(elemento.ultima_fecha).toLocaleDateString(), reciente: true, podcast: elemento.espodcast, contenedor_aws: elemento.contenedor_aws, guid: '', tags: arreglotags.slice(0, 30) };
                             });
-                             biografias = biografias.map((relato, index) => {
+                            biografias = biografias.map((relato, index) => {
                                 let imagen = videosimagenes.find(x => x.id == relato.id_video);
                                 relato.image = imagen ? imagen.imagen : '';
                                 return relato;
@@ -453,7 +453,7 @@ export const Autobiograficos = () => {
                     let videos = el.videos_por_categoria !== undefined ? el.videos_por_categoria.map((vid, idx) => {
                         return { titulo: vid.titulo, id: vid.id, video: vid.contenedor_aws, imagen: vid.contenedor_img }
                     }) : []
-                    return { description: el.titulo, link: '/Categorias/' + title + "/dummy", image: el.contenedor_img, listadoVideos: videos }
+                    return { description: el.titulo, id: el.id, link: '/Categorias/' + title + "/dummy", image: el.contenedor_img, listadoVideos: videos }
                 });
                 let videosimagenes = [];
                 respuestacategories.map((cat, ind) => {
@@ -501,7 +501,7 @@ export const Autobiograficos = () => {
                     let videos = el.videos_por_categoria !== undefined ? el.videos_por_categoria.map((vid, idx) => {
                         return { titulo: vid.titulo, id: vid.id, video: vid.contenedor_aws, imagen: vid.contenedor_img }
                     }) : []
-                    return { description: el.titulo, link: '/Categorias/' + title + "/dummy", image: el.contenedor_img, listadoVideos: videos }
+                    return { description: el.titulo, id: el.id, link: '/Categorias/' + title + "/dummy", image: el.contenedor_img, listadoVideos: videos }
                 });
                 let videosimagenes = [];
                 respuestacategories.map((cat, ind) => {
@@ -560,10 +560,51 @@ export const Autobiograficos = () => {
         }
     }
     const viewMoreTags = () => {
-        let items = tags.concat(tags);
-        setTags(items);
+        const peticionTags = axios.post(`${getBaseAdressApi()}api/getpopulartags/`, {
+            "size": 100
+        }).then(response => {
+            let nuevostags = response.data.tags.map((tag, indice) => {
+                let t = {
+                    color: random_color(),
+                    content: tag.tag
+                }
+                return t;
+            });
+            setTags(nuevostags);
+        });
     }
+    const navigateToTagVideo = (tag) => {
+        let objetobusqueda = {
+            "tags": [tag.content],
+            "pagina_inicial": 0
+        }
+        if (tag.id_video !== undefined) {
+            objetobusqueda = {
+                "tags": [tag.content],
+                "id_video": tag.id_video,
+                "pagina_inicial": 0
+            }           
+        }
+        console.log('objeto de búsqueda', objetobusqueda, tag);
+        
+        const peticionSecondNavegarTag = axios.post(`${getBaseAdressApi()}api/searchtags/`,
+            objetobusqueda).then(response => {
+                let tagsvideo = response.data.map((e, index) => {
+                    console.log('categoría del tag ', e.titulo_categoria, categories);
+                    e["id_categoria"] = categories.find(el => el.description == e.titulo_categoria).id;
+                    return e
+                });
+                //console.log('respuesta navegando en tags', tagsvideo);
+                let video = tagsvideo[0];
+                //console.log('respuesta navegando en tags', tagsvideo);
+                let vinculo = "/Reproduccion/" + video.titulo_video + "|" + video.id_video + "|" + video.id_categoria + "?tag_search=" + tag.content.replace("#", "");
+                historia.push(vinculo);
+            }).catch(err => {
+                //console.log('error navegando en tags principales ', err);
 
+            });
+
+    }
     useEffect(() => {
         //console.log("Location changed");
         utilidadMenuSuperior();
@@ -586,7 +627,7 @@ export const Autobiograficos = () => {
                         let videos = el.videos_por_categoria !== undefined ? el.videos_por_categoria.map((vid, idx) => {
                             return { titulo: vid.titulo, id: vid.id, video: vid.contenedor_aws, imagen: vid.contenedor_img }
                         }) : []
-                        return { description: el.titulo, link: '/Categorias/' + title + "/dummy", image: el.contenedor_img, listadoVideos: videos }
+                        return { description: el.titulo, id: el.id, link: '/Categorias/' + title + "/dummy", image: el.contenedor_img, listadoVideos: videos }
                     });
                     let videosimagenes = [];
                     respuestacategories.map((cat, ind) => {
@@ -641,16 +682,19 @@ export const Autobiograficos = () => {
                         setHabilitarLoaderInitial(false);
                     });
                 });
-                let nuevostags = arreglotags.map((tag, indice) => {
-                    if (tag.popular) {
-                        tag.color = random_color();
-                    }
-                    else {
-                        tag.color = '';
-                    }
-                    return tag;
+                const peticionTags = axios.post(`${getBaseAdressApi()}api/getpopulartags/`, {
+                    "size": 100
+                }).then(response => {
+                    let nuevostags = response.data.tags.map((tag, indice) => {
+                        let t = {
+                            color: random_color(),
+                            content: tag.tag
+                        }
+                        return t;
+                    });
+                    setTags(nuevostags);
                 });
-                setTags(nuevostags);
+
                 setSolopodcats('');
             }
             else if (parametros.get("s") == "true" && parametros.get("cat") == "Relatos") {
@@ -670,7 +714,7 @@ export const Autobiograficos = () => {
                         let videos = el.videos_por_categoria !== undefined ? el.videos_por_categoria.map((vid, idx) => {
                             return { titulo: vid.titulo, id: vid.id, video: vid.contenedor_aws, imagen: vid.contenedor_img }
                         }) : []
-                        return { description: el.titulo, link: '/Categorias/' + title + "/dummy", image: el.contenedor_img, listadoVideos: videos }
+                        return { description: el.titulo, id: el.id, link: '/Categorias/' + title + "/dummy", image: el.contenedor_img, listadoVideos: videos }
                     });
                     let videosimagenes = [];
                     respuestacategories.map((cat, ind) => {
@@ -725,16 +769,18 @@ export const Autobiograficos = () => {
                         setHabilitarLoaderInitial(false);
                     });
                 });
-                let nuevostags = arreglotags.map((tag, indice) => {
-                    if (tag.popular) {
-                        tag.color = random_color();
-                    }
-                    else {
-                        tag.color = '';
-                    }
-                    return tag;
+                const peticionTags = axios.post(`${getBaseAdressApi()}api/getpopulartags/`, {
+                    "size": 100
+                }).then(response => {
+                    let nuevostags = response.data.tags.map((tag, indice) => {
+                        let t = {
+                            color: random_color(),
+                            content: tag.tag
+                        }
+                        return t;
+                    });
+                    setTags(nuevostags);
                 });
-                setTags(nuevostags);
                 setSolopodcats('');
             }
             else {
@@ -761,7 +807,7 @@ export const Autobiograficos = () => {
                         let videos = el.videos_por_categoria !== undefined ? el.videos_por_categoria.map((vid, idx) => {
                             return { titulo: vid.titulo, id: vid.id, video: vid.contenedor_aws, imagen: vid.contenedor_img }
                         }) : []
-                        return { description: el.titulo, link: '/Categorias/' + title + "/dummy", image: el.contenedor_img, listadoVideos: videos }
+                        return { description: el.titulo, id: el.id, link: '/Categorias/' + title + "/dummy", image: el.contenedor_img, listadoVideos: videos }
                     });
                     let videosimagenes = [];
                     respuestacategories.map((cat, ind) => {
@@ -818,16 +864,18 @@ export const Autobiograficos = () => {
                         setHabilitarLoaderInitial(false);
                     });
                 })
-                let nuevostags = arreglotags.map((tag, indice) => {
-                    if (tag.popular) {
-                        tag.color = random_color();
-                    }
-                    else {
-                        tag.color = '';
-                    }
-                    return tag;
+                const peticionTags = axios.post(`${getBaseAdressApi()}api/getpopulartags/`, {
+                    "size": 100
+                }).then(response => {
+                    let nuevostags = response.data.tags.map((tag, indice) => {
+                        let t = {
+                            color: random_color(),
+                            content: tag.tag
+                        }
+                        return t;
+                    });
+                    setTags(nuevostags);
                 });
-                setTags(nuevostags);
                 setSolopodcats('');
             }
         }
@@ -855,7 +903,7 @@ export const Autobiograficos = () => {
                     let videos = el.videos_por_categoria !== undefined ? el.videos_por_categoria.map((vid, idx) => {
                         return { titulo: vid.titulo, id: vid.id, video: vid.contenedor_aws, imagen: vid.contenedor_img }
                     }) : []
-                    return { description: el.titulo, link: '/Categorias/' + title + "/dummy", image: el.contenedor_img, listadoVideos: videos }
+                    return { description: el.titulo, id: el.id, link: '/Categorias/' + title + "/dummy", image: el.contenedor_img, listadoVideos: videos }
                 });
                 let videosimagenes = [];
                 respuestacategories.map((cat, ind) => {
@@ -912,18 +960,21 @@ export const Autobiograficos = () => {
                     setHabilitarLoaderInitial(false);
                 });
             })
-            let nuevostags = arreglotags.map((tag, indice) => {
-                if (tag.popular) {
-                    tag.color = random_color();
-                }
-                else {
-                    tag.color = '';
-                }
-                return tag;
+            const peticionTags = axios.post(`${getBaseAdressApi()}api/getpopulartags/`, {
+                "size": 100
+            }).then(response => {
+                let nuevostags = response.data.tags.map((tag, indice) => {
+                    let t = {
+                        color: random_color(),
+                        content: tag.tag
+                    }
+                    return t;
+                });
+                setTags(nuevostags);
             });
-            setTags(nuevostags);
             setSolopodcats('');
         }
+        console.log('las categorias son ', categories);
     }, [location, rutaDiferente, cuentaDeUsuario]);
     const changeFavorite = (valor) => {
         if (esFavorito.valor && valor) {
@@ -1015,18 +1066,48 @@ export const Autobiograficos = () => {
                 cuenta: cantidad,
                 guid: response.data[0].document_id
             })
+        }).catch(err => {
+            console.log('error mostrado al obtener detalles de relato y tag', err);
         })
 
     }
     const estableceTags = (parametro) => {
         if (parametro) {
-            let arreglo = parametro.tags
-            setTags(arreglo);
+            //console.log('haciendo petición de tags de video específico',parametro)
+            const peticionTags = axios.post(`${getBaseAdressApi()}api/searchtagsbyvideo/`, {
+                "id_video": parametro.id_video,
+                "pagina_inicial": 0
+            }).then(response => {
+                let nuevostags = response.data.map((tag, indice) => {
+                    let tagarray = tag.tags.map((el, idx) => {
+                        console.log('hallando tags específicos ', el);
+                        let t = {
+                            id_video: parametro.id_video,
+                            color: random_color(),
+                            content: el
+                        }
+                        return t;
+                    })
+                    return tagarray.flat();
+                });
+                setTags(nuevostags.flat());
+            });
             setTagViewed(true);
         }
         else {
-            setTags(arreglotags);
-            setTagViewed(false);
+            // const peticionTags = axios.post(`${getBaseAdressApi()}api/getpopulartags/`,{
+            //     "size":100
+            // }).then(response=>{
+            //     let nuevostags = response.data.tags.map((tag, indice) => {
+            //         let t = {
+            //             color : random_color(),
+            //             content: tag.tag
+            //             }
+            //             return t;
+            //     });
+            //     setTags(nuevostags);
+            // });
+            // setTagViewed(false);
         }
     }
     const filterAutobiografico = (parametro) => {
@@ -1522,13 +1603,10 @@ export const Autobiograficos = () => {
                                     <div className='form-input'><input type='text' onKeyUp={(e) => setSearchTag(e.target.value)}></input><span><FontAwesomeIcon icon={faSearch} onClick={(e) => filterTagsSearch()}></FontAwesomeIcon></span></div></div>
                                 {
                                     tags && tags.map((tag, index) => {
-                                        return tag.popular ?
-                                            <button key={index} onClick={(e) => { filterAutobiografico(tag) }} className='tag-autobiografico-search' style={{ backgroundColor: tag.color }}>
-                                                {tag.content}
-                                            </button>
-                                            : <button key={index} onClick={(e) => { filterAutobiografico(tag) }} className='tag-autobiografico-search' style={{ backgroundColor: 'lightgrey', color: 'black' }}>
-                                                {tag.content}
-                                            </button>
+                                        //console.log('mostrando tags desde api',tag)
+                                        return <button key={index} onClick={(e) => { navigateToTagVideo(tag) }} className='tag-autobiografico-search' style={{ backgroundColor: tag.color }}>
+                                            {tag.content}
+                                        </button>
                                     })
                                 }
 

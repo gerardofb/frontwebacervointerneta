@@ -298,7 +298,7 @@ const tipoBusquedaPagina = {
     TAG: 5
 }
 const orderBy = (listado, ordenamiento, desc) => {
-    let salida = listado.map((e,idx)=>{
+    let salida = listado.map((e, idx) => {
         return e;
     });
 
@@ -339,6 +339,28 @@ const ListadoVideosFavoritos = (props) => {
     const [cargaPaginada, setCargaPaginada] = useState(false);
     const [idFilaFavorito, setIdFilaFavorito] = useState({ vinculo: '', idvideo: 0 });
     const [videosCalificados, setVideosCalificados] = useState(null);
+    const [tagsVideo, setTagsVideo] = useState([{ id: 0, tags: [] }])
+    const estableceTagsHoverVideo = (idvideo) => {
+        const peticionTags = axios.post(`${getBaseAdressApi()}api/searchtagsbyvideo/`, {
+            "id_video": idvideo,
+            "pagina_inicial": 0
+        }).then(response => {
+            let nuevostags = response.data.map((tag, indice) => {
+                let tagarray = tag.tags.map((el, idx) => {
+                    console.log('hallando tags específicos ', el);
+                    let t = {
+                        color: random_color(),
+                        content: el,
+
+                    }
+                    return t;
+                })
+                return tagarray.flat();
+            });
+            let newfoundtags = { id: idvideo, tags: nuevostags.flat() }
+            setTagsVideo(tagsVideo.concat(newfoundtags));
+        });
+    }
     //console.log('tipo listado ', rutaTipoListado, tipoListado, listado)
     useEffect(() => {
         if (listado.length == 0) {
@@ -621,18 +643,22 @@ const ListadoVideosFavoritos = (props) => {
                             let autorRelato = item.Relato != "" ? autores.join(', ') : "";
                             //console.log('autores del relato de video ', item.Relato, autores);
                             return (
-                                <div className="vid-listado" key={index}>
+                                <div className="vid-listado" key={index} onMouseEnter={(e) => { estableceTagsHoverVideo(item.Id); }}>
                                     <div>{item.Video}</div><div>{item.Categoria}</div><div>{item.Calificacion}</div>
                                     <div>{listareproduccion}
                                     </div>
 
-                                    <div className="contenedor-tags-listado"><div className="nowrap-tags-listado">{item.Tags.map((tag, i) => {
-                                        return (
+                                    <div className="contenedor-tags-listado"><div className="nowrap-tags-listado">
+                                        {tagsVideo && tagsVideo.find(x => x.id == item.Id) ? tagsVideo.find(x => x.id == item.Id).tags.map((tagitem, ind) => {
 
-                                            <button className="tag-listado-vid" type="button" key={i}>{tag}</button>
+                                            return (
 
-                                        )
-                                    })}</div></div>
+                                                <button className="tag-listado-vid" type="button" key={ind}>{tagitem.content}</button>
+
+                                            )
+
+                                        }) :
+                                            null}</div></div>
                                     <div>{autorRelato}</div>
                                     <div>
                                         <button title="opciones de la lista (doble click para ocultar)"
