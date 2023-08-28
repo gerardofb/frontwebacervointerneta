@@ -78,9 +78,9 @@ const HomeFooter = (props) => {
                     <li style={{ fontSize: 'small' }}>
                         Suscribirse
                     </li>
-                    
+
                     <li style={{ fontSize: 'small' }}>
-                    <Link to="#" onClick={eventoAleatorio}>Evento aleatorio</Link>
+                        <Link to="#" onClick={eventoAleatorio}>Evento aleatorio</Link>
                     </li>
                 </ul>
                 <ul className='footer-list-white'>
@@ -114,15 +114,16 @@ const HomeFooter = (props) => {
                 <div className="spline-logos-sociales-footer-2"></div>
             </div>
             <div className='logos-patrocinadores-footer'>
+                <div className='logo-sec-cultura'>
+
+                </div>
                 <div className='logo-imcine'>
 
                 </div>
                 <div className='logo-focine'>
 
                 </div>
-                <div className='logo-sec-cultura'>
 
-                </div>
             </div>
         </div>
     )

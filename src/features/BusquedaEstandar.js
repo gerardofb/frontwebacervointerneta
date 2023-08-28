@@ -28,26 +28,35 @@ const Tab = styled.button`
     opacity: 1;
   `}
 `;
-const categorias = { COMENTARIOS: 0, RELATOS: 1 }
+const categorias = { COMENTARIOS: 0, RELATOS: 1, TAGS: 2 }
 const tiposBusqueda = { QUERY: 0, CATEGORIA: 1, FRASE: 2, AUTOR: 3, OPCIONAL: 4, PREFIJO: 5, VIDEO: 6 }
 const MODAL_SEARCH_USERS = 0;
 const MODAL_SEARCH_VIDEOS = 1;
+function uniqueTags(a) {
+    return a.sort().filter(function (value, index, array) {
+        return (index === 0) || (value.id_video !== array[index - 1].id_video);
+    });
+}
 export const BusquedaEstandar = (props) => {
     const location = useLocation()
     const history = useHistory();
     const [resultadoBusqueda, setResultadoBusqueda] = useState([])
-    const [paginaBusqueda, setPaginaBusqueda] = useState({ comentarios: 1, relatos: 1 })
-    const [paginasTotal, setPaginasTotal] = useState({ comentarios: 0, relatos: 0 })
-    const [totalResultados, setTotalResultados] = useState({ comentarios: 0, relatos: 0 })
+    const [paginaBusqueda, setPaginaBusqueda] = useState({ comentarios: 1, relatos: 1, tags: 1 })
+    const [paginasTotal, setPaginasTotal] = useState({ comentarios: 0, relatos: 0, tags: 0 })
+    const [mostrarPaginacionComentarios, setMostrarPaginacionComentarios] = useState(false);
+    const [mostrarPaginacionTags, setMostrarPaginacionTags] = useState(false);
+    const [mostrarPaginacionRelatos, setMostrarPaginacionRelatos] = useState(false);
+    const [totalResultados, setTotalResultados] = useState({ comentarios: 0, relatos: 0, tags: 0 })
     const [modalOpen, setModalOpen] = useState(false);
     const [childrenModal, setChildrenModal] = useState(-1);
     const [resultadoBusquedaRelato, setResultadoBusquedaRelato] = useState([])
+    const [resultadoBusquedaTag, setResultadoBusquedaTag] = useState([])
 
-    const [paginacion, setPaginacion] = useState({ comentarios: 0, relatos:0 })
+    const [paginacion, setPaginacion] = useState({ comentarios: 0, relatos: 0, tags: 0 })
     const [actualQuery, setActualQuery] = useState(null)
     const [todascategorias, setTodascategorias] = useState(null);
-    const [videoslistado,setVideosListado] = useState([]);
-    const [valorVideoSearch,setValorVideoSearch] = useState(0);
+    const [videoslistado, setVideosListado] = useState([]);
+    const [valorVideoSearch, setValorVideoSearch] = useState(0);
     const [consultaAvanzada, setConsultaAvanzada] = useState({
         "query": "",
         "categoria": "",
@@ -57,7 +66,7 @@ export const BusquedaEstandar = (props) => {
         "prefijo": "",
         "video": "",
         "pagina_inicial": 0
-    })
+    });
     const [esBusquedaAvanzada, setEsBusquedaAvanzada] = useState(null);
     const refModalUsuario = useRef(null);
     const refModalVideos = useRef(null);
@@ -77,8 +86,8 @@ export const BusquedaEstandar = (props) => {
         let query = location.search, consulta = '';
         if (query) {
             query = query.split('=');
-            consulta = decodeURI(query[query.length - 1])
-            //console.log('consulta ', consulta)
+            consulta = decodeURIComponent(query[query.length - 1])
+            console.log('consulta ', consulta)
             let objetoSearchSimple = {
                 "query": consulta,
                 "categoria": "",
@@ -91,25 +100,26 @@ export const BusquedaEstandar = (props) => {
             };
             setActualQuery(
                 JSON.stringify(objetoSearchSimple));
-            const requestVideos = axios.get(`${getBaseAdressApi()}api/shortlistvideos/`).then(response=>{
-                let videos = response.data.results.map((el,indice)=>{
-                    return {id:el.id,titulo:el.titulo}
+            const requestVideos = axios.get(`${getBaseAdressApi()}api/shortlistvideos/`).then(response => {
+                let videos = response.data.results.map((el, indice) => {
+                    return { id: el.id, titulo: el.titulo }
                 })
                 setVideosListado(videos);
             })
             const requestSimple = axios.post(`${getBaseAdressApi()}api/searchcomment/`,
                 objetoSearchSimple
             ).then(response => {
-                ReactGA.event('search',{
-                    search_term:consulta
+                ReactGA.event('search', {
+                    search_term: consulta
                 });
                 setResultadoBusqueda(response.data);
                 let totalDeResultados = response.data.length > 0 ? response.data[0].total : 0;
-                let paginacion_primera =  response.data.length > 0 ? response.data[0].paginacion : 1;
+                let paginacion_primera = response.data.length > 0 ? response.data[0].paginacion : 1;
                 setPaginacion({
                     ...paginacion,
                     comentarios: paginacion_primera
                 });
+                setMostrarPaginacionComentarios(totalDeResultados > 0)
                 let paginasTotalComentarios = parseInt(totalDeResultados / paginacion_primera) + ((totalDeResultados % paginacion_primera > 0) ? 1 : 0)
                 //console.log('en consulta inicial ',paginasTotalComentarios)
                 setPaginasTotal({
@@ -120,13 +130,13 @@ export const BusquedaEstandar = (props) => {
                     ...totalResultados,
                     comentarios: totalDeResultados
                 })
-            }).catch(err=>{
+            }).catch(err => {
 
             });
             const requestRelato = axios.post(`${getBaseAdressApi()}api/searchrelato/`,
                 objetoSearchSimple
             ).then(response => {
-                
+
                 setResultadoBusquedaRelato(response.data);
                 let totalDeResultadosRelato = response.data[0].total;
                 let paginacion_primera = response.data[0].paginacion;
@@ -134,6 +144,7 @@ export const BusquedaEstandar = (props) => {
                     ...paginacion,
                     relatos: paginacion_primera
                 });
+                setMostrarPaginacionRelatos(totalDeResultadosRelato > 0)
                 let paginasTotalRelatos = parseInt(totalDeResultadosRelato / paginacion_primera) + ((totalDeResultadosRelato % paginacion_primera > 0) ? 1 : 0)
                 //console.log('en consulta inicial ',paginasTotalComentarios)
                 setPaginasTotal({
@@ -144,13 +155,53 @@ export const BusquedaEstandar = (props) => {
                     ...totalResultados,
                     relatos: totalDeResultadosRelato
                 })
-            }).catch(err=>{
-                
+            }).catch(err => {
+
             });
-            let respuesta_cat = axios.get(`${getBaseAdressApi()}api/categorias/`).then(response => {
-                //console.log('dentro de consulta original', response.data.results);
-                setTodascategorias(response.data.results);
-            })
+            if (todascategorias == null) {
+                axios.get(`${getBaseAdressApi()}api/categorias/`).then(response => {
+                    console.log('dentro de consulta original', response.data.results);
+                    setTodascategorias(response.data.results);
+                })
+            }
+            let salidainicialTags = consulta.split(" ");
+            let salidaTags = salidainicialTags.map((el, i) => {
+                return el.indexOf("#") == -1 || el.indexOf("#") != 0 ? "#" + el : el;
+            }).slice(0, 6)
+            console.log('salida tags', salidaTags);
+            let objetoSearchTags =
+            {
+                "query": salidaTags,
+                "categoria": "",
+                "autor": "",
+                "video": "",
+                "pagina_inicial": 0
+            }
+            const requestTags = axios.post(`${getBaseAdressApi()}api/searchtagsgeneral/`,
+                objetoSearchTags
+            ).then(response => {
+                let unicosVideosTags = response.data
+                setResultadoBusquedaTag(unicosVideosTags);
+                let totalDeResultadosTags = response.data[0].total;
+                let paginacion_primera = response.data[0].paginacion;
+                setPaginacion({
+                    ...paginacion,
+                    tags: paginacion_primera
+                });
+                setMostrarPaginacionTags(totalDeResultadosTags > 0)
+                let paginasTotalTags = parseInt(totalDeResultadosTags / paginacion_primera) + ((totalDeResultadosTags % paginacion_primera > 0) ? 1 : 0)
+                //console.log('en consulta inicial ',paginasTotalComentarios)
+                setPaginasTotal({
+                    ...paginasTotal,
+                    tags: paginasTotalTags
+                })
+                setTotalResultados({
+                    ...totalResultados,
+                    tags: totalDeResultadosTags
+                });
+            }).catch(err => {
+
+            });
         }
         else if (!query) {
             setResultadoBusqueda([]);
@@ -165,23 +216,31 @@ export const BusquedaEstandar = (props) => {
                 comentarios: 0,
                 relatos: 0
             })
-            let respuesta_cat = axios.get(`${getBaseAdressApi()}api/categorias/`).then(response => {
-                //console.log('dentro de consulta original', response.data.results);
-                setTodascategorias(response.data.results);
+            setPaginaBusqueda({
+                comentarios: 1,
+                relatos: 1,
+                tags: 1
             })
-            const requestVideos = axios.get(`${getBaseAdressApi()}api/shortlistvideos/`).then(response=>{
-                let videos = response.data.results.map((el,indice)=>{
-                    return {id:el.id,titulo:el.titulo}
+            if (todascategorias == null) {
+                axios.get(`${getBaseAdressApi()}api/categorias/`).then(response => {
+                    console.log('dentro de consulta original', response.data.results);
+                    setTodascategorias(response.data.results);
+                })
+            }
+            const requestVideos = axios.get(`${getBaseAdressApi()}api/shortlistvideos/`).then(response => {
+                let videos = response.data.results.map((el, indice) => {
+                    return { id: el.id, titulo: el.titulo }
                 })
                 setVideosListado(videos);
             })
         }
 
-    }, [location.search]);
+    }, [location.search, todascategorias]);
     const searchAvanzado = () => {
         if (consultaAvanzada.query.trim() != "" || consultaAvanzada.categoria != "" ||
             consultaAvanzada.puede.trim() != "" || consultaAvanzada.prefijo.trim() != "" || consultaAvanzada.video != "") {
             setEsBusquedaAvanzada(true);
+
             let objetoSearchAvanzado = {
                 "query": consultaAvanzada.query,
                 "categoria": consultaAvanzada.categoria != "Todas" ? consultaAvanzada.categoria : "",
@@ -192,12 +251,13 @@ export const BusquedaEstandar = (props) => {
                 "video": valorVideoSearch == 0 ? "" : parseInt(valorVideoSearch),
                 "pagina_inicial": 0
             };
+
             //console.log('el objeto búsqueda es ',objetoSearchAvanzado)
             const requestSimple = axios.post(`${getBaseAdressApi()}api/searchcomment/`,
                 objetoSearchAvanzado
             ).then(response => {
-                setActualQuery(
-                    JSON.stringify(objetoSearchAvanzado));
+                // setActualQuery(
+                //     JSON.stringify(objetoSearchAvanzado));
                 setResultadoBusqueda(response.data);
                 let totalDeResultados = response.data.length > 0 ? response.data[0].total : 0;
                 let paginacion_primera = response.data.length > 0 ? response.data[0].paginacion : 1;
@@ -205,6 +265,7 @@ export const BusquedaEstandar = (props) => {
                     ...paginacion,
                     comentarios: paginacion_primera
                 });
+                setMostrarPaginacionComentarios(totalDeResultados > 0)
                 let paginasTotalComentarios = parseInt(totalDeResultados / paginacion_primera) + ((totalDeResultados % paginacion_primera > 0) ? 1 : 0)
                 //console.log('en consulta avanzada ',paginasTotalComentarios)
                 setPaginasTotal({
@@ -216,10 +277,13 @@ export const BusquedaEstandar = (props) => {
                     comentarios: totalDeResultados
                 });
                 setPaginaBusqueda({
-                    comentarios:1,
-                    relatos:1
+                    comentarios: 1,
+                    relatos: 1,
+                    tags: 1
                 })
-                
+
+            }).catch(err => {
+
             });
             const requestRelato = axios.post(`${getBaseAdressApi()}api/searchrelato/`,
                 objetoSearchAvanzado
@@ -233,6 +297,7 @@ export const BusquedaEstandar = (props) => {
                     ...paginacion,
                     relatos: paginacion_primera
                 });
+                setMostrarPaginacionRelatos(totalDeResultadosRelato > 0)
                 let paginasTotalRelatos = parseInt(totalDeResultadosRelato / paginacion_primera) + ((totalDeResultadosRelato % paginacion_primera > 0) ? 1 : 0)
                 //console.log('en consulta inicial ',paginasTotalComentarios)
                 setPaginasTotal({
@@ -244,9 +309,58 @@ export const BusquedaEstandar = (props) => {
                     relatos: totalDeResultadosRelato
                 });
                 setPaginaBusqueda({
-                    comentarios:1,
-                    relatos:1
+                    comentarios: 1,
+                    relatos: 1,
+                    tags: 1
                 })
+            }).catch(err => {
+
+            });
+            let consultatags = consultaAvanzada.query.split(" ");
+            let salidaTags = consultatags.map((el, i) => {
+                return el.indexOf("#") == -1 || (el.indexOf("#") != 0 && el.indexOf("#") !== -1) ? "#" + el : el;
+            }).slice(0, 6)
+            console.log('salida tags', salidaTags);
+            let objetoSearchTags =
+            {
+                "query": salidaTags,
+                "categoria": consultaAvanzada.categoria != "Todas" ? consultaAvanzada.categoria : "",
+                "frase": consultaAvanzada.frase,
+                "autor": consultaAvanzada.autor,
+                "puede": consultaAvanzada.puede,
+                "prefijo": consultaAvanzada.prefijo,
+                "video": valorVideoSearch == 0 ? "" : parseInt(valorVideoSearch),
+                "pagina_inicial": 0
+            }
+            const requestTags = axios.post(`${getBaseAdressApi()}api/searchtagsgeneral/`,
+                objetoSearchTags
+            ).then(response => {
+                let unicosVideosTags = response.data
+                setResultadoBusquedaTag(unicosVideosTags);
+                let totalDeResultadosTags = response.data[0].total;
+                let paginacion_primera = response.data[0].paginacion;
+                setPaginacion({
+                    ...paginacion,
+                    tags: paginacion_primera
+                });
+                setMostrarPaginacionTags(totalDeResultadosTags > 0)
+                let paginasTotalTags = parseInt(totalDeResultadosTags / paginacion_primera) + ((totalDeResultadosTags % paginacion_primera > 0) ? 1 : 0)
+                //console.log('en consulta inicial ',paginasTotalComentarios)
+                setPaginasTotal({
+                    ...paginasTotal,
+                    tags: paginasTotalTags
+                })
+                setTotalResultados({
+                    ...totalResultados,
+                    tags: totalDeResultadosTags
+                })
+                setPaginaBusqueda({
+                    comentarios: 1,
+                    relatos: 1,
+                    tags: 1
+                })
+            }).catch(err => {
+
             });
         }
     }
@@ -343,6 +457,23 @@ export const BusquedaEstandar = (props) => {
                     relatos: paginaActual
                 });
         }
+        else if (direccion && tipo == tabuladores[2]) {
+            paginaActual = (paginaBusqueda.tags + 1);
+
+            setPaginaBusqueda(
+                {
+                    ...paginaBusqueda,
+                    tags: paginaActual
+                });
+        }
+        else if (!direccion && tipo == tabuladores[2]) {
+            paginaActual = (paginaBusqueda.tags - 1);
+            setPaginaBusqueda(
+                {
+                    ...paginaBusqueda,
+                    tags: paginaActual
+                });
+        }
         let query = location.search, consulta = '';
         if (query && !esBusquedaAvanzada) {
             query = query.split('=');
@@ -403,6 +534,42 @@ export const BusquedaEstandar = (props) => {
                     })
                 });
             }
+            else if (tipo == tabuladores[2]) {
+                let objetoSearchTags =
+                {
+                    "query": [
+                        consulta.indexOf("#") == -1 ? "#" + consulta : consulta
+                    ],
+                    "categoria": "",
+                    "autor": "",
+                    "video": "",
+                    "pagina_inicial": ((paginacion.tags) * (paginaActual - 1))
+                }
+                const requestTags = axios.post(`${getBaseAdressApi()}api/searchtagsgeneral/`,
+                    objetoSearchTags
+                ).then(response => {
+                    let unicosVideosTags = response.data
+                    setResultadoBusquedaTag(unicosVideosTags);
+                    let totalDeResultadosTags = response.data[0].total;
+                    let paginacion_primera = response.data[0].paginacion;
+                    setPaginacion({
+                        ...paginacion,
+                        tags: paginacion_primera
+                    });
+                    let paginasTotalTags = parseInt(totalDeResultadosTags / paginacion_primera) + ((totalDeResultadosTags % paginacion_primera > 0) ? 1 : 0)
+                    //console.log('en consulta inicial ',paginasTotalComentarios)
+                    setPaginasTotal({
+                        ...paginasTotal,
+                        tags: paginasTotalTags
+                    })
+                    setTotalResultados({
+                        ...totalResultados,
+                        tags: totalDeResultadosTags
+                    })
+                }).catch(err => {
+
+                });
+            }
         }
         else if (esBusquedaAvanzada) {
 
@@ -419,7 +586,7 @@ export const BusquedaEstandar = (props) => {
                 };
                 //console.log('en cambio de página ',paginaActual,objetoSearchPagina, paginacion.comentarios)
                 const requestPagina = axios.post(`${getBaseAdressApi()}api/searchcomment/`,
-                objetoSearchAvanzado
+                    objetoSearchAvanzado
                 ).then(response => {
                     setResultadoBusqueda(response.data);
                     let totalDeResultados = response.data[0].total;
@@ -432,6 +599,8 @@ export const BusquedaEstandar = (props) => {
                         ...totalResultados,
                         comentarios: totalDeResultados
                     })
+                }).catch(err => {
+
                 });
             }
             else if (tipo == tabuladores[1]) {
@@ -442,7 +611,7 @@ export const BusquedaEstandar = (props) => {
                     "autor": consultaAvanzada.autor,
                     "puede": consultaAvanzada.puede,
                     "prefijo": consultaAvanzada.prefijo,
-                    "video": valorVideoSearch== 0 ? "" : parseInt(valorVideoSearch),
+                    "video": valorVideoSearch == 0 ? "" : parseInt(valorVideoSearch),
                     "pagina_inicial": 0
                 };
                 //console.log('en cambio de página ',paginaActual,objetoSearchPagina, paginacion.comentarios)
@@ -460,11 +629,59 @@ export const BusquedaEstandar = (props) => {
                         ...totalResultados,
                         relatos: totalDeResultadosRelato
                     })
+                }).catch(err => {
+
+                });
+            }
+            else if (tipo == tabuladores[2]) {
+                let consultatags = consultaAvanzada.query.split(" ");
+                let salidaTags = consultatags.map((el, i) => {
+                    return el.indexOf("#") == -1 || el.indexOf("#") != 0 ? "#" + el : el;
+                }).slice(0, 6)
+                let objetoSearchTags =
+                {
+                    "query": salidaTags,
+                    "categoria": consultaAvanzada.categoria != "Todas" ? consultaAvanzada.categoria : "",
+                    "frase": consultaAvanzada.frase,
+                    "autor": consultaAvanzada.autor,
+                    "puede": consultaAvanzada.puede,
+                    "prefijo": consultaAvanzada.prefijo,
+                    "video": valorVideoSearch == 0 ? "" : parseInt(valorVideoSearch),
+                    "pagina_inicial": 0
+                }
+                const requestTags = axios.post(`${getBaseAdressApi()}api/searchtagsgeneral/`,
+                    objetoSearchTags
+                ).then(response => {
+                    let unicosVideosTags = response.data
+                    setResultadoBusquedaTag(unicosVideosTags);
+                    let totalDeResultadosTags = response.data[0].total;
+                    let paginacion_primera = response.data[0].paginacion;
+                    setPaginacion({
+                        ...paginacion,
+                        tags: paginacion_primera
+                    });
+                    let paginasTotalTags = parseInt(totalDeResultadosTags / paginacion_primera) + ((totalDeResultadosTags % paginacion_primera > 0) ? 1 : 0)
+                    //console.log('en consulta inicial ',paginasTotalComentarios)
+                    setPaginasTotal({
+                        ...paginasTotal,
+                        tags: paginasTotalTags
+                    })
+                    setTotalResultados({
+                        ...totalResultados,
+                        tags: totalDeResultadosTags
+                    })
+                    setPaginaBusqueda({
+                        comentarios: 1,
+                        relatos: 1,
+                        tags: 1
+                    })
+                }).catch(err => {
+
                 });
             }
         }
     }
-    const navigateToSearch = (categoria, video) => {
+    const navigateToSearch = (categoria, video, evento) => {
         switch (categoria) {
             case categorias.COMENTARIOS:
                 let objetoConsulta = JSON.parse(actualQuery);
@@ -476,44 +693,51 @@ export const BusquedaEstandar = (props) => {
                 //console.log('en navegar ', todascategorias, video.categoria, indice_categoria);
                 history.push("/Reproduccion/" + video.titulo + "|" + video.id_video + "|" + indice_categoria.id + "?q=true&cat=Comentarios");
                 break;
-                case categorias.RELATOS:
-                    let objetoConsultaRelato = JSON.parse(actualQuery);
-                    //console.log('navegando a relato ',video,actualQuery);
-                    objetoConsultaRelato.video = video.id_video;
-    
-                    localStorage.setItem("queryRelatos", JSON.stringify(objetoConsultaRelato));
-    
-                    //let indice_categoria_relato = todascategorias.find(e => e.titulo == video.categoria);
-                    history.push("/Autobiograficos/add2fafc085d4121a4da88d351cb9e8e?q=true&cat=Relatos");
-                    break;
+            case categorias.RELATOS:
+                let objetoConsultaRelato = JSON.parse(actualQuery);
+                //console.log('navegando a relato ',video,actualQuery);
+                objetoConsultaRelato.video = video.id_video;
+
+                localStorage.setItem("queryRelatos", JSON.stringify(objetoConsultaRelato));
+
+                //let indice_categoria_relato = todascategorias.find(e => e.titulo == video.categoria);
+                history.push("/Autobiograficos/add2fafc085d4121a4da88d351cb9e8e?q=true&cat=Relatos");
+                break;
+            case categorias.TAGS:
+                let tagbusqueda = evento.target.innerHTML.replace("#", "")
+                console.log('click en tag navegación', evento.target.innerHTML);
+                let indice_categoriatag = todascategorias.find(e => e.titulo == video.categoria);
+                let vinculo = "/Reproduccion/" + video.titulo + "|" + video.id_video + "|" + indice_categoriatag.id + "?tag_search=" + tagbusqueda;
+                history.push(vinculo);
+                break;
         }
     }
-    const [usuariosSearch,setUsuariosSearch] = useState([]);
-    const [valueUserSearch,setValueUserSearch] = useState('')
-    const searchUsuario = ()=>{
-        const requestSearchUser = axios.get(`${getBaseAdressApi()}api/users/`+valueUserSearch).then(response=>{
+    const [usuariosSearch, setUsuariosSearch] = useState([]);
+    const [valueUserSearch, setValueUserSearch] = useState('')
+    const searchUsuario = () => {
+        const requestSearchUser = axios.get(`${getBaseAdressApi()}api/users/` + valueUserSearch).then(response => {
             setUsuariosSearch(response.data.results);
         })
     }
-    const [videosSearch,setVideosSearch] = useState([]);
-    const [valueVideoSearch,setValueVideoSearch] = useState('')
-    const searchVideo = ()=>{
-        const requestSearchUser = axios.get(`${getBaseAdressApi()}api/videos/`+valueVideoSearch).then(response=>{
+    const [videosSearch, setVideosSearch] = useState([]);
+    const [valueVideoSearch, setValueVideoSearch] = useState('')
+    const searchVideo = () => {
+        const requestSearchUser = axios.get(`${getBaseAdressApi()}api/videos/` + valueVideoSearch).then(response => {
             setVideosSearch(response.data.results);
         })
     }
     //console.log('paginas', paginaBusqueda.comentarios, paginasTotal.comentarios, totalResultados.comentarios)
-    const [valueAutorSearch,setValueAutorSearch] = useState('')
-    const setUserSearch = (e,usuario)=>{
+    const [valueAutorSearch, setValueAutorSearch] = useState('')
+    const setUserSearch = (e, usuario) => {
         setValueAutorSearch(usuario);
-        setBuscarAvanzado(usuario,tiposBusqueda.AUTOR);
-        toggleState(e,MODAL_SEARCH_USERS);
+        setBuscarAvanzado(usuario, tiposBusqueda.AUTOR);
+        toggleState(e, MODAL_SEARCH_USERS);
     }
-    const setVideoSearch = (e,video)=>{
+    const setVideoSearch = (e, video) => {
         setValorVideoSearch(video.id);
-        setVideosListado([...videoslistado,{id:video.id,titulo:video.titulo}]);
-        setBuscarAvanzado(video.id,tiposBusqueda.VIDEO);
-        toggleState(e,MODAL_SEARCH_VIDEOS);
+        setVideosListado([...videoslistado, { id: video.id, titulo: video.titulo }]);
+        setBuscarAvanzado(video.id, tiposBusqueda.VIDEO);
+        toggleState(e, MODAL_SEARCH_VIDEOS);
 
     }
     return (
@@ -544,7 +768,7 @@ export const BusquedaEstandar = (props) => {
                         </div>
                         <div>
                             <label>Del siguiente autor:</label>
-                            <input type="text" value={valueAutorSearch} onChange={(e) => {setBuscarAvanzado(e.target.value, tiposBusqueda.AUTOR);setValueAutorSearch(e.target.value)}}></input>
+                            <input type="text" value={valueAutorSearch} onChange={(e) => { setBuscarAvanzado(e.target.value, tiposBusqueda.AUTOR); setValueAutorSearch(e.target.value) }}></input>
                             <a href="#" onClick={(e) => toggleState(e, MODAL_SEARCH_USERS)}>Buscar autores</a>
                         </div>
                         <div>
@@ -562,18 +786,18 @@ export const BusquedaEstandar = (props) => {
                         </div>
                         <div>
                             <label>Del siguiente vídeo (indicar el título):</label>
-                            <select name="select_videos" value={valorVideoSearch} onChange={(e) => {setValorVideoSearch(e.target.value);}}>
+                            <select name="select_videos" value={valorVideoSearch} onChange={(e) => { setValorVideoSearch(e.target.value); }}>
                                 <option value="0">
                                     Todos
                                 </option>
-                                {videoslistado.map((el,indice)=>{
+                                {videoslistado.map((el, indice) => {
                                     return <option key={indice} value={el.id}>{el.titulo}</option>
                                 })}
                             </select>
-                            <a href="#"onClick={(e) => toggleState(e, MODAL_SEARCH_VIDEOS)}>Buscar videos</a>
+                            <a href="#" onClick={(e) => toggleState(e, MODAL_SEARCH_VIDEOS)}>Buscar videos</a>
                         </div>
                         <div>
-                            <button type="button" onClick={(e)=>searchAvanzado()}>Búsqueda</button>
+                            <button type="button" onClick={(e) => searchAvanzado()}>Búsqueda</button>
                         </div>
                     </div>
                     <div className='tabuladores-search'>
@@ -613,7 +837,7 @@ export const BusquedaEstandar = (props) => {
                             })
                         }
                         {
-                            paginasTotal.comentarios > 0 && <div className="paginacion-results-search">
+                            mostrarPaginacionComentarios && paginasTotal.comentarios > 0 && <div className="paginacion-results-search">
                                 {paginaBusqueda.comentarios > 1 && paginaBusqueda < paginasTotal.comentarios ? <><button type="button" onClick={(e) => { cambiarPagina(false, tabuladores[0]) }}>Anterior</button><p>Página {paginaBusqueda.comentarios} de {paginasTotal.comentarios}
                                 </p><button type="button" onClick={(e) => { cambiarPagina(true, tabuladores[0]) }}>Siguiente</button></> : paginaBusqueda.comentarios <= 1 && paginaBusqueda.comentarios < paginasTotal.comentarios ?
                                     <><p>Página {paginaBusqueda.comentarios} de {paginasTotal.comentarios}
@@ -630,7 +854,7 @@ export const BusquedaEstandar = (props) => {
                         {
 
                             resultadoBusquedaRelato.map((el, indice) => {
-                                
+
                                 let fecharesult = new Date(el.ultima_fecha)
                                 return (
                                     <div className="results-search">
@@ -639,7 +863,7 @@ export const BusquedaEstandar = (props) => {
                                         <h4>Autor</h4>
                                         <h4>Fecha</h4>
                                         <p>{el.titulo_categoria}</p>
-                                        <p><a href="#"  onClick={(e) => navigateToSearch(categorias.RELATOS, { titulo: el.titulo_video, id_video: el.id_video, categoria: el.titulo_categoria })}>{el.titulo_video}</a></p>
+                                        <p><a href="#" onClick={(e) => navigateToSearch(categorias.RELATOS, { titulo: el.titulo_video, id_video: el.id_video, categoria: el.titulo_categoria })}>{el.titulo_video}</a></p>
                                         <p>{el.autor}</p>
                                         <p>{fecharesult.toLocaleDateString()}</p>
                                     </div>
@@ -647,7 +871,7 @@ export const BusquedaEstandar = (props) => {
                             })
                         }
                         {
-                            paginasTotal.relatos > 0 && <div className="paginacion-results-search">
+                            mostrarPaginacionRelatos && paginasTotal.relatos > 0 && <div className="paginacion-results-search">
                                 {paginaBusqueda.relatos > 1 && paginaBusqueda < paginasTotal.relatos ? <><button type="button" onClick={(e) => { cambiarPagina(false, tabuladores[1]) }}>Anterior</button><p>Página {paginaBusqueda.relatos} de {paginasTotal.relatos}
                                 </p><button type="button" onClick={(e) => { cambiarPagina(true, tabuladores[1]) }}>Siguiente</button></> : paginaBusqueda.relatos <= 1 && paginaBusqueda.relatos < paginasTotal.relatos ?
                                     <><p>Página {paginaBusqueda.relatos} de {paginasTotal.relatos}
@@ -658,28 +882,67 @@ export const BusquedaEstandar = (props) => {
                             </div>
                         }
                     </div>
+                    <div style={estableceTab(tabuladores[2])}>
+                        <h2>Resultados de la búsqueda:</h2>
+
+                        {
+
+                            resultadoBusquedaTag.map((el, indice) => {
+                                let fecharesult = new Date(el.fecha_mensaje)
+                                return (
+                                    <div className="results-search-tags">
+                                        <h4>Categoría</h4>
+                                        <h4>Título</h4>
+                                        <h4>Autor</h4>
+                                        <h4>Fecha</h4>
+                                        <h4>Tags</h4>
+                                        <p>{el.titulo_categoria}</p>
+                                        <p>{el.titulo_video}</p>
+                                        <p>{el.autor}</p>
+                                        <p>{fecharesult.toLocaleDateString()}</p>
+                                        <p style={{ fontSize: "11px" }}>{el.tags.map((t, i) => {
+                                            return <>&nbsp;<span style={{ color: "blue", cursor: "pointer" }} onClick={(e) => navigateToSearch(categorias.TAGS, { titulo: el.titulo_video, id_video: el.id_video, categoria: el.titulo_categoria }, e)}>
+                                                {t}
+                                            </span></>
+                                        })}</p>
+                                    </div>
+                                )
+                            })
+                        }
+                        {
+                            mostrarPaginacionTags && paginasTotal.tags > 0 && <div className="paginacion-results-search">
+                                {paginaBusqueda.tags > 1 && paginaBusqueda < paginasTotal.tags ? <><button type="button" onClick={(e) => { cambiarPagina(false, tabuladores[0]) }}>Anterior</button><p>Página {paginaBusqueda.tags} de {paginasTotal.tags}
+                                </p><button type="button" onClick={(e) => { cambiarPagina(true, tabuladores[0]) }}>Siguiente</button></> : paginaBusqueda.tags <= 1 && paginaBusqueda.tags < paginasTotal.tags ?
+                                    <><p>Página {paginaBusqueda.tags} de {paginasTotal.tags}
+                                    </p><button onClick={(e) => { cambiarPagina(true, tabuladores[0]) }} type="button">Siguiente</button></> : paginaBusqueda.tags > 1 && paginaBusqueda.tags >= paginasTotal.tags ?
+                                        <><button onClick={(e) => { cambiarPagina(false, tabuladores[0]) }} type="button">Anterior</button><p>Página {paginaBusqueda.tags} de {paginasTotal.tags}</p>
+                                        </> : <><p>Página {paginaBusqueda.tags} de {paginasTotal.tags}</p>
+                                        </>}
+                            </div>
+                        }
+                    </div>
                 </div>
-                
+
             </div>
             <HomeFooter></HomeFooter>
             <ModalAlt id="modal-search" isOpen={modalOpen} modalSize="lg" onClose={toggleState} title={
-                        childrenModal == MODAL_SEARCH_USERS ? "Búsqueda de usuarios" : 
-                        childrenModal == MODAL_SEARCH_VIDEOS ? "Búsqueda de videos" : null}>{childrenModal == MODAL_SEARCH_USERS
-                            ? <div className='search-list-container'><div className='search-list-advanced'><input ref={refModalUsuario} autoFocus type="text" value={valueUserSearch} onChange={(e)=>setValueUserSearch(e.target.value)}></input>
+                childrenModal == MODAL_SEARCH_USERS ? "Búsqueda de usuarios" :
+                    childrenModal == MODAL_SEARCH_VIDEOS ? "Búsqueda de videos" : null}>{childrenModal == MODAL_SEARCH_USERS
+                        ? <div className='search-list-container'><div className='search-list-advanced'><input ref={refModalUsuario} autoFocus type="text" value={valueUserSearch} onChange={(e) => setValueUserSearch(e.target.value)}></input>
                             <button type="button" onClick={searchUsuario}><FontAwesomeIcon icon={faSearch}></FontAwesomeIcon></button></div>
                             <div className='results-search-list-advanced'>
-                                {usuariosSearch.map((el,index)=>{
-                                    return <button type="button" onClick={(e) => setUserSearch(e,el.username)}>{el.username}</button>
+                                {usuariosSearch.map((el, index) => {
+                                    return <button type="button" onClick={(e) => setUserSearch(e, el.username)}>{el.username}</button>
                                 })}
                             </div>
-                            </div>: childrenModal == MODAL_SEARCH_VIDEOS?
-                            <div className='search-list-container'><div className='search-list-advanced'><input ref={refModalVideos} autoFocus type="text" value={valueVideoSearch} onChange={(e)=>setValueVideoSearch(e.target.value)}></input>
-                            <button type="button" onClick={searchVideo}><FontAwesomeIcon icon={faSearch}></FontAwesomeIcon></button></div>
-                            <div className='results-search-list-advanced'>
-                                {videosSearch.map((el,index)=>{
-                                    return <button type="button" onClick={(e) => setVideoSearch(e,el)}>{el.titulo}</button>
-                                })}
-                            </div></div> : null}</ModalAlt>
+                        </div> : childrenModal == MODAL_SEARCH_VIDEOS ?
+                            <div className='search-list-container'><div className='search-list-advanced'><input ref={refModalVideos} autoFocus type="text" value={valueVideoSearch} onChange={(e) => setValueVideoSearch(e.target.value)}></input>
+                                <button type="button" onClick={searchVideo}><FontAwesomeIcon icon={faSearch}></FontAwesomeIcon></button></div>
+                                <div className='results-search-list-advanced'>
+                                    {videosSearch.map((el, index) => {
+                                        return <button type="button" onClick={(e) => setVideoSearch(e, el)}>{el.titulo}</button>
+                                    })}
+                                </div></div> : null}</ModalAlt>
         </div>
     )
 }

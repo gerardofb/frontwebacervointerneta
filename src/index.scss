@@ -4418,6 +4418,17 @@ estilos de los resultados de búsqueda
   grid-template-rows: repeat(2, 1fr);
 }
 
+.results-search-tags {
+  max-width: 95%;
+  border-radius: 2em;
+  margin: .5em auto;
+  padding: 1em;
+  background-color: white;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+}
+
 .paginacion-results-search {
   max-width: 80%;
   margin: 2em auto;
