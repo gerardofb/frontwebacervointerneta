@@ -263,6 +263,7 @@ const ListadoMasVisitadosRelatos = (props) => {
     const [idFilaFavorito, setIdFilaFavorito] = useState({ vinculo: '', idvideo: 0 });
     const [resumenRelato, setResumenRelato] = useState([{ id: 0, resumen: '' }]);
     const [tagsVideo,setTagsVideo] = useState([{id:0,tags:[]}])
+    const [allCategories,setAllCategories] = useState([])
 
     //console.log('tipo listado ', rutaTipoListado, tipoListado, listado);
     let sliceIndex = Math.floor(Math.random() * arreglotags.length);
@@ -295,6 +296,7 @@ const ListadoMasVisitadosRelatos = (props) => {
                 let categories = respuesta.data.results.map((cat, idx) => {
                     return { titulo: cat.titulo, id_cat: cat.id }
                 });
+                setAllCategories(categories);
                 const peticionFavoritos = axios.get(`${getBaseAdressApi()}api/visitasderelato/`).then(response => {
                     let videosfavoritos = response.data.map((vid, ind) => {
 
