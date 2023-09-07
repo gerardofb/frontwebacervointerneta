@@ -912,7 +912,7 @@ export const AutoComments = () => {
                             let usuario_general = localStorage.getItem('usuario_general');
                             let tagsvideo = response.data.map((e, index) => {
                                 console.log('fecha en formato ', new Date(e["fecha_mensaje"]+"-05:00").toLocaleDateString())
-                                setMsjesChat((prevState) => [...prevState, { autor: e.autor + " " +  new Date(e["fecha_mensaje"]+"+00:00").toLocaleDateString()+ " " + new Date(e["fecha_mensaje"]+"+00:00").toLocaleTimeString(), mensaje: e["mensaje"], propio: usuario_general && e["autor"] === usuario_general }]);
+                                setMsjesChat((prevState) => [...prevState, { autor: e.autor + " " +  new Date(e["fecha_mensaje"]).toLocaleDateString()+ " " + new Date(e["fecha_mensaje"]).toLocaleTimeString(), mensaje: e["mensaje"], propio: usuario_general && e["autor"] === usuario_general }]);
                                 return e;
                             });
                             console.log('respuesta desde consulta tags ',tagsvideo);
@@ -946,7 +946,7 @@ export const AutoComments = () => {
                         let usuario_general = localStorage.getItem('usuario_general');
                         let tagsvideo = response.data.map((e, index) => {
                             console.log('fecha en formato ', new Date(e["fecha_mensaje"]+"-05:00").toLocaleDateString())
-                            setMsjesChat((prevState) => [...prevState, { autor: e.autor + " " + new Date(e["fecha_mensaje"]+"+00:00").toLocaleDateString()+ " " + new Date(e["fecha_mensaje"]+"+00:00").toLocaleTimeString(), mensaje: e["mensaje"], propio: usuario_general && e["autor"] === usuario_general }]);
+                            setMsjesChat((prevState) => [...prevState, { autor: e.autor + " " + new Date(e["fecha_mensaje"]).toLocaleDateString()+ " " + new Date(e["fecha_mensaje"]/*+"+00:00"*/).toLocaleTimeString(), mensaje: e["mensaje"], propio: usuario_general && e["autor"] === usuario_general }]);
                             return e;
                         });
                         console.log('respuesta desde consulta tags ',tagsvideo);
