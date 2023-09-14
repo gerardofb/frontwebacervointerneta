@@ -260,9 +260,9 @@ function isInViewport(element) {
 function isInViewportFooter(element) {
     const rect = element.getBoundingClientRect();
     const { scrollTop, offsetHeight } = document.documentElement;
-    // console.log('datos de video clip footer ', rect.top, rect.left, rect.bottom, rect.right)
+    // console.log('datos de video clip footer ', rect.top, rect.left, rect.bottom, rect.right, element.offsetHeight)
     // console.log('limite datos de video clip footer ', Math.round(scrollTop - rect.top))
-    return Math.round(scrollTop - rect.top) > -350;
+    return Math.round(scrollTop - rect.top) > -element.offsetHeight;
     // return (
     //     rect.top >= 0 &&
     //     rect.left >= 0 &&
@@ -680,9 +680,10 @@ export const AutoComments = () => {
     const { size, ...rest } = useSpring({
         ref: springApi,
         config: config.stiff,
-        from: { size: '20%', backgroundColor: 'black' },
+        from: { size: '20%', backgroundColor: 'black', maxHeight:'10%' },
         to: {
             size: open ? '100%' : '20%',
+            maxHeight: open ? "100%" : "10%",
             backgroundColor: open ? 'white' : 'black',
         },
     })
