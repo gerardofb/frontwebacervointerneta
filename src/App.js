@@ -5,7 +5,7 @@ import 'video-react/dist/video-react.css';
 import IndexPage from './features/Categories/Index';
 import { Contents } from "./features/Categories/BaseComponents";
 import { Flipper } from "react-flip-toolkit";
-import { Route, Link, BrowserRouter, Switch } from "react-router-dom";
+import { Route, Link, BrowserRouter, Switch, useLocation } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import styled from "styled-components";
 import VideoSetPage from './features/Categories/VideoSetPage';
@@ -41,6 +41,8 @@ import SideBar from './features/Menu/Sidebar'
 import { useState } from 'react';
 import { getBaseAdressApi } from './features/MainAPI'
 import ReactGA from "react-ga4";
+import HelmetMetaData from './features/HelmetMetaData';
+
 
 library.add(faBook, faHouse, faTape, faForward, faCommentDots, faVolumeHigh, faCalendarDays, faUserCheck, faEnvelope,
   faCircleExclamation, faHeart, faRadio, faTimeline, faPlay, faShuffle, faFilm, faVideo, faClapperboard, faCheck,
@@ -73,6 +75,7 @@ history.push = args => {
 }
 
 function App() {
+  const location = window.location;
   const [videosPopulated, setVideosPopulated] = useState(null);
   const [categoriasService, setCategoriasService] = useState([]);
   ReactGA.initialize("G-QHDVTJ0KW9");
@@ -139,6 +142,8 @@ function App() {
   }
   //console.log('los videos categorizados en app ',videosPopulated);
   return (
+    <>
+    <HelmetMetaData title="Acervo Audiovisual Interneta | Memoria de las y los invisibles |"></HelmetMetaData>
     <BrowserRouter>
       <div className="App">
         <div className='container-menu-main'>
@@ -275,6 +280,7 @@ function App() {
         </Switch>
       </div>
     </BrowserRouter>
+    </>
   );
 }
 

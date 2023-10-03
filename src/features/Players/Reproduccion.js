@@ -51,6 +51,8 @@ import { getBaseAdressApi, getBaseChatWs } from '../MainAPI';
 import { useLayoutEffect } from 'react';
 import { click } from '@testing-library/user-event/dist/click'
 import { text } from '@fortawesome/fontawesome-svg-core'
+import HelmetMetaData from '../HelmetMetaData'
+import { FacebookShareButton } from 'react-share'
 const rangoCalificacion = [1, 2, 3, 4, 5];
 const url = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/SocialNetwork/${name}${wrap ? ')' : ''}`
 const url_loader = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/${name}${wrap ? ')' : ''}`
@@ -1455,6 +1457,7 @@ export const AutoComments = () => {
     //console.log('calificación total del video ',calificacionTotal);
     return (
         <div className='player-individual' onScroll={handleScroll}>
+            <HelmetMetaData title={"Reproduciendo clip: "+titulo} currentUrl={location} image={videoscategoria && videoscategoria.find(x=> x.titulo == titulo).contenedor_img} description={creditosvideo ? creditosvideo.sinopsis : ""}></HelmetMetaData>
             {
                 menuContextual.show ?
                     <ContextMenu menu={CustomMenu()} referencia={referencia} style={{ position: 'absolute', zIndex: '9999' }}></ContextMenu>
@@ -1768,9 +1771,13 @@ export const AutoComments = () => {
                                 let background_size = logo.icon == "blogger_logo.png" ? "80%" : logo.icon == "reddit_logo.png" ? "60%" :
                                     logo.icon == "twitter_logo.png" ? "85%" : logo.icon == "whatsapp_logo.jpg" ? "220%" :
                                         "contain";
-                                return <button title={logo.title} className={`social-network-regular`} style={{
+                                return logo.title !== "Facebook" ? <button title={logo.title} className={`social-network-regular`} style={{
+                                    backgroundImage: url(logo.icon, true), backgroundSize: background_size
+                                }}>&nbsp;</button> : <FacebookShareButton url={location}>
+                                    <button title={logo.title} className={`social-network-regular`} style={{
                                     backgroundImage: url(logo.icon, true), backgroundSize: background_size
                                 }}>&nbsp;</button>
+                                </FacebookShareButton>
                             })}
                         </div> : childrenModal == MODAL_DESCARGAS ?
                             <div className='download-reprod-std'>
