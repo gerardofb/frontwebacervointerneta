@@ -52,7 +52,7 @@ import { useLayoutEffect } from 'react';
 import { click } from '@testing-library/user-event/dist/click'
 import { text } from '@fortawesome/fontawesome-svg-core'
 import HelmetMetaData from '../HelmetMetaData'
-import { FacebookShareButton, TwitterShareButton, PinterestShareButton } from 'react-share'
+import { FacebookShareButton, TwitterShareButton, PinterestShareButton, RedditShareButton, WhatsappShareButton } from 'react-share'
 
 const rangoCalificacion = [1, 2, 3, 4, 5];
 const url = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/SocialNetwork/${name}${wrap ? ')' : ''}`
@@ -1455,7 +1455,7 @@ export const AutoComments = () => {
             }
         }
     }
-     let shareLinkedIn = `http://www.linkedin.com/sharing/share-offsite?url=${encodeURIComponent("https://acervo-audiovisual-interneta.org" + location.pathname)}`
+    let shareLinkedIn = `http://www.linkedin.com/sharing/share-offsite?url=${encodeURIComponent("https://acervo-audiovisual-interneta.org" + location.pathname)}`
     //console.log('calificación total del video ',calificacionTotal);
     return (
         <div className='player-individual' onScroll={handleScroll}>
@@ -1776,31 +1776,46 @@ export const AutoComments = () => {
                                 return logo.title !== "Facebook" ?
                                     logo.title == "Twitter" ?
                                         <TwitterShareButton
-                                            url={"https://acervo-audiovisual-interneta.org" + location.pathname}
+                                            url={"https://acervo-audiovisual-interneta.org/Reproduccion/" + encodeURIComponent(location.pathname.replace('/Reproduccion/', ""))}
                                             title={titulo}>
                                             <button title={logo.title} className={`social-network-regular`} style={{
                                                 backgroundImage: url(logo.icon, true), backgroundSize: background_size
                                             }}>&nbsp;</button>
                                         </TwitterShareButton>
                                         : logo.title == "Linkedin" ?
-                                        <a href={shareLinkedIn}>
-                                            <button title={logo.title} className={`social-network-regular`} style={{
-                                                backgroundImage: url(logo.icon, true), backgroundSize: background_size
-                                            }}>&nbsp;</button>
-                                        </a>
-                                        : logo.title == "Pinterest" ?
-                                        <PinterestShareButton
-                                        url={"https://acervo-audiovisual-interneta.org" + location.pathname}
-                                        media={videoscategoria && videoscategoria.find(x => x.titulo == titulo).contenedor_img}
-                                        description={creditosvideo ? creditosvideo.sinopsis : ""}>
-                                            <button title={logo.title} className={`social-network-regular`} style={{
-                                            backgroundImage: url(logo.icon, true), backgroundSize: background_size
-                                        }}>&nbsp;</button> 
-                                        </PinterestShareButton>
-                                        :
-                                        <button title={logo.title} className={`social-network-regular`} style={{
-                                            backgroundImage: url(logo.icon, true), backgroundSize: background_size
-                                        }}>&nbsp;</button> : <FacebookShareButton quote={creditosvideo ? creditosvideo.sinopsis : ""} url={"https://acervo-audiovisual-interneta.org" + location.pathname}>
+                                            <a href={shareLinkedIn}>
+                                                <button title={logo.title} className={`social-network-regular`} style={{
+                                                    backgroundImage: url(logo.icon, true), backgroundSize: background_size
+                                                }}>&nbsp;</button>
+                                            </a>
+                                            : logo.title == "Pinterest" ?
+                                                <PinterestShareButton
+                                                    url={"https://acervo-audiovisual-interneta.org" + location.pathname}
+                                                    media={videoscategoria && videoscategoria.find(x => x.titulo == titulo).contenedor_img}
+                                                    description={creditosvideo ? creditosvideo.sinopsis : ""}>
+                                                    <button title={logo.title} className={`social-network-regular`} style={{
+                                                        backgroundImage: url(logo.icon, true), backgroundSize: background_size
+                                                    }}>&nbsp;</button>
+                                                </PinterestShareButton>
+                                                :
+                                                logo.title == "Reddit" ?
+                                                    <RedditShareButton url={"https://acervo-audiovisual-interneta.org" + location.pathname}
+                                                        title={titulo}>
+                                                        <button title={logo.title} className={`social-network-regular`} style={{
+                                                            backgroundImage: url(logo.icon, true), backgroundSize: background_size
+                                                        }}>&nbsp;</button>
+                                                    </RedditShareButton> :
+                                                    logo.title == "Whats App" ?
+                                                        <WhatsappShareButton
+                                                            url={"https://acervo-audiovisual-interneta.org/Reproduccion/" + encodeURIComponent(location.pathname.replace('/Reproduccion/', ""))}
+                                                            title={titulo}>
+                                                            <button title={logo.title} className={`social-network-regular`} style={{
+                                                                backgroundImage: url(logo.icon, true), backgroundSize: background_size
+                                                            }}>&nbsp;</button>
+                                                        </WhatsappShareButton> :
+                                                        <button title={logo.title} className={`social-network-regular`} style={{
+                                                            backgroundImage: url(logo.icon, true), backgroundSize: background_size
+                                                        }}>&nbsp;</button> : <FacebookShareButton quote={creditosvideo ? creditosvideo.sinopsis : ""} url={"https://acervo-audiovisual-interneta.org" + location.pathname}>
                                         <button title={logo.title} className={`social-network-regular`} style={{
                                             backgroundImage: url(logo.icon, true), backgroundSize: background_size
                                         }}>&nbsp;</button>
