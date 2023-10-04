@@ -143,7 +143,7 @@ function App() {
   //console.log('los videos categorizados en app ',videosPopulated);
   return (
     <>
-    <HelmetMetaData title="Acervo Audiovisual Interneta | Memoria de las y los invisibles |"></HelmetMetaData>
+    <HelmetMetaData></HelmetMetaData>
     <BrowserRouter>
       <div className="App">
         <div className='container-menu-main'>

@@ -52,7 +52,8 @@ import { useLayoutEffect } from 'react';
 import { click } from '@testing-library/user-event/dist/click'
 import { text } from '@fortawesome/fontawesome-svg-core'
 import HelmetMetaData from '../HelmetMetaData'
-import { FacebookShareButton } from 'react-share'
+import { FacebookShareButton, TwitterShareButton, PinterestShareButton } from 'react-share'
+
 const rangoCalificacion = [1, 2, 3, 4, 5];
 const url = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/SocialNetwork/${name}${wrap ? ')' : ''}`
 const url_loader = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/${name}${wrap ? ')' : ''}`
@@ -376,7 +377,7 @@ export const AutoComments = () => {
     const [player, setPlayer] = useState(null);
     const [relatos, setRelatos] = useState([]);
     const [habilitaChatTag, setHabilitaChatTag] = useState('');
-    const [rutaNavegacionNormal,setRutaNavegacionNormal] = useState('');
+    const [rutaNavegacionNormal, setRutaNavegacionNormal] = useState('');
     useEffect(() => {
         //console.log('usuario a enviar para login al socket ',usuario,styles);
         let parametros;
@@ -403,7 +404,7 @@ export const AutoComments = () => {
             else if (parametros.get("tag_search")) {
                 setHabilitaChatTag('#' + parametros.get("tag_search"));
                 let ruta = window.location.pathname;
-                
+
                 setRutaNavegacionNormal(ruta)
             }
         }
@@ -682,7 +683,7 @@ export const AutoComments = () => {
     const { size, ...rest } = useSpring({
         ref: springApi,
         config: config.stiff,
-        from: { size: '20%', backgroundColor: 'black', maxHeight:'10%' },
+        from: { size: '20%', backgroundColor: 'black', maxHeight: '10%' },
         to: {
             size: open ? '100%' : '20%',
             maxHeight: open ? "100%" : "10%",
@@ -893,7 +894,7 @@ export const AutoComments = () => {
                         let usuario_general = localStorage.getItem('usuario_general');
                         console.log('respuesta desde el chat api', response.data);
                         respuestachat && respuestachat.map((message, index) => {
-                            setMsjesChat((prevState) => [...prevState, { autor: message["id_usuario"].username + " " + new Date(message["fecha_mensaje"]).toLocaleDateString()+" " + new Date(message["fecha_mensaje"]).toLocaleTimeString(), mensaje: message["mensaje"], propio: message["id_usuario"].username === usuario_general }]);
+                            setMsjesChat((prevState) => [...prevState, { autor: message["id_usuario"].username + " " + new Date(message["fecha_mensaje"]).toLocaleDateString() + " " + new Date(message["fecha_mensaje"]).toLocaleTimeString(), mensaje: message["mensaje"], propio: message["id_usuario"].username === usuario_general }]);
                         });
                         setAlturaPlayerMax(!alturaPlayerMax);
                         setAlturaPlayer(true);
@@ -911,14 +912,14 @@ export const AutoComments = () => {
                             "tags": [habilitaChatTag],
                             "pagina_inicial": 0
                         }).then(response => {
-                            
+
                             let usuario_general = localStorage.getItem('usuario_general');
                             let tagsvideo = response.data.map((e, index) => {
-                                console.log('fecha en formato ', new Date(e["fecha_mensaje"]+"-05:00").toLocaleDateString())
-                                setMsjesChat((prevState) => [...prevState, { autor: e.autor + " " +  new Date(e["fecha_mensaje"]).toLocaleDateString()+ " " + new Date(e["fecha_mensaje"]).toLocaleTimeString(), mensaje: e["mensaje"], propio: usuario_general && e["autor"] === usuario_general }]);
+                                console.log('fecha en formato ', new Date(e["fecha_mensaje"] + "-05:00").toLocaleDateString())
+                                setMsjesChat((prevState) => [...prevState, { autor: e.autor + " " + new Date(e["fecha_mensaje"]).toLocaleDateString() + " " + new Date(e["fecha_mensaje"]).toLocaleTimeString(), mensaje: e["mensaje"], propio: usuario_general && e["autor"] === usuario_general }]);
                                 return e;
                             });
-                            console.log('respuesta desde consulta tags ',tagsvideo);
+                            console.log('respuesta desde consulta tags ', tagsvideo);
                             setAlturaPlayerMax(!alturaPlayerMax);
                             setAlturaPlayer(true);
                             chatRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
@@ -931,8 +932,8 @@ export const AutoComments = () => {
                 }
             }
             else {
-                if(habilitaChatTag)
-                setMsjesChat([]);
+                if (habilitaChatTag)
+                    setMsjesChat([]);
                 setAlturaPlayerMax(!alturaPlayerMax);
                 setTexting({ mensaje: '', write: false });
                 setAlturaPlayer(true);
@@ -948,11 +949,11 @@ export const AutoComments = () => {
                     }).then(response => {
                         let usuario_general = localStorage.getItem('usuario_general');
                         let tagsvideo = response.data.map((e, index) => {
-                            console.log('fecha en formato ', new Date(e["fecha_mensaje"]+"-05:00").toLocaleDateString())
-                            setMsjesChat((prevState) => [...prevState, { autor: e.autor + " " + new Date(e["fecha_mensaje"]).toLocaleDateString()+ " " + new Date(e["fecha_mensaje"]/*+"+00:00"*/).toLocaleTimeString(), mensaje: e["mensaje"], propio: usuario_general && e["autor"] === usuario_general }]);
+                            console.log('fecha en formato ', new Date(e["fecha_mensaje"] + "-05:00").toLocaleDateString())
+                            setMsjesChat((prevState) => [...prevState, { autor: e.autor + " " + new Date(e["fecha_mensaje"]).toLocaleDateString() + " " + new Date(e["fecha_mensaje"]/*+"+00:00"*/).toLocaleTimeString(), mensaje: e["mensaje"], propio: usuario_general && e["autor"] === usuario_general }]);
                             return e;
                         });
-                        console.log('respuesta desde consulta tags ',tagsvideo);
+                        console.log('respuesta desde consulta tags ', tagsvideo);
                         setAlturaPlayerMax(!alturaPlayerMax);
                         setAlturaPlayer(true);
                         chatRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
@@ -965,8 +966,8 @@ export const AutoComments = () => {
             }
             else {
                 setTexting({ mensaje: '', write: false });
-                if(habilitaChatTag)
-                setMsjesChat([]);
+                if (habilitaChatTag)
+                    setMsjesChat([]);
                 setAlturaPlayerMax(!alturaPlayerMax);
                 setAlturaPlayer(true);
             }
@@ -1387,43 +1388,7 @@ export const AutoComments = () => {
                     let usuario_general = localStorage.getItem('usuario_general');
                     console.log('recibiendo chat', event.data);
                     let salidaJson = JSON.parse(event.data);
-                    setMsjesChat((prevState) => [...prevState, { autor: salidaJson["usuario"] + " " + new Date(salidaJson["timestamp"]).toLocaleDateString()+" "+new Date(salidaJson["timestamp"]).toLocaleTimeString(), mensaje: salidaJson["message"], propio: usuario_general && salidaJson["usuario"] === usuario_general }]);
-                    chatRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
-                    let tags = findTags(salidaJson["message"]);
-                    if (tags.length > 0 && tags.length <=10) {
-                        console.log('tags encontrados ', tags);
-                        const requesttag = axios.put(`${getBaseAdressApi()}api/indextagchat/`,
-                            {
-                                "id_video": parseInt(idvideo),
-                                "guid": salidaJson["guid"],
-                                "mensaje": salidaJson["message"],
-                                "fecha_mensaje": salidaJson["timestamp"],
-                                "tags": tags
-                            }, {
-                            headers: {
-                                "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
-                            },
-                        }).then(response => {
-                            if (response.status == 201) {
-                                console.log('tags creados', tags);
-                            }
-                        }).catch(err => {
-                            console.log('error creando tags en el índice', err);
-                        });
-                    }
-                    else if(tags.length > 10){
-                        setMsjesChat((prevState) => [...prevState, { autor: "Administración de Chat Interneta" + " " + new Date().toISOString(), mensaje: "El mensaje que envió contiene más tags del número permitido. No se permiten más de diez tags en un solo mensaje, además de un límite de 70 tags diarios", propio: false }]);
-                    }
-                }
-            }
-        }
-        if (chatHabilitado) {
-            chatHabilitado.onmessage = function (event) {
-                if (event.data.length > 0) {
-                    let usuario_general = localStorage.getItem('usuario_general');
-                    console.log('recibiendo chat desde state', event.data);
-                    let salidaJson = JSON.parse(event.data);
-                    setMsjesChat((prevState) => [...prevState, { autor: salidaJson["usuario"] + " " +new Date(salidaJson["timestamp"]).toLocaleDateString()+" "+new Date(salidaJson["timestamp"]).toLocaleTimeString(), mensaje: salidaJson["message"], propio: usuario_general && salidaJson["usuario"] === usuario_general }]);
+                    setMsjesChat((prevState) => [...prevState, { autor: salidaJson["usuario"] + " " + new Date(salidaJson["timestamp"]).toLocaleDateString() + " " + new Date(salidaJson["timestamp"]).toLocaleTimeString(), mensaje: salidaJson["message"], propio: usuario_general && salidaJson["usuario"] === usuario_general }]);
                     chatRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
                     let tags = findTags(salidaJson["message"]);
                     if (tags.length > 0 && tags.length <= 10) {
@@ -1447,17 +1412,54 @@ export const AutoComments = () => {
                             console.log('error creando tags en el índice', err);
                         });
                     }
-                    else if(tags.length > 10){
+                    else if (tags.length > 10) {
+                        setMsjesChat((prevState) => [...prevState, { autor: "Administración de Chat Interneta" + " " + new Date().toISOString(), mensaje: "El mensaje que envió contiene más tags del número permitido. No se permiten más de diez tags en un solo mensaje, además de un límite de 70 tags diarios", propio: false }]);
+                    }
+                }
+            }
+        }
+        if (chatHabilitado) {
+            chatHabilitado.onmessage = function (event) {
+                if (event.data.length > 0) {
+                    let usuario_general = localStorage.getItem('usuario_general');
+                    console.log('recibiendo chat desde state', event.data);
+                    let salidaJson = JSON.parse(event.data);
+                    setMsjesChat((prevState) => [...prevState, { autor: salidaJson["usuario"] + " " + new Date(salidaJson["timestamp"]).toLocaleDateString() + " " + new Date(salidaJson["timestamp"]).toLocaleTimeString(), mensaje: salidaJson["message"], propio: usuario_general && salidaJson["usuario"] === usuario_general }]);
+                    chatRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                    let tags = findTags(salidaJson["message"]);
+                    if (tags.length > 0 && tags.length <= 10) {
+                        console.log('tags encontrados ', tags);
+                        const requesttag = axios.put(`${getBaseAdressApi()}api/indextagchat/`,
+                            {
+                                "id_video": parseInt(idvideo),
+                                "guid": salidaJson["guid"],
+                                "mensaje": salidaJson["message"],
+                                "fecha_mensaje": salidaJson["timestamp"],
+                                "tags": tags
+                            }, {
+                            headers: {
+                                "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
+                            },
+                        }).then(response => {
+                            if (response.status == 201) {
+                                console.log('tags creados', tags);
+                            }
+                        }).catch(err => {
+                            console.log('error creando tags en el índice', err);
+                        });
+                    }
+                    else if (tags.length > 10) {
                         setMsjesChat((prevState) => [...prevState, { autor: "Administración de Chat Interneta" + " " + new Date().toISOString(), mensaje: "El mensaje que envió contiene más tags del número permitido. No se permiten más de diez tags en un solo mensaje, además de un límite de 70 tags diarios", propio: false }]);
                     }
                 };
             }
         }
     }
+     let shareLinkedIn = `http://www.linkedin.com/sharing/share-offsite?url=${encodeURIComponent("https://acervo-audiovisual-interneta.org" + location.pathname)}`
     //console.log('calificación total del video ',calificacionTotal);
     return (
         <div className='player-individual' onScroll={handleScroll}>
-            <HelmetMetaData title={"Reproduciendo clip: "+titulo} currentUrl={location} image={videoscategoria && videoscategoria.find(x=> x.titulo == titulo).contenedor_img} description={creditosvideo ? creditosvideo.sinopsis : ""}></HelmetMetaData>
+            <HelmetMetaData title={"Reproduciendo clip: " + titulo} currentUrl={"https://acervo-audiovisual-interneta.org" + location.pathname} image={videoscategoria && videoscategoria.find(x => x.titulo == titulo).contenedor_img} description={creditosvideo ? creditosvideo.sinopsis : ""} quote={creditosvideo ? creditosvideo.sinopsis : ""}></HelmetMetaData>
             {
                 menuContextual.show ?
                     <ContextMenu menu={CustomMenu()} referencia={referencia} style={{ position: 'absolute', zIndex: '9999' }}></ContextMenu>
@@ -1693,12 +1695,12 @@ export const AutoComments = () => {
                                         <img width={40} src={url_loader("Reload-transparent.gif", false)} />
                                     </div>
                                 </>
-                                : !chatPermitido && !habilitaChatTag  ?
-                                <p style={{ color: "red" }}><FontAwesomeIcon icon={faComment}></FontAwesomeIcon>&nbsp; El Chat de Interneta está deshabilitado porque necesita autenticación.
-                                    &nbsp;<Link to="/Login">Iniciar sesión</Link>
-                                </p> : habilitaChatTag ? <p style={{ color: "steelblue" }}><FontAwesomeIcon icon={faComment}></FontAwesomeIcon>&nbsp; El Chat de Interneta no registra cambios en modo de previsualización de tags. &nbsp; {<Link to={rutaNavegacionNormal}>Modo normal</Link>}
-                                    
-                                </p> : null
+                                : !chatPermitido && !habilitaChatTag ?
+                                    <p style={{ color: "red" }}><FontAwesomeIcon icon={faComment}></FontAwesomeIcon>&nbsp; El Chat de Interneta está deshabilitado porque necesita autenticación.
+                                        &nbsp;<Link to="/Login">Iniciar sesión</Link>
+                                    </p> : habilitaChatTag ? <p style={{ color: "steelblue" }}><FontAwesomeIcon icon={faComment}></FontAwesomeIcon>&nbsp; El Chat de Interneta no registra cambios en modo de previsualización de tags. &nbsp; {<Link to={rutaNavegacionNormal}>Modo normal</Link>}
+
+                                    </p> : null
                         }
                         {alturaPlayer && alturaPlayerMax ?
                             <span>
@@ -1725,7 +1727,7 @@ export const AutoComments = () => {
                         <div ref={chatRef} style={{ height: { cssBottomChat }, minHeight: '100px' }}></div>
                     </div>
                     <div className='chat-input' onContextMenu={(e) => handleContextMenu(false, false)}>
-                        <textarea rows="2" value={texting.mensaje} onChange={(e) => { writeTextMessage(e.target.value)}}></textarea>
+                        <textarea rows="2" value={texting.mensaje} onChange={(e) => { writeTextMessage(e.target.value) }}></textarea>
                         <div className='chat-input-actions'>
                             {localStorage.getItem('credencial_chat') && localStorage.getItem('credencial') ?
                                 <button onClick={addMessage}>{texting.write ?
@@ -1771,13 +1773,38 @@ export const AutoComments = () => {
                                 let background_size = logo.icon == "blogger_logo.png" ? "80%" : logo.icon == "reddit_logo.png" ? "60%" :
                                     logo.icon == "twitter_logo.png" ? "85%" : logo.icon == "whatsapp_logo.jpg" ? "220%" :
                                         "contain";
-                                return logo.title !== "Facebook" ? <button title={logo.title} className={`social-network-regular`} style={{
-                                    backgroundImage: url(logo.icon, true), backgroundSize: background_size
-                                }}>&nbsp;</button> : <FacebookShareButton url={location}>
-                                    <button title={logo.title} className={`social-network-regular`} style={{
-                                    backgroundImage: url(logo.icon, true), backgroundSize: background_size
-                                }}>&nbsp;</button>
-                                </FacebookShareButton>
+                                return logo.title !== "Facebook" ?
+                                    logo.title == "Twitter" ?
+                                        <TwitterShareButton
+                                            url={"https://acervo-audiovisual-interneta.org" + location.pathname}
+                                            title={titulo}>
+                                            <button title={logo.title} className={`social-network-regular`} style={{
+                                                backgroundImage: url(logo.icon, true), backgroundSize: background_size
+                                            }}>&nbsp;</button>
+                                        </TwitterShareButton>
+                                        : logo.title == "Linkedin" ?
+                                        <a href={shareLinkedIn}>
+                                            <button title={logo.title} className={`social-network-regular`} style={{
+                                                backgroundImage: url(logo.icon, true), backgroundSize: background_size
+                                            }}>&nbsp;</button>
+                                        </a>
+                                        : logo.title == "Pinterest" ?
+                                        <PinterestShareButton
+                                        url={"https://acervo-audiovisual-interneta.org" + location.pathname}
+                                        media={videoscategoria && videoscategoria.find(x => x.titulo == titulo).contenedor_img}
+                                        description={creditosvideo ? creditosvideo.sinopsis : ""}>
+                                            <button title={logo.title} className={`social-network-regular`} style={{
+                                            backgroundImage: url(logo.icon, true), backgroundSize: background_size
+                                        }}>&nbsp;</button> 
+                                        </PinterestShareButton>
+                                        :
+                                        <button title={logo.title} className={`social-network-regular`} style={{
+                                            backgroundImage: url(logo.icon, true), backgroundSize: background_size
+                                        }}>&nbsp;</button> : <FacebookShareButton quote={creditosvideo ? creditosvideo.sinopsis : ""} url={"https://acervo-audiovisual-interneta.org" + location.pathname}>
+                                        <button title={logo.title} className={`social-network-regular`} style={{
+                                            backgroundImage: url(logo.icon, true), backgroundSize: background_size
+                                        }}>&nbsp;</button>
+                                    </FacebookShareButton>
                             })}
                         </div> : childrenModal == MODAL_DESCARGAS ?
                             <div className='download-reprod-std'>
