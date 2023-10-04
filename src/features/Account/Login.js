@@ -9,6 +9,7 @@ import axios from 'axios';
 import { getBaseAdressApi, getBaseChatApi } from '../MainAPI';
 import { faClose } from '@fortawesome/free-solid-svg-icons';
 import ReactGA  from 'react-ga4'
+import HelmetMetaData from '../HelmetMetaData';
 
 
 const ENUM_LOGIN = {
@@ -16,6 +17,7 @@ const ENUM_LOGIN = {
     PASSWORD:2
 }
 const Login = (props) => {
+    const location = useLocation();
     const {updateUser} = useContext(ThemesContext);
     const [formLogin, setFormLogin]= useState({
         username: '',
@@ -134,6 +136,10 @@ const Login = (props) => {
         })
     };
     return (<>
+    <HelmetMetaData 
+    currentUrl={location.href}
+    description="Página de inicio de sesión con cuenta registrada. Acervo Audiovisual Interneta | Memoria de las y los invisibles |"
+    title='Inicio de sesión con su cuenta registrada. Acervo Audiovisual Interneta | Memoria de las y los invisibles |'></HelmetMetaData>
         <NavBar></NavBar>
         {
             formValidate.exitoso && <div className='login-success'>
