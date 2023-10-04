@@ -52,7 +52,7 @@ import { useLayoutEffect } from 'react';
 import { click } from '@testing-library/user-event/dist/click'
 import { text } from '@fortawesome/fontawesome-svg-core'
 import HelmetMetaData from '../HelmetMetaData'
-import { FacebookShareButton, TwitterShareButton, PinterestShareButton, RedditShareButton, WhatsappShareButton } from 'react-share'
+import { FacebookShareButton, EmailIcon, TwitterShareButton, PinterestShareButton, RedditShareButton, WhatsappShareButton, EmailShareButton } from 'react-share'
 
 const rangoCalificacion = [1, 2, 3, 4, 5];
 const url = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/SocialNetwork/${name}${wrap ? ')' : ''}`
@@ -312,7 +312,7 @@ let autobiograficos = [
     { autor: 'Gabriela Romo', fecha: new Date(2018, 5, 13).toLocaleDateString(), reciente: false, podcast: false, guid: '98e45f888485452381c1524a52b807f3' },
 ]
 
-const redesSociales = [{ title: "incrustar", icon: 'embed_icon.png' }, { title: 'Blogger', icon: 'blogger_logo.png' },
+const redesSociales = [{ title: "incrustar", icon: 'embed_icon.png' }, { title: 'Email', icon: "" },
 { title: "Facebook", icon: 'facebook_logo.png' }, { title: "Linkedin", icon: 'linkedin_logo.png' },
 { title: "Pinterest", icon: 'pinterest_logo.png' }, { title: "Reddit", icon: 'reddit_logo.png' },
 { title: "Twitter", icon: 'twitter_logo.png' }, { title: "Whats App", icon: 'whatsapp_logo.jpg' }]
@@ -1774,6 +1774,11 @@ export const AutoComments = () => {
                                     logo.icon == "twitter_logo.png" ? "85%" : logo.icon == "whatsapp_logo.jpg" ? "220%" :
                                         "contain";
                                 return logo.title !== "Facebook" ?
+                                    logo.title=="Email" ?
+                                    <EmailShareButton className={`social-network-regular`} style={{background:"#7f7f7f"}} url={"https://acervo-audiovisual-interneta.org/Reproduccion/" + encodeURIComponent(location.pathname.replace('/Reproduccion/', ""))}
+                                    subject={titulo+" compartido desde la página web Acervo AudioVisual Interneta Memoria de las y los Invisibles"}
+                                    body={creditosvideo ? creditosvideo.sinopsis : ""}
+                                    ><EmailIcon></EmailIcon></EmailShareButton>:
                                     logo.title == "Twitter" ?
                                         <TwitterShareButton
                                             url={"https://acervo-audiovisual-interneta.org/Reproduccion/" + encodeURIComponent(location.pathname.replace('/Reproduccion/', ""))}
