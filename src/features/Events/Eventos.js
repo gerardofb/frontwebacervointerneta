@@ -12,9 +12,10 @@ import DateTimePicker from "react-datetime-picker";
 import 'react-datetime-picker/dist/DateTimePicker.css';
 import 'react-calendar/dist/Calendar.css';
 import 'react-clock/dist/Clock.css';
-import {utilidadMenuSuperior,isInViewportMenuEvt} from "../utilidadMenuSuperior";
+import { utilidadMenuSuperior, isInViewportMenuEvt } from "../utilidadMenuSuperior";
 import axios from "axios";
 import { getBaseAdressApi } from "../MainAPI";
+import HelmetMetaData from "../HelmetMetaData";
 const yearsacervo = [
     2019,
     2020,
@@ -430,6 +431,12 @@ const urlpng = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/${name}.png
 const url_loader = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/${name}${wrap ? ')' : ''}`
 
 const Eventos = () => {
+    const [metaTags, setMetaTags] = useState({
+        description: "",
+        keywords: [],
+        title: "",
+        image: ""
+    });
     const anioactualacervo = new Date().getFullYear();
     const { evento } = useParams();
     const location = useLocation();
@@ -465,6 +472,20 @@ const Eventos = () => {
     const [valor, setValor] = useState(null);
     const refArchivoEventoUser = useRef();
     const [listadoEventosVisitados, setListadoEventosVisitados] = useState([])
+    const estableceMeta = (evtprime) => {
+        if (evtprime) {
+            let agendaevt = evtprime.fecha.getFullYear() + "/" + (evtprime.fecha.getMonth() + 1) + "/" + evtprime.fecha.getDate();
+            setMetaTags({
+                description: evtprime.descripcion.substring(0, 150) + "...",
+                keywords: [agendaevt, evtprime.fecha.getHours() + "hrs"].concat(evtprime.descripcion.split(' ').filter(x => x.trim() !== "").slice(0, 15).map((el, idx) => {
+                    return el.replace(",", "").replace(/\s/g, " ").replace(/(?:\r\n|\r|\n|\)|\()/g, " ").replace(/\s{2,}/g, " ").trim();
+                })),
+                title: "Acervo AudioVisual Interneta Memoria de las y los Invisibles | " + evtprime.title,
+                image: evtprime.imagen
+            });
+        }
+
+    }
     const goToTop = () => {
         try {
             referencia.current ? referencia.current.scrollIntoView({ behavior: 'smooth' }) : referencia.current = createRef();
@@ -494,7 +515,8 @@ const Eventos = () => {
                 });
                 let eventoselected = eventosfirst.find(x => x.index == evento)
                 if (eventoselected) {
-                    setValor(eventoselected)
+                    setValor(eventoselected);
+                    estableceMeta(eventoselected);
                 }
             }).catch(err => {
 
@@ -528,30 +550,7 @@ const Eventos = () => {
                         }).catch(error => { });
                 });
         }
-        //console.log("Location changed");
-        // const get_eventosmonth = axios.get(`${getBaseAdressApi()}api/eventosuser/1?limit=15&offset=0`).then(response => {
-        //     let eventosfirst = response.data.results.map((el, idx) => {
-        //         return {
-        //             index: el.id, selected: false, title: el.titulo, descripcion: el.descripcion,
-        //             fecha: new Date(el.fechainicio), duracion: el.duracion, imagen: el.contenedor_img
-        //         }
-        //     });
-        //     console.log('la respuesta del servicio de eventos por mes es ', response.data, eventosfirst);
-        //     setEventosMonth({
-        //         ...eventosMonth,
-        //         cuentaMes: response.data.count,
-        //         listadoEventosMes: eventosfirst
-        //     });
-        //     let eventoselected = eventosMonth.listadoEventosMes.find(x => x.index == evento)
-        //     if (eventoselected) {
-        //         setValor(eventoselected)
-        //     }
-        //     else if (eventosMonth.listadoEventosMes.length > 0) {
-        //         setValor(eventosMonth.listadoEventosMes[0]);
-        //     }
-        // }).catch(err => {
 
-        // })
         goToTop();
         centerYear();
     }, [location, location.pathname]);
@@ -801,7 +800,7 @@ const Eventos = () => {
             // descripcionEvento: '',
             enviando: false
         });
-        
+
     }
 
     const estableceDiaEvento = (dia) => {
@@ -964,6 +963,8 @@ const Eventos = () => {
     return (
         detalleEvento == -1 && !eventoacervo ?
             <div onScroll={isInViewportMenuEvt}>
+                <HelmetMetaData image={metaTags.image}
+                    description={metaTags.description} keywords={metaTags.keywords} title={metaTags.title}></HelmetMetaData>
                 <Parallax pages={14} className="eventos-main-container">
                     <ParallaxLayer offset={0} speed={0}>
                         <div ref={referencia} style={{ backgroundColor: 'black', height: '100px' }} className="nonHiddenClass">
@@ -1091,7 +1092,7 @@ const Eventos = () => {
                                             </div>
                                             <div className="form-send-evento-user">
                                                 <div><label>Título del evento:</label><div className="grow-wrap-evt">
-                                                    <textarea  maxLength={500} value={valoresEventUserForm.tituloEvento}
+                                                    <textarea maxLength={500} value={valoresEventUserForm.tituloEvento}
                                                         onChange={(e) => setValoresEventUserForm({
                                                             ...valoresEventUserForm,
                                                             tituloEvento: e.target.value

@@ -15,6 +15,7 @@ import { useParams, useLocation } from "react-router-dom"
 import CanvasVideoSet from "../../CanvasVideoSet"
 import { videos } from "../videosCategorized"
 import { getBaseAdressApi } from "../../MainAPI"
+import HelmetMetaData from "../../HelmetMetaData"
 
 const VideoSetGrid = styled.ul`
   display: grid;
@@ -112,14 +113,42 @@ const VideoSetPage = (
     const { set, focusedVideo } = useParams();
 
     //console.log('el primer estado del video enfocado es ');
-    //console.log('el titulo del bloque de videos es ', set);
+    console.log('el titulo del bloque de videos es ', set);
     //console.log(focusedVideo)
     const location = useLocation();
     const [videosPopulated, setVideosPopulated] = useState(null);
     const [categoriaSet, setCategoriaSet] = useState({})
     const [descripcionSeparada, setDescripcionSeparada] = useState(null);
     const [consultandominiaturas, setConsultandoMiniautras] = useState(false);
+    const [metaTags, setMetaTags] = useState({
+        description: "",
+        keywords: [],
+        title: ""
+    });
+    const estableceMeta = (cat) => {
+        switch (cat) {
+            case "Arte-Público":
+                setMetaTags({
+                    description: "Documentales sobre danza callejera, muralismo, movimiento del graffiti, gráfica de los movimientos sociales.",
+                    keywords: [
+                        "danza", "muralismo", "graffiti", "gráfica", "movimientos"
+                    ],
+                    title: "Acervo AudioVisual Interneta Memoria de las y los Invisibles | " + set.replace(/-/g, " ")
+                });
+                break;
+            case "La-Generación-Transparente":
+                setMetaTags({
+                    description: "Documentales, testimonios, videoficciones y piezas de videoarte de autores y autoras que pertenecen a la llamada Generación transparente, creada entre 1985 y 1994.",
+                    keywords: [
+                        "video arte", "video experimental", "generación transparente"
+                    ],
+                    title: "Acervo AudioVisual Interneta Memoria de las y los Invisibles | " + set.replace(/-/g, " ")
+                });
+                break;
+        }
+    }
     useEffect(() => {
+        estableceMeta(set);
         isInViewportMenu();
         if (videosPopulated == null) {
             populate_videos_set();
@@ -207,6 +236,8 @@ const VideoSetPage = (
     return (
 
         <div>
+            <HelmetMetaData
+                description={metaTags.description} keywords={metaTags.keywords} title={metaTags.title}></HelmetMetaData>
             <div style={{ backgroundColor: 'black', height: '100px' }}>
                 <NavBar></NavBar>
             </div>
@@ -272,7 +303,7 @@ const VideoSetPage = (
                             <ul style={{ listStyle: "disc" }}>
                                 {descripcionSeparada && descripcionSeparada.map((cat, i) => {
                                     if (cat.trim() != "") {
-                                        let llave = "resume-video-set-"+i;
+                                        let llave = "resume-video-set-" + i;
                                         return <li key={llave}>{cat}</li>
                                     }
                                 })

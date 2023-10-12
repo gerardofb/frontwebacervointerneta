@@ -1459,7 +1459,28 @@ export const AutoComments = () => {
     //console.log('calificación total del video ',calificacionTotal);
     return (
         <div className='player-individual' onScroll={handleScroll}>
-            <HelmetMetaData title={"Reproduciendo clip: " + titulo} currentUrl={"https://acervo-audiovisual-interneta.org" + location.pathname} image={videoscategoria && videoscategoria.find(x => x.titulo == titulo).contenedor_img} description={creditosvideo ? creditosvideo.sinopsis : ""} quote={creditosvideo ? creditosvideo.sinopsis : ""}></HelmetMetaData>
+            <HelmetMetaData title={"Reproduciendo clip: " + titulo} keywords={(creditosvideo ? creditosvideo.sinopsis ? creditosvideo.sinopsis.split(" ").filter(x => x.trim() !== "" &&
+                x.toLowerCase() !== "a" && x.toLowerCase() !== "de" && x.toLowerCase() !== "en" && x.toLowerCase() !== "entre" && x.toLowerCase() !== "hacia"
+                && x.toLowerCase() !== "por" && x.toLowerCase() !== "tras" && x.toLowerCase() !== "cabe" && x.toLowerCase() !== "sobre" && x.toLowerCase() !== "el"
+                && x.toLowerCase() !== "la" && x.toLowerCase() !== "los" && x.toLowerCase() !== "lo" && x.toLowerCase() !== "uno" && x.toLowerCase() !== "alguno"
+                && x.toLowerCase() !== "nosotros" && x.toLowerCase() !== "ellos" && x.toLowerCase() !== "ellas" && x.toLowerCase() !== "vosotros" && x.toLowerCase() !== "ustedes"
+                && x.toLowerCase() !== "al" && x.toLowerCase() !== "un" && x.toLowerCase() !== "del" && x.toLowerCase() !== "mas" && x.toLowerCase() !== "más"
+                && x.toLowerCase() !== "y" && x.toLowerCase() !== "ó" && x.toLowerCase() !== "o"
+            ).map((e, i) => {
+                return e.replace(/\s/g, "").replace(/(?:\r\n|\r|\n|\)|\(|\.)/g, "");
+            }).slice(0, 35) : [] : []).concat(
+                (creditosvideo ? creditosvideo.direccion_realizacion ? creditosvideo.direccion_realizacion.split(" ").filter(x => x.trim() !== "" &&
+                    x.toLowerCase() !== "a" && x.toLowerCase() !== "de" && x.toLowerCase() !== "en" && x.toLowerCase() !== "entre" && x.toLowerCase() !== "hacia"
+                    && x.toLowerCase() !== "por" && x.toLowerCase() !== "tras" && x.toLowerCase() !== "cabe" && x.toLowerCase() !== "sobre" && x.toLowerCase() !== "el"
+                    && x.toLowerCase() !== "la" && x.toLowerCase() !== "los" && x.toLowerCase() !== "lo" && x.toLowerCase() !== "uno" && x.toLowerCase() !== "alguno"
+                    && x.toLowerCase() !== "nosotros" && x.toLowerCase() !== "ellos" && x.toLowerCase() !== "ellas" && x.toLowerCase() !== "vosotros" && x.toLowerCase() !== "ustedes"
+                    && x.toLowerCase() !== "al" && x.toLowerCase() !== "un" && x.toLowerCase() !== "del" && x.toLowerCase() !== "mas" && x.toLowerCase() !== "más"
+                    && x.toLowerCase() !== "y" && x.toLowerCase() !== "ó" && x.toLowerCase() !== "o"
+                ).map((e, i) => {
+                    return e.replace(/\s/g, "").replace(/(?:\r\n|\r|\n|\)|\(|\.)/g, "");
+                }).slice(0, 35) : [] : [])).concat(
+                    (creditosvideo ? creditosvideo.anio_produccion ? creditosvideo.anio_produccion : [] : [])
+                )} currentUrl={"https://acervo-audiovisual-interneta.org" + location.pathname} image={videoscategoria && videoscategoria.find(x => x.titulo == titulo).contenedor_img} description={creditosvideo ? creditosvideo.sinopsis && creditosvideo.direccion_realizacion && creditosvideo.anio_produccion ? creditosvideo.sinopsis + " Dirección (realización): " + creditosvideo.direccion_realizacion + ". Año: " + creditosvideo.anio_produccion : creditosvideo.sinopsis && creditosvideo.direccion_realizacion ? creditosvideo.sinopsis + " Dirección (realización): " + creditosvideo.direccion_realizacion : creditosvideo.sinopsis ? creditosvideo.sinopsis : "" : ""} quote={creditosvideo ? creditosvideo.sinopsis : ""}></HelmetMetaData>
             {
                 menuContextual.show ?
                     <ContextMenu menu={CustomMenu()} referencia={referencia} style={{ position: 'absolute', zIndex: '9999' }}></ContextMenu>
@@ -1774,53 +1795,53 @@ export const AutoComments = () => {
                                     logo.icon == "twitter_logo.png" ? "85%" : logo.icon == "whatsapp_logo.jpg" ? "220%" :
                                         "contain";
                                 return logo.title !== "Facebook" ?
-                                    logo.title=="Email" ?
-                                    <EmailShareButton className={`social-network-regular`} style={{background:"#7f7f7f"}} url={"https://acervo-audiovisual-interneta.org/Reproduccion/" + encodeURIComponent(location.pathname.replace('/Reproduccion/', ""))}
-                                    subject={titulo+" compartido desde la página web Acervo AudioVisual Interneta Memoria de las y los Invisibles"}
-                                    body={creditosvideo ? creditosvideo.sinopsis : ""}
-                                    ><EmailIcon></EmailIcon></EmailShareButton>:
-                                    logo.title == "Twitter" ?
-                                        <TwitterShareButton
-                                            url={"https://acervo-audiovisual-interneta.org/Reproduccion/" + encodeURIComponent(location.pathname.replace('/Reproduccion/', ""))}
-                                            title={titulo}>
-                                            <button title={logo.title} className={`social-network-regular`} style={{
-                                                backgroundImage: url(logo.icon, true), backgroundSize: background_size
-                                            }}>&nbsp;</button>
-                                        </TwitterShareButton>
-                                        : logo.title == "Linkedin" ?
-                                            <a href={shareLinkedIn}>
+                                    logo.title == "Email" ?
+                                        <EmailShareButton className={`social-network-regular`} style={{ background: "#7f7f7f" }} url={"https://acervo-audiovisual-interneta.org/Reproduccion/" + encodeURIComponent(location.pathname.replace('/Reproduccion/', ""))}
+                                            subject={titulo + " compartido desde la página web Acervo AudioVisual Interneta Memoria de las y los Invisibles"}
+                                            body={creditosvideo ? creditosvideo.sinopsis : ""}
+                                        ><EmailIcon></EmailIcon></EmailShareButton> :
+                                        logo.title == "Twitter" ?
+                                            <TwitterShareButton
+                                                url={"https://acervo-audiovisual-interneta.org/Reproduccion/" + encodeURIComponent(location.pathname.replace('/Reproduccion/', ""))}
+                                                title={titulo}>
                                                 <button title={logo.title} className={`social-network-regular`} style={{
                                                     backgroundImage: url(logo.icon, true), backgroundSize: background_size
                                                 }}>&nbsp;</button>
-                                            </a>
-                                            : logo.title == "Pinterest" ?
-                                                <PinterestShareButton
-                                                    url={"https://acervo-audiovisual-interneta.org" + location.pathname}
-                                                    media={videoscategoria && videoscategoria.find(x => x.titulo == titulo).contenedor_img}
-                                                    description={creditosvideo ? creditosvideo.sinopsis : ""}>
+                                            </TwitterShareButton>
+                                            : logo.title == "Linkedin" ?
+                                                <a href={shareLinkedIn}>
                                                     <button title={logo.title} className={`social-network-regular`} style={{
                                                         backgroundImage: url(logo.icon, true), backgroundSize: background_size
                                                     }}>&nbsp;</button>
-                                                </PinterestShareButton>
-                                                :
-                                                logo.title == "Reddit" ?
-                                                    <RedditShareButton url={"https://acervo-audiovisual-interneta.org" + location.pathname}
-                                                        title={titulo}>
+                                                </a>
+                                                : logo.title == "Pinterest" ?
+                                                    <PinterestShareButton
+                                                        url={"https://acervo-audiovisual-interneta.org" + location.pathname}
+                                                        media={videoscategoria && videoscategoria.find(x => x.titulo == titulo).contenedor_img}
+                                                        description={creditosvideo ? creditosvideo.sinopsis : ""}>
                                                         <button title={logo.title} className={`social-network-regular`} style={{
                                                             backgroundImage: url(logo.icon, true), backgroundSize: background_size
                                                         }}>&nbsp;</button>
-                                                    </RedditShareButton> :
-                                                    logo.title == "Whats App" ?
-                                                        <WhatsappShareButton
-                                                            url={"https://acervo-audiovisual-interneta.org/Reproduccion/" + encodeURIComponent(location.pathname.replace('/Reproduccion/', ""))}
+                                                    </PinterestShareButton>
+                                                    :
+                                                    logo.title == "Reddit" ?
+                                                        <RedditShareButton url={"https://acervo-audiovisual-interneta.org" + location.pathname}
                                                             title={titulo}>
                                                             <button title={logo.title} className={`social-network-regular`} style={{
                                                                 backgroundImage: url(logo.icon, true), backgroundSize: background_size
                                                             }}>&nbsp;</button>
-                                                        </WhatsappShareButton> :
-                                                        <button title={logo.title} className={`social-network-regular`} style={{
-                                                            backgroundImage: url(logo.icon, true), backgroundSize: background_size
-                                                        }}>&nbsp;</button> : <FacebookShareButton quote={creditosvideo ? creditosvideo.sinopsis : ""} url={"https://acervo-audiovisual-interneta.org" + location.pathname}>
+                                                        </RedditShareButton> :
+                                                        logo.title == "Whats App" ?
+                                                            <WhatsappShareButton
+                                                                url={"https://acervo-audiovisual-interneta.org/Reproduccion/" + encodeURIComponent(location.pathname.replace('/Reproduccion/', ""))}
+                                                                title={titulo}>
+                                                                <button title={logo.title} className={`social-network-regular`} style={{
+                                                                    backgroundImage: url(logo.icon, true), backgroundSize: background_size
+                                                                }}>&nbsp;</button>
+                                                            </WhatsappShareButton> :
+                                                            <button title={logo.title} className={`social-network-regular`} style={{
+                                                                backgroundImage: url(logo.icon, true), backgroundSize: background_size
+                                                            }}>&nbsp;</button> : <FacebookShareButton quote={creditosvideo ? creditosvideo.sinopsis : ""} url={"https://acervo-audiovisual-interneta.org" + location.pathname}>
                                         <button title={logo.title} className={`social-network-regular`} style={{
                                             backgroundImage: url(logo.icon, true), backgroundSize: background_size
                                         }}>&nbsp;</button>

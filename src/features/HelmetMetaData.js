@@ -10,6 +10,7 @@ const HelmetMetaData = (props) => {
     let title = props.title !== undefined ? props.title : "Acervo Audiovisual Interneta | Memoria de las y los invisibles |";
     let image = props.image !== undefined ? props.image : "";
     let description = props.description !== undefined ? props.description : "";
+    let keywords = props.keywords != undefined ? props.keywords.join(", ") : "";
     let hashtag = props.hashtag !== undefined ? props.hashtag : "";
 
     return (
@@ -25,6 +26,7 @@ const HelmetMetaData = (props) => {
             <meta property="title" content={title}></meta>
             <meta property="quote" content={quote}></meta>
             <meta name="description" content={description}></meta>
+            <meta name="keywords" content={keywords}></meta>
             <meta property="image" content={image}></meta>
             <meta property="og:locale" content="en_US" />
             <meta property="og:locale:alternate" content="es_MX"></meta>

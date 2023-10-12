@@ -143,7 +143,17 @@ function App() {
   //console.log('los videos categorizados en app ',videosPopulated);
   return (
     <>
-    <HelmetMetaData></HelmetMetaData>
+    <HelmetMetaData
+    description='Clip introductorio del acervo. Durante tres décadas, el colectivo de videastas estructuramos el Acervo Audiovisual InterNeta. Genera un espacio online y offline, para retroalimentar las creaciones producidas, en comunidades urbanas, indígenas, y movimientos contraculturales.' 
+    keywords={[
+      "Arte Urbano", 
+      "Generación Trasparente", 
+      "Memoria y Movimiento Urbano Popular", 
+      "Movimientos Sociales y Políticos", 
+      "Movimientos Contraculturales", 
+      "Pueblos Originarios e Indígenas", 
+      "Movimientos en Defensa del Territorio"
+    ]}></HelmetMetaData>
     <BrowserRouter>
       <div className="App">
         <div className='container-menu-main'>

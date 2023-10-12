@@ -11,6 +11,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import { getBaseAdressApi } from "../MainAPI";
 import { useHistory } from 'react-router-dom';
+import HelmetMetaData from "../HelmetMetaData";
 const videosMin = [
     { Categoria: "Movimientos Sociales", Video: "Screenshot_5", Calificacion: 4.5, ListaReproduccion: {}, Comentario: [], Tags: ["rock"], Relato: "6006c5d85f7c417f8714496c418d58ec" },
     { Categoria: "Movimientos Sociales", Video: "Screenshot_6", Calificacion: 3.5, ListaReproduccion: { Usuario: "Gabriela Romo", Titulo: "Smoothy" }, Comentario: [], Tags: ["rock", "vida"], Relato: "a4d52f71f1ec429db2e8da542ec6f3d4" },
@@ -328,6 +329,11 @@ function random_color() {
 }
 const url_loader = (name, wrap = false) => `${wrap ? 'url(' : ''}/images/${name}${wrap ? ')' : ''}`
 const ListadoVideosFavoritos = (props) => {
+    const [metaTags, setMetaTags] = useState({
+        description: "",
+        keywords: [],
+        title: ""
+    });
     const history = useHistory();
     const rutaTipoListado = useParams();
     const tipoListado = rutaTipoListado.tipo === "MasVisitados" ? seleccionaTipoVideo.MAS_VISITADOS : rutaTipoListado.tipo === "Favoritos" ?
@@ -340,6 +346,36 @@ const ListadoVideosFavoritos = (props) => {
     const [idFilaFavorito, setIdFilaFavorito] = useState({ vinculo: '', idvideo: 0 });
     const [videosCalificados, setVideosCalificados] = useState(null);
     const [tagsVideo, setTagsVideo] = useState([{ id: 0, tags: [] }])
+    const estableceMeta = () => {
+
+        const post_validate = axios.get(`${getBaseAdressApi()}api/userprofile/`, {
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("credencial")}`,
+            }
+        }).then(response => {
+            let usuario = {
+                usuario: response.data["username"],
+                nombres: response.data["first_name"],
+                apellidos: response.data["last_name"],
+                correo: response.data["email"]
+            }
+            let cadenausuario = usuario.usuario + (usuario.nombres && usuario.nombres.length > 0 ? " (" + usuario.nombres : "") + (usuario.apellidos && usuario.apellidos.length > 0 ? " " + usuario.apellidos + ")" : "")
+            setMetaTags({
+                description: "| Acervo Audiovisual Interneta | Listado de clips de vídeos marcados como favoritos por el usuario que cuenta con los siguientes datos: " + cadenausuario,
+                keywords: ["listas", "vídeos", "favoritos", "usuarios", "navegar", "ordenar", "eliminar", "editar", "buscar", usuario.usuario].concat(
+                    (usuario.nombres && usuario.nombres.length > 0 ? usuario.nombres.split(" ").filter(x => x.trim() !== "").map((e, i) => {
+                        return e.replace(/\s/g, "").replace(/(?:\r\n|\r|\n|\)|\()/g, "");
+                    }) : "")).concat(
+                        (usuario.apellidos && usuario.apellidos.length > 0 ? usuario.apellidos.split(" ").filter(x => x.trim() !== "").map((e, i) => {
+                            return e.replace(/\s/g, "").replace(/(?:\r\n|\r|\n|\)|\()/g, "");
+                        }) : "")),
+                title: "| Acervo Audiovisual Interneta | Listado de clips de vídeos marcados como favoritos por el usuario: " + cadenausuario + "",
+            });
+        })
+
+    }
+
+
     const estableceTagsHoverVideo = (idvideo) => {
         const peticionTags = axios.post(`${getBaseAdressApi()}api/searchtagsbyvideo/`, {
             "id_video": idvideo,
@@ -363,6 +399,7 @@ const ListadoVideosFavoritos = (props) => {
     }
     //console.log('tipo listado ', rutaTipoListado, tipoListado, listado)
     useEffect(() => {
+        estableceMeta();
         if (listado.length == 0) {
             const peticionCategorias = axios.get(`${getBaseAdressApi()}api/categorias/`).then(respuesta => {
                 let categories = respuesta.data.results.map((cat, idx) => {
@@ -580,6 +617,8 @@ const ListadoVideosFavoritos = (props) => {
     }
     return (
         <>
+            <HelmetMetaData
+                description={metaTags.description} keywords={metaTags.keywords} title={metaTags.title}></HelmetMetaData>
             <NavBar></NavBar>
             <div className="container-listado-videos">
                 <div className="busqueda-videos-listado">
