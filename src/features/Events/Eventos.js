@@ -480,7 +480,7 @@ const Eventos = () => {
                 keywords: [agendaevt, evtprime.fecha.getHours() + "hrs"].concat(evtprime.descripcion.split(' ').filter(x => x.trim() !== "").slice(0, 15).map((el, idx) => {
                     return el.replace(",", "").replace(/\s/g, " ").replace(/(?:\r\n|\r|\n|\)|\()/g, " ").replace(/\s{2,}/g, " ").trim();
                 })),
-                title: "Acervo AudioVisual Interneta Memoria de las y los Invisibles | " + evtprime.title,
+                title: "| Acervo Audiovisual Interneta Memoria de las y los Invisibles | " + evtprime.title,
                 image: evtprime.imagen
             });
         }

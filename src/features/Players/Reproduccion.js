@@ -1459,7 +1459,7 @@ export const AutoComments = () => {
     //console.log('calificación total del video ',calificacionTotal);
     return (
         <div className='player-individual' onScroll={handleScroll}>
-            <HelmetMetaData title={"Reproduciendo clip: " + titulo} keywords={(creditosvideo ? creditosvideo.sinopsis ? creditosvideo.sinopsis.split(" ").filter(x => x.trim() !== "" &&
+            <HelmetMetaData title={"| Acervo Audiovisual Interneta | Reproduciendo clip: " + titulo} keywords={(creditosvideo ? creditosvideo.sinopsis ? creditosvideo.sinopsis.split(" ").filter(x => x.trim() !== "" &&
                 x.toLowerCase() !== "a" && x.toLowerCase() !== "de" && x.toLowerCase() !== "en" && x.toLowerCase() !== "entre" && x.toLowerCase() !== "hacia"
                 && x.toLowerCase() !== "por" && x.toLowerCase() !== "tras" && x.toLowerCase() !== "cabe" && x.toLowerCase() !== "sobre" && x.toLowerCase() !== "el"
                 && x.toLowerCase() !== "la" && x.toLowerCase() !== "los" && x.toLowerCase() !== "lo" && x.toLowerCase() !== "uno" && x.toLowerCase() !== "alguno"
