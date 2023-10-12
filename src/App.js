@@ -144,6 +144,8 @@ function App() {
   return (
     <>
     <HelmetMetaData
+    image="https://api.acervo-audiovisual-interneta.org/static/img/logo_nuevo_negro.png"
+    title="Acervo Audiovisual Interneta | Memoria de las y los invisibles |"
     description='Clip introductorio del acervo. Durante tres décadas, el colectivo de videastas estructuramos el Acervo Audiovisual InterNeta. Genera un espacio online y offline, para retroalimentar las creaciones producidas, en comunidades urbanas, indígenas, y movimientos contraculturales.' 
     keywords={[
       "Arte Urbano", 

@@ -8,7 +8,7 @@ const HelmetMetaData = (props) => {
     let currentUrl = props.currentUrl ? props.currentUrl : "";
     let quote = props.quote !== undefined ? props.quote : "";
     let title = props.title !== undefined ? props.title : "Acervo Audiovisual Interneta | Memoria de las y los invisibles |";
-    let image = props.image !== undefined ? props.image : "";
+    let image = props.image !== undefined ? props.image : "https://api.acervo-audiovisual-interneta.org/static/img/logo_nuevo_negro.png";
     let description = props.description !== undefined ? props.description : "";
     let keywords = props.keywords != undefined ? props.keywords.join(", ") : "";
     let hashtag = props.hashtag !== undefined ? props.hashtag : "";
