@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import NavBar from './NavBar';
 import { HomeFooter } from './HomeFooter';
+import HelmetMetaData from './HelmetMetaData';
 function isInViewportMenu() {
     const menusuperior = document.querySelector('.container-menu-main')
     const barranav = document.querySelector('.navbar-principal');
@@ -18,12 +19,30 @@ function isInViewportMenu() {
 
 }
 const QuienesSomos = (props) => {
+    const [metaTags, setMetaTags] = useState({
+        description: "",
+        keywords: [],
+        title: ""
+    });
     useEffect(() => {
+        setMetaTags({
+            title: "Acervo Audiovisual Interneta | Memoria de las y los invisibles | Acerca del Acervo",
+            description: "Trayectoria de quienes crean el Acervo, la producción y los propósitos del Acervo Audiovisual InterNeta.",
+            keywords: [
+                "vídeo", "videasta",
+                "documental", "proceso", "comunitario", "talleres", "acervo",
+                "audiovisual", "memoria", "colectiva", "electrónica",
+                "digital", "coproducción", "producción",
+                "colaborativa"
+            ]
+        })
         isInViewportMenu();
 
     });
     return (
         <div>
+            <HelmetMetaData
+                description={metaTags.description} keywords={metaTags.keywords} title={metaTags.title}></HelmetMetaData>
             <NavBar></NavBar>
             <div className='quienes-somos-content'>
                 <div className='quienes-somos-body'>

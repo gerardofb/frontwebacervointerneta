@@ -8,7 +8,8 @@ import { ThemesContext } from '../../ThemeProvider';
 import axios from 'axios';
 import { getBaseAdressApi } from '../MainAPI';
 import { faClose, faEye } from '@fortawesome/free-solid-svg-icons';
-import ReactGA from 'react-ga4'
+import ReactGA from 'react-ga4';
+import HelmetMetaData from '../HelmetMetaData';
 const ENUM_REGISTRO = {
     EMAIL: 1,
     USERNAME: 2,
@@ -18,7 +19,21 @@ const ENUM_REGISTRO = {
     LAST_NAME: 6
 }
 const Register = (props) => {
-    const [showPassword,setShowPassword]=useState({normal:false,confirm:false});
+    const [metaTags, setMetaTags] = useState({
+        description: "",
+        keywords: [],
+        title: ""
+    });
+    useEffect(() => {
+        setMetaTags({
+            title: "Acervo Audiovisual Interneta | Memoria de las y los invisibles | Registro de los usuarios que desean tener presencia digital en el proyecto del acervo.",
+            description: "Registro de los usuarios para acceder al contenido digital privado del sitio web del proyecto del acervo.",
+            keywords: [
+                "perfil", "social", "vinculación", "comunidad", "redes", "usuarios", "registro", "sesión"
+            ]
+        })
+    }, [])
+    const [showPassword, setShowPassword] = useState({ normal: false, confirm: false });
     const [formRegister, setFormRegister] = useState({
         email: '',
         username: '',
@@ -122,8 +137,8 @@ const Register = (props) => {
                 invalido: false,
                 exitoso: true
             });
-            ReactGA.event('sign_up',{
-                method:'backend-std'
+            ReactGA.event('sign_up', {
+                method: 'backend-std'
             });
         }).catch(err => {
             //console.log('trate de cachar la respuesta del registro ', err);
@@ -135,26 +150,28 @@ const Register = (props) => {
                 password: "password" in err.response.data ? err.response.data["password"] : [],
                 first_name: "first_name" in err.response.data ? err.response.data["first_name"] : [],
                 invalido: true,
-                exitoso:false
+                exitoso: false
             })
         })
     };
     return (<>
+        <HelmetMetaData
+            description={metaTags.description} keywords={metaTags.keywords} title={metaTags.title}></HelmetMetaData>
         <NavBar></NavBar>
         {
             formValidate.exitoso && <div className='register-success'>
-                <div className='standard-close-register' onClick={(e)=>setFormValidate({
+                <div className='standard-close-register' onClick={(e) => setFormValidate({
                     ...formValidate,
-                    exitoso:false
+                    exitoso: false
                 })}><FontAwesomeIcon icon={faClose}></FontAwesomeIcon></div>
                 <p>!Felicidades! Su registro ha sido exitoso, en breve recibirá un correo electrónico para verificar el registro en el sitio, en caso de no recibirlo, verifique su carpeta de correo no deseado.</p>
             </div>
         }
         {formValidate.invalido && <div className='error-summary'>
-            <div className='standard-close-register'onClick={(e)=>setFormValidate({
-                    ...formValidate,
-                    invalido:false
-                })}><FontAwesomeIcon icon={faClose}></FontAwesomeIcon></div>
+            <div className='standard-close-register' onClick={(e) => setFormValidate({
+                ...formValidate,
+                invalido: false
+            })}><FontAwesomeIcon icon={faClose}></FontAwesomeIcon></div>
             <ul>
                 <li>Se encontraron errores en el registro:</li>
                 {validateErrors().map((e, i) => {
@@ -175,11 +192,11 @@ const Register = (props) => {
                     <label>Nombre de usuario</label><input type="text" value={formRegister.username} onChange={(e) => estableceValorRegistro(e.target.value, ENUM_REGISTRO.USERNAME)}></input>
                 </div>
                 <div className='item-grid-address password-validate'>
-                    <label>Contraseña</label><span className="eye-validate" style={{color:"blue"}} onClick={(e)=>{setShowPassword({...showPassword,normal:!showPassword.normal})}}><FontAwesomeIcon icon={faEye}></FontAwesomeIcon></span><input type={showPassword.normal?"text":"password"} value={formRegister.password} onChange={(e) => estableceValorRegistro(e.target.value, ENUM_REGISTRO.PASSWORD)}></input>
+                    <label>Contraseña</label><span className="eye-validate" style={{ color: "blue" }} onClick={(e) => { setShowPassword({ ...showPassword, normal: !showPassword.normal }) }}><FontAwesomeIcon icon={faEye}></FontAwesomeIcon></span><input type={showPassword.normal ? "text" : "password"} value={formRegister.password} onChange={(e) => estableceValorRegistro(e.target.value, ENUM_REGISTRO.PASSWORD)}></input>
                     <span style={{ color: "green" }}>{formRegister.password_confirm && <FontAwesomeIcon icon='fa-check'></FontAwesomeIcon>}</span>
                 </div>
                 <div className='item-grid-address password-validate'>
-                    <label>Confirmar contraseña</label><span className="eye-validate" style={{color:"blue"}} onClick={(e)=>{setShowPassword({...showPassword,confirm:!showPassword.confirm})}}><FontAwesomeIcon icon={faEye}></FontAwesomeIcon></span><input type={showPassword.confirm?"text":"password"} value={formRegister.password2} onChange={(e) => estableceValorRegistro(e.target.value, ENUM_REGISTRO.CONFIRM_PASSWORD)}
+                    <label>Confirmar contraseña</label><span className="eye-validate" style={{ color: "blue" }} onClick={(e) => { setShowPassword({ ...showPassword, confirm: !showPassword.confirm }) }}><FontAwesomeIcon icon={faEye}></FontAwesomeIcon></span><input type={showPassword.confirm ? "text" : "password"} value={formRegister.password2} onChange={(e) => estableceValorRegistro(e.target.value, ENUM_REGISTRO.CONFIRM_PASSWORD)}
                         onBlur={verificaPassword}></input><span style={{ color: "green" }}>{formRegister.password_confirm && <FontAwesomeIcon icon='fa-check'></FontAwesomeIcon>}</span>
                 </div>
                 <div className='item-grid-address'>
@@ -195,7 +212,7 @@ const Register = (props) => {
 
         </div >
         <div class="footer-registro">
-        <HomeFooter></HomeFooter>
+            <HomeFooter></HomeFooter>
         </div></>)
 }
 export default Register

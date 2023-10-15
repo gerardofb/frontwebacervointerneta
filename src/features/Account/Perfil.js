@@ -32,7 +32,7 @@ const Perfil = (props) => {
                 }
                 let cadenausuario = usuario.usuario + (usuario.nombres && usuario.nombres.length > 0 ? " (" + usuario.nombres : "") + (usuario.apellidos && usuario.apellidos.length > 0 ? " " + usuario.apellidos + ")" : "")
                 setMetaTags({
-                    description: "| Acervo Audiovisual Interneta | Mi perfil de usuario, el cual, en síntesis, cuenta con los siguientes datos: " + cadenausuario,
+                    description: "| Acervo Audiovisual Interneta | En esta página encontrarás tus datos de usuario, como lo encontrarán cada uno de quienes deseen tener presencia virtual o presencial en la difusión del acervo. El perfil registrardo de tu usuario cuenta con los siguientes datos: " + cadenausuario,
                     keywords: ["perfil", "social","vinculación","comunidad", "redes", "usuarios", "navegar", "editar", "buscar", usuario.usuario].concat(
                         (usuario.nombres && usuario.nombres.length > 0 ? usuario.nombres.split(" ").filter(x => x.trim() !== "").map((e, i) => {
                             return e.replace(/\s/g, "").replace(/(?:\r\n|\r|\n|\)|\()/g, "");
@@ -40,7 +40,7 @@ const Perfil = (props) => {
                             (usuario.apellidos && usuario.apellidos.length > 0 ? usuario.apellidos.split(" ").filter(x => x.trim() !== "").map((e, i) => {
                                 return e.replace(/\s/g, "").replace(/(?:\r\n|\r|\n|\)|\()/g, "");
                             }) : "")),
-                    title: "| Acervo Audiovisual Interneta | Mi perfil de usuario, con los siguientes datos en síntesis: " + cadenausuario,
+                    title: "| Acervo Audiovisual Interneta | El perfil registrardo de tu usuario cuenta con los siguientes datos, en síntesis: " + cadenausuario,
                 });
             }).catch(err=>{
 

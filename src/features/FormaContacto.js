@@ -9,7 +9,7 @@ import {
     faClose
 } from '@fortawesome/free-solid-svg-icons';
 import Autocomplete from 'react-autocomplete';
-
+import HelmetMetaData from './HelmetMetaData';
 const ENUM_CONTACTO = {
     CORREO_ELECTRONICO: 1,
     MENSAJE: 2,
@@ -32,6 +32,11 @@ function isInViewportMenu() {
 
 }
 const FormaContacto = (props) => {
+    const [metaTags, setMetaTags] = useState({
+        description: "",
+        keywords: [],
+        title: ""
+    });
     const [form, setForm] = useState({
         correo_electronico: '',
         mensaje: '',
@@ -68,16 +73,23 @@ const FormaContacto = (props) => {
         }
     }
     useEffect(() => {
+        setMetaTags({
+            title: "| Acervo Audiovisual Interneta | El correo de contacto del acervo es  pablogaytansantiago@gmail.com",
+            description: "Envío de correo electrónico al coordinador del proyecto del acervo, para aclaraciones, invitaciones y concertación de visionado de los documentales que integran dicho acervo.",
+            keywords: [
+                "contacto", "visionado", "documentales", "accesibilidad", "virtual", "presencial"
+            ]
+        })
         isInViewportMenu();
         if (localStorage.getItem('titulo-descarga-video')) {
-            setTimeout(function(){
-            setVideoSeleccionado({
-                ...videoseleccionado,
-                titulo: localStorage.getItem('titulo-descarga-video')
-            });
-            busquedaVideo(localStorage.getItem('titulo-descarga-video'))
-            localStorage.removeItem('titulo-descarga-video')
-        },500)
+            setTimeout(function () {
+                setVideoSeleccionado({
+                    ...videoseleccionado,
+                    titulo: localStorage.getItem('titulo-descarga-video')
+                });
+                busquedaVideo(localStorage.getItem('titulo-descarga-video'))
+                localStorage.removeItem('titulo-descarga-video')
+            }, 500)
         }
         if (todascategorias.length == 0) {
             const respuesta_cat = axios.get(`${getBaseAdressApi()}api/categorias/`).then(response => {
@@ -85,7 +97,7 @@ const FormaContacto = (props) => {
                 setTodascategorias(response.data.results);
             });
         }
- 
+
     }, [videoslistado, todascategorias]);
     const [formValidate, setFormValidate] = useState({
         mapeo: {
@@ -169,6 +181,8 @@ const FormaContacto = (props) => {
 
     }
     return (<div>
+        <HelmetMetaData
+            description={metaTags.description} keywords={metaTags.keywords} title={metaTags.title}></HelmetMetaData>
         <NavBar></NavBar>
         {
             formValidate.exitoso && <div className='login-success'>
