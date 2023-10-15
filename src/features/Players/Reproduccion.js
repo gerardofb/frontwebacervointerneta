@@ -1455,7 +1455,7 @@ export const AutoComments = () => {
             }
         }
     }
-    let shareLinkedIn = `http://www.linkedin.com/sharing/share-offsite?url=${encodeURIComponent("https://acervo-audiovisual-interneta.org" + location.pathname)}`
+    let shareLinkedIn = `http://www.linkedin.com/sharing/share-offsite?url=${"https://acervo-audiovisual-interneta.org" + location.pathname}`
     //console.log('calificación total del video ',calificacionTotal);
     return (
         <div className='player-individual' onScroll={handleScroll}>
