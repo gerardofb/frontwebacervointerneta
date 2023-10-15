@@ -43,6 +43,8 @@ import { getBaseAdressApi } from './features/MainAPI'
 import ReactGA from "react-ga4";
 import HelmetMetaData from './features/HelmetMetaData';
 import { isMobile } from 'react-device-detect';
+import Sitemap from './features/Sitemap';
+import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 
 
 library.add(faBook, faHouse, faTape, faForward, faCommentDots, faVolumeHigh, faCalendarDays, faUserCheck, faEnvelope,
@@ -291,6 +293,9 @@ function App() {
               <ThemeProvider>
                 <QuienesSomos></QuienesSomos>
               </ThemeProvider>
+            </Route>
+            <Route path="/sitemap.xml" exact>
+              <Redirect to="/"></Redirect>
             </Route>
             <Route path="*">
               <ThemeProvider>

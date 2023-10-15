@@ -429,6 +429,89 @@
         ]
     },
     {
+        "url": "https://acervo-audiovisual-interneta.org/Reproduccion/8M%20Sihuatl%7C8%7C4",
+        "changefreq": "yearly",
+        "priority": 0.6,
+        "video": [
+            {
+                "description": "La rapera Maka de Santocho (Pedregales de Santo Domingo) en este videoclip expone su visión y sentimiento contra la violencia machista en su entorno inmediato. Para conmemorar el 8 de marzo del 2021. Dirección (realización): Guadalupe Ochoa. Año: 2023",
+                "thumbnail_loc": "https://deploy-videos-acervo-interneta-prod.s3.us-west-1.amazonaws.com/logo_cabeza_negro_social_net_2.png",
+                "title": "| Acervo Audiovisual Interneta | Reproduciendo clip: 8M Sihuatl",
+                "content_loc": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Clip_2021_Arte_Pu%CC%81blico_8M_Sihuatl.mp4",
+                "family_friendly": "YES",
+                "requires_subscription": "NO"
+            }
+        ],
+        "img": [
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/4eff23535cf240abb1a6b1a5ec485a63_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/f53583442b8343d7a70d6eafabac862a_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/1e04766788ec45e8b3e71e3267eb7f4c_ENCUENTRO_LATIONOAMERICANO_DE_CINE_CASERO_AMATEUR_Y_HUERFANO.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/7b3c8bfa31374fc8b2eb75ea5e4d2e09_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/bfbe396b5aa645cea39f5da0b299af3d_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Viento_de_espera.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Sihuatl.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Virus_rap.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/RiniTempleton_Taller_de_Mantas.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Videograffiti.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/CaminataPerenneNanus.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Indiocumentados.png"
+            }
+        ],
+        "links": [
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Viento%20de%20Espera%7C7%7C4"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/8M%20Sihuatl%7C8%7C4"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Virus%20rap%7C9%7C4"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Taller%20de%20Mantas%20Rini%20Templeton%7C10%7C4"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Memoria%20del%20Presente.VideografIti%7C21%7C4"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Conversatorio%20sobre%20%C3%91a%C3%B1us;%20La%20Caminata%20Perenne%7C24%7C4"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Indiocumentados:%20Artistas%20Mexicanos%20Migrantes%20en%20San%20Francisco,%20California%7C40%7C4"
+            }
+        ]
+    },
+    {
         "url": "https://acervo-audiovisual-interneta.org/Reproduccion/%C2%A1Libertad!%7C22%7C7",
         "changefreq": "yearly",
         "priority": 0.6,
