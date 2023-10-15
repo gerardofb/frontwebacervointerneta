@@ -43,7 +43,6 @@ import { getBaseAdressApi } from './features/MainAPI'
 import ReactGA from "react-ga4";
 import HelmetMetaData from './features/HelmetMetaData';
 import { isMobile } from 'react-device-detect';
-import Sitemap from './features/Sitemap';
 import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 
 
