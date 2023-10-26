@@ -11,7 +11,7 @@ let valor = {
     for(let i of contenedorImg){
     arregloUrlImagen.push({url:i.getElementsByTagName('img')[0].src});
     }
-    for(let links of coleccion){
+    for(let links of contendorLinks){
 
         if(reg.test(links.href)){
         arregloLinks.push({lang:"es",url:links.href});

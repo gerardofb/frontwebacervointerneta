@@ -150,6 +150,69 @@
         ]
     },
     {
+        "url": "https://acervo-audiovisual-interneta.org/Categorias",
+        "changefreq": "yearly",
+        "priority": 0.6,
+        "video": [
+            {
+                "description": "Memoria y Movimiento Urbano Popular",
+                "thumbnail_loc": "https://deploy-videos-acervo-interneta-prod.s3.us-west-1.amazonaws.com/logo_cabeza_negro_social_net_2.png",
+                "title": "Acervo Audiovisual Interneta | Memoria de las y los invisibles | Memoria y Movimiento Urbano Popular",
+                "content_loc": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/03_movimientos_urbanos_.mp4",
+                "family_friendly": "YES",
+                "requires_subscription": "NO"
+            },
+            {
+                "description": "Pueblos Originarios e Indígenas",
+                "thumbnail_loc": "https://deploy-videos-acervo-interneta-prod.s3.us-west-1.amazonaws.com/logo_cabeza_negro_social_net_2.png",
+                "title": "Acervo Audiovisual Interneta | Memoria de las y los invisibles | Pueblos Originarios e Indígenas",
+                "content_loc": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/05_pueblos_originarios_.mp4",
+                "family_friendly": "YES",
+                "requires_subscription": "NO"
+            },
+            {
+                "description": "Movimientos Sociales y Políticos",
+                "thumbnail_loc": "https://deploy-videos-acervo-interneta-prod.s3.us-west-1.amazonaws.com/logo_cabeza_negro_social_net_2.png",
+                "title": "Acervo Audiovisual Interneta | Memoria de las y los invisibles | Movimientos Sociales y Políticos",
+                "content_loc": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/01_movimientos_sociales_.mp4",
+                "family_friendly": "YES",
+                "requires_subscription": "NO"
+            },
+            {
+                "description": "Movimientos en Defensa del Territorio",
+                "thumbnail_loc": "https://deploy-videos-acervo-interneta-prod.s3.us-west-1.amazonaws.com/logo_cabeza_negro_social_net_2.png",
+                "title": "Acervo Audiovisual Interneta | Memoria de las y los invisibles | Movimientos en Defensa del Territorio",
+                "content_loc": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/06_movimientos_defensa_territorios_.mp4",
+                "family_friendly": "YES",
+                "requires_subscription": "NO"
+            },
+            {
+                "description": "Arte Público",
+                "thumbnail_loc": "https://deploy-videos-acervo-interneta-prod.s3.us-west-1.amazonaws.com/logo_cabeza_negro_social_net_2.png",
+                "title": "Acervo Audiovisual Interneta | Memoria de las y los invisibles | Arte Público",
+                "content_loc": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/04_arte_urbano_.mp4",
+                "family_friendly": "YES",
+                "requires_subscription": "NO"
+            },
+            {
+                "description": "La Generación Transparente",
+                "thumbnail_loc": "https://deploy-videos-acervo-interneta-prod.s3.us-west-1.amazonaws.com/logo_cabeza_negro_social_net_2.png",
+                "title": "Acervo Audiovisual Interneta | Memoria de las y los invisibles | La Generación Transparente",
+                "content_loc": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/07_generacion_transparente.mp4",
+                "family_friendly": "YES",
+                "requires_subscription": "NO"
+            },
+            {
+                "description": "Movimientos Contraculturales",
+                "thumbnail_loc": "https://deploy-videos-acervo-interneta-prod.s3.us-west-1.amazonaws.com/logo_cabeza_negro_social_net_2.png",
+                "title": "Acervo Audiovisual Interneta | Memoria de las y los invisibles | Movimientos Contraculturales",
+                "content_loc": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/02_movimientos_contraculturales_.mp4",
+                "family_friendly": "YES",
+                "requires_subscription": "NO"
+            }
+        ]
+    },
+    {
         "url": "https://acervo-audiovisual-interneta.org/Categorias/Arte-P%C3%BAblico/dummy",
         "changefreq": "yearly",
         "priority": 0.4,
@@ -175,6 +238,36 @@
             {
                 "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Indiocumentados.png"
             }
+        ],
+        "links": [
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Viento%20de%20Espera%7C7%7C4"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/8M%20Sihuatl%7C8%7C4"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Virus%20rap%7C9%7C4"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Taller%20de%20Mantas%20Rini%20Templeton%7C10%7C4"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Memoria%20del%20Presente.VideografIti%7C21%7C4"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Conversatorio%20sobre%20%C3%91a%C3%B1us;%20La%20Caminata%20Perenne%7C24%7C4"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Indiocumentados:%20Artistas%20Mexicanos%20Migrantes%20en%20San%20Francisco,%20California%7C40%7C4"
+            }
         ]
     },
     {
@@ -187,6 +280,16 @@
             },
             {
                 "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/La_Esucelita_una_experiencia_comunitaria.png"
+            }
+        ],
+        "links": [
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Guerreros%20C%C3%ADvicos%7C6%7C3"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/La%20Escuelita%20de%20Artes%20y%20Oficios%20Emiliano%20Zapata%7C26%7C3"
             }
         ]
     },
@@ -206,6 +309,24 @@
             },
             {
                 "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/SanPabloOztotepec.png"
+            }
+        ],
+        "links": [
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/%C2%A1Libertad!%7C22%7C7"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Primer%20Encuentro%20Fronterizo%20ind%C3%ADgena%20M%C3%A9xico-Estados%7C28%7C7"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/%C3%91a%C3%B1us%20del%20MexquItitl%C3%A1n%7C29%7C7"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/San%20Pablo%20Oztotepec%7C39%7C7"
             }
         ]
     },
@@ -254,27 +375,46 @@
         ]
     },
     {
-        "url": "https://acervo-audiovisual-interneta.org/Categorias/Movimientos-en-Defensa-del-Territorio/dummy",
+        "url": "https://acervo-audiovisual-interneta.org/Categorias/Movimientos-Sociales-y-Pol%C3%ADticos/dummy",
         "changefreq": "yearly",
         "priority": 0.4,
         "img": [
             {
-                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/La_Sangre_de_la_Tierra.jpg"
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/MiroslavaBreach.jpg"
             },
             {
-                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Planton_Pedregales.jpg"
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/RelajadosyReprimidos.png"
             },
             {
-                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/CiudadPrivatizada.jpg"
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/appoyo.png"
             },
             {
-                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/YoDefiendoChapultepec.png"
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/2Octubre2015.png"
             },
             {
-                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Orozcorrupcion.png"
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/LaRebelionDeLosInvisibles.png"
+            }
+        ],
+        "links": [
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/MiroslavaBreach%7C12%7C6"
             },
             {
-                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/TerritorioTurin46.png"
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/%C2%A1Relajados%20o%20Reprimidos!%7C18%7C6"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/APPOYO%7C19%7C6"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/2%20de%20Octubre%202015%7C34%7C6"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Movimiento%20Estudiantil%20del%20CGH%7C38%7C6"
             }
         ]
     },
@@ -306,6 +446,40 @@
             },
             {
                 "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/ImagenesEnMovimiento.png"
+            }
+        ],
+        "links": [
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Carlos%20Salom%20y%20la%20Generaci%C3%B3n%20Transparente%7C1%7C1"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/BIDependencia%7C16%7C1"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/%C3%81guila%20que%20Cae%7C17%7C1"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Entrevista%20a%20Pablo%20Gayt%C3%A1n%20sobre%20Generaci%C3%B3n%20Transparente%7C35%7C1"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Ayer%20y%20Hoy%7C37%7C1"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/La%20Villa%20Global%20en%20mi%20Mente%7C42%7C1"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Primer%20Encuentro%20Metropolitano%20de%20Videastas%7C43%7C1"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Im%C3%A1genes%20en%20Movimiento%7C44%7C1"
             }
         ]
     },
@@ -349,6 +523,56 @@
             },
             {
                 "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/LaDecadaPodrida.png"
+            }
+        ],
+        "links": [
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Submetropolitanos%7C2%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/El%20%C3%9Altimo%20Nutrirock%7C3%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Efecto%20Emo%7C4%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/El%20Rock%20del%20Asesino%20Serial%7C5%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Spounk%7C14%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Rastros%20de%20Holl%C3%ADn%7C20%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Border%C3%ADgena%20Subway%7C23%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Necios%20Netos%7C25%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Banda,%20Cultura%20y%20Muerte%7C27%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Alta%20Traici%C3%B3n%7C30%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Movimientos%20(Contra)%20Culturales%7C36%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/La%20D%C3%A9cada%20Podrida%7C41%7C2"
             }
         ]
     },
