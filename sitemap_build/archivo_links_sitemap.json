@@ -2925,6 +2925,1465 @@
                 "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Tur%C3%ADn%2046%7C33%7C5"
             }
         ]
+    },
+    {
+        "url": "https://acervo-audiovisual-interneta.org/Reproduccion/La%20Villa%20Global%20en%20mi%20Mente%7C42%7C1",
+        "changefreq": "yearly",
+        "priority": 0.6,
+        "video": [
+            {
+                "description": "Videomultimedia performétnico del artista fronterizo Gerardo Navarro, donde las  imágenes y la poesía se integran para hablar sobre la gringósfera. Dirección (realización): Gerardo Navarro. Año: 2023",
+                "thumbnail_loc": "https://deploy-videos-acervo-interneta-prod.s3.us-west-1.amazonaws.com/logo_cabeza_negro_social_net_2.png",
+                "title": "| Acervo Audiovisual Interneta | Reproduciendo clip: La Villa Global en mi Mente",
+                "content_loc": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Clip_1994_Generacio%CC%81n_Transparente_La_aldea_global_en_mi_mente_.mp4",
+                "family_friendly": "YES",
+                "requires_subscription": "NO"
+            }
+        ],
+        "img": [
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/4eff23535cf240abb1a6b1a5ec485a63_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/f53583442b8343d7a70d6eafabac862a_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/1e04766788ec45e8b3e71e3267eb7f4c_ENCUENTRO_LATIONOAMERICANO_DE_CINE_CASERO_AMATEUR_Y_HUERFANO.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/7b3c8bfa31374fc8b2eb75ea5e4d2e09_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/211f8de97df84eb4a72a2c44f15ac944_evento_interneta_20_oct_2023.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/bfbe396b5aa645cea39f5da0b299af3d_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/CarlosSalom.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/BiDependencia_In.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/AguilaQueCae.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EntrevistaPabloGaytan.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/AyerYHoy.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/LaVillaGlobalEnMiMente.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/PrimerEncuentroMetropolitanoVideastasIndependientes.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/ImagenesEnMovimiento.png"
+            }
+        ],
+        "links": [
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Carlos%20Salom%20y%20la%20Generaci%C3%B3n%20Transparente%7C1%7C1"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/BIDependencia%7C16%7C1"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/%C3%81guila%20que%20Cae%7C17%7C1"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Entrevista%20a%20Pablo%20Gayt%C3%A1n%20sobre%20Generaci%C3%B3n%20Transparente%7C35%7C1"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Ayer%20y%20Hoy%7C37%7C1"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/La%20Villa%20Global%20en%20mi%20Mente%7C42%7C1"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Primer%20Encuentro%20Metropolitano%20de%20Videastas%7C43%7C1"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Im%C3%A1genes%20en%20Movimiento%7C44%7C1"
+            }
+        ]
+    },
+    {
+        "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Memoria%20del%20Presente.VideografIti%7C21%7C4",
+        "changefreq": "yearly",
+        "priority": 0.6,
+        "video": [
+            {
+                "description": "Documental sobre el movimiento grafitero de las ciudades de Monterrey, áreas submetropolitanas del D.F. y Estado de México. Así como la relación estético-juvenil con el movimiento estudiantil submetropolitano del Consejo General de Huelga de la UNAM. Dirección (realización): Pablo Gaytán y Guadalupe Ochoa. Año: 2023",
+                "thumbnail_loc": "https://deploy-videos-acervo-interneta-prod.s3.us-west-1.amazonaws.com/logo_cabeza_negro_social_net_2.png",
+                "title": "| Acervo Audiovisual Interneta | Reproduciendo clip: Memoria del Presente.VideografIti",
+                "content_loc": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Clip_2000_Movimientos_Contraculturales_Videograffiti_Memoria_del_presente.mp4",
+                "family_friendly": "YES",
+                "requires_subscription": "NO"
+            }
+        ],
+        "img": [
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/4eff23535cf240abb1a6b1a5ec485a63_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/f53583442b8343d7a70d6eafabac862a_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/1e04766788ec45e8b3e71e3267eb7f4c_ENCUENTRO_LATIONOAMERICANO_DE_CINE_CASERO_AMATEUR_Y_HUERFANO.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/7b3c8bfa31374fc8b2eb75ea5e4d2e09_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/211f8de97df84eb4a72a2c44f15ac944_evento_interneta_20_oct_2023.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/bfbe396b5aa645cea39f5da0b299af3d_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Viento_de_espera.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Sihuatl.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Virus_rap.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/RiniTempleton_Taller_de_Mantas.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Videograffiti.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/CaminataPerenneNanus.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Indiocumentados.png"
+            }
+        ],
+        "links": [
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Viento%20de%20Espera%7C7%7C4"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/8M%20Sihuatl%7C8%7C4"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Virus%20rap%7C9%7C4"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Taller%20de%20Mantas%20Rini%20Templeton%7C10%7C4"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Memoria%20del%20Presente.VideografIti%7C21%7C4"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Conversatorio%20sobre%20%C3%91a%C3%B1us;%20La%20Caminata%20Perenne%7C24%7C4"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Indiocumentados:%20Artistas%20Mexicanos%20Migrantes%20en%20San%20Francisco,%20California%7C40%7C4"
+            }
+        ]
+    },
+    {
+        "url": "https://acervo-audiovisual-interneta.org/Reproduccion/MiroslavaBreach%7C12%7C6",
+        "changefreq": "yearly",
+        "priority": 0.6,
+        "video": [
+            {
+                "description": "Testimonio de la periodista Miroslava Breach en 1997 sobre la movilización de los Rarámuris en contra del despojo de los recursos naturales. En recuerdo a la periodista, quien ha sido asesinada por un sicario al servicio del crimen organizado. Dirección (realización): Pablo Gaytán y Guadalupe Ochoa. Año: 2023",
+                "thumbnail_loc": "https://deploy-videos-acervo-interneta-prod.s3.us-west-1.amazonaws.com/logo_cabeza_negro_social_net_2.png",
+                "title": "| Acervo Audiovisual Interneta | Reproduciendo clip: MiroslavaBreach",
+                "content_loc": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Clip_2017_Movimientos_Sociales_y_Poli%CC%81ticos_Mirloslava_Breach.mp4",
+                "family_friendly": "YES",
+                "requires_subscription": "NO"
+            }
+        ],
+        "img": [
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/4eff23535cf240abb1a6b1a5ec485a63_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/f53583442b8343d7a70d6eafabac862a_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/1e04766788ec45e8b3e71e3267eb7f4c_ENCUENTRO_LATIONOAMERICANO_DE_CINE_CASERO_AMATEUR_Y_HUERFANO.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/7b3c8bfa31374fc8b2eb75ea5e4d2e09_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/211f8de97df84eb4a72a2c44f15ac944_evento_interneta_20_oct_2023.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/bfbe396b5aa645cea39f5da0b299af3d_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/MiroslavaBreach.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/RelajadosyReprimidos.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/appoyo.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/2Octubre2015.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/LaRebelionDeLosInvisibles.png"
+            }
+        ],
+        "links": [
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/MiroslavaBreach%7C12%7C6"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/%C2%A1Relajados%20o%20Reprimidos!%7C18%7C6"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/APPOYO%7C19%7C6"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/2%20de%20Octubre%202015%7C34%7C6"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Movimiento%20Estudiantil%20del%20CGH%7C38%7C6"
+            }
+        ]
+    },
+    {
+        "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Movimiento%20Estudiantil%20del%20CGH%7C38%7C6",
+        "changefreq": "yearly",
+        "priority": 0.6,
+        "video": [
+            {
+                "description": "Las movilizaciones en el espacio público por parte del Consejo General de Huelga de la UNAM, el cual se oponía a la privatización del acceso a la universidad pública (1999-2000) Dirección (realización): Pablo Gaytán y Guadalupe Ochoa. Año: 2023",
+                "thumbnail_loc": "https://deploy-videos-acervo-interneta-prod.s3.us-west-1.amazonaws.com/logo_cabeza_negro_social_net_2.png",
+                "title": "| Acervo Audiovisual Interneta | Reproduciendo clip: Movimiento Estudiantil del CGH",
+                "content_loc": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Clip_1999_Movimientos_Sociales_y_Poli%CC%81ticos_La_Rebelio%CC%81n_de_los_Invisibles.mp4",
+                "family_friendly": "YES",
+                "requires_subscription": "NO"
+            }
+        ],
+        "img": [
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/4eff23535cf240abb1a6b1a5ec485a63_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/f53583442b8343d7a70d6eafabac862a_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/1e04766788ec45e8b3e71e3267eb7f4c_ENCUENTRO_LATIONOAMERICANO_DE_CINE_CASERO_AMATEUR_Y_HUERFANO.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/7b3c8bfa31374fc8b2eb75ea5e4d2e09_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/211f8de97df84eb4a72a2c44f15ac944_evento_interneta_20_oct_2023.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/bfbe396b5aa645cea39f5da0b299af3d_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/MiroslavaBreach.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/RelajadosyReprimidos.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/appoyo.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/2Octubre2015.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/LaRebelionDeLosInvisibles.png"
+            }
+        ],
+        "links": [
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/MiroslavaBreach%7C12%7C6"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/%C2%A1Relajados%20o%20Reprimidos!%7C18%7C6"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/APPOYO%7C19%7C6"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/2%20de%20Octubre%202015%7C34%7C6"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Movimiento%20Estudiantil%20del%20CGH%7C38%7C6"
+            }
+        ]
+    },
+    {
+        "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Movimientos%20(Contra)%20Culturales%7C36%7C2",
+        "changefreq": "yearly",
+        "priority": 0.6,
+        "video": [
+            {
+                "description": "Tres manifestaciones de los movimientos contraculturales/políticos en la Ciudad de México; El festival Tecnogeist el cual se escenificaba en las avenidas y plazas públicas de la ciudad; Las protestas de los colectivos anarcopùnks contra la guerra de Estados Unidos en Irak; las marchas por la despenalización de la Marihuana; y las protestas contra la represión de campesino en San Salvador Atenco, en el Estado de México, pero desde la perspectiva del cuerpo como medio de protesta por parte de grupos artísticos de la Ciudad de México. Dirección (realización): Pablo Gaytán y Guadalupe Ochoa. Año: 2023",
+                "thumbnail_loc": "https://deploy-videos-acervo-interneta-prod.s3.us-west-1.amazonaws.com/logo_cabeza_negro_social_net_2.png",
+                "title": "| Acervo Audiovisual Interneta | Reproduciendo clip: Movimientos (Contra) Culturales",
+                "content_loc": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Clip_2005_Movimientos_Contraculturales_MC2005.mp4",
+                "family_friendly": "YES",
+                "requires_subscription": "NO"
+            }
+        ],
+        "img": [
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/4eff23535cf240abb1a6b1a5ec485a63_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/f53583442b8343d7a70d6eafabac862a_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/1e04766788ec45e8b3e71e3267eb7f4c_ENCUENTRO_LATIONOAMERICANO_DE_CINE_CASERO_AMATEUR_Y_HUERFANO.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/7b3c8bfa31374fc8b2eb75ea5e4d2e09_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/211f8de97df84eb4a72a2c44f15ac944_evento_interneta_20_oct_2023.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/bfbe396b5aa645cea39f5da0b299af3d_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Submetropolitanos.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/El_ultimo_nutrirock.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EfectoEmo.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Rock_del_Asesino_Serial.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Spounk.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Rastros_de_hollin.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/BorderigenaSubway.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/neciosnetos.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/BandaCulturaYMuerte.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/AltaTraici_n.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/MovimientosContraculturales2005.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/LaDecadaPodrida.png"
+            }
+        ],
+        "links": [
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Submetropolitanos%7C2%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/El%20%C3%9Altimo%20Nutrirock%7C3%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Efecto%20Emo%7C4%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/El%20Rock%20del%20Asesino%20Serial%7C5%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Spounk%7C14%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Rastros%20de%20Holl%C3%ADn%7C20%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Border%C3%ADgena%20Subway%7C23%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Necios%20Netos%7C25%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Banda,%20Cultura%20y%20Muerte%7C27%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Alta%20Traici%C3%B3n%7C30%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Movimientos%20(Contra)%20Culturales%7C36%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/La%20D%C3%A9cada%20Podrida%7C41%7C2"
+            }
+        ]
+    },
+    {
+        "url": "https://acervo-audiovisual-interneta.org/Reproduccion/%C3%91a%C3%B1us%20del%20MexquItitl%C3%A1n%7C29%7C7",
+        "changefreq": "yearly",
+        "priority": 0.6,
+        "video": [
+            {
+                "description": "Documental sobre el daño ecológico que ocasiona la contaminación del Río Lerma, y los efectos  de ésta a las comunidades indígenas Ñañus(otomíes) del municipio de Santiago Mexquititlán, Estado de Querétaro. Dirección (realización): Pablo Gaytán y Guadalupe Ochoa. Año: 2023",
+                "thumbnail_loc": "https://deploy-videos-acervo-interneta-prod.s3.us-west-1.amazonaws.com/logo_cabeza_negro_social_net_2.png",
+                "title": "| Acervo Audiovisual Interneta | Reproduciendo clip: Ñañus del MexquItitlán",
+                "content_loc": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Clip_1994_Pueblos_Indi%CC%81genas_y_Originarios_N%CC%83an%CC%83us_del_Mexquititlan.mp4",
+                "family_friendly": "YES",
+                "requires_subscription": "NO"
+            }
+        ],
+        "img": [
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/4eff23535cf240abb1a6b1a5ec485a63_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/f53583442b8343d7a70d6eafabac862a_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/1e04766788ec45e8b3e71e3267eb7f4c_ENCUENTRO_LATIONOAMERICANO_DE_CINE_CASERO_AMATEUR_Y_HUERFANO.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/7b3c8bfa31374fc8b2eb75ea5e4d2e09_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/211f8de97df84eb4a72a2c44f15ac944_evento_interneta_20_oct_2023.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/bfbe396b5aa645cea39f5da0b299af3d_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Libertad.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/primer_encuentro_fronterizo_indigena.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Nanus_del_Mezquititlan.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/SanPabloOztotepec.png"
+            }
+        ],
+        "links": [
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/%C2%A1Libertad!%7C22%7C7"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Primer%20Encuentro%20Fronterizo%20ind%C3%ADgena%20M%C3%A9xico-Estados%7C28%7C7"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/%C3%91a%C3%B1us%20del%20MexquItitl%C3%A1n%7C29%7C7"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/San%20Pablo%20Oztotepec%7C39%7C7"
+            }
+        ]
+    },
+    {
+        "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Necios%20Netos%7C25%7C2",
+        "changefreq": "yearly",
+        "priority": 0.6,
+        "video": [
+            {
+                "description": "\"La muerte accidental de un artesano urbano provoca la huida de un grupo de necenses jóvenes y no tan jóvenes a los Estados Unidos. En el periplo los protagonistas conocerán territorios, movimientos culturales y las condiciones de vida y las formas de resistencia de los migrantes mexicanos en la Ciudad de San Francisco, California.\" Dirección (realización): Pablo Gaytán. Año: 2023",
+                "thumbnail_loc": "https://deploy-videos-acervo-interneta-prod.s3.us-west-1.amazonaws.com/logo_cabeza_negro_social_net_2.png",
+                "title": "| Acervo Audiovisual Interneta | Reproduciendo clip: Necios Netos",
+                "content_loc": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Clip_1997_Movimientos_Contraculturales_Necios_Netos.mp4",
+                "family_friendly": "YES",
+                "requires_subscription": "NO"
+            }
+        ],
+        "img": [
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/4eff23535cf240abb1a6b1a5ec485a63_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/f53583442b8343d7a70d6eafabac862a_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/1e04766788ec45e8b3e71e3267eb7f4c_ENCUENTRO_LATIONOAMERICANO_DE_CINE_CASERO_AMATEUR_Y_HUERFANO.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/7b3c8bfa31374fc8b2eb75ea5e4d2e09_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/211f8de97df84eb4a72a2c44f15ac944_evento_interneta_20_oct_2023.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/bfbe396b5aa645cea39f5da0b299af3d_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Submetropolitanos.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/El_ultimo_nutrirock.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EfectoEmo.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Rock_del_Asesino_Serial.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Spounk.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Rastros_de_hollin.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/BorderigenaSubway.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/neciosnetos.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/BandaCulturaYMuerte.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/AltaTraici_n.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/MovimientosContraculturales2005.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/LaDecadaPodrida.png"
+            }
+        ],
+        "links": [
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Submetropolitanos%7C2%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/El%20%C3%9Altimo%20Nutrirock%7C3%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Efecto%20Emo%7C4%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/El%20Rock%20del%20Asesino%20Serial%7C5%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Spounk%7C14%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Rastros%20de%20Holl%C3%ADn%7C20%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Border%C3%ADgena%20Subway%7C23%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Necios%20Netos%7C25%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Banda,%20Cultura%20y%20Muerte%7C27%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Alta%20Traici%C3%B3n%7C30%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Movimientos%20(Contra)%20Culturales%7C36%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/La%20D%C3%A9cada%20Podrida%7C41%7C2"
+            }
+        ]
+    },
+    {
+        "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Orozkorrupci%C3%B3n%7C32%7C5",
+        "changefreq": "yearly",
+        "priority": 0.6,
+        "video": [
+            {
+                "description": "Reportaje en donde los integrantes del Frente Ciudadano en Defensa y Mejora del Bosque de Chapultepec exponen investigación sobre el incumplimiento de las normas para modificar e intervenir el bosque de Chapultepec por parte de los responsables del proyecto \" Chapultepec; Naturaleza y Cultura\". Dirección (realización): Pablo Gaytán y Víctor Juárez. Año: 2023",
+                "thumbnail_loc": "https://deploy-videos-acervo-interneta-prod.s3.us-west-1.amazonaws.com/logo_cabeza_negro_social_net_2.png",
+                "title": "| Acervo Audiovisual Interneta | Reproduciendo clip: Orozkorrupción",
+                "content_loc": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Clip_2020_Movimientos_en_Defensa_del_Territorio_Rap_Orozkorrupcion.mp4",
+                "family_friendly": "YES",
+                "requires_subscription": "NO"
+            }
+        ],
+        "img": [
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/4eff23535cf240abb1a6b1a5ec485a63_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/f53583442b8343d7a70d6eafabac862a_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/1e04766788ec45e8b3e71e3267eb7f4c_ENCUENTRO_LATIONOAMERICANO_DE_CINE_CASERO_AMATEUR_Y_HUERFANO.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/7b3c8bfa31374fc8b2eb75ea5e4d2e09_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/211f8de97df84eb4a72a2c44f15ac944_evento_interneta_20_oct_2023.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/bfbe396b5aa645cea39f5da0b299af3d_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/La_Sangre_de_la_Tierra.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Planton_Pedregales.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/CiudadPrivatizada.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/YoDefiendoChapultepec.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Orozcorrupcion.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/TerritorioTurin46.png"
+            }
+        ],
+        "links": [
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/La%20Sangre%20de%20la%20Tierra%7C11%7C5"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Plant%C3%B3n%20Pedregales%7C13%7C5"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Ciudad%20Privatizada%7C15%7C5"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Hashtag%20YoDefiendoBosqueChapultepec%7C31%7C5"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Orozkorrupci%C3%B3n%7C32%7C5"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Tur%C3%ADn%2046%7C33%7C5"
+            }
+        ]
+    },
+    {
+        "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Plant%C3%B3n%20Pedregales%7C13%7C5",
+        "changefreq": "yearly",
+        "priority": 0.6,
+        "video": [
+            {
+                "description": "Documento testimonial del plantón y movilización de los habitantes de los Pedregales de Coyoacán, Ciudad de México ante el desabasto de agua. El plantón se realizó frente a la Avenida Aztecas 222, en una unidad habitacional de la inmobiliaria Quiero Casa. Dirección (realización): Pablo Gaytán y Guadalupe Ochoa. Año: 2023",
+                "thumbnail_loc": "https://deploy-videos-acervo-interneta-prod.s3.us-west-1.amazonaws.com/logo_cabeza_negro_social_net_2.png",
+                "title": "| Acervo Audiovisual Interneta | Reproduciendo clip: Plantón Pedregales",
+                "content_loc": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Clip_2016_Movimientos_en_Defensa_del_Territorio_Planto%CC%81n_Pedregales.mp4",
+                "family_friendly": "YES",
+                "requires_subscription": "NO"
+            }
+        ],
+        "img": [
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/4eff23535cf240abb1a6b1a5ec485a63_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/f53583442b8343d7a70d6eafabac862a_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/1e04766788ec45e8b3e71e3267eb7f4c_ENCUENTRO_LATIONOAMERICANO_DE_CINE_CASERO_AMATEUR_Y_HUERFANO.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/7b3c8bfa31374fc8b2eb75ea5e4d2e09_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/211f8de97df84eb4a72a2c44f15ac944_evento_interneta_20_oct_2023.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/bfbe396b5aa645cea39f5da0b299af3d_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/La_Sangre_de_la_Tierra.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Planton_Pedregales.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/CiudadPrivatizada.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/YoDefiendoChapultepec.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Orozcorrupcion.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/TerritorioTurin46.png"
+            }
+        ],
+        "links": [
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/La%20Sangre%20de%20la%20Tierra%7C11%7C5"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Plant%C3%B3n%20Pedregales%7C13%7C5"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Ciudad%20Privatizada%7C15%7C5"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Hashtag%20YoDefiendoBosqueChapultepec%7C31%7C5"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Orozkorrupci%C3%B3n%7C32%7C5"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Tur%C3%ADn%2046%7C33%7C5"
+            }
+        ]
+    },
+    {
+        "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Primer%20Encuentro%20Fronterizo%20ind%C3%ADgena%20M%C3%A9xico-Estados%7C28%7C7",
+        "changefreq": "yearly",
+        "priority": 0.6,
+        "video": [
+            {
+                "description": "\"Documental sobre el primer Encuentro Fronterizo Binacional Indígena, realizado en la ciudad de Tecate, Baja California, en donde se escenificaron rituales, danzas y manifiestos de los grupos indígenas del norte de México y el sur de los Estados Unidos.\" Dirección (realización): Pablo Gaytán. Año: 2023",
+                "thumbnail_loc": "https://deploy-videos-acervo-interneta-prod.s3.us-west-1.amazonaws.com/logo_cabeza_negro_social_net_2.png",
+                "title": "| Acervo Audiovisual Interneta | Reproduciendo clip: Primer Encuentro Fronterizo indígena México-Estados",
+                "content_loc": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Clip_1994_Pueblos_Indi%CC%81genas_y_Originarios_Primer_Encuentro_Fronterizo_Indi%CC%81gena.mp4",
+                "family_friendly": "YES",
+                "requires_subscription": "NO"
+            }
+        ],
+        "img": [
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/4eff23535cf240abb1a6b1a5ec485a63_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/f53583442b8343d7a70d6eafabac862a_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/1e04766788ec45e8b3e71e3267eb7f4c_ENCUENTRO_LATIONOAMERICANO_DE_CINE_CASERO_AMATEUR_Y_HUERFANO.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/7b3c8bfa31374fc8b2eb75ea5e4d2e09_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/211f8de97df84eb4a72a2c44f15ac944_evento_interneta_20_oct_2023.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/bfbe396b5aa645cea39f5da0b299af3d_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Libertad.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/primer_encuentro_fronterizo_indigena.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Nanus_del_Mezquititlan.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/SanPabloOztotepec.png"
+            }
+        ],
+        "links": [
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/%C2%A1Libertad!%7C22%7C7"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Primer%20Encuentro%20Fronterizo%20ind%C3%ADgena%20M%C3%A9xico-Estados%7C28%7C7"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/%C3%91a%C3%B1us%20del%20MexquItitl%C3%A1n%7C29%7C7"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/San%20Pablo%20Oztotepec%7C39%7C7"
+            }
+        ]
+    },
+    {
+        "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Primer%20Encuentro%20Metropolitano%20de%20Videastas%7C43%7C1",
+        "changefreq": "yearly",
+        "priority": 0.6,
+        "video": [
+            {
+                "description": "Spot-convocatoria del Primer Encuentro Metropolitano de Videastas. Dirección (realización): Enrique Quintero. Año: 2023",
+                "thumbnail_loc": "https://deploy-videos-acervo-interneta-prod.s3.us-west-1.amazonaws.com/logo_cabeza_negro_social_net_2.png",
+                "title": "| Acervo Audiovisual Interneta | Reproduciendo clip: Primer Encuentro Metropolitano de Videastas",
+                "content_loc": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Clip_1994_Generacio%CC%81n_Transparente_Primer_Encuentro_Metropolitano_de_Videastas_Independientes.mp4",
+                "family_friendly": "YES",
+                "requires_subscription": "NO"
+            }
+        ],
+        "img": [
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/4eff23535cf240abb1a6b1a5ec485a63_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/f53583442b8343d7a70d6eafabac862a_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/1e04766788ec45e8b3e71e3267eb7f4c_ENCUENTRO_LATIONOAMERICANO_DE_CINE_CASERO_AMATEUR_Y_HUERFANO.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/7b3c8bfa31374fc8b2eb75ea5e4d2e09_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/211f8de97df84eb4a72a2c44f15ac944_evento_interneta_20_oct_2023.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/bfbe396b5aa645cea39f5da0b299af3d_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/CarlosSalom.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/BiDependencia_In.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/AguilaQueCae.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EntrevistaPabloGaytan.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/AyerYHoy.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/LaVillaGlobalEnMiMente.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/PrimerEncuentroMetropolitanoVideastasIndependientes.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/ImagenesEnMovimiento.png"
+            }
+        ],
+        "links": [
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Carlos%20Salom%20y%20la%20Generaci%C3%B3n%20Transparente%7C1%7C1"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/BIDependencia%7C16%7C1"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/%C3%81guila%20que%20Cae%7C17%7C1"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Entrevista%20a%20Pablo%20Gayt%C3%A1n%20sobre%20Generaci%C3%B3n%20Transparente%7C35%7C1"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Ayer%20y%20Hoy%7C37%7C1"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/La%20Villa%20Global%20en%20mi%20Mente%7C42%7C1"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Primer%20Encuentro%20Metropolitano%20de%20Videastas%7C43%7C1"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Im%C3%A1genes%20en%20Movimiento%7C44%7C1"
+            }
+        ]
+    },
+    {
+        "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Rastros%20de%20Holl%C3%ADn%7C20%7C2",
+        "changefreq": "yearly",
+        "priority": 0.6,
+        "video": [
+            {
+                "description": "Reyna, joven zapoteca emigra de su pueblo a Ciudad Nezahualcóyotl, Estado de México. Siguiendo los rastros imaginarios de su padre. En su andar, se encuentra y viaja con la caravana zapatista “El color de la tierra”, hasta llegar al lugar donde nace el humo, entre experiencias oníricas y realistas conoce afinidades, debilidades y aspiraciones de niños jóvenes, hombres y mujeres de humo. Dirección (realización): Pablo Gaytán. Año: 2023",
+                "thumbnail_loc": "https://deploy-videos-acervo-interneta-prod.s3.us-west-1.amazonaws.com/logo_cabeza_negro_social_net_2.png",
+                "title": "| Acervo Audiovisual Interneta | Reproduciendo clip: Rastros de Hollín",
+                "content_loc": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Clip_2003_Movimientos_Poli%CC%81ticos_y_Sociales_Rastros_de_Holli%CC%81n.mp4",
+                "family_friendly": "YES",
+                "requires_subscription": "NO"
+            }
+        ],
+        "img": [
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/4eff23535cf240abb1a6b1a5ec485a63_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/f53583442b8343d7a70d6eafabac862a_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/1e04766788ec45e8b3e71e3267eb7f4c_ENCUENTRO_LATIONOAMERICANO_DE_CINE_CASERO_AMATEUR_Y_HUERFANO.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/7b3c8bfa31374fc8b2eb75ea5e4d2e09_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/211f8de97df84eb4a72a2c44f15ac944_evento_interneta_20_oct_2023.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/bfbe396b5aa645cea39f5da0b299af3d_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Submetropolitanos.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/El_ultimo_nutrirock.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EfectoEmo.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Rock_del_Asesino_Serial.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Spounk.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Rastros_de_hollin.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/BorderigenaSubway.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/neciosnetos.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/BandaCulturaYMuerte.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/AltaTraici_n.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/MovimientosContraculturales2005.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/LaDecadaPodrida.png"
+            }
+        ],
+        "links": [
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Submetropolitanos%7C2%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/El%20%C3%9Altimo%20Nutrirock%7C3%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Efecto%20Emo%7C4%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/El%20Rock%20del%20Asesino%20Serial%7C5%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Spounk%7C14%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Rastros%20de%20Holl%C3%ADn%7C20%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Border%C3%ADgena%20Subway%7C23%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Necios%20Netos%7C25%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Banda,%20Cultura%20y%20Muerte%7C27%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Alta%20Traici%C3%B3n%7C30%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Movimientos%20(Contra)%20Culturales%7C36%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/La%20D%C3%A9cada%20Podrida%7C41%7C2"
+            }
+        ]
+    },
+    {
+        "url": "https://acervo-audiovisual-interneta.org/Reproduccion/San%20Pablo%20Oztotepec%7C39%7C7",
+        "changefreq": "yearly",
+        "priority": 0.6,
+        "video": [
+            {
+                "description": "Relato comunitario de la construcción del Vivero Tepelehualco de San Pablo Oztotepec, Milpa Alta. Proyecto cooperativo, ambiental y de defensa del territorio de los habitantes de aquella zona. Dirección (realización): Pablo Gaytán y Guadalupe Ochoa. Año: 2023",
+                "thumbnail_loc": "https://deploy-videos-acervo-interneta-prod.s3.us-west-1.amazonaws.com/logo_cabeza_negro_social_net_2.png",
+                "title": "| Acervo Audiovisual Interneta | Reproduciendo clip: San Pablo Oztotepec",
+                "content_loc": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Clip_1998_Pueblos_Indi%CC%81genas_y_Originarios_Vivero_Tepetlehualco_de_San_Pablo_Oztotepec.mp4",
+                "family_friendly": "YES",
+                "requires_subscription": "NO"
+            }
+        ],
+        "img": [
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/4eff23535cf240abb1a6b1a5ec485a63_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/f53583442b8343d7a70d6eafabac862a_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/1e04766788ec45e8b3e71e3267eb7f4c_ENCUENTRO_LATIONOAMERICANO_DE_CINE_CASERO_AMATEUR_Y_HUERFANO.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/7b3c8bfa31374fc8b2eb75ea5e4d2e09_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/211f8de97df84eb4a72a2c44f15ac944_evento_interneta_20_oct_2023.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/bfbe396b5aa645cea39f5da0b299af3d_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Libertad.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/primer_encuentro_fronterizo_indigena.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Nanus_del_Mezquititlan.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/SanPabloOztotepec.png"
+            }
+        ],
+        "links": [
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/%C2%A1Libertad!%7C22%7C7"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Primer%20Encuentro%20Fronterizo%20ind%C3%ADgena%20M%C3%A9xico-Estados%7C28%7C7"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/%C3%91a%C3%B1us%20del%20MexquItitl%C3%A1n%7C29%7C7"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/San%20Pablo%20Oztotepec%7C39%7C7"
+            }
+        ]
+    },
+    {
+        "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Spounk%7C14%7C2",
+        "changefreq": "yearly",
+        "priority": 0.6,
+        "video": [
+            {
+                "description": "Promocional del concierto multimedia de Colectivo Caótico. Que realizaría en la Ciudad de Puebla. Dirección (realización): Pablo Gaytán y Guadalupe Ochoa. Año: 2023",
+                "thumbnail_loc": "https://deploy-videos-acervo-interneta-prod.s3.us-west-1.amazonaws.com/logo_cabeza_negro_social_net_2.png",
+                "title": "| Acervo Audiovisual Interneta | Reproduciendo clip: Spounk",
+                "content_loc": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Clip_2010_Movimientos_Contraculturales_Spounk.mp4",
+                "family_friendly": "YES",
+                "requires_subscription": "NO"
+            }
+        ],
+        "img": [
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/4eff23535cf240abb1a6b1a5ec485a63_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/f53583442b8343d7a70d6eafabac862a_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/1e04766788ec45e8b3e71e3267eb7f4c_ENCUENTRO_LATIONOAMERICANO_DE_CINE_CASERO_AMATEUR_Y_HUERFANO.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/7b3c8bfa31374fc8b2eb75ea5e4d2e09_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/211f8de97df84eb4a72a2c44f15ac944_evento_interneta_20_oct_2023.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/bfbe396b5aa645cea39f5da0b299af3d_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Submetropolitanos.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/El_ultimo_nutrirock.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EfectoEmo.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Rock_del_Asesino_Serial.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Spounk.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Rastros_de_hollin.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/BorderigenaSubway.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/neciosnetos.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/BandaCulturaYMuerte.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/AltaTraici_n.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/MovimientosContraculturales2005.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/LaDecadaPodrida.png"
+            }
+        ],
+        "links": [
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Submetropolitanos%7C2%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/El%20%C3%9Altimo%20Nutrirock%7C3%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Efecto%20Emo%7C4%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/El%20Rock%20del%20Asesino%20Serial%7C5%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Spounk%7C14%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Rastros%20de%20Holl%C3%ADn%7C20%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Border%C3%ADgena%20Subway%7C23%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Necios%20Netos%7C25%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Banda,%20Cultura%20y%20Muerte%7C27%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Alta%20Traici%C3%B3n%7C30%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Movimientos%20(Contra)%20Culturales%7C36%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/La%20D%C3%A9cada%20Podrida%7C41%7C2"
+            }
+        ]
+    },    
+    {
+        "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Submetropolitanos%7C2%7C2",
+        "changefreq": "yearly",
+        "priority": 0.6,
+        "video": [
+            {
+                "description": "Ensayo audiovisual  de crítica social y cultural de los colectivos punks de la Ciudad de México y áreas metropolitanas. Relatado en el lenguaje cotidiano de los integrantes de los colectivos, estos reflexionan sobre su condición social, su visión del mundo opresivo del capitalismo y la crisis económica que les tocó vivir. Sus reflexiones y posturas se contraponen a la invención de la realidad oficial y alienada de la sociedad urbana. Un elemento que transcurre a lo largo del ensayo audiovisual es la creatividad emanada de la práctica de la autogestión colectiva traducida en la producción impresa de fanzines, en la organización autogestivos de sus espacios y reuniones para intercambiar. productos y creaciones musicales  elaborados por. El soundtrack se submetropolitanos contiene ruido hardcore punk de las bandas; Descontrol, Síndrome del Punk, Masacre 68, Herejía, Sedición, SS20, Yaps, entre otras bandas. Dirección (realización): Pablo Gaytán ,Guadalupe Ochoa y Jesús Ángel Pérez. Año: 2023",
+                "thumbnail_loc": "https://deploy-videos-acervo-interneta-prod.s3.us-west-1.amazonaws.com/logo_cabeza_negro_social_net_2.png",
+                "title": "| Acervo Audiovisual Interneta | Reproduciendo clip: Submetropolitanos",
+                "content_loc": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Clip_1990_Movimientos_contraculturales_Submetropolitanos.mp4",
+                "family_friendly": "YES",
+                "requires_subscription": "NO"
+            }
+        ],
+        "img": [
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/4eff23535cf240abb1a6b1a5ec485a63_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/f53583442b8343d7a70d6eafabac862a_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/1e04766788ec45e8b3e71e3267eb7f4c_ENCUENTRO_LATIONOAMERICANO_DE_CINE_CASERO_AMATEUR_Y_HUERFANO.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/7b3c8bfa31374fc8b2eb75ea5e4d2e09_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/211f8de97df84eb4a72a2c44f15ac944_evento_interneta_20_oct_2023.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/bfbe396b5aa645cea39f5da0b299af3d_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Submetropolitanos.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/El_ultimo_nutrirock.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EfectoEmo.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Rock_del_Asesino_Serial.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Spounk.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Rastros_de_hollin.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/BorderigenaSubway.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/neciosnetos.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/BandaCulturaYMuerte.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/AltaTraici_n.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/MovimientosContraculturales2005.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/LaDecadaPodrida.png"
+            }
+        ],
+        "links": [
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Submetropolitanos%7C2%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/El%20%C3%9Altimo%20Nutrirock%7C3%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Efecto%20Emo%7C4%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/El%20Rock%20del%20Asesino%20Serial%7C5%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Spounk%7C14%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Rastros%20de%20Holl%C3%ADn%7C20%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Border%C3%ADgena%20Subway%7C23%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Necios%20Netos%7C25%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Banda,%20Cultura%20y%20Muerte%7C27%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Alta%20Traici%C3%B3n%7C30%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Movimientos%20(Contra)%20Culturales%7C36%7C2"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/La%20D%C3%A9cada%20Podrida%7C41%7C2"
+            }
+        ]
+    },
+    {
+        "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Taller%20de%20Mantas%20Rini%20Templeton%7C10%7C4",
+        "changefreq": "yearly",
+        "priority": 0.6,
+        "video": [
+            {
+                "description": "Taller de mantas, en donde los profesores retoman la estética de la artista Rini Templeton/Love y Venceremos. Dirección (realización): Pablo Gaytán. Año: 2023",
+                "thumbnail_loc": "https://deploy-videos-acervo-interneta-prod.s3.us-west-1.amazonaws.com/logo_cabeza_negro_social_net_2.png",
+                "title": "| Acervo Audiovisual Interneta | Reproduciendo clip: Taller de Mantas Rini Templeton",
+                "content_loc": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Clip_2019_Arte_Pu%CC%81blico_Rini_Templeton_Taller_de_mantas.mp4",
+                "family_friendly": "YES",
+                "requires_subscription": "NO"
+            }
+        ],
+        "img": [
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/4eff23535cf240abb1a6b1a5ec485a63_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/f53583442b8343d7a70d6eafabac862a_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/1e04766788ec45e8b3e71e3267eb7f4c_ENCUENTRO_LATIONOAMERICANO_DE_CINE_CASERO_AMATEUR_Y_HUERFANO.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/7b3c8bfa31374fc8b2eb75ea5e4d2e09_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/211f8de97df84eb4a72a2c44f15ac944_evento_interneta_20_oct_2023.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/EventosImagenes/bfbe396b5aa645cea39f5da0b299af3d_Rebelar_La_Memoria_Conversatorios.jpeg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Viento_de_espera.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Sihuatl.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Virus_rap.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/RiniTempleton_Taller_de_Mantas.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Videograffiti.jpg"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/CaminataPerenneNanus.png"
+            },
+            {
+                "url": "https://deploy-videos-acervo-interneta-prod.s3.amazonaws.com/Indiocumentados.png"
+            }
+        ],
+        "links": [
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Viento%20de%20Espera%7C7%7C4"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/8M%20Sihuatl%7C8%7C4"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Virus%20rap%7C9%7C4"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Taller%20de%20Mantas%20Rini%20Templeton%7C10%7C4"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Memoria%20del%20Presente.VideografIti%7C21%7C4"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Conversatorio%20sobre%20%C3%91a%C3%B1us;%20La%20Caminata%20Perenne%7C24%7C4"
+            },
+            {
+                "lang": "es",
+                "url": "https://acervo-audiovisual-interneta.org/Reproduccion/Indiocumentados:%20Artistas%20Mexicanos%20Migrantes%20en%20San%20Francisco,%20California%7C40%7C4"
+            }
+        ]
     }
-    
 ]
