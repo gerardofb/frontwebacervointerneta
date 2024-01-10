@@ -168,34 +168,47 @@ const VideoSetPage = (
 
     const ref_a_sombra = useRef(.62);
     const ref_b_sombra = useRef(0);
-    const ref_c_sombra = useRef(.33);
+    const ref_c_sombra = useRef(.28);
     const ref_d_sombra = useRef(.20);
     const ref_e_sombra = useRef(90);
     const ref_f_sombra = useRef(556);
+
+    const ref_scale_left_dotted = useRef(1);
+    const ref_scale_right_dotted = useRef(1);
+    const ref_translate_left_dotted = useRef(0);
+    const ref_translate_right_dotted = useRef(0);
+
     const svg = document.getElementById("videocassette");
     const left_cabeza = document.getElementById("left_cabeza");
     const right_cabeza = document.getElementById("right_cabeza");
     const sombra_cassette = document.getElementById("sombra_cassette");
+    const left_dotted_cabeza = document.getElementById("left_dotted_cabeza");
+    const right_dotted_cabeza = document.getElementById("right_dotted_cabeza");
     const animate = (tiempo) => {
         if (!reverse) {
             ref_c_cassette.current -= .003;
             ref_d_cassette.current += .0009;
             ref_e_cassette.current -= 0.5;
 
-            ref_a_left_cabeza.current+= 0.002;
-            ref_d_left_cabeza.current +=0.002;
+            ref_a_left_cabeza.current += 0.002;
+            ref_d_left_cabeza.current += 0.002;
             ref_e_left_cabeza.current -= 0.700;
             ref_f_left_cabeza.current -= 1.2500;
-            
-            ref_a_right_cabeza.current+= 0.002;
-            ref_d_right_cabeza.current +=0.002;
+
+            ref_a_right_cabeza.current += 0.002;
+            ref_d_right_cabeza.current += 0.002;
             ref_e_right_cabeza.current -= 1.40;
             ref_f_right_cabeza.current -= 1.200;
 
             ref_c_sombra.current -= .002;
             ref_d_sombra.current += 0.001;
-            ref_e_sombra.current+=.4;
-            ref_f_sombra.current-=0.15;
+            ref_e_sombra.current += .4;
+            ref_f_sombra.current -= 0.15;
+
+            ref_scale_left_dotted.current += .008;
+            ref_scale_right_dotted.current += .008;
+            ref_translate_left_dotted.current -=.9;
+            ref_translate_right_dotted.current -=.9;
             //console.log('no reversa', reverse);
             time--;
         }
@@ -204,35 +217,41 @@ const VideoSetPage = (
             ref_d_cassette.current -= .0009;
             ref_e_cassette.current += 0.5;
 
-            ref_a_left_cabeza.current-= 0.002;
-            ref_d_left_cabeza.current -=0.002;
+            ref_a_left_cabeza.current -= 0.002;
+            ref_d_left_cabeza.current -= 0.002;
             ref_e_left_cabeza.current += 0.700;
             ref_f_left_cabeza.current += 1.2500;
 
-            ref_a_right_cabeza.current-= 0.002;
-            ref_d_right_cabeza.current -=0.002;
+            ref_a_right_cabeza.current -= 0.002;
+            ref_d_right_cabeza.current -= 0.002;
             ref_e_right_cabeza.current += 1.40;
             ref_f_right_cabeza.current += 1.200;
 
-            ref_c_sombra.current+= .002;
+            ref_c_sombra.current += .002;
             ref_d_sombra.current -= 0.001;
-            ref_e_sombra.current-=.4;
-            ref_f_sombra.current+=0.15;
+            ref_e_sombra.current -= .4;
+            ref_f_sombra.current += 0.15;
+            ref_scale_left_dotted.current -= .008;
+            ref_scale_right_dotted.current -= .008;
+            ref_translate_left_dotted.current +=.9;
+            ref_translate_right_dotted.current +=.9;
             //console.log('REVERSA', reverse);
             time++;
         }
 
 
         let matriz = ".65,0," + ref_c_cassette.current + "," + ref_d_cassette.current + "," + ref_e_cassette.current + ",0";
-        let matriz_cabeza_l = ref_a_left_cabeza.current+","+"0,0,"+ref_d_left_cabeza.current+","+ref_e_left_cabeza.current+","+ref_f_left_cabeza.current; 
-        let matriz_cabeza_r = ref_a_right_cabeza.current+","+"0,0,"+ref_d_right_cabeza.current+","+ref_e_right_cabeza.current+","+ref_f_right_cabeza.current;  
-        let matriz_sombra = ref_a_sombra.current+","+ref_b_sombra.current+","+ref_c_sombra.current+","+ref_d_sombra.current+","+ref_e_sombra.current+","+ref_f_sombra.current;
+        let matriz_cabeza_l = ref_a_left_cabeza.current + "," + "0,0," + ref_d_left_cabeza.current + "," + ref_e_left_cabeza.current + "," + ref_f_left_cabeza.current;
+        let matriz_cabeza_r = ref_a_right_cabeza.current + "," + "0,0," + ref_d_right_cabeza.current + "," + ref_e_right_cabeza.current + "," + ref_f_right_cabeza.current;
+        let matriz_sombra = ref_a_sombra.current + "," + ref_b_sombra.current + "," + ref_c_sombra.current + "," + ref_d_sombra.current + "," + ref_e_sombra.current + "," + ref_f_sombra.current;
         if (time <= 0) { reverse = true; } else if (time >= DURATION_CASSETTE_ANIM) { reverse = false };
         //console.log('matrix', matriz, time, reverse)
         svg.setAttribute("transform", "matrix(" + matriz + ")");
-        left_cabeza && left_cabeza.setAttribute("transform","matrix("+matriz_cabeza_l+")");
-        right_cabeza && right_cabeza.setAttribute("transform","matrix("+matriz_cabeza_r+")");
-        sombra_cassette && sombra_cassette.setAttribute("transform","matrix("+matriz_sombra+")");
+        left_cabeza && left_cabeza.setAttribute("transform", "matrix(" + matriz_cabeza_l + ")");
+        right_cabeza && right_cabeza.setAttribute("transform", "matrix(" + matriz_cabeza_r + ")");
+        sombra_cassette && sombra_cassette.setAttribute("transform", "matrix(" + matriz_sombra + ")");
+        left_dotted_cabeza && left_dotted_cabeza.setAttribute("transform","scale("+ref_scale_left_dotted.current+") translate(-"+ref_translate_left_dotted.current+","+ref_translate_left_dotted.current+")");
+        right_dotted_cabeza && right_dotted_cabeza.setAttribute("transform","scale("+ref_scale_right_dotted.current+") translate(-"+ref_translate_right_dotted.current+","+ref_translate_right_dotted.current+")");
         requestRef.current = requestAnimationFrame(animate);
     }
     useEffect(() => {
@@ -407,77 +426,99 @@ const VideoSetPage = (
                                     </meshrow>
                                 </meshgradient>
                                 <linearGradient
-       id="linearGradient2198"
-       x1="-360.98001"
-       x2="553.89001"
-       y1="1211.8"
-       y2="1211.8"
-       gradientUnits="userSpaceOnUse">
-      <stop
-         stop-opacity="0"
-         offset="0"
-         id="stop232" />
-      <stop
-         stop-opacity=".98361"
-         offset="1"
-         id="stop234" />
-    </linearGradient>
-    <filter id="blurSombra">
-    <feGaussianBlur in="SourceGraphic" stdDeviation="48" />
-  </filter>
-    <filter
-       id="filter2206"
-       x="-0.070843233"
-       y="-0.21495034"
-       width="1.1416865"
-       height="1.4299007"
-       color-interpolation-filters="sRGB">
-      <feGaussianBlur
-         stdDeviation="27.005134"
-         id="feGaussianBlur237" />
-    </filter>
-    <linearGradient
-       id="linearGradient672"
-       gradientUnits="userSpaceOnUse"
-       x1="-360.98001"
-       y1="1211.8"
-       x2="553.89001"
-       y2="1211.8" />
-    <linearGradient
-       id="linearGradient769"
-       gradientUnits="userSpaceOnUse"
-       x1="-360.98001"
-       y1="1211.8"
-       x2="553.89001"
-       y2="1211.8" />
-    <linearGradient
-       id="linearGradient771"
-       gradientUnits="userSpaceOnUse"
-       x1="-360.98001"
-       y1="1211.8"
-       x2="553.89001"
-       y2="1211.8" />
-    <linearGradient
-       id="linearGradient773"
-       gradientUnits="userSpaceOnUse"
-       x1="-360.98001"
-       y1="1211.8"
-       x2="553.89001"
-       y2="1211.8" />
-    <linearGradient
-       id="linearGradient775"
-       gradientUnits="userSpaceOnUse"
-       x1="-360.98001"
-       y1="1211.8"
-       x2="553.89001"
-       y2="1211.8" />
-    <linearGradient
-       id="linearGradient777"
-       gradientUnits="userSpaceOnUse"
-       x1="-360.98001"
-       y1="1211.8"
-       x2="553.89001"
-       y2="1211.8" />
+                                    id="linearGradient2198"
+                                    x1="-360.98001"
+                                    x2="553.89001"
+                                    y1="1211.8"
+                                    y2="1211.8"
+                                    gradientUnits="userSpaceOnUse">
+                                    <stop
+                                        stop-opacity="0"
+                                        offset="0"
+                                        id="stop232" />
+                                    <stop
+                                        stop-opacity=".98361"
+                                        offset="1"
+                                        id="stop234" />
+                                </linearGradient>
+                                <filter id="blurSombra">
+                                    <feGaussianBlur in="SourceGraphic" stdDeviation="48" />
+                                </filter>
+                                <filter
+                                    id="filter2206"
+                                    x="-0.070843233"
+                                    y="-0.21495034"
+                                    width="1.1416865"
+                                    height="1.4299007"
+                                    color-interpolation-filters="sRGB">
+                                    <feGaussianBlur
+                                        stdDeviation="27.005134"
+                                        id="feGaussianBlur237" />
+                                </filter>
+                                <linearGradient
+                                    id="linearGradient672"
+                                    gradientUnits="userSpaceOnUse"
+                                    x1="-360.98001"
+                                    y1="1211.8"
+                                    x2="553.89001"
+                                    y2="1211.8" />
+                                <linearGradient
+                                    id="linearGradient769"
+                                    gradientUnits="userSpaceOnUse"
+                                    x1="-360.98001"
+                                    y1="1211.8"
+                                    x2="553.89001"
+                                    y2="1211.8" />
+                                <linearGradient
+                                    id="linearGradient771"
+                                    gradientUnits="userSpaceOnUse"
+                                    x1="-360.98001"
+                                    y1="1211.8"
+                                    x2="553.89001"
+                                    y2="1211.8" />
+                                <linearGradient
+                                    id="linearGradient773"
+                                    gradientUnits="userSpaceOnUse"
+                                    x1="-360.98001"
+                                    y1="1211.8"
+                                    x2="553.89001"
+                                    y2="1211.8" />
+                                <linearGradient
+                                    id="linearGradient775"
+                                    gradientUnits="userSpaceOnUse"
+                                    x1="-360.98001"
+                                    y1="1211.8"
+                                    x2="553.89001"
+                                    y2="1211.8" />
+                                <linearGradient
+                                    id="linearGradient777"
+                                    gradientUnits="userSpaceOnUse"
+                                    x1="-360.98001"
+                                    y1="1211.8"
+                                    x2="553.89001"
+                                    y2="1211.8" />
+                                    <linearGradient id="linearLeftDotted" x1="0%" y1="0%" x2="100%" y2="0%">
+<stop offset="0%" stop-color="#fff"/>
+<stop offset="100%" stop-color="#000"/>
+</linearGradient>
+<linearGradient id="linearRightDotted" x1="0%" y1="0%" x2="100%" y2="0%">
+<stop offset="0%" stop-color="#000"/>
+<stop offset="100%" stop-color="#fff"/>
+</linearGradient>
+                                <linearGradient
+                                    id="linearGradient1124"
+                                    gradientTransform="matrix(-1.4335196,-0.14701307,-0.02963832,-1.3470472,1457.4677,2219.7501)"
+                                    x1="798.39087"
+                                    y1="1099.4299"
+                                    x2="904.99708"
+                                    y2="1102.2863" />
+                                <linearGradient
+                                    id="linearGradient1085"
+                                    x1="798.39087"
+                                    y1="1099.4299"
+                                    x2="904.99708"
+                                    y2="1102.2863"
+                                    gradientTransform="matrix(1.4299124,0.15319523,0.02504949,1.3500819,-459.33609,-1010.5255)" />
                             </defs>
                             <g transform="matrix(1 0 .52982 .73509 -174.3 0)">
                                 <g transform="matrix(.598 0 0 .598 171.5 229.96)">
@@ -501,10 +542,30 @@ const VideoSetPage = (
                                     </g>
                                     <g stroke-linecap="round">
                                         <g transform="translate(-131.32 2.8036)">
+                                        <path
+                                                d="m 756.69658,454.52546 a 130.2908,161.30557 41.649072 0 0 -12.07829,-0.36108 l -87.87414,293.53455 a 130.2908,161.30557 41.649072 0 0 11.5366,2.17054 130.2908,161.30557 41.649072 0 0 182.09724,-132.89501 130.2908,161.30557 41.649072 0 0 -93.68857,-162.44168 z"
+                                                fill="none"
+                                                stroke="url(#linearRightDotted)"
+                                                strokeWidth="8.07535"
+                                                id="right_dotted_cabeza"
+                                                strokeDasharray="24.6028,24.6028"
+                                                strokeOpacity="0.7"
+                                            />
+                                            <path
+                                                d="m 233.88396,745.85568 a 130.27448,161.32578 44.033089 0 0 12.10563,0.31089 l 87.07828,-293.2565 a 130.27448,161.32578 42.033089 0 0 -11.56884,-2.11863 130.27448,161.32578 42.033089 0 0 -182.04472,133.35129 130.27448,161.32578 42.033089 0 0 94.43681,161.70562 z"
+                                                fill="none"
+                                                stroke="url(#linearLeftDotted)"
+                                                strokeWidth="8.07535"
+                                                id="left_dotted_cabeza"
+                                                strokeDasharray="24.6028,24.6028"
+                                                strokeOpacity="0.7"
+                                            />
                                             <path d="m757.79 381.49c-5.573 0.18408-11.218 0.64607-16.918 1.3847l-130.79 449.68c5.2706 0.73946 10.646 1.2023 16.112 1.3872 106.52 1.2e-4 245.98-76.396 282.31-201.34 36.339-124.94-44.201-251.12-150.72-251.12z" fill="url(#radialGradient1286)" stroke="#fbfbfb" stroke-width="2" />
                                             <path d="m745.3 491.72a87.617 124.5 36.021 0 0-8.459 0.6924l-65.393 224.84a87.617 124.5 36.021 0 0 8.0559 0.6936 87.617 124.5 36.021 0 0 129.33-113.11 87.617 124.5 36.021 0 0-63.539-113.11z" fill="#f9f9f9" stroke="#000" stroke-width="5.8178" id="right_cabeza" />
+                                           
                                             <rect transform="matrix(1 0 -.27927 .96021 0 0)" x="465.47" y="398.16" width="410.64" height="474.68" fill="url(#meshgradient1529)" stroke="#000" stroke-width="2.041" />
                                         </g>
+
                                         <g transform="translate(-131.32 2.8036)" stroke="#000">
                                             <path d="m724.14 563.07a41.368 59.493 52.54 0 0-4.5045 0.61554l-28.211 96.847a41.368 59.493 52.54 0 0 4.3308-0.0186 41.368 59.493 52.54 0 0 65.785-52.427 41.368 59.493 52.54 0 0-37.4-45.017z" fill="#f9f9f9" stroke-width="2.7634" />
                                             <path d="m717.04 583.88a24.589 39.09 60.701 0 0-3.0563 0.52549l-17.487 56.535a24.589 39.09 60.701 0 0 2.9486-0.1771 24.589 39.09 60.701 0 0 43.862-32.545 24.589 39.09 60.701 0 0-26.267-24.339z" fill="#808080" stroke-width="1.727" />
@@ -519,20 +580,20 @@ const VideoSetPage = (
                                 </g>
                             </g>
                             <g id="sombra_cassette"
-       transform="matrix(.62,0,0.33,0.20,90,556)"
-       fill="url(#linearGradient2198)"
-       filter="url(#blurSombra)"
-       strokeLinecap="round">
-      <rect
-         transform="matrix(1,0,-0.30015,0.95389,0,0)"
-         x="362.17001"
-         y="190.50999"
-         width="831.04999"
-         height="677.60999"
-         ry="104.12"
-         strokeWidth="9.2057"
-         id="rect252"/>
-    </g>
+                                transform="matrix(.62,0,0.28,0.20,90,556)"
+                                fill="url(#linearGradient2198)"
+                                filter="url(#blurSombra)"
+                                strokeLinecap="round">
+                                <rect
+                                    transform="matrix(1,0,-0.30015,0.95389,0,0)"
+                                    x="362.17001"
+                                    y="190.50999"
+                                    width="831.04999"
+                                    height="677.60999"
+                                    ry="104.12"
+                                    strokeWidth="9.2057"
+                                    id="rect252" />
+                            </g>
                         </svg>
 
 
