@@ -108,7 +108,7 @@ function isInViewportMenu() {
     }
 
 }
-const DURATION_CASSETTE_ANIM = 120;
+const DURATION_CASSETTE_ANIM = 165;
 let time = DURATION_CASSETTE_ANIM;
 let reverse = false;
 
@@ -165,9 +165,17 @@ const VideoSetPage = (
     const ref_d_right_cabeza = useRef(1);
     const ref_e_right_cabeza = useRef(0);
     const ref_f_right_cabeza = useRef(0);
+
+    const ref_a_sombra = useRef(.62);
+    const ref_b_sombra = useRef(0);
+    const ref_c_sombra = useRef(.33);
+    const ref_d_sombra = useRef(.20);
+    const ref_e_sombra = useRef(90);
+    const ref_f_sombra = useRef(556);
     const svg = document.getElementById("videocassette");
     const left_cabeza = document.getElementById("left_cabeza");
     const right_cabeza = document.getElementById("right_cabeza");
+    const sombra_cassette = document.getElementById("sombra_cassette");
     const animate = (tiempo) => {
         if (!reverse) {
             ref_c_cassette.current -= .003;
@@ -183,7 +191,12 @@ const VideoSetPage = (
             ref_d_right_cabeza.current +=0.002;
             ref_e_right_cabeza.current -= 1.40;
             ref_f_right_cabeza.current -= 1.200;
-            console.log('no reversa', reverse);
+
+            ref_c_sombra.current -= .002;
+            ref_d_sombra.current += 0.001;
+            ref_e_sombra.current+=.4;
+            ref_f_sombra.current-=0.15;
+            //console.log('no reversa', reverse);
             time--;
         }
         else {
@@ -200,7 +213,12 @@ const VideoSetPage = (
             ref_d_right_cabeza.current -=0.002;
             ref_e_right_cabeza.current += 1.40;
             ref_f_right_cabeza.current += 1.200;
-            console.log('REVERSA', reverse);
+
+            ref_c_sombra.current+= .002;
+            ref_d_sombra.current -= 0.001;
+            ref_e_sombra.current-=.4;
+            ref_f_sombra.current+=0.15;
+            //console.log('REVERSA', reverse);
             time++;
         }
 
@@ -208,11 +226,13 @@ const VideoSetPage = (
         let matriz = ".65,0," + ref_c_cassette.current + "," + ref_d_cassette.current + "," + ref_e_cassette.current + ",0";
         let matriz_cabeza_l = ref_a_left_cabeza.current+","+"0,0,"+ref_d_left_cabeza.current+","+ref_e_left_cabeza.current+","+ref_f_left_cabeza.current; 
         let matriz_cabeza_r = ref_a_right_cabeza.current+","+"0,0,"+ref_d_right_cabeza.current+","+ref_e_right_cabeza.current+","+ref_f_right_cabeza.current;  
+        let matriz_sombra = ref_a_sombra.current+","+ref_b_sombra.current+","+ref_c_sombra.current+","+ref_d_sombra.current+","+ref_e_sombra.current+","+ref_f_sombra.current;
         if (time <= 0) { reverse = true; } else if (time >= DURATION_CASSETTE_ANIM) { reverse = false };
         //console.log('matrix', matriz, time, reverse)
         svg.setAttribute("transform", "matrix(" + matriz + ")");
         left_cabeza && left_cabeza.setAttribute("transform","matrix("+matriz_cabeza_l+")");
         right_cabeza && right_cabeza.setAttribute("transform","matrix("+matriz_cabeza_r+")");
+        sombra_cassette && sombra_cassette.setAttribute("transform","matrix("+matriz_sombra+")");
         requestRef.current = requestAnimationFrame(animate);
     }
     useEffect(() => {
@@ -386,6 +406,78 @@ const VideoSetPage = (
                                         </meshpatch>
                                     </meshrow>
                                 </meshgradient>
+                                <linearGradient
+       id="linearGradient2198"
+       x1="-360.98001"
+       x2="553.89001"
+       y1="1211.8"
+       y2="1211.8"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         stop-opacity="0"
+         offset="0"
+         id="stop232" />
+      <stop
+         stop-opacity=".98361"
+         offset="1"
+         id="stop234" />
+    </linearGradient>
+    <filter id="blurSombra">
+    <feGaussianBlur in="SourceGraphic" stdDeviation="48" />
+  </filter>
+    <filter
+       id="filter2206"
+       x="-0.070843233"
+       y="-0.21495034"
+       width="1.1416865"
+       height="1.4299007"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         stdDeviation="27.005134"
+         id="feGaussianBlur237" />
+    </filter>
+    <linearGradient
+       id="linearGradient672"
+       gradientUnits="userSpaceOnUse"
+       x1="-360.98001"
+       y1="1211.8"
+       x2="553.89001"
+       y2="1211.8" />
+    <linearGradient
+       id="linearGradient769"
+       gradientUnits="userSpaceOnUse"
+       x1="-360.98001"
+       y1="1211.8"
+       x2="553.89001"
+       y2="1211.8" />
+    <linearGradient
+       id="linearGradient771"
+       gradientUnits="userSpaceOnUse"
+       x1="-360.98001"
+       y1="1211.8"
+       x2="553.89001"
+       y2="1211.8" />
+    <linearGradient
+       id="linearGradient773"
+       gradientUnits="userSpaceOnUse"
+       x1="-360.98001"
+       y1="1211.8"
+       x2="553.89001"
+       y2="1211.8" />
+    <linearGradient
+       id="linearGradient775"
+       gradientUnits="userSpaceOnUse"
+       x1="-360.98001"
+       y1="1211.8"
+       x2="553.89001"
+       y2="1211.8" />
+    <linearGradient
+       id="linearGradient777"
+       gradientUnits="userSpaceOnUse"
+       x1="-360.98001"
+       y1="1211.8"
+       x2="553.89001"
+       y2="1211.8" />
                             </defs>
                             <g transform="matrix(1 0 .52982 .73509 -174.3 0)">
                                 <g transform="matrix(.598 0 0 .598 171.5 229.96)">
@@ -426,7 +518,21 @@ const VideoSetPage = (
                                     </g>
                                 </g>
                             </g>
-
+                            <g id="sombra_cassette"
+       transform="matrix(.62,0,0.33,0.20,90,556)"
+       fill="url(#linearGradient2198)"
+       filter="url(#blurSombra)"
+       strokeLinecap="round">
+      <rect
+         transform="matrix(1,0,-0.30015,0.95389,0,0)"
+         x="362.17001"
+         y="190.50999"
+         width="831.04999"
+         height="677.60999"
+         ry="104.12"
+         strokeWidth="9.2057"
+         id="rect252"/>
+    </g>
                         </svg>
 
 
