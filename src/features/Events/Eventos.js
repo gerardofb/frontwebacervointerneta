@@ -989,9 +989,11 @@ const Eventos = () => {
                                         }
                                     </h1>
                                     <img src={valor && valor.imagen} />
-                                    <p>
-                                        {valor && valor.descripcion}
+                                    {valor ?
+                                    <p
+                                         dangerouslySetInnerHTML={{__html:valor.descripcion}}>
                                     </p>
+                                    : null }
                                 </>
 
                             }
