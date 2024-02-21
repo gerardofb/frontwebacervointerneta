@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios';
-import Parallax from 'react-springy-parallax'
+//import Parallax from 'react-springy-parallax'
 import { BigPlayButton, ControlBar, LoadingSpinner, Player, PlayToggle } from 'video-react'
 import { HomeCategories } from './HomeCategories';
 import { HomeTags } from './HomeTags';
@@ -138,45 +138,31 @@ export class Home extends React.Component {
         return (
             <div onScroll={this.handleScroll}>
                 {/* <button type="button" onClick="showVideo()" id="button-allow-autoplay">Click Me</button> */}
-                <Parallax className={styles.BodyHome}
-                    ref={ref => this.parallax = ref}
-                    pages={6}
-                    scrolling={true}>
-                    <Parallax.Layer offset={2} speed={0.3} className={styles.FirstLayerHome} />
-                    <Parallax.Layer offset={4} speed={0.2} className={styles.SecondLayerHome} />
-                    <Parallax.Layer offset={5} speed={1} className={styles.ThirdLayerHome} />
-
-                    <Parallax.Layer
-                        offset={0} speed={0} factor={4}
-                        style={{ backgroundSize: 'cover' }}
-                    >
-
-                    </Parallax.Layer>
-
-                    <Parallax.Layer offset={1.3} speed={0.8} style={{ pointerEvents: 'none' }}>
-                        <Canvas />
-                    </Parallax.Layer>
-                    <Parallax.Layer offset={1.95} speed={0.5} style={{ pointerEvents: 'none' }}>
-                        <Canvas />
-                    </Parallax.Layer>
-                    <Parallax.Layer offset={2.75} speed={0.5} style={{ pointerEvents: 'none' }}>
-                        <Canvas />
-                    </Parallax.Layer>
-                    <Parallax.Layer offset={0} speed={0} style={{ display: 'block', backgroundColor: 'black' }}>
-                        <div style={{ backgroundColor: 'black', height: '100px' }}>
+                <div className={styles.BodyHome} style={{display:'grid', gridTemplateColumns:'25% 25% 25% 25%', minHeight:'100%', minWidth:'100%'}}>
+                <div style={{ backgroundColor: 'black', height: '100px', gridRow:1, gridColumnStart:1, gridColumnEnd:4 }}>
                             <NavBar></NavBar>
                         </div>
-                    </Parallax.Layer>
-                    <Parallax.Layer offset={0.2} speed={0} style={{ display: 'flex', marginBottom: '50px' }}>
+                    {/* <div style={{display:'block', position:'fixed', top:0, left:0, zIndex:-9999, width:'100%', height:'100%'}}>
+                    <div style={{ pointerEvents: 'none' }}>
+                        <Canvas />
+                    </div>
+                    <div style={{ pointerEvents: 'none' }}>
+                        <Canvas />
+                    </div>
+                    <div style={{ pointerEvents: 'none' }}>
+                        <Canvas />
+                    </div>
+                    </div>
+                        */}
+                    
+                    <div style={{ display:'block', gridRow:2, gridColumnStart:1, gridColumnEnd:5,marginTop:'20px' }}>
 
                         <Player autoPlay
                             ref={player => {
                                 this.player = player;
                             }}
                             muted
-                            fluid={false}
-                            height={'100%'}
-                            width={'100%'}
+                            fluid={true}
                             aspectRatio={'16:9'}
                             loop={true}>
                             <BigPlayButton position={"center"} style={{ display: 'none' }} />
@@ -185,8 +171,8 @@ export class Home extends React.Component {
                             <LoadingSpinner></LoadingSpinner>
                         </Player>
 
-                    </Parallax.Layer>
-                    <Parallax.Layer offset={1.4} speed={0} style={{ display: 'flex' }}>
+                    </div>
+                    {/* <div  style={{ display: 'block' }}>
                         <>
                             <HomeCategories categoriasService={this.state.categoriasService}></HomeCategories>
                             <div className="loader-list-categories-home" style={this.state.habilitarLoaderCategories ? { display: 'block' } : { display: 'none' }}>
@@ -195,11 +181,11 @@ export class Home extends React.Component {
                                 <p style={{ color: 'white', fontSize: 'large' }}>Cargando...</p>
                             </div>
                         </>
-                    </Parallax.Layer>
-                    <Parallax.Layer offset={2.75} speed={0} style={{ display: 'flex', marginBottom: '2em' }}>
+                    </div> */}
+                    <div style={{ display: 'blcok', gridRow:3, gridColumnStart:1, gridColumnEnd:5, marginBottom: '2em' }}>
                         <HomeTags categorias={this.state.categoriasService}></HomeTags>
-                    </Parallax.Layer>
-                    <Parallax.Layer offset={3.9} speed={0} style={{ display: 'block' }}>
+                    </div>
+                    <div style={{ display: 'block', gridRow:4, gridColumnStart:1, gridColumnEnd:5 }}>
                         <div className={styles.SecondLayerHome}>
                             <div className='contenedor-videos-home'>
                                 <div className='titulo-listado-home'>
@@ -231,8 +217,8 @@ export class Home extends React.Component {
                                 </div>
                             </div>
                         </div>
-                    </Parallax.Layer>
-                    <Parallax.Layer offset={4.5} speed={0} style={{ display: 'flex' }}>
+                    </div>
+                    <div style={{ display: 'block', gridRow:5, gridColumnStart:1, gridColumnEnd:5 }}>
                         <div className={'quienes-somos-content-home ' + styles.SecondLayerHome}>
                             <div className='quienes-somos-body'>
                                 <div className='quienes-somos-header'>
@@ -248,11 +234,11 @@ export class Home extends React.Component {
                                 <p>Sí estas interesado en conocer la obra completa del video de tu interés, así como para acceder a la base de datos completa deberás comunicarte directamente con nosotros a través de nuestros correos y redes sociales. Bienvenidxs</p>
                             </div>
                         </div>
-                    </Parallax.Layer>
-                    <Parallax.Layer offset={5.25} speed={0} style={{ display: 'flex' }}>
+                    </div>
+                    <div style={{ display: 'flex', gridRow:6, gridColumnStart:1, gridColumnEnd:5 }}>
                         <HomeFooter></HomeFooter>
-                    </Parallax.Layer>
-                </Parallax>
+                    </div>
+                </div>
             </div>
         )
     }

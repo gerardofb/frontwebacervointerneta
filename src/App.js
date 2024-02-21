@@ -75,7 +75,7 @@ history.push = args => {
     cachedPush(args)
   }
 }
-const BANDERA_MOVILES = { bandera: true, redireccion: "https://api.acervo-audiovisual-interneta.org" };
+const BANDERA_MOVILES = { bandera: false, redireccion: "https://api.acervo-audiovisual-interneta.org" };
 // falso = mayor que tableta, verdadero = menor o igual que tableta;
 function App() {
   const location = window.location;
@@ -83,7 +83,7 @@ function App() {
   if (isMobile === BANDERA_MOVILES.bandera &&
     window.matchMedia("(any-pointer:coarse)").matches === BANDERA_MOVILES.bandera
     && window.matchMedia("only screen and (max-width: 480px)").matches === BANDERA_MOVILES.bandera) {
-    window.location = BANDERA_MOVILES.redireccion
+    //window.location = BANDERA_MOVILES.redireccion
   }
   const [videosPopulated, setVideosPopulated] = useState(null);
   const [categoriasService, setCategoriasService] = useState([]);

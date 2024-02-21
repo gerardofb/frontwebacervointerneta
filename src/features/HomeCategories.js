@@ -129,12 +129,12 @@ const HomeCategories = (props) => {
     //     player2 && player2.play();
     //     player3 && player3.play();
     // },[player1,player2,player3])
-    return (<div>
+    return (<div style={{gridRow:3}}>
         {canvasCategoriasVisible &&
             <>
-                <FontAwesomeIcon icon={faArrowLeft} style={{ fontSize: "xx-large", cursor:'pointer', position: 'absolute', top: '50%', left: '1.5%', color: 'white' }}
+                <FontAwesomeIcon icon={faArrowLeft} style={{ fontSize: "xx-large", cursor:'pointer', position: 'absolute', top: '200%', left: '1.5%', color: 'white' }}
                     onClick={(e => { forward(getTamanioDivCategoria('.primer-categoria-imagen-secuencia', true)); forwardText(getTamanioDivCategoria('.primer-categoria-secuencia', true)) })}></FontAwesomeIcon>
-                <FontAwesomeIcon icon={faArrowRight} style={{ fontSize: "xx-large", cursor:'pointer', position: 'absolute', top: '50%', right: '1.5%', color: 'white' }}
+                <FontAwesomeIcon icon={faArrowRight} style={{ fontSize: "xx-large", cursor:'pointer', position: 'absolute', top: '200%', right: '1.5%', color: 'white' }}
                     onClick={(e => { forward(getTamanioDivCategoria('.primer-categoria-imagen-secuencia')); forwardText(getTamanioDivCategoria('.primer-categoria-secuencia')) })}></FontAwesomeIcon>
             </>
         }
@@ -146,7 +146,7 @@ const HomeCategories = (props) => {
         </div>
         <div
 
-            style={{ width: '90%', overflow: 'hidden', marginLeft: 'auto', marginRight: 'auto', marginTop: '15px' }}>
+            style={{ width: '20%', overflow: 'hidden', marginLeft: 'auto', marginRight: 'auto', marginTop: '15px' }}>
 
             <animated.div style={{
                 width: '1500%',
@@ -159,7 +159,7 @@ const HomeCategories = (props) => {
                     let clase_css_categoria = index == 0 ? 'category-images-green primer-categoria-imagen-secuencia' : 'category-images-green';
                     let vinculo = "/Categorias/" + el.titulo + "/dummy";
                     return (
-                        <Link to={vinculo} style={{ textDecoration: 'none', color: 'black' }}>
+                        <Link key={index} to={vinculo} style={{ textDecoration: 'none', color: 'black' }}>
                             <div className={clase_css_categoria} key={index} style={{ float: 'left', padding: '10px', display: 'block' }}>
                                 <div className='inner-hover-categoria'><span>{el.titulo.replace(/[-]/g, ' ')}</span></div>
                                 <video width={500} height={337} autoPlay loop type="video/mp4" muted>
