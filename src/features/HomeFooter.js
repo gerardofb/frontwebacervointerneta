@@ -54,7 +54,7 @@ const HomeFooter = (props) => {
             <div className='container-list-red'>
                 <ul className='footer-list-white'>
                     <li>
-                        <h3 id="footer-vinculos" style={{ borderBottom: '2px white solid' }}>
+                        <h3 id="footer-vinculos">
                             Vínculos
                         </h3>
                     </li>
@@ -71,7 +71,7 @@ const HomeFooter = (props) => {
                 </ul>
                 <ul className='footer-list-white'>
                     <li>
-                        <h3 id="footer-eventos" style={{ borderBottom: '2px white solid' }}>
+                        <h3 id="footer-eventos">
                             Eventos
                         </h3>
                     </li>
@@ -85,7 +85,7 @@ const HomeFooter = (props) => {
                 </ul>
                 <ul className='footer-list-white'>
                     <li>
-                        <h3 id="footer-categorias" style={{ borderBottom: '2px white solid' }}>
+                        <h3 id="footer-categorias">
                             Categorías
                         </h3>
                     </li>
@@ -101,8 +101,8 @@ const HomeFooter = (props) => {
                 </ul>
                 <ul className='footer-list-white'>
                     <li>
-                        <h3 id="footer-salaschat" style={{ borderBottom: '2px white solid' }}>
-                            Salas de chat
+                        <h3 id="footer-salaschat">
+                            Chat
                         </h3>
                     </li>
                 </ul>
