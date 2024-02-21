@@ -917,7 +917,8 @@ Estilo de footer
   max-height: 350px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: 1fr 1fr .2fr .5fr;
+  grid-template-rows: 1.5fr .5fr .2fr .5fr;
+  grid-gap:2em;
   justify-content: left;
   background-image: url('/images/head_.svg');
   background-repeat: no-repeat;
@@ -950,8 +951,10 @@ Estilo de footer
   color: white;
   width: 100%;
   height: 100%;
-
-
+  text-indent: 0%;
+  padding-right:15px;
+  padding-left:0px;
+  padding-top:1em;
 }
 
 .footer-list-white li {
@@ -973,7 +976,7 @@ Estilo de footer
   width: 100%;
   height: 140px;
   display: flex;
-  grid-row: 2;
+  grid-row: 1;
   grid-column-start: 1;
   grid-column-end: 3;
   justify-content: space-between;
@@ -1021,8 +1024,9 @@ Estilo de footer
   & a {
     text-decoration: none;
     color: white;
-    font-size: x-small;
+    font-size: 8px;
     display: block;
+    padding:0 1em;
   }
 }
 
@@ -1071,38 +1075,46 @@ h3#footer-salaschat {
 }
 
 .logos-patrocinadores-footer {
-  padding-top: 0.5em;
   display: grid;
   width: 100%;
-  gap: 2em;
+  gap: 5px;
   grid-column: 2;
   grid-row: 4;
-  grid-auto-flow: column;
+  grid-template-rows: 3;
   justify-items: center;
-
+  align-items: center;
   & div {
-    width: 200px;
+    width: 250px;
+    height: 30px;
   }
 
   & .logo-imcine {
     background-image: url('/images/imcine_blanco.png');
     width: 100%;
     background-repeat: no-repeat;
-    background-size: 100%;
+    background-size: 50%;
+    background-position: top center;
+    grid-row:1;
   }
 
   & .logo-focine {
     background-image: url('/images/focine_blanco.png');
     width: 100%;
     background-repeat: no-repeat;
-    background-size: 100%;
+    background-size: 50%;
+    background-position: top center;
+
+    grid-row:2;
   }
 
   & .logo-sec-cultura {
     background-image: url('/images/secretaria_cultura_w.png');
     width: 100%;
     background-repeat: no-repeat;
-    background-size: 100%;
+    background-size: 50%;
+    background-position: top center;
+
+    grid-row:3;
   }
 
 }

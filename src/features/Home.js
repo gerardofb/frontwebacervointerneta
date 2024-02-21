@@ -236,7 +236,7 @@ export class Home extends React.Component {
                         </div>
                     </div>
                     <div style={{ display: 'block', gridRow:6, gridColumnStart:1, gridColumnEnd:5 }}>
-                        {/* <HomeFooter></HomeFooter> */}
+                        <HomeFooter></HomeFooter>
                     </div>
                 </div>
             </div>
