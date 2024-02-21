@@ -234,8 +234,8 @@ const HomeTags = (props) => {
         <div style={{ width: '95%', margin: "auto", color: 'white' }}>
             <div style={{ marginTop: '150px', display: "grid", alignItems: "baseline", gridTemplateColumns: "30% 70%" }}>
                 <h1 style={{ color: 'white', gridColumn: 1 }}>Tags recientes</h1><p style={{ gridColumn: 2, verticalAlign: "bottom" }}>{cuentaTagsPopulares}</p>
-                <svg height="30" width="1280" style={{ gridColumnEnd: 2, gridColumnStart: 1 }}>
-                    <line x1="50" y1="30" x2="1280" y2="30" style={{ stroke: 'rgb(128,128,128)', strokeWidth: '2' }} />
+                <svg height="30" width="350" style={{ gridColumnEnd: 2, gridColumnStart: 1 }}>
+                    <line x1="50" y1="30" x2="350" y2="30" style={{ stroke: 'rgb(128,128,128)', strokeWidth: '2' }} />
                 </svg>
             </div>
             <div style={{ marginTop: '15px' }}>

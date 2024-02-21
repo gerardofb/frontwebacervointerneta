@@ -35,12 +35,12 @@ const SearchBar = (props) => {
     return (
         <div className={styles.SearchBarMain}>
             <div style={{ display: 'flex', textAlign: 'left', verticalAlign: 'center', maxWidth: '100%' }}>
-                <label className={styles.SearchBarBtn} style={{ gridColumn: '1', fontSize: '30px', float: 'left', cursor: 'pointer' }} title="Buscar"><FontAwesomeIcon onClick={navigateAlternoBusqueda} icon={faSearch}></FontAwesomeIcon></label>&nbsp;
+                <label className={styles.SearchBarBtn} style={{ gridColumn: '1', fontSize: '18px', float: 'left', cursor: 'pointer' }} title="Buscar"><FontAwesomeIcon onClick={navigateAlternoBusqueda} icon={faSearch}></FontAwesomeIcon></label>&nbsp;
                 {!deshabilitar ?
                     <input type="text" className='search-bar-principal-input' onChange={(e) => setBusquedaSimple(e.target.value)} onKeyDown={(e) => navigateBusqueda(e)} value={busquedaSimple}></input> :
                     <input type="text" disabled className='search-bar-principal-input' onChange={(e) => setBusquedaSimple(e.target.value)} onKeyDown={(e) => navigateBusqueda(e)} value={busquedaSimple}></input>}
             </div>
-            <p><Link to='/BusquedaEstandar' style={{ textDecoration: 'none' }}>Ir a Búsqueda avanzada&nbsp;<FontAwesomeIcon icon={faArrowRight}></FontAwesomeIcon></Link></p>
+            <p><Link to='/BusquedaEstandar' style={{ textDecoration: 'none', fontSize:'xx-small' }}>Ir a Búsqueda avanzada&nbsp;<FontAwesomeIcon icon={faArrowRight}></FontAwesomeIcon></Link></p>
         </div>
     )
 }

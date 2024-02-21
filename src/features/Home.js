@@ -138,8 +138,8 @@ export class Home extends React.Component {
         return (
             <div onScroll={this.handleScroll}>
                 {/* <button type="button" onClick="showVideo()" id="button-allow-autoplay">Click Me</button> */}
-                <div className={styles.BodyHome} style={{display:'grid', gridTemplateColumns:'25% 25% 25% 25%', minHeight:'100%', minWidth:'100%'}}>
-                <div style={{ backgroundColor: 'black', height: '100px', gridRow:1, gridColumnStart:1, gridColumnEnd:4 }}>
+                <div className={styles.BodyHome} style={{display:'grid', gridTemplateColumns:'25% 25% 25% 20% 5%', minHeight:'100%', minWidth:'100%'}}>
+                <div style={{ backgroundColor: 'black', height: '100px', gridRow:1, gridColumnStart:1, gridColumnEnd:5 }}>
                             <NavBar></NavBar>
                         </div>
                     {/* <div style={{display:'block', position:'fixed', top:0, left:0, zIndex:-9999, width:'100%', height:'100%'}}>
@@ -235,8 +235,8 @@ export class Home extends React.Component {
                             </div>
                         </div>
                     </div>
-                    <div style={{ display: 'flex', gridRow:6, gridColumnStart:1, gridColumnEnd:5 }}>
-                        <HomeFooter></HomeFooter>
+                    <div style={{ display: 'block', gridRow:6, gridColumnStart:1, gridColumnEnd:5 }}>
+                        {/* <HomeFooter></HomeFooter> */}
                     </div>
                 </div>
             </div>

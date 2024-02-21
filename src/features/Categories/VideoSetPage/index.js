@@ -405,7 +405,7 @@ const VideoSetPage = (
                         </InverseContainer>
                     </Flipped>
                     <div style={{ marginTop: '10em' }}>
-                    <svg ref={ref_cassette} id='cassette' onMouseEnter={(evt)=>{animateCassete(evt)}} width="1125" height="2436" version="1.1" viewBox="0 0 1125 2436" xmlns="http://www.w3.org/2000/svg">
+                    <svg ref={ref_cassette} id='cassette' onMouseEnter={(evt)=>{animate(evt)}} width="1125" height="2436" version="1.1" viewBox="0 0 1125 2436" xmlns="http://www.w3.org/2000/svg">
  <defs>
   <radialGradient id="radialGradient1278" cx="263.26" cy="656.16" r="150.08" gradientTransform="matrix(.98086 .19471 -.32339 1.6291 217.23 -438.98)" gradientUnits="userSpaceOnUse">
    <stop stop-color="#4c4c4c" stop-opacity="0" offset="0"/>
