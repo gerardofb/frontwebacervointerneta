@@ -108,10 +108,13 @@ function isInViewportMenu() {
     }
 
 }
+const DURATION_CASSETTE_ANIM = 165;
+let time = DURATION_CASSETTE_ANIM;
+let reverse = false;
+
 const VideoSetPage = (
     props) => {
     const { set, focusedVideo } = useParams();
-
     //console.log('el primer estado del video enfocado es ');
     console.log('el titulo del bloque de videos es ', set);
     //console.log(focusedVideo)
@@ -148,9 +151,108 @@ const VideoSetPage = (
                 break;
         }
     }
-    const animateCassete = (evt)=>{
-        const svg = evt.target;
-        console.log('el cassete',svg.children);
+
+    const requestRef = useRef();
+    const ref_c_cassette = useRef(0);
+    const ref_d_cassette = useRef(.65);
+    const ref_e_cassette = useRef(0);
+    const ref_a_left_cabeza = useRef(1);
+    const ref_d_left_cabeza = useRef(1);
+    const ref_e_left_cabeza = useRef(-131.32);
+    const ref_f_left_cabeza = useRef(2.8036);
+
+    const ref_a_right_cabeza = useRef(1);
+    const ref_d_right_cabeza = useRef(1);
+    const ref_e_right_cabeza = useRef(0);
+    const ref_f_right_cabeza = useRef(0);
+
+    const ref_a_sombra = useRef(.62);
+    const ref_b_sombra = useRef(0);
+    const ref_c_sombra = useRef(.28);
+    const ref_d_sombra = useRef(.20);
+    const ref_e_sombra = useRef(90);
+    const ref_f_sombra = useRef(556);
+
+    const ref_scale_left_dotted = useRef(1);
+    const ref_scale_right_dotted = useRef(1);
+    const ref_translate_left_dotted = useRef(0);
+    const ref_translate_right_dotted = useRef(0);
+
+    const svg = document.getElementById("videocassette");
+    const left_cabeza = document.getElementById("left_cabeza");
+    const right_cabeza = document.getElementById("right_cabeza");
+    const sombra_cassette = document.getElementById("sombra_cassette");
+    const left_dotted_cabeza = document.getElementById("left_dotted_cabeza");
+    const right_dotted_cabeza = document.getElementById("right_dotted_cabeza");
+    const animate = (tiempo) => {
+        if (!reverse) {
+            ref_c_cassette.current -= .003;
+            ref_d_cassette.current += .0009;
+            ref_e_cassette.current -= 0.5;
+
+            ref_a_left_cabeza.current += 0.002;
+            ref_d_left_cabeza.current += 0.002;
+            ref_e_left_cabeza.current -= 0.700;
+            ref_f_left_cabeza.current -= 1.2500;
+
+            ref_a_right_cabeza.current += 0.002;
+            ref_d_right_cabeza.current += 0.002;
+            ref_e_right_cabeza.current -= 1.40;
+            ref_f_right_cabeza.current -= 1.200;
+
+            ref_c_sombra.current -= .002;
+            ref_d_sombra.current += 0.001;
+            ref_e_sombra.current += .4;
+            ref_f_sombra.current -= 0.15;
+
+            ref_scale_left_dotted.current += .008;
+            ref_scale_right_dotted.current += .008;
+            ref_translate_left_dotted.current -=.9;
+            ref_translate_right_dotted.current -=.9;
+            //console.log('no reversa', reverse);
+            time--;
+        }
+        else {
+            ref_c_cassette.current += .003;
+            ref_d_cassette.current -= .0009;
+            ref_e_cassette.current += 0.5;
+
+            ref_a_left_cabeza.current -= 0.002;
+            ref_d_left_cabeza.current -= 0.002;
+            ref_e_left_cabeza.current += 0.700;
+            ref_f_left_cabeza.current += 1.2500;
+
+            ref_a_right_cabeza.current -= 0.002;
+            ref_d_right_cabeza.current -= 0.002;
+            ref_e_right_cabeza.current += 1.40;
+            ref_f_right_cabeza.current += 1.200;
+
+            ref_c_sombra.current += .002;
+            ref_d_sombra.current -= 0.001;
+            ref_e_sombra.current -= .4;
+            ref_f_sombra.current += 0.15;
+            ref_scale_left_dotted.current -= .008;
+            ref_scale_right_dotted.current -= .008;
+            ref_translate_left_dotted.current +=.9;
+            ref_translate_right_dotted.current +=.9;
+            //console.log('REVERSA', reverse);
+            time++;
+        }
+
+
+        let matriz = ".65,0," + ref_c_cassette.current + "," + ref_d_cassette.current + "," + ref_e_cassette.current + ",0";
+        let matriz_cabeza_l = ref_a_left_cabeza.current + "," + "0,0," + ref_d_left_cabeza.current + "," + ref_e_left_cabeza.current + "," + ref_f_left_cabeza.current;
+        let matriz_cabeza_r = ref_a_right_cabeza.current + "," + "0,0," + ref_d_right_cabeza.current + "," + ref_e_right_cabeza.current + "," + ref_f_right_cabeza.current;
+        let matriz_sombra = ref_a_sombra.current + "," + ref_b_sombra.current + "," + ref_c_sombra.current + "," + ref_d_sombra.current + "," + ref_e_sombra.current + "," + ref_f_sombra.current;
+        if (time <= 0) { reverse = true; } else if (time >= DURATION_CASSETTE_ANIM) { reverse = false };
+        //console.log('matrix', matriz, time, reverse)
+        svg.setAttribute("transform", "matrix(" + matriz + ")");
+        left_cabeza && left_cabeza.setAttribute("transform", "matrix(" + matriz_cabeza_l + ")");
+        right_cabeza && right_cabeza.setAttribute("transform", "matrix(" + matriz_cabeza_r + ")");
+        sombra_cassette && sombra_cassette.setAttribute("transform", "matrix(" + matriz_sombra + ")");
+        left_dotted_cabeza && left_dotted_cabeza.setAttribute("transform","scale("+ref_scale_left_dotted.current+") translate(-"+ref_translate_left_dotted.current+","+ref_translate_left_dotted.current+")");
+        right_dotted_cabeza && right_dotted_cabeza.setAttribute("transform","scale("+ref_scale_right_dotted.current+") translate(-"+ref_translate_right_dotted.current+","+ref_translate_right_dotted.current+")");
+        requestRef.current = requestAnimationFrame(animate);
     }
     useEffect(() => {
         estableceMeta(set);
@@ -158,6 +260,9 @@ const VideoSetPage = (
         if (videosPopulated == null) {
             populate_videos_set();
         }
+
+        requestRef.current = requestAnimationFrame(animate);
+        return () => cancelAnimationFrame(requestRef.current);
     }, [videosPopulated, descripcionSeparada]);
     const populate_videos_set = () => {
         setConsultandoMiniautras(true);
