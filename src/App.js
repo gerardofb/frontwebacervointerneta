@@ -75,7 +75,7 @@ history.push = args => {
     cachedPush(args)
   }
 }
-const BANDERA_MOVILES = { bandera: true, redireccion: "https://api.acervo-audiovisual-interneta.org" };
+const BANDERA_MOVILES = { bandera: true, redireccion: "http://m.acervo-audiovisual-interneta.org" };
 // falso = mayor que tableta, verdadero = menor o igual que tableta;
 function App() {
   const location = window.location;
