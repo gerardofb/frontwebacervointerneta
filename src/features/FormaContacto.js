@@ -209,7 +209,7 @@ const FormaContacto = (props) => {
                 })}
             </ul>
         </div>}
-        <div className='card-login'>
+        <div className='card-login-contact'>
             <div className='grid-address'>
                 <div className='item-grid-address'>
                     <label>Correo electrónico</label><input type="text" placeholder='correo@ejemplo.com' value={form.correo_electronico} onChange={(e) => estableceValorFormulario(e.target.value, ENUM_CONTACTO.CORREO_ELECTRONICO)}></input>
@@ -217,7 +217,7 @@ const FormaContacto = (props) => {
                 <div className='item-grid-address password-validate'>
                     <label>Mensaje</label><textarea placeholder='Escríbanos su mensaje, y le responderemos en breve con un correo electrónico' rows={5} cols={80} value={form.mensaje} onChange={(e) => estableceValorFormulario(e.target.value, ENUM_CONTACTO.MENSAJE)}></textarea>
                 </div>
-                <div className='item-grid-address'>
+                <div className='item-grid-address-select'>
                     <label>Seleccione un video:</label>
                     <Autocomplete
                         getItemValue={(item) => item.titulo}

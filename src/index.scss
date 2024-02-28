@@ -5058,7 +5058,115 @@ estilos del login
     cursor: pointer;
   }
 }
+.card-login-contact {
+  width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  height: 40vh;
+  border: #253237 1px solid;
+  box-shadow: 10px 10px #5D5D5D;
+  margin: auto;
+  top: 300px;
+  bottom: 0;
+  left: calc(50% - 150px);
+  position: absolute;
 
+  & .grid-address {
+    position: relative;
+    padding: 2em 0;
+    display: grid;
+    width: 100%;
+    grid-template-rows: .25fr  .25fr .38fr .12fr;
+
+    & div.item-grid-address.password-validate {
+      display: grid;
+      grid-row:2;
+      margin: 0;
+      grid-template-columns: .4fr .6fr;
+
+      & span {
+        font-size: small;
+      }
+
+      & input {
+        width: 180px;
+      }
+    }
+
+
+    & div.item-grid-address {
+      grid-row:1;
+      display: grid;
+      margin: .5em 0;
+      grid-template-columns: .4fr .6fr;
+
+      & input {
+        height: 25px;
+        width: 120px;
+        border: none;
+        border-bottom: 1px solid darkslategray;
+        outline: none;
+      }
+
+      & label {
+        font-size: small;
+        width: 140px;
+        text-align: right;
+        padding-right: 1em;
+      }
+
+      & textarea {
+        width: 120px;
+        height: 130px;
+      }
+    }
+
+    & div.item-grid-address-select{
+      grid-row:3;
+      display: grid;
+      margin: .5em 0;
+      grid-template-columns: .4fr .6fr;
+
+      & input {
+        height: 25px;
+        width: 120px;
+        border: none;
+        border-bottom: 1px solid darkslategray;
+        outline: none;
+      }
+
+      & label {
+        font-size: small;
+        width: 140px;
+        text-align: right;
+        padding-right: 1em;
+      }
+    }
+
+    .send-login {
+      grid-row:4;
+      grid-column: 1;
+      display: flex;
+      max-width: 100px;
+      justify-content: right;
+      margin: 0 .5em;
+
+      & button {
+        background-color: #009639;
+        color: white;
+        border: 1px solid #15171c;
+        border-radius: 4px;
+        padding: .2em;
+        cursor: pointer;
+      }
+
+      & button:hover {
+        background-color: darkgreen
+      }
+    }
+  }
+}
 .card-login {
   width: 300px;
   display: flex;
