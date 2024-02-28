@@ -12,7 +12,7 @@ import { getBaseAdressApi } from './MainAPI';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faComment } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
-
+import HomeEvents from './Events/HomeEvents';
 
 const url = (name, wrap = false) => `${wrap ? 'url(' : ''}images/${name}.svg${wrap ? ')' : ''}`
 const urlpng = (name, wrap = false) => `${wrap ? 'url(' : ''}images/Art/inverted/${name}.png${wrap ? ')' : ''}`
@@ -182,7 +182,8 @@ export class Home extends React.Component {
                             </div>
                         </>
                     </div> */}
-                    <div style={{ display: 'blcok', gridRow:3, gridColumnStart:1, gridColumnEnd:5, marginBottom: '2em' }}>
+                    <div style={{ display: 'block', gridRow:3, gridColumnStart:1, gridColumnEnd:5, marginBottom: '2em' }}>
+                        <HomeEvents></HomeEvents>
                         <HomeTags categorias={this.state.categoriasService}></HomeTags>
                     </div>
                     <div style={{ display: 'block', gridRow:4, gridColumnStart:1, gridColumnEnd:5 }}>

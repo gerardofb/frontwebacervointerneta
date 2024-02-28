@@ -15,6 +15,8 @@ const StyledModal = styled.div`
     switch (props.size) {
       case "lg":
         return "800";
+      case "sm":
+        return "340";
       default:
         return "480";
     }

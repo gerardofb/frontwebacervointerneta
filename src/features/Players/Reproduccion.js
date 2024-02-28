@@ -83,18 +83,7 @@ const MODAL_DESCARGAS = 2;
 const MODAL_CALIFICACION = 3;
 const MODAL_USUARIO_NO_AUTORIZADO = 4;
 
-let items = [
-    { titulo: "Gerardo Flores Barrie", content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sit amet suscipit mi. Integer lacinia nisl sit amet sapien porta, nec posuere ante dictum. Aliquam erat volutpat. Pellentesque sem purus, laoreet at quam eget, ullamcorper efficitur mi. Integer pretium fringilla placerat. Suspendisse bibendum, neque quis vestibulum interdum, tortor metus scelerisque." },
-    { titulo: "Zosim Silva Gómez", content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer accumsan, orci vitae efficitur placerat, quam odio tempor arcu, non commodo elit velit quis augue. Morbi luctus pellentesque diam id ultrices. Proin massa augue, fermentum eget nibh nec, semper fringilla ipsum. Duis ut ipsum erat. Etiam sollicitudin pulvinar augue, et dapibus erat interdum non. Aenean et lacus dignissim, faucibus justo eu, maximus ex. Quisque eu justo eget nisl eleifend mollis sit amet eget arcu. Quisque tincidunt, nibh ut lobortis sollicitudin, metus orci eleifend metus, ac viverra quam mi ut elit. Quisque aliquet tincidunt nisi. Nullam viverra purus at odio dictum viverra. Quisque eleifend magna eget turpis hendrerit, eget molestie dolor tincidunt. Phasellus at nisi massa. In sollicitudin blandit rhoncus. Duis mattis dictum mi, eget consequat nibh. Morbi vulputate, purus molestie sodales gravida, nisi odio efficitur sem, vitae ornare lacus est eget massa. Sed ornare massa lectus, non tincidunt purus rhoncus vel. Aenean cursus erat at tristique faucibus." },
-    { titulo: "Atanasios Gatzios", content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
-    { titulo: "Gabriela Rueda", content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ut accumsan mauris. Integer pellentesque euismod maximus. Phasellus eget est vulputate." },
-    { titulo: "Eric del Valle", content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec luctus, dui quis porttitor gravida, nulla sem consequat nibh, eget fermentum ex orci ornare sem. Curabitur viverra vehicula elit, a pretium mi pretium a. Curabitur sed accumsan enim. Donec ultricies odio non congue cursus. Phasellus finibus lorem quis bibendum scelerisque." },
-    { titulo: "Alejandro Mercado", content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sit amet suscipit mi. Integer lacinia nisl sit amet sapien porta, nec posuere ante dictum. Aliquam erat volutpat. Pellentesque sem purus, laoreet at quam eget, ullamcorper efficitur mi. Integer pretium fringilla placerat. Suspendisse bibendum, neque quis vestibulum interdum, tortor metus scelerisque." },
-    { titulo: "Tatiana Alvarez", content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer accumsan, orci vitae efficitur placerat, quam odio tempor arcu, non commodo elit velit quis augue. Morbi luctus pellentesque diam id ultrices. Proin massa augue, fermentum eget nibh nec, semper fringilla ipsum. Duis ut ipsum erat. Etiam sollicitudin pulvinar augue, et dapibus erat interdum non. Aenean et lacus dignissim, faucibus justo eu, maximus ex. Quisque eu justo eget nisl eleifend mollis sit amet eget arcu. Quisque tincidunt, nibh ut lobortis sollicitudin, metus orci eleifend metus, ac viverra quam mi ut elit. Quisque aliquet tincidunt nisi. Nullam viverra purus at odio dictum viverra. Quisque eleifend magna eget turpis hendrerit, eget molestie dolor tincidunt. Phasellus at nisi massa. In sollicitudin blandit rhoncus. Duis mattis dictum mi, eget consequat nibh. Morbi vulputate, purus molestie sodales gravida, nisi odio efficitur sem, vitae ornare lacus est eget massa. Sed ornare massa lectus, non tincidunt purus rhoncus vel. Aenean cursus erat at tristique faucibus." },
-    { titulo: "Cynthia Aguilar", content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
-    { titulo: "Patricia Aguilar", content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ut accumsan mauris. Integer pellentesque euismod maximus. Phasellus eget est vulputate." },
-    { titulo: "Ernesto Flores", content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec luctus, dui quis porttitor gravida, nulla sem consequat nibh, eget fermentum ex orci ornare sem. Curabitur viverra vehicula elit, a pretium mi pretium a. Curabitur sed accumsan enim. Donec ultricies odio non congue cursus. Phasellus finibus lorem quis bibendum scelerisque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas." }
-]
+
 let catdata = [
     {
         name: 'Saint Petersburg',
@@ -249,10 +238,10 @@ function shuffleArray(array) {
 }
 function isInViewport(element) {
     const rect = element.getBoundingClientRect();
-
-    //console.log('datos de video clip ', rect.top, rect.left, rect.bottom, rect.right)
-
-    return rect.bottom > 0;
+    const { scrollTop, offsetHeight } = document.documentElement;
+    console.log('datos de video clip en is in viewport ', element, element.offsetHeight,  Math.round(scrollTop - rect.top))
+    return Math.round(scrollTop - rect.top) < element.offsetHeight;
+    //return rect.bottom > 0;
     // return (
     //     rect.top >= 0 &&
     //     rect.left >= 0 &&
@@ -263,9 +252,9 @@ function isInViewport(element) {
 function isInViewportFooter(element) {
     const rect = element.getBoundingClientRect();
     const { scrollTop, offsetHeight } = document.documentElement;
-    // console.log('datos de video clip footer ', rect.top, rect.left, rect.bottom, rect.right, element.offsetHeight)
-    // console.log('limite datos de video clip footer ', Math.round(scrollTop - rect.top))
-    return Math.round(scrollTop - rect.top) > -element.offsetHeight;
+    console.log('datos de video clip footer ', element, element.offsetHeight,Math.round(scrollTop - rect.top))
+    //console.log('limite datos de video clip footer ', Math.round(scrollTop - rect.top))
+    return Math.round(scrollTop + rect.top) < element.offsetHeight;
     // return (
     //     rect.top >= 0 &&
     //     rect.left >= 0 &&
@@ -288,29 +277,6 @@ const mensajes = [
     { autor: "Gerardo Flores", fecha: "08/06/2022 5:47PM", mensaje: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tempus dolor dui, at feugiat tortor efficitur sit amet. Quisque id commodo arcu. Vestibulum et nisi id urna iaculis faucibus vitae sit amet quam. Ut in lacinia tortor. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nunc porttitor odio nec massa eleifend mattis. Sed rhoncus cursus lectus a elementum. Aenean consectetur aliquam tellus, ac commodo dolor semper id. Ut congue mollis dui, at fringilla justo tempus nec. Proin et nunc id lorem pulvinar mollis. Duis eu eros at arcu luctus dapibus. Proin nec ante quis nulla accumsan varius. Aliquam quis neque at odio malesuada ultricies pharetra eget lacus. Mauris a porta neque. Pellentesque quis justo ultricies, venenatis ante in, tincidunt arcu.", propio: false }
 ]
 
-let autobiograficos = [
-    { autor: 'Gabriela Romo', fecha: new Date(2022, 6, 3).toLocaleDateString(), reciente: true, podcast: false, guid: '6006c5d85f7c417f8714496c418d58ec' },
-    { autor: 'Camila Alcantar', fecha: new Date(2022, 5, 2).toLocaleDateString(), reciente: true, podcast: true, guid: 'a7845b49f90f48e3b87578e359c821cc' },
-    { autor: 'Pedro Solis', fecha: new Date(2022, 4, 3).toLocaleDateString(), reciente: true, podcast: false, guid: 'a4d52f71f1ec429db2e8da542ec6f3d4' },
-    { autor: 'Marcelo Fernández', fecha: new Date(2022, 5, 13).toLocaleDateString(), reciente: true, podcast: false, guid: '8247c7b95aca4d2aadb5f1dfae6b4aeb' },
-    { autor: 'Gerardo Flores', fecha: new Date(2022, 6, 12).toLocaleDateString(), reciente: true, podcast: true, guid: 'c24d4188410548f881e2f3b5ae447569' },
-    { autor: 'Zosim Silva', fecha: new Date(2022, 3, 12).toLocaleDateString(), reciente: true, podcast: false, guid: 'add2fafc085d4121a4da88d351cb9e8e' },
-    { autor: 'Alexis Gutiérrez', fecha: new Date(2022, 5, 15).toLocaleDateString(), reciente: true, podcast: false, guid: 'ec5ce4499ca84760aa635745439859c6' },
-    { autor: 'Nayelli Lobato', fecha: new Date(2022, 5, 18).toLocaleDateString(), reciente: true, podcast: true, guid: '40c1c16bcd35435eb30826c890ab17fb' },
-    { autor: 'Francisco Parada', fecha: new Date(2022, 5, 22).toLocaleDateString(), reciente: true, podcast: false, guid: 'c97a8c0997d04c7d93ce31269d7441a4' },
-    { autor: 'David Yáñez', fecha: new Date(2022, 4, 29).toLocaleDateString(), reciente: true, podcast: false, guid: '9fc7db8b680642bc9c2edf55ef11ad00' },
-
-    { autor: 'Gabriela Romo', fecha: new Date(2021, 6, 13).toLocaleDateString(), reciente: false, podcast: false, guid: 'adcf2f17b6074d47ac3031d39c021e1b' },
-    { autor: 'Gerardo Flores', fecha: new Date(2021, 6, 12).toLocaleDateString(), reciente: false, podcast: true, guid: '7220e1dc01ec4aec8dedcf923a91dd8c' },
-    { autor: 'Pedro Solis', fecha: new Date(2020, 5, 3).toLocaleDateString(), reciente: false, podcast: false, guid: '5e67a5aee6694bfea6c3b26531d38811' },
-    { autor: 'Zosim Silva', fecha: new Date(2020, 6, 3).toLocaleDateString(), reciente: false, podcast: false, guid: '447335ac134445b08e9d200d06a63ca3' },
-    { autor: 'Eric del Valle', fecha: new Date(2021, 6, 3).toLocaleDateString(), reciente: false, podcast: true, guid: '9e0ff745446e4b528a7ba1fbf0857db9' },
-    { autor: 'Alexis Gutiérrez', fecha: new Date(2021, 3, 17).toLocaleDateString(), reciente: false, podcast: false, guid: 'a081d33ae8024922bab8118c60f35224' },
-    { autor: 'Ernesto Flores', fecha: new Date(2019, 2, 23).toLocaleDateString(), reciente: false, podcast: true, guid: '927fe6d4e3864f6285c5632be57b040e' },
-    { autor: 'Aaron González', fecha: new Date(2019, 6, 23).toLocaleDateString(), reciente: false, podcast: false, guid: '6ee5cfd17efd465db4ac09510ee5ceaf' },
-    { autor: 'Jesús Alejandro Lima', fecha: new Date(2021, 4, 12).toLocaleDateString(), reciente: false, podcast: true, guid: 'b523ef0eac284179a25e5e71127630df' },
-    { autor: 'Gabriela Romo', fecha: new Date(2018, 5, 13).toLocaleDateString(), reciente: false, podcast: false, guid: '98e45f888485452381c1524a52b807f3' },
-]
 
 const redesSociales = [{ title: "incrustar", icon: 'embed_icon.png' }, { title: 'Email', icon: "" },
 { title: "Facebook", icon: 'facebook_logo.png' }, { title: "Linkedin", icon: 'linkedin_logo.png' },
@@ -327,6 +293,7 @@ export const AutoComments = () => {
 
     const { video } = useParams();
     const history = useHistory();
+    const contenedorChat = useRef();
     const [navegacionCategoria, setNavegacionCategoria] = useState(null);
     const [listadoEventosMes, setListadoEventosMes] = useState([]);
     const [sourcevideo, setSourceVideo] = useState('');
@@ -334,9 +301,9 @@ export const AutoComments = () => {
     const [videoscategoria, setVideosCategoria] = useState(null);
     const [creditosvideo, setCreditosVideo] = useState(null);
     const location = useLocation();
-    const tabuladores = ["Comentarios", "Autobiográficos/Podcasts", "Eventos"];
-    const [alturaPlayer, setAlturaPlayer] = useState(true);
-    const [alturaPlayerMax, setAlturaPlayerMax] = useState(false);
+    const tabuladores = ["Comentarios"];
+    const [alturaPlayer, setAlturaPlayer] = useState(false);
+    const [alturaPlayerMax, setAlturaPlayerMax] = useState(true);
     const { styles, usuario } = useContext(ThemesContext);
     const CustomMenu = () => (
         <div className="menu-personalizado">
@@ -657,18 +624,6 @@ export const AutoComments = () => {
     // console.log('la fuente del video en el estado es ', sourcevideo)
     // console.log('el video aleatorio es ', videoaleatorio);
     //console.log('la transición tiene los siguientes elementos ', datostransicion && datostransicion.length);
-    function randomBetween10_19() {
-
-        let arreglo = [11, 12, 13, 14, 15, 16, 17, 18, 19]
-        let aleatorio = Math.floor(Math.random() * arreglo.length)
-        //if(aleatorio >= 11 && aleatorio < 20){
-        return "" + arreglo[aleatorio];
-        //}
-        //else return '11';
-    }
-
-
-
     const bottomRef = useRef()
     const scrollToBottom = () => {
         bottomRef.current.scrollIntoView({
@@ -676,7 +631,6 @@ export const AutoComments = () => {
             block: "start"
         })
     }
-    let listadovideoscategoria = [];
     const [open, set] = useState(false)
     const categoriestitle = open ? "" : "Ver otros videos en esta categoría:";
     const springApi = useSpringRef()
@@ -855,7 +809,7 @@ export const AutoComments = () => {
             //     setRelatos(autobiograficos);
             // }
         }
-        setHeightChat();
+        
         isInViewportMenu();
     }
     const estableceTab = (parameter) => {
@@ -879,9 +833,10 @@ export const AutoComments = () => {
         const elementoVideo = document.querySelector('.player-container');
         const elementoFooter = document.querySelector('.footer-site');
         const footerenfocado = isInViewportFooter(elementoFooter);
-        const enfocado = isInViewport(elementoVideo) || footerenfocado;
+        const videoenfocado = isInViewport(elementoVideo)
+        const enfocado= videoenfocado || footerenfocado;
 
-        if (param && !enfocado && (habilitaChatTag || (localStorage.getItem("credencial_chat") && localStorage.getItem("credencial")))) {
+        if (param && (habilitaChatTag || (localStorage.getItem("credencial_chat") && localStorage.getItem("credencial")))) {
             if (!alturaPlayerMax) {
                 setHabilitarLoaderChat(true);
                 if (!habilitaChatTag) {
@@ -939,7 +894,7 @@ export const AutoComments = () => {
                 setAlturaPlayer(true);
             }
         }
-        else if (!enfocado && param && habilitaChatTag && (!localStorage.getItem("credencial_chat") || !localStorage.getItem("credencial"))) {
+        else if (param && habilitaChatTag && (!localStorage.getItem("credencial_chat") || !localStorage.getItem("credencial"))) {
             if (!alturaPlayerMax) {
                 setHabilitarLoaderChat(true);
                 const peticionSecondNavegarTag = axios.post(`${getBaseAdressApi()}api/searchtags/`,
@@ -967,25 +922,10 @@ export const AutoComments = () => {
             else {
                 setTexting({ mensaje: '', write: false });
                 if (habilitaChatTag)
-                    setMsjesChat([]);
+                setMsjesChat([]);
                 setAlturaPlayerMax(!alturaPlayerMax);
                 setAlturaPlayer(true);
             }
-        }
-        else if (param && enfocado) {
-            setMsjesChat([]);
-            setTexting({ mensaje: '', write: false });
-            setAlturaPlayerMax(false);
-            setAlturaPlayer(true);
-        }
-        else if (enfocado) {
-            setMsjesChat([]);
-            setTexting({ mensaje: '', write: false });
-            setAlturaPlayerMax(false);
-            setAlturaPlayer(false);
-        }
-        else if (!enfocado) {
-            setAlturaPlayer(true);
         }
         else if (!localStorage.getItem("credencial_chat") || !localStorage.getItem("credencial")) {
             setMsjesChat([]);
@@ -1492,12 +1432,16 @@ export const AutoComments = () => {
             <h2 className='header-reproduccion-individual' style={{ padding: '1.5em 1.3em' }} onContextMenu={(e) => handleContextMenu(false, false)}>
                 {navegacionCategoria && <Link style={{ fontSize: 'small' }} to={navegacionCategoria.link_categoria}>Categoría del video: {navegacionCategoria.titulo_categoria}</Link>}<br /> Reproduciendo: {titulo}
             </h2>
+            <div className="content-reproduccion">
             <div onClick={(e) => resetMyEvents(null, true)} className='player-container' onContextMenu={(e) => handleContextMenu(false, false)}>
                 <div className="player-inner">
                     {sourcevideo &&
                         <Player aspectRatio='16:9' ref={player => {
                             setPlayer(player);
-                        }}>
+                            
+                        }}
+                        fluid={true}>
+                            
                             <source src={sourcevideo}></source>
                             <ControlBar disableCompletely={false}></ControlBar>
                             <BigPlayButton position={"center"} />
@@ -1512,18 +1456,15 @@ export const AutoComments = () => {
                     <div className='item-acciones-repro' onClick={(e) => toggleState(e, MODAL_REDES)}>
                         <FontAwesomeIcon icon={faShare} /><span>Compartir</span>
                     </div>
-                    <div className='item-acciones-repro' onClick={(e) => toggleState(e, MODAL_DESCARGAS)}>
+                    {/* <div className='item-acciones-repro' onClick={(e) => toggleState(e, MODAL_DESCARGAS)}>
                         <FontAwesomeIcon icon={faSave} />
                         <span>Descargar</span>
-                    </div>
-                    <div className='item-acciones-repro'>
-                        <FontAwesomeIcon icon={faScissors} /><span>Clip</span>
-                    </div>
+                    </div> */}
                     <div className='item-acciones-repro' onClick={(e) => toggleState(e, MODAL_CALIFICACION)}>
                         <div className='contenedor-cal-video'>
                             {rangoCalificacion.map((el, index) => {
                                 return <div style={{ marginLeft: '.25em', float: 'left' }} key={index}>
-                                    <FontAwesomeIcon icon={faStar} className={el <= Math.round(calificacionTotal) ? "clickedstar" : "std-star"} />
+                                    <FontAwesomeIcon icon={faStar} style={{fontSize:'9px'}} className={el <= Math.round(calificacionTotal) ? "clickedstar" : "std-star"} />
 
                                 </div>
 
@@ -1540,19 +1481,11 @@ export const AutoComments = () => {
                             : <FontAwesomeIcon style={{ color: 'darkgray' }} icon={faHeartBroken} />}
                         <span>{esFavorito.valor ? 'Favoritos' : 'No es favorito'} <span className="cuenta-favoritos-small">{esFavorito.cuenta > 0 ? esFavorito.cuenta : 'sin favoritos'}</span></span>
                     </div>
-                    <div className='item-acciones-repro'>
-                        <FontAwesomeIcon icon={faHeadphones} /><span>Encolar</span>
-                    </div>
                 </div>
             </div>
 
 
             <div className='content-player'>
-                <div className="break" onContextMenu={(e) => handleContextMenu(false, false)}>
-                    {!open ?
-                        <h3 style={{ color: "lightgray", position: 'relative', borderBottom: '1px solid black' }}>{categoriestitle}</h3>
-                        : null}
-                </div>
                 <div className='tabuladores-repro' onContextMenu={(e) => handleContextMenu(false, false)}>
                     <div className='button-group-repro'>
                         {
@@ -1568,30 +1501,7 @@ export const AutoComments = () => {
                         }
                     </div>
                 </div>
-                <div onClick={(e) => resetMyEvents(null, true)} className='category-player' onContextMenu={(e) => handleContextMenu(false, false)}>
-
-                    <div className="category-wrapper">
-                        <animated.div
-                            style={{ ...rest, width: size, height: size }}
-                            className="category-container"
-                            onClick={() => set(open => !open)}>
-                            {transition((style, item) => {
-                                //console.log('iterando en transicion ', item)
-                                return (
-
-                                    <animated.div
-                                        className="category-item"
-                                        style={{ ...style, background: item.css, backgroundImage: item.image, backgroundPosition: 'center center', backgroundSize: '100px', backgroundRepeat: 'no-repeat' }}
-                                    ><Vinculo to={"/Reproduccion/" + item.url} /></animated.div>
-                                )
-                            })}
-                            <p>
-                                <span style={{ color: 'red', display: 'inline-block', margin: 'auto' }}>{open ? "" : <animated.img src="/images/Stills/Categories/PLAY_OVER.png"
-                                    style={{ ...opacidad, width: '5em', position: 'absolute', top: '30%', left: '25%' }} />}</span>
-                            </p>
-                        </animated.div>
-                    </div>
-                </div>
+                <div style={{gridRow:2}}>
                 <div className="scroll-list" onContextMenu={(e) => handleContextMenu(false, false)} ref={bottomRef} style={estableceTab(tabuladores[0])}>
                     <div className='container-grow-wrap-1'>
                         <label className="caja-expandible-label" htmlFor="text_comentario">Comentar:</label>
@@ -1656,7 +1566,8 @@ export const AutoComments = () => {
                         <img src={url_loader("Reload_generic.gif", false)} />
                     </div>
                     <div className="list-bottom"></div>
-                </div>
+                    </div>
+                
                 <div className='scroll-list' onContextMenu={(e) => handleContextMenu(false, false)} style={estableceTab(tabuladores[1])}>
                     <div className={styles.OpcionesAutobiograficosReprod}>
                         <button onClick={(e) => handleClickOptionRelatos('popular')} className='autobiografico-reprod-white'>Populares<br /><FontAwesomeIcon icon={faHeart} style={{ paddingTop: '20px', display: 'inline-block' }} /></button>
@@ -1674,39 +1585,10 @@ export const AutoComments = () => {
                                 </div>)
                             })}
                     </div>
+                    </div>
                 </div>
-                <div className='scroll-list' style={estableceTab(tabuladores[2])}>
-                    {
-                        listadoEventosMes.map((elem, index) => {
-                            let llave = "/Eventos/" + elem.index + "?previous=" + video;
-                            return (
-                                <div className="evento-reproduccion" key={index}>
-                                    <div className="control-evento-reproduccion" onClick={(e) => resetMyEvents(elem)}>
-                                        <Link to={llave}>
-                                            <div className='eventos-titulo'><h2>{elem.title}</h2><div><img src={elem.imagen} height={200} align="right" /></div></div>
-                                        </Link>
-                                        <div>
-                                            {elem.selected ?
-                                                <FontAwesomeIcon icon={faAngleDown}></FontAwesomeIcon>
-                                                : <FontAwesomeIcon icon={faAngleUp}></FontAwesomeIcon>
-                                            }
-                                        </div>
-                                    </div>
-                                    {/* <div className={elem.selected ? 'header-evento' : 'header-evento-hidden'}>
-                                        <h3>{Number(elem.fecha.getDate())}<span> del</span></h3>
-                                        <h3>{Number(elem.fecha.getMonth() + 1)}<span> de</span></h3>
-                                        <h3>{Year(elem.fecha.getFullYear())}</h3>
-                                        <h3>a las {elem.fecha.getHours()} horas</h3>
-                                    </div> */}
-                                    <div className={elem.selected ? 'content-evento' : 'content-evento-hidden'}>
-                                        {elem.descripcion}
-                                    </div>
-                                </div>
-                            )
-                        })
-                    }
-                </div>
-                <div onMouseLeave={e => setHeightChat(false)} onClick={(e) => { resetMyEvents(null, true); }} className={alturaPlayer && alturaPlayerMax ? "chat" : alturaPlayer && !alturaPlayerMax ? "chat-min" : "chat-hidden"}>
+                <div style={{gridRow:3, marginBottom:"800px"}}>
+                    <div onClick={(e) => { resetMyEvents(null, true); }} className={alturaPlayerMax && alturaPlayer ? "chat" : "chat-min" }>
                     <div className='top-chat' onClick={(e) => { setHeightChat(true); InitWebSocket(); handleContextMenu(false, false); }} onContextMenu={(e) => handleContextMenu(false, false)}>
                         {
                             chatPermitido && !habilitaChatTag ?
@@ -1723,15 +1605,17 @@ export const AutoComments = () => {
 
                                     </p> : null
                         }
-                        {alturaPlayer && alturaPlayerMax ?
+                        {alturaPlayerMax ?
                             <span>
                                 <FontAwesomeIcon icon={faAngleUp}></FontAwesomeIcon></span>
                             : alturaPlayer ? <span><FontAwesomeIcon icon={faAngleDown}></FontAwesomeIcon></span>
                                 : null
                         }
                     </div>
+                    {alturaPlayerMax && alturaPlayer ?
+                    <>
                     <div className='content-chat' onScroll={(e) => handleContextMenu(false, false)}>
-                        {alturaPlayer && alturaPlayerMax ? msjesChat.map(function (msj, index) {
+                         {alturaPlayerMax && alturaPlayer ? msjesChat.map(function (msj, index) {
                             return (
                                 <div className='origen-mensaje-chat' ref={referencia} key={(index + "-" + msj.autor)}
                                     onContextMenu={(e) => handleContextMenu(true, true)} onMouseEnter={(e) => handleContextMenu(true, true)}>
@@ -1746,7 +1630,10 @@ export const AutoComments = () => {
                             )
                         }) : null}
                         <div ref={chatRef} style={{ height: { cssBottomChat }, minHeight: '100px' }}></div>
-                    </div>
+                    </div> </>: null
+                    }
+                    {
+                        alturaPlayerMax && alturaPlayer ? 
                     <div className='chat-input' onContextMenu={(e) => handleContextMenu(false, false)}>
                         <textarea rows="2" value={texting.mensaje} onChange={(e) => { writeTextMessage(e.target.value) }}></textarea>
                         <div className='chat-input-actions'>
@@ -1759,14 +1646,18 @@ export const AutoComments = () => {
                                     <FontAwesomeIcon icon={faMicrophoneLines}></FontAwesomeIcon>
                                 }</button>
                             }
-                        </div>
+                        </div> 
+                    
+                    </div>: null
+                    }
                     </div>
-                </div>
+                    </div>
+            </div>
             </div>
             <div style={{ marginTop: '100px' }}>
                 <HomeFooter></HomeFooter>
             </div>
-            <Modal id="modal" isOpen={modalOpen} modalSize="lg" onClose={toggleState} modalClass={
+            <Modal id="modal" isOpen={modalOpen} modalSize="sm" onClose={toggleState} modalClass={
                 childrenModal == MODAL_CREDITOS ?
                     "darkmodal" : ""} title={
                         childrenModal == MODAL_CREDITOS ? "Créditos del vídeo" : childrenModal == MODAL_REDES ? "Compartir por"
