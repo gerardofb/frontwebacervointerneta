@@ -4799,7 +4799,7 @@ Estilos del registro
 .error-summary {
   background-color: #A32020;
   color: white;
-  width: 800px;
+  width: 300px;
   max-height: 400px;
   position: absolute;
   top: 200px;
@@ -4807,7 +4807,7 @@ Estilos del registro
   align-items: left;
   margin: auto;
   justify-content: left;
-  left: calc(50% - 400px);
+  left: calc(50% - 150px);
 
   & ul li {
     list-style-type: none;
@@ -5035,7 +5035,7 @@ estilos del login
 .login-success {
   background-color: greenyellow;
   color: black;
-  width: 800px;
+  width: 300px;
   max-height: 400px;
   position: absolute;
   top: 200px;
@@ -5044,7 +5044,7 @@ estilos del login
   margin: auto;
   justify-content: center;
   padding: .5em;
-  left: calc(50% - 400px);
+  left: calc(50% - 150px);
 
   & p {
     text-align: center;
@@ -5060,7 +5060,7 @@ estilos del login
 }
 
 .card-login {
-  width: 800px;
+  width: 300px;
   display: flex;
   align-items: center;
   justify-content: right;
@@ -5070,7 +5070,7 @@ estilos del login
   margin: auto;
   top: 300px;
   bottom: 0;
-  left: calc(50% - 400px);
+  left: calc(50% - 150px);
   position: absolute;
 
   & .grid-address {
@@ -5078,10 +5078,11 @@ estilos del login
     padding: 1em;
     display: grid;
     width: 100%;
-    grid-template-columns: repeat(2, .5fr);
+    grid-template-rows: .45fr .45fr .1fr;
 
     & div.item-grid-address.password-validate {
       display: grid;
+      grid-row:2;
       margin: .5em 0;
       grid-template-columns: .3fr .6fr .1fr;
 
@@ -5090,18 +5091,19 @@ estilos del login
       }
 
       & input {
-        width: 220px;
+        width: 90px;
       }
     }
 
     & div.item-grid-address {
+      grid-row:1;
       display: grid;
       margin: .5em 0;
       grid-template-columns: .4fr .6fr;
 
       & input {
         height: 25px;
-        width: 235px;
+        width: 90px;
         border: none;
         border-bottom: 1px solid darkslategray;
         outline: none;
@@ -5121,8 +5123,10 @@ estilos del login
     }
 
     .send-login {
-      grid-column: 2;
+      grid-row:3;
+      grid-column: 1;
       display: flex;
+      max-width: 100px;
       justify-content: right;
       margin: .5em 0;
 
