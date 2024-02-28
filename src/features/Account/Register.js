@@ -188,10 +188,10 @@ const Register = (props) => {
                 <div className='item-grid-address'>
                     <label>Correo electrónico</label><input type="text" value={formRegister.email} onChange={(e) => estableceValorRegistro(e.target.value, ENUM_REGISTRO.EMAIL)}></input>
                 </div>
-                <div className='item-grid-address'>
+                <div className='item-grid-address-user'>
                     <label>Nombre de usuario</label><input type="text" value={formRegister.username} onChange={(e) => estableceValorRegistro(e.target.value, ENUM_REGISTRO.USERNAME)}></input>
                 </div>
-                <div className='item-grid-address password-validate'>
+                <div className='item-grid-address-password'>
                     <label>Contraseña</label><span className="eye-validate" style={{ color: "blue" }} onClick={(e) => { setShowPassword({ ...showPassword, normal: !showPassword.normal }) }}><FontAwesomeIcon icon={faEye}></FontAwesomeIcon></span><input type={showPassword.normal ? "text" : "password"} value={formRegister.password} onChange={(e) => estableceValorRegistro(e.target.value, ENUM_REGISTRO.PASSWORD)}></input>
                     <span style={{ color: "green" }}>{formRegister.password_confirm && <FontAwesomeIcon icon='fa-check'></FontAwesomeIcon>}</span>
                 </div>
@@ -199,10 +199,10 @@ const Register = (props) => {
                     <label>Confirmar contraseña</label><span className="eye-validate" style={{ color: "blue" }} onClick={(e) => { setShowPassword({ ...showPassword, confirm: !showPassword.confirm }) }}><FontAwesomeIcon icon={faEye}></FontAwesomeIcon></span><input type={showPassword.confirm ? "text" : "password"} value={formRegister.password2} onChange={(e) => estableceValorRegistro(e.target.value, ENUM_REGISTRO.CONFIRM_PASSWORD)}
                         onBlur={verificaPassword}></input><span style={{ color: "green" }}>{formRegister.password_confirm && <FontAwesomeIcon icon='fa-check'></FontAwesomeIcon>}</span>
                 </div>
-                <div className='item-grid-address'>
+                <div className='item-grid-address-name'>
                     <label>Nombre(s)</label><input type="text" value={formRegister.first_name} onChange={(e) => estableceValorRegistro(e.target.value, ENUM_REGISTRO.FIRST_NAME)}></input>
                 </div>
-                <div className='item-grid-address'>
+                <div className='item-grid-address-lastname'>
                     <label>Apellidos</label><input type="text" value={formRegister.last_name} onChange={(e) => estableceValorRegistro(e.target.value, ENUM_REGISTRO.LAST_NAME)}></input>
                 </div>
                 <div className='send-registro'>

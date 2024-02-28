@@ -4800,15 +4800,15 @@ Estilos del registro
   background-color: #A32020;
   color: white;
   width: 300px;
-  max-height: 400px;
+  max-height: 200px;
   position: absolute;
-  top: 200px;
+  top: 140px;
   display: flex;
   align-items: left;
   margin: auto;
   justify-content: left;
   left: calc(50% - 150px);
-
+  font-size:9px;
   & ul li {
     list-style-type: none;
     text-align: left;
@@ -4826,16 +4826,16 @@ Estilos del registro
   background-color: greenyellow;
   color: black;
   width: 800px;
-  max-height: 400px;
+  max-height: 200px;
   position: absolute;
-  top: 200px;
+  top: 140px;
   display: flex;
   align-items: center;
   margin: auto;
   justify-content: center;
   padding: .5em;
   left: calc(50% - 400px);
-
+  font-size:10px;
   & p {
     text-align: center;
     margin: 2em;
@@ -4850,7 +4850,7 @@ Estilos del registro
 }
 
 .card-register-validar {
-  width: 800px;
+  width: 300px;
   display: grid;
   grid-template-rows: repeat(3, 1fr);
   align-items: center;
@@ -4888,17 +4888,17 @@ Estilos del registro
 }
 
 .card-register {
-  width: 800px;
+  width: 300px;
   display: flex;
   align-items: center;
   justify-content: right;
-  height: 40vh;
+  height: 80vh;
   border: #253237 1px solid;
   box-shadow: 10px 10px #5D5D5D;
   margin: auto;
   top: 300px;
   bottom: 0;
-  left: calc(50% - 400px);
+  left: calc(50% - 150px);
   position: absolute;
 
   & .grid-address {
@@ -4906,9 +4906,11 @@ Estilos del registro
     padding: 1em;
     display: grid;
     width: 100%;
-    grid-template-columns: repeat(2, .5fr);
+    grid-template-columns: none;
+    grid-template-rows: repeat(7, .125fr);
 
     & div.item-grid-address.password-validate {
+      grid-row:4;
       display: grid;
       margin: .5em 0;
       grid-template-columns: .2fr .2fr .5fr .2fr;
@@ -4918,22 +4920,91 @@ Estilos del registro
       }
 
       & input {
-        width: 205px;
+        width: 95px;
+        height: 25px;
+        border: none;
+        border-bottom: 1px solid darkslategray;
+        outline: none;
+      }
+
+    }
+
+    & div.item-grid-address-password {
+      grid-row:3;
+      display: grid;
+      margin: .5em 0;
+      grid-template-columns: .2fr .2fr .5fr .2fr;
+
+      & span {
+        font-size: small;
+      }
+
+      & input {
+        height: 25px;
+        width: 95px;
+        border: none;
+        border-bottom: 1px solid darkslategray;
+        outline: none;
       }
 
     }
 
     & div.item-grid-address {
+      grid-row:1;
       display: grid;
       margin: .5em 0;
       grid-template-columns: .4fr .6fr;
 
       & input {
         height: 25px;
-        width: 235px;
+        width: 105px;
         border: none;
         border-bottom: 1px solid darkslategray;
         outline: none;
+      }
+    }
+
+      & div.item-grid-address-user {
+        grid-row:2;
+        display: grid;
+        margin: .5em 0;
+        grid-template-columns: .4fr .6fr;
+  
+        & input {
+          height: 25px;
+          width: 105px;
+          border: none;
+          border-bottom: 1px solid darkslategray;
+          outline: none;
+        }
+      }
+      & div.item-grid-address-lastname{
+        grid-row:6;
+        display: grid;
+        margin: .5em 0;
+        grid-template-columns: .4fr .6fr;
+  
+        & input {
+          height: 25px;
+          width: 105px;
+          border: none;
+          border-bottom: 1px solid darkslategray;
+          outline: none;
+        }
+      }
+      & div.item-grid-address-name{
+        grid-row:5;
+        display: grid;
+        margin: .5em 0;
+        grid-template-columns: .4fr .6fr;
+  
+        & input {
+          height: 25px;
+          width: 105px;
+          border: none;
+          border-bottom: 1px solid darkslategray;
+          outline: none;
+        }
       }
 
       & label {
@@ -4942,10 +5013,10 @@ Estilos del registro
         text-align: right;
         padding-right: 1em;
       }
-    }
+    
 
     .send-registro {
-      grid-column: 2;
+      
       display: flex;
       justify-content: right;
       margin: .5em 0;
