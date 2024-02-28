@@ -88,37 +88,37 @@ const sideBarData = [
         subNav: [
           {
             title: "La Generación Transparente",
-            path: '/Categorias/La-Generación-Transparente/dummy',
+            path: '#',
             icon: 'video'
           },
           {
             title: "Arte Público",
-            path: '/Categorias/Arte-Público/dummy',
+            path: '#',
             icon: 'video'
           },
           {
             title: "Memoria y Movimiento Urbano Popular",
-            path: '/Categorias/Memoria-y-Movimiento-Urbano-Popular/dummy',
+            path: '#',
             icon: 'video'
           },
           {
             title: "Movimientos Contraculturales",
-            path: '/Categorias/Movimientos-Contraculturales/dummy',
+            path: '#',
             icon: 'video'
           },
           {
             title: "Movimientos en Defensa del Territorio",
-            path: '/Categorias/Movimientos-en-Defensa-del-Territorio/dummy',
+            path: '#',
             icon: 'video'
           },
           {
             title: "Movimientos Sociales y Políticos",
-            path: '/Categorias/Movimientos-Sociales-y-Políticos/dummy',
+            path: '#',
             icon: 'video'
           },
           {
             title: "Pueblos Indígenas y Originarios",
-            path: '/Categorias/Pueblos-Originarios-e-Indígenas/dummy',
+            path: '#',
             icon: 'video'
           }
         ]
@@ -130,18 +130,18 @@ const sideBarData = [
         subNav: [
           {
             title: "Favoritos",
-            path: '/ListadoReproduccion/Favoritos',
+            path: '#',
             icon: 'heart',
             sesion_no_iniciada: false
           },
           {
             title: "Más visitados",
-            path: '/ListadoReproduccionVisitados/MasVisitados',
+            path: '#',
             icon: 'play'
           },
           {
             title: "Reproducción aleatoria",
-            path: '/Reproduccion/Screenshot-',
+            path: '#',
             icon: 'shuffle'
           },
         ]
@@ -165,13 +165,13 @@ const sideBarData = [
         subNav: [
           {
             title: "Favoritos",
-            path: '/ListadoRelatosFavoritos/Favoritos',
+            path: '#',
             icon: 'heart',
             sesion_no_iniciada: false
           },
           {
             title: "Más visitados",
-            path: '/ListadoRelatosMasVisitados/MasVisitados',
+            path: '#',
             icon: 'radio'
           },
         ]
@@ -183,12 +183,12 @@ const sideBarData = [
         subNav: [
           {
             title: "Más visitados",
-            path: '/Eventos/EventosMasVisitados/MasVisitados',
+            path: '#',
             icon: 'check'
           },
           {
             title: "Próximos",
-            path: '/Eventos/ListadoProximosEventos/Proximos',
+            path: '#',
             icon: 'timeline'
           },
         ]

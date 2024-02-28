@@ -998,7 +998,7 @@ const Eventos = () => {
 
                         </div>
                     </ParallaxLayer>
-                    <ParallaxLayer sticky={{ start: 1, end: 12 }} style={{ maxWidth: '30%', zIndex: 1 }}>
+                    {/* <ParallaxLayer sticky={{ start: 1, end: 12 }} style={{ maxWidth: '30%', zIndex: 1 }}>
                         <div className="calendario-eventos-principal active">
                             <header>
                                 <p>{daysInitial.titulo}</p>
@@ -1029,7 +1029,7 @@ const Eventos = () => {
                                 }
                             </div>
                         </div>
-                    </ParallaxLayer>
+                            </ParallaxLayer>*/}
                     {meses && meses.length > 0 ? meses.map((mes, index) => {
                         //let eventosmes = eventosMonth.filter(x => x.fecha.getMonth() == index);
                         let inicial = new Date(anioinicial, index, 1);
@@ -1117,7 +1117,7 @@ const Eventos = () => {
                                 </div>
                             </div>
                         </ParallaxLayer>
-                    }) : null}
+                    }) : null} 
                     <ParallaxLayer offset={13} speed={1}>
                         <div style={{ marginTop: '49vh' }}>
                             <HomeFooter></HomeFooter>

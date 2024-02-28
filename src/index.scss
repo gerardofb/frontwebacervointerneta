@@ -2948,16 +2948,18 @@ Página de eventos
   background-color: white;
   display: block;
   font-size: 14px;
+  max-width: 180px;
+  min-width: 180px;
 }
 
 .mes-evento-main .listado-min-eventos {
   display: grid;
   grid-template-columns: 180px 180px 180px 180px 180px;
   grid-gap: 2.5rem;
-  min-width: 640px;
+  min-width: 300px;
   position: relative;
   top: 20%;
-  left: 30%;
+  left: 10%;
 
   & .full-title-send-evento-user {
     grid-column-start: 1;
@@ -2985,10 +2987,10 @@ Página de eventos
   .mes-evento-main .listado-min-eventos {
     display: grid;
     grid-template-columns: 110px 110px 110px 110px;
-    min-width: 768px;
-    position: absolute;
-    top: 50%;
-    left: 40%
+    min-width: 300px;
+  position: relative;
+  top: 20%;
+  left: 10%;
   }
 
   .mes-evento-main .listado-min-eventos .miniatura-evento img {
@@ -3005,7 +3007,9 @@ Página de eventos
   .mes-evento-main .listado-min-eventos .miniatura-evento p {
     background-color: white;
     display: block;
-    font-size: small
+    font-size: small;
+    max-width: 180px;
+  min-width: 180px;
   }
 }
 
