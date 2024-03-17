@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import NavBar from './NavBar'
 import { HomeFooter } from './HomeFooter';
 import { useHistory } from 'react-router-dom';
 const devuelve_aleatorio=()=>{
@@ -18,8 +17,7 @@ const Pagina_404 = () => {
     
     let claseCss = estadoAnimado ? 'pagina_vacia_animacion show' : 'pagina_vacia_animacion hide'
     return <div className='contenedor-pagina-vacia'>
-        <div style={{ backgroundColor: 'black', height: '100px' }}>
-            <NavBar></NavBar>
+         <div className='header-baja-home'>
         </div>
         <div className={claseCss}>
             <img src={imagenaleatoria} />
